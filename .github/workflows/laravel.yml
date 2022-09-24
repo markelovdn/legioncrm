@@ -12,14 +12,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy
-        uses: markelovdn
-        with:
-          username: j96108q7_compreg
-          host: j96108q7.beget.tech
-          password: Dn100883!
-          script: 'cd /home/j/j96108q7/compreg && ./deployer.sh'
+      - name: Deploy to production
+        uses: appleboy/ssh-action@master
+            with:
+              username: j96108q7_compreg
+              host: j96108q7.beget.tech
+              password: Dn100883!
+              script: 'cd /home/j/j96108q7/compreg && ./deployer.sh'
 
-      - uses: actions/checkout@v3
-      - name: Directory Permissions
-        run: chmod -R 777 storage bootstrap/cache
