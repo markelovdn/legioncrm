@@ -1,0 +1,61 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use App\Models\Coach;
+use App\Models\Parented;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+
+class LoginController extends Controller
+{
+    /*
+    |--------------------------------------------------------------------------
+    | Login Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller handles authenticating users for the application and
+    | redirecting them to your home screen. The controller uses a trait
+    | to conveniently provide its functionality to your applications.
+    |
+    */
+
+    use AuthenticatesUsers;
+
+    /**
+     * Where to redirect users after login.
+     *
+     * @var string
+     */
+    protected $redirectTo = RouteServiceProvider::HOME;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('guest')->except('logout');
+    }
+
+    protected function redirectTo(){
+        switch (auth()->user()->role_id) {
+            case (5):
+                $parented = Parented::with('user')->where('user_id', auth()->user()->id)->get();
+                $parented_id = '';
+                foreach ($parented as $item) {
+                    $parented_id = $item->id;
+                }
+                return url('/parented',$parented_id);
+            case (4):
+                $coach = Coach::with('user')->where('user_id', auth()->user()->id)->get();
+                $coach_id = '';
+                foreach ($coach as $item) {
+                    $coach_id = $item->id;
+                }
+                return url('/coach',$coach_id);
+        }
+    }
+}
