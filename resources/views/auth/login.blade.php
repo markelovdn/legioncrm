@@ -54,7 +54,7 @@
                         <div class="row mb-0">
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('auth.Login') }}
+                                    {{ __('auth.Login') }} 123
                                 </button>
                                 <div class="spinner-border" id="loader" style="display: none" role="status">
                                     <span class="sr-only">Loading...</span>
