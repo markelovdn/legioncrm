@@ -1,15 +1,14 @@
 @extends('layouts.main')
 
 @section('content')
+
 <div class="card card-info">
     <div class="card-header">{{ __('auth.Register_parented') }}</div>
 
     <div class="card-body">
         <form method="POST" action="{{ route('create-user') }}">
             <input type="text" name="url" style="display: none" value="{{url()->current()}}">
-            {{--                для сравнения кто регистрируется--}}
             <input type="text" name="role_id" style="display: none" value="5">
-            {{--                передаем роль для занесения в таблицу users--}}
             @csrf
 
             <div class="row mb-3">
@@ -105,7 +104,7 @@
                 <div class="col-md-6">
                     <input type="number" class="form-control"  id="reg_code" name="reg_code" value="{{old('reg_code')}}">
                     @error('reg_code')<p class="text-danger">{{$errors->first('reg_code')}}</p>@enderror
-                    @if (session('status'))<p class="text-danger">{{ session('status') }}</p>@endif
+                    <strong><p class="text-danger">{{session('status')}}</p></strong>
                 </div>
             </div>
             <div class="row mb-3">

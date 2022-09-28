@@ -79,7 +79,7 @@ class UsersController extends Controller
                 }
             }
             else{
-                $request->session()->flash('status', 'Неверный код');
+                $request->session()->flash('status', 'Не верный код');
                 return back()->withInput();
             }
     }

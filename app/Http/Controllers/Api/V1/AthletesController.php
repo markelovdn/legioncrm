@@ -51,6 +51,8 @@ class AthletesController extends Controller
             'firstname' => ['required', 'string', 'max:255'],
             'patronymic' => ['required', 'string', 'max:255'],
             'date_of_birth' => ['required', 'date'],
+            'coach_id' => ['required'],
+            'reg_code' => ['required'],
         ]);
 
         $user = new User();

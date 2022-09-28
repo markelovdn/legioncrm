@@ -1,9 +1,9 @@
 @extends('layouts.main')
 
 @section('content')
+
 <div class="card card-info">
     <div class="card-header">{{ __('auth.Register_coach') }}</div>
-
     <div class="card-body">
         <form method="POST" action="{{ route('create-user') }}">
             <input type="text" name="url" style="display: none" value="{{url()->current()}}">
@@ -109,8 +109,12 @@
                 <label for="reg_code" class="col-md-4 col-form-label text-md-end">Код организации<span class="text-danger">*</span></label>
                 <div class="col-md-6">
                     <input type="number" class="form-control"  id="reg_code" name="reg_code" value="{{old('reg_code')}}">
-                    @error('reg_code')<p class="text-danger">{{$errors->first('reg_code')}}</p>@enderror
-                    @if (session('status'))<p class="text-danger">{{ session('status') }}</p>@endif
+                    @error('reg_code')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                    <strong><p class="text-danger">{{session('status')}}</p></strong>
                 </div>
             </div>
 
@@ -149,3 +153,4 @@
     </div>
 </div>
 @endsection
+

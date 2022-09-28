@@ -105,7 +105,7 @@
         </div>
         <!-- /.content-wrapper -->
         <footer class="main-footer">
-            DEV
+
         </footer>
 
         <!-- Control Sidebar -->
