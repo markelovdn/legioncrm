@@ -46,8 +46,14 @@ class UsersController extends Controller
         $reg_code = "";
         switch ($request->role_id) {
             case ("5"): $reg_code = Coach::find($request->input('coach_id'));
+                $validate = $request->validate([
+                    'coach_id' => ['required', 'integer'],
+                ]);
                 break;
             case ("4"): $reg_code = Organization::find($request->input('org_id'));
+                $validate = $request->validate([
+                    'org_id' => ['required', 'integer'],
+                ]);
                 break;
         };
 

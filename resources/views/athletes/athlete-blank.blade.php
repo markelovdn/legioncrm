@@ -1,13 +1,3 @@
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
 @if (session('status'))<div class="alert alert-danger">
     <p>{{ session('status') }}</p>
 </div>@endif
@@ -87,7 +77,7 @@
             <div class="row mb-3">
                 <label for="reg_code" class="col-md-4 col-form-label text-md-end">Код тренера<span class="text-danger">*</span></label>
                 <div class="col-md-6">
-                    <input type="number" class="form-control @error('reg_code') is-invalid @enderror"  id="reg_code" name="reg_code" value="{{old('reg_code')}}">
+                    <input type="number" class="form-control @error('reg_code') is-invalid @enderror @if(session('status')) is-invalid @endif"  id="reg_code" name="reg_code" value="{{old('reg_code')}}">
                 </div>
             </div>
             <div class="row mb-0">

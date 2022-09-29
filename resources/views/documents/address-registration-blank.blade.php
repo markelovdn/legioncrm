@@ -46,10 +46,6 @@
 
                 <div class="col-md-6">
                     <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ old('address') }}">
-
-                    @error('address')
-                    <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
-                    @enderror
                     <span class="description font-italic">Пример: г. Волгоград, ул. Строителей, д. 20, кв. 2</span>
                 </div>
 
@@ -59,11 +55,19 @@
                 <div class="col-md-6">
                     <div class="input-group">
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" name="registration_scan" id="registration_scan" value="file">
+                            <input type="file" class="custom-file-input @error('address') is-invalid @enderror" name="registration_scan" id="registration_scan" value="file">
                             <label class="custom-file-label" for="registration_scan"></label>
                         </div>
                     </div>
-                    <span class="description font-italic">Документ с красной печатью о регистрации ребенка по месту жительства</span>
+                    @if(Carbon\Carbon::parse($athlete->user->date_of_birth)->diffInYears() >= 14)
+                        <span class="description font-italic">Скан страницы паспорта с последней записью о регистрации</span>
+                        <br>
+                    @endif
+                    @if(Carbon\Carbon::parse($athlete->user->date_of_birth)->diffInYears() <= 14)
+                        <span class="description font-italic">Документ с красной печатью о регистрации ребенка по месту жительства</span>
+                        <br>
+                    @endif
+
                 </div>
             </div>
             <div class="row mb-0">

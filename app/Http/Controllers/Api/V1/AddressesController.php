@@ -37,6 +37,14 @@ class AddressesController extends Controller
      */
     public function store(Request $request)
     {
+        $validate = $request->validate([
+            'country_id' => ['required', 'numeric'],
+            'district_id' => ['required', 'numeric'],
+            'region_id' => ['required', 'numeric'],
+            'address' => ['required', 'string'],
+            'registration_scan' => ['required', 'image:jpg,jpeg,png,bmp'],
+        ]);
+
         $user = User::where('id', $request->user_id)->first();
 
         $path_scanlink = 'athlete/'.$user->id.'_'.$user->secondname.'_'.$user->firstname.'/'.'registration_'.$user->secondname.'_'.$user->firstname.'_'.$user->patronymic.'.jpg';

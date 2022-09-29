@@ -39,6 +39,11 @@ class StudyPlaceController extends Controller
      */
     public function store(Request $request)
     {
+        $validate = $request->validate([
+            'org_title' => ['required', 'string'],
+            'classnum' => ['required', 'numeric'],
+        ]);
+
         $user = User::where('id', $request->user_id)->first();
 
         $studyplace = new StudyPlace();

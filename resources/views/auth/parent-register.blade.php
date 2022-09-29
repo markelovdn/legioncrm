@@ -97,6 +97,7 @@
                             <option value="{{$coach->id}}" @if(old('coach_id') == $coach->id) selected @endif>{{$coach->user->secondname}} {{$coach->user->firstname}} {{$coach->user->patronymic}}</option>
                         @endforeach
                     </select>
+                    @error('coach_id')<p class="text-danger">{{$errors->first('coach_id')}}</p>@enderror
                 </div>
             </div>
             <div class="row mb-3">

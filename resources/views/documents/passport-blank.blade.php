@@ -13,76 +13,32 @@
                 @csrf
             <div class="row mb-3">
                     <label for="passport_series" class="col-md-4 col-form-label text-md-end">Серия<span class="text-danger">*</span></label>
-
                     <div class="col-md-6">
-                        <input  id="passport_series"
-                                type="text"
-                                class="form-control @error('passport_series') is-invalid @enderror"
-                                name="passport_series">
-
-                        @error('passport_series')
-                        <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                        @enderror
+                        <input  id="passport_series" type="text" class="form-control @error('passport_series') is-invalid @enderror" name="passport_series" value="{{ old('passport_series') }}">
                     </div>
                 </div>
             <div class="row mb-3">
                 <label for="passport_number" class="col-md-4 col-form-label text-md-end">Номер<span class="text-danger">*</span></label>
                 <div class="col-md-6">
-                    <input id="passport_number" type="text" class="form-control @error('passport_number') is-invalid @enderror" name="passport_number"
-                           {{--                                       @if($parented->passport->number)value="{{$parented->passport->number}}" readonly @else value="{{ old('passport_number') }}"@endif --}}
-                           required>
-
-                    @error('passport_number')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
+                    <input id="passport_number" type="text" class="form-control @error('passport_number') is-invalid @enderror" name="passport_number" value="{{ old('passport_number') }}">
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="passport_date_issue" class="col-md-4 col-form-label text-md-end">Дата выдачи<span class="text-danger">*</span></label>
-
                 <div class="col-md-6">
-                    <input id="passport_date_issue" type="date" class="form-control @error('passport_date_issue') is-invalid @enderror" name="passport_date_issue"
-                           {{--                                       @if($parented->passport->dateissue)value="{{$parented->passport->dateissue}}" readonly @else value="{{ old('passport_date_issue') }}"@endif --}}
-                           required>
-
-                    @error('passport_date_issue')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
+                    <input id="passport_date_issue" type="date" class="form-control @error('passport_date_issue') is-invalid @enderror" name="passport_date_issue" value="{{ old('passport_date_issue') }}">
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="passport_issued_by" class="col-md-4 col-form-label text-md-end">Кем выдан<span class="text-danger">*</span></label>
                 <div class="col-md-6">
-                    <input id="passport_issued_by" type="text" class="form-control @error('passport_issued_by') is-invalid @enderror" name="passport_issued_by"
-                           {{--                                       @if($parented->passport->issuedby) value="{{$parented->passport->issuedby}}" readonly @else value="{{ old('passport_issued_by') }}"@endif --}}
-                           required>
-
-                    @error('passport_issued_by')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
+                    <input id="passport_issued_by" type="text" class="form-control @error('passport_issued_by') is-invalid @enderror" name="passport_issued_by" value="{{ old('passport_issued_by') }}">
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="passport_subcode" class="col-md-4 col-form-label text-md-end">Код подразделения<span class="text-danger">*</span></label>
-
                 <div class="col-md-6">
-                    <input id="passport_subcode" type="text" class="form-control @error('passport_subcode') is-invalid @enderror" name="passport_subcode"
-                           {{--                                       @if($parented->passport->code) value="{{$parented->passport->code}}" readonly @else value="{{ old('passport_subcode') }}"@endif--}}
-                           required>
-
-                    @error('passport_subcode')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
+                    <input id="passport_subcode" type="text" class="form-control @error('passport_subcode') is-invalid @enderror" name="passport_subcode" value="{{ old('passport_subcode') }}">
                 </div>
             </div>
                 <div class="row mb-0">

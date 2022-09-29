@@ -41,16 +41,13 @@ class PassportController extends Controller
      */
     public function store(Request $request)
     {
-//        $validate = $request->validate([
-//            'secondname' => ['required', 'string', 'max:255'],
-//            'firstname' => ['required', 'string', 'max:255'],
-//            'patronymic' => ['required', 'string', 'max:255'],
-//            'date_of_birth' => ['required', 'date'],
-//            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-//            'phone' => ['required', 'unique:users'],
-//            'role_id' => ['required', 'integer'],
-//            'password' => ['required', 'string', 'min:6', 'confirmed'],
-//        ]);
+        $validate = $request->validate([
+            'passport_series' => ['required', 'numeric', 'max:9999'],
+            'passport_number' => ['required', 'numeric'],
+            'passport_date_issue' => ['required'],
+            'passport_issued_by' => ['required', 'string'],
+            'passport_subcode' => ['required'],
+        ]);
 
         if ($request->user_id) {
         $user = User::where('id', $request->user_id)->first();
@@ -83,10 +80,14 @@ class PassportController extends Controller
         );
 
         if (isset($request->role_id)) {
+            $validate = $request->validate([
+                'passport_scan' => ['required', 'image:jpg,jpeg,png,bmp'],
+            ]);
+
             $athlete = Athlete::find($request->athlete_id);
             $athlete->passport_id = $passport->id;
             $athlete->save();
-            return redirect('/parented/'.Parented::getParentedId());
+            return redirect('/parented/'.Parented::getParentedId())->withInput();
         } else {
 
             switch (Auth::user()->role_id) {

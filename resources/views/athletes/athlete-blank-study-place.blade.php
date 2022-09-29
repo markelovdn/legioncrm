@@ -15,39 +15,21 @@
                 <label for="org_title" class="col-md-4 col-form-label text-md-end">Сокращенное название учебного заведения<span class="text-danger">*</span></label>
 
                 <div class="col-md-6">
-                    <input id="org_title" type="text" class="form-control @error('org_title') is-invalid @enderror" name="org_title" value="">
-
-                    @error('org_title')
-                    <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                    @enderror
+                    <input id="org_title" type="text" class="form-control @error('org_title') is-invalid @enderror" name="org_title" value="{{ old('org_title') }}">
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="classnum" class="col-md-4 col-form-label text-md-end">Класс/группа<span class="text-danger">*</span></label>
 
                 <div class="col-md-6">
-                    <input id="classnum" type="text" class="form-control @error('classnum') is-invalid @enderror" name="classnum" value="">
-
-                    @error('classnum')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
+                    <input id="classnum" type="text" class="form-control @error('classnum') is-invalid @enderror" name="classnum" value="{{ old('classnum') }}">
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="letter" class="col-md-4 col-form-label text-md-end">Буква(при наличии)</label>
 
                 <div class="col-md-6">
-                    <input id="letter" type="text" class="form-control @error('letter') is-invalid @enderror" name="letter" value="">
-
-                    @error('letter')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
+                    <input id="letter" type="text" class="form-control @error('letter') is-invalid @enderror" name="letter" value="{{ old('letter') }}">
                 </div>
             </div>
             <div class="row mb-0">

@@ -23,13 +23,7 @@
                                type="text"
                                class="form-control @error('passport_series') is-invalid @enderror"
                                name="passport_series"
-                               >
-
-                        @error('passport_series')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                               value="{{ old('passport_series') }}">
                     </div>
                 </div>
             <div class="row mb-3">
@@ -38,13 +32,8 @@
                     <input id="passport_number"
                            type="text"
                            class="form-control @error('passport_number') is-invalid @enderror"
-                           name="passport_number">
-
-                    @error('passport_number')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
+                           name="passport_number"
+                           value="{{ old('passport_number') }}">
                 </div>
             </div>
             <div class="row mb-3">
@@ -54,13 +43,8 @@
                     <input id="passport_date_issue"
                            type="date"
                            class="form-control @error('passport_date_issue') is-invalid @enderror"
-                           name="passport_date_issue">
-
-                    @error('passport_date_issue')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
+                           name="passport_date_issue"
+                           value="{{ old('passport_date_issue') }}">
                 </div>
             </div>
             <div class="row mb-3">
@@ -69,13 +53,8 @@
                     <input id="passport_issued_by"
                            type="text"
                            class="form-control @error('passport_issued_by') is-invalid @enderror"
-                           name="passport_issued_by">
-
-                    @error('passport_issued_by')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
+                           name="passport_issued_by"
+                           value="{{ old('passport_issued_by') }}">
                 </div>
             </div>
             <div class="row mb-3">
@@ -85,13 +64,8 @@
                     <input id="passport_subcode"
                            type="text"
                            class="form-control @error('passport_subcode') is-invalid @enderror"
-                           name="passport_subcode">
-
-                    @error('passport_subcode')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
+                           name="passport_subcode"
+                           value="{{ old('passport_subcode') }}">
                 </div>
             </div>
             <div class="row mb-3">
@@ -100,9 +74,10 @@
                         <div class="input-group">
                             <div class="custom-file">
                                 <input type="file"
-                                       class="custom-file-input"
+                                       class="custom-file-input @error('passport_scan') is-invalid @enderror"
                                        name="passport_scan"
-                                       id="passport_scan">
+                                       id="passport_scan"
+                                       value="{{ old('passport_scan') }}">
                                 <label class="custom-file-label" for="passport_scan">Выбрать файл</label>
                             </div>
                         </div>
