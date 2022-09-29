@@ -44,7 +44,7 @@
                 <div class="col-md-6">
                     <div class="input-group">
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" name="birthcertificate_scan" id="birthcertificate_scan">
+                            <input type="file" class="custom-file-input @error('birthcertificate_scan') is-invalid @enderror" name="birthcertificate_scan" id="birthcertificate_scan">
                             <label class="custom-file-label" for="birthcertificate_scan">Выбрать файл</label>
                         </div>
                     </div>
