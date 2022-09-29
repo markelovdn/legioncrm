@@ -181,5 +181,10 @@ return [
         'email' => 'Email',
         'phone' => 'Телефон',
         'password' => 'Пароль',
+        'birthcertificate_series' => 'Серия св-ва',
+        'birthcertificate_number' => 'Номер св-ва',
+        'birthcertificate_date_issue' => 'Дата выдачи св-ва',
+        'birthcertificate_issued_by' => 'Кем выдано св-во',
+        'birthcertificate_scan' => 'Скан св-ва',
     ],
 ];

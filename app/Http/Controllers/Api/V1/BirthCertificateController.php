@@ -39,6 +39,14 @@ class BirthCertificateController extends Controller
      */
     public function store(Request $request)
     {
+        $validate = $request->validate([
+            'birthcertificate_series' => ['required'],
+            'birthcertificate_number' => ['required', 'numeric'],
+            'birthcertificate_date_issue' => ['required'],
+            'birthcertificate_issued_by' => ['required', 'string'],
+            'birthcertificate_scan' => ['required', 'image:jpg,jpeg,png,bmp'],
+        ]);
+
         $user = User::where('id', $request->user_id)->first();
 
         $path_scanlink = 'athlete/'.$user->id.'_'.$user->secondname.'_'.$user->firstname.'/'.'birthcertificate_'.$user->secondname.'_'.$user->firstname.'_'.$user->patronymic.'.jpg';

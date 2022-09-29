@@ -16,12 +16,6 @@
 
                 <div class="col-md-6">
                     <input id="birthcertificate_series" type="text" class="form-control @error('birthcertificate_series') is-invalid @enderror" name="birthcertificate_series" value="{{ old('birthcertificate_series') }}">
-
-                    @error('birthcertificate_series')
-                    <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                    @enderror
                 </div>
             </div>
             <div class="row mb-3">
@@ -29,12 +23,6 @@
 
                 <div class="col-md-6">
                     <input id="birthcertificate_number" type="text" class="form-control @error('birthcertificate_number') is-invalid @enderror" name="birthcertificate_number" value="{{ old('birthcertificate_number') }}">
-
-                    @error('birthcertificate_number')
-                    <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                    @enderror
                 </div>
             </div>
             <div class="row mb-3">
@@ -42,12 +30,6 @@
 
                 <div class="col-md-6">
                     <input id="birthcertificate_date_issue" type="date" class="form-control @error('birthcertificate_date_issue') is-invalid @enderror" name="birthcertificate_date_issue" value="{{ old('birthcertificate_date_issue') }}">
-
-                    @error('birthcertificate_date_issue')
-                    <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                    @enderror
                 </div>
             </div>
             <div class="row mb-3">
@@ -55,12 +37,6 @@
 
                 <div class="col-md-6">
                     <input id="birthcertificate_issued_by" type="text" class="form-control @error('birthcertificate_issued_by') is-invalid @enderror" name="birthcertificate_issued_by" value="{{ old('birthcertificate_issued_by') }}">
-
-                    @error('birthcertificate_issued_by')
-                    <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                    @enderror
                 </div>
             </div>
             <div class="row mb-3">
