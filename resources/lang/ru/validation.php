@@ -186,5 +186,7 @@ return [
         'birthcertificate_date_issue' => 'Дата выдачи св-ва',
         'birthcertificate_issued_by' => 'Кем выдано св-во',
         'birthcertificate_scan' => 'Скан св-ва',
+        'address' => 'Адрес',
+        'registration_scan' => 'Скан прописки',
     ],
 ];
