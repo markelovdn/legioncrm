@@ -65,6 +65,7 @@
                     @endif
                     @if(Carbon\Carbon::parse($athlete->user->date_of_birth)->diffInYears() <= 14)
                         <span class="description font-italic">Документ с красной печатью о регистрации ребенка по месту жительства</span>
+                        <span class="description font-italic">Принимаются файлы только изображений (jpg,jpeg,png,bmp)</span>
                         <br>
                     @endif
 
