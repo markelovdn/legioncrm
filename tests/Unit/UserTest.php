@@ -18,17 +18,11 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function test_main_route()
+    public function testBasicTest()
     {
         $response = $this->get('/');
-        $this->assertEquals(302, $response->status());
-    }
 
-    public function testCoachCreate()
-    {
-        $response = $this->post('/');
-
-        $this->assertEquals(200, $response->status());
+        $response->assertStatus(302);
     }
 
 
