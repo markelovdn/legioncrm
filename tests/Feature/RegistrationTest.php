@@ -2,9 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Http\Controllers\Api\V1\UsersController;
 use App\Models\Coach;
+use App\Models\Parented;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +16,7 @@ use Tests\TestCase;
 
 class RegistrationTest extends TestCase
 {
+    use DatabaseTransactions;
     /**
      * A basic feature test example.
      *
@@ -27,17 +31,22 @@ class RegistrationTest extends TestCase
 
     public function test_user_as_coach_register()
     {
-        $user = new User();
+        $this->post('/create-user', [
+                        'firstname'=>'Иванов',
+                        'secondname' => 'Иван',
+                        'patronymic' => 'Иванович',
+                        'date_of_birth' => '2000-01-01',
+                        'email' => 'test@test.ru',
+                        'phone' => '+7 (000) 000-00-00',
+                        'role_id' => '4',
+                        'password' => '123123',
+                        'password_confirmation' => '123123',
+                        'org_id' => '1',
+                        'reg_code' => '2217'
+                    ]);
 
-        $user->firstname = 'Иванов';
-        $user->secondname = 'Иван';
-        $user->patronymic = 'Иванович';
-        $user->date_of_birth = '01.01.2000';
-        $user->email = 'test@test.ru';
-        $user->phone = '+7 (000) 000-00-00';
-        $user->role_id = '4';
-        $user->password = Hash::make(123);
-        $user->save();
+
+        $user = User::where('email', 'test@test.ru')->first();
 
         Auth::login($user);
 
@@ -47,6 +56,73 @@ class RegistrationTest extends TestCase
         $coach->save();
 
         $response = $this->actingAs($user)->get('/coach/'.$coach->id);
-        $response->assertOk();
+        $response->assertStatus(200);
+    }
+
+    public function test_user_as_coach_errcode()
+    {
+        $response = $this->post('/create-user', [
+            'firstname'=>'Иванов',
+            'secondname' => 'Иван',
+            'patronymic' => 'Иванович',
+            'date_of_birth' => '2000-01-01',
+            'email' => 'test@test.ru',
+            'phone' => '+7 (000) 000-00-00',
+            'role_id' => '4',
+            'password' => '123123',
+            'password_confirmation' => '123123',
+            'org_id' => '1',
+            'reg_code' => '2218'
+        ]);
+
+        $response->assertStatus(302);
+    }
+
+    public function test_user_as_parent_register()
+    {
+        $this->post('/create-user', [
+            'firstname'=>'Иванов',
+            'secondname' => 'Иван',
+            'patronymic' => 'Иванович',
+            'date_of_birth' => '2000-01-01',
+            'email' => 'test@test.ru',
+            'phone' => '+7 (000) 000-00-00',
+            'role_id' => '5',
+            'password' => '123123',
+            'password_confirmation' => '123123',
+            'coach_id' => '1',
+            'reg_code' => '1234'
+        ]);
+
+
+        $user = User::where('email', 'test@test.ru')->first();
+
+        Auth::login($user);
+
+        $parented = new Parented();
+        $parented->user_id = $user->id;
+        $parented->save();
+
+        $response = $this->actingAs($user)->get('/parented/'.$parented->id);
+        $response->assertStatus(200);
+    }
+
+    public function test_user_as_parent_errcode()
+    {
+        $response = $this->post('/create-user', [
+            'firstname'=>'Иванов',
+            'secondname' => 'Иван',
+            'patronymic' => 'Иванович',
+            'date_of_birth' => '2000-01-01',
+            'email' => 'test@test.ru',
+            'phone' => '+7 (000) 000-00-00',
+            'role_id' => '5',
+            'password' => '123123',
+            'password_confirmation' => '123123',
+            'coach_id' => '1',
+            'reg_code' => '1235'
+        ]);
+
+        $response->assertStatus(302);
     }
 }
