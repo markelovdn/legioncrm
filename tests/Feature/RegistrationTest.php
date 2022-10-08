@@ -2,16 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Http\Controllers\Api\V1\UsersController;
 use App\Models\Coach;
 use App\Models\Parented;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class RegistrationTest extends TestCase
