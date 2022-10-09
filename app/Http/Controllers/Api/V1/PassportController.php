@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StorePassportRequest;
 use App\Models\Athlete;
 use App\Models\Coach;
 use App\Models\Parented;
@@ -39,15 +40,9 @@ class PassportController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request)
+    public function store(StorePassportRequest $request)
     {
-        $validate = $request->validate([
-            'passport_series' => ['required', 'numeric', 'max:9999'],
-            'passport_number' => ['required', 'numeric'],
-            'passport_date_issue' => ['required'],
-            'passport_issued_by' => ['required', 'string'],
-            'passport_subcode' => ['required'],
-        ]);
+        $request->except(['passport_scan']);
 
         if ($request->user_id) {
         $user = User::where('id', $request->user_id)->first();
@@ -80,9 +75,7 @@ class PassportController extends Controller
         );
 
         if (isset($request->role_id)) {
-            $validate = $request->validate([
-                'passport_scan' => ['required', 'image:jpg,jpeg,png,bmp'],
-            ]);
+            $request->only(['passport_scan']);
 
             $athlete = Athlete::find($request->athlete_id);
             $athlete->passport_id = $passport->id;

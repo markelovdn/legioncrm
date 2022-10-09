@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreBirthCertificateRequest;
 use App\Models\Athlete;
 use App\Models\BirthCertificate;
 use App\Models\StudyPlace;
@@ -37,15 +38,9 @@ class BirthCertificateController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreBirthCertificateRequest $request)
     {
-        $validate = $request->validate([
-            'birthcertificate_series' => ['required'],
-            'birthcertificate_number' => ['required', 'numeric'],
-            'birthcertificate_date_issue' => ['required'],
-            'birthcertificate_issued_by' => ['required', 'string'],
-            'birthcertificate_scan' => ['required', 'image:jpg,jpeg,png,bmp'],
-        ]);
+        $request->validated();
 
         $user = User::where('id', $request->user_id)->first();
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreStudyPlaceRequest;
 use App\Models\Athlete;
 use App\Models\StudyPlace;
 use App\Models\User;
@@ -37,12 +38,9 @@ class StudyPlaceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreStudyPlaceRequest $request)
     {
-        $validate = $request->validate([
-            'org_title' => ['required', 'string'],
-            'classnum' => ['required', 'numeric'],
-        ]);
+        $request->validated();
 
         $user = User::where('id', $request->user_id)->first();
 

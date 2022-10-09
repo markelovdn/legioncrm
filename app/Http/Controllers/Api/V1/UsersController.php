@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUserRequest;
 use App\Models\Athlete;
 use App\Models\Coach;
 use App\Models\Organization;
@@ -30,30 +31,17 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
-    public function create(Request $request)
+    public function create(StoreUserRequest $request)
     {
-        $validate = $request->validate([
-            'secondname' => ['required', 'string', 'max:255'],
-            'firstname' => ['required', 'string', 'max:255'],
-            'patronymic' => ['required', 'string', 'max:255'],
-            'date_of_birth' => ['required', 'date'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'phone' => ['required', 'unique:users'],
-            'role_id' => ['required', 'integer'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
-        ]);
+        $request->validated();
 
         $reg_code = "";
         switch ($request->role_id) {
             case ("5"): $reg_code = Coach::find($request->input('coach_id'));
-                $validate = $request->validate([
-                    'coach_id' => ['required', 'integer'],
-                ]);
+                $request->only(['coach_id']);
                 break;
             case ("4"): $reg_code = Organization::find($request->input('org_id'));
-                $validate = $request->validate([
-                    'org_id' => ['required', 'integer'],
-                ]);
+                $request->only(['org_id']);
                 break;
         };
 

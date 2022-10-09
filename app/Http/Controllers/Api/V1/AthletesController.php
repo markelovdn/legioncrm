@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreAthleteRequest;
 use App\Models\Athlete;
 use App\Models\BirthCertificate;
 use App\Models\Coach;
@@ -42,18 +43,9 @@ class AthletesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreAthleteRequest $request)
     {
-        $validate = $request->validate([
-            'photo' => ['required', 'image:jpg,jpeg,png,bmp'],
-            'gender' => ['required', 'string', 'max:7'],
-            'secondname' => ['required', 'string', 'max:255'],
-            'firstname' => ['required', 'string', 'max:255'],
-            'patronymic' => ['required', 'string', 'max:255'],
-            'date_of_birth' => ['required', 'date'],
-            'coach_id' => ['required'],
-            'reg_code' => ['required'],
-        ]);
+        $request->validated();
 
         $user = new User();
         $user->secondname = $request->secondname;
@@ -68,7 +60,6 @@ class AthletesController extends Controller
             $request->file('photo')
                 ->storeAs('athlete/'.$user->id.'_'.$user->secondname.'_'.$user->firstname, 'photo_'.$user->secondname.'_'.$user->firstname.'_'.$user->patronymic.'.jpg');
         }
-
         $coaches = Coach::find($request->coach_id);
 
         if($coaches->code == $request->reg_code) {

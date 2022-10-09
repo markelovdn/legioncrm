@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreAddressRequest;
 use App\Models\Address;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -35,15 +36,9 @@ class AddressesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreAddressRequest $request)
     {
-        $validate = $request->validate([
-            'country_id' => ['required', 'numeric'],
-            'district_id' => ['required', 'numeric'],
-            'region_id' => ['required', 'numeric'],
-            'address' => ['required', 'string'],
-            'registration_scan' => ['required', 'image:jpg,jpeg,png,bmp'],
-        ]);
+        $request->validated();
 
         $user = User::where('id', $request->user_id)->first();
 
