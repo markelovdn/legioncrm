@@ -32,8 +32,8 @@ class StoreUserRequest extends FormRequest
             'phone' => 'required', 'unique:users',
             'role_id' => 'required', 'integer',
             'password' => 'required', 'string', 'min:6', 'confirmed',
-            'coach_id' => ['required', 'integer'],
-            'org_id' => ['required', 'integer'],
+            'coach_id' => ['required_without:org_id', 'integer'],
+            'org_id' => ['required_without:coach_id', 'integer'],
         ];
     }
 }
