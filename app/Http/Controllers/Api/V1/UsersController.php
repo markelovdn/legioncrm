@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Actions\GetRegistrationCode;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
-use App\Models\Athlete;
-use App\Models\Coach;
-use App\Models\Organization;
-use App\Models\Parented;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
+use App\Service\RegistrationUserAs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -31,51 +27,15 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
-    public function create(StoreUserRequest $request)
+    public function create(StoreUserRequest $request, GetRegistrationCode $reg_code, RegistrationUserAs $user)
     {
         $request->validated();
 
-        $reg_code = "";
-        switch ($request->role_id) {
-            case ("5"): $reg_code = Coach::find($request->input('coach_id'));
-                $request->only(['coach_id']);
-                break;
-            case ("4"): $reg_code = Organization::find($request->input('org_id'));
-                $request->only(['org_id']);
-                break;
-        };
+        $reg_code->getCode($request);
 
-            if($reg_code->code == $request->reg_code) {
-                $user = new User();
+        $user = $user->registrationUser($request);
 
-                $user->firstname = $request->firstname;
-                $user->secondname = $request->secondname;
-                $user->patronymic = $request->patronymic;
-                $user->date_of_birth = $request->date_of_birth;
-                $user->email = $request->email;
-                $user->phone = $request->phone;
-                $user->role_id = $request->role_id;
-                $user->password = Hash::make($request->password);
-
-                $user->save();
-                Auth::login($user);
-                switch ($request->role_id) {
-                    case ("5"):  $parented = new Parented();
-                        $parented->user_id = auth()->user()->id;
-                        $parented->save();
-                        return redirect('/parented/'.$parented->id);
-                    case ("4"):
-                        $coach = new Coach();
-                        $coach->user_id = auth()->user()->id;
-                        $coach->code = rand(1000, 9999);
-                        $coach->save();
-                        return redirect('/coach/'.$coach->id);
-                }
-            }
-            else{
-                $request->session()->flash('status', 'Не верный код');
-                return back()->withInput();
-            }
+        return redirect($user);
     }
 
     /**
