@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Service;
+namespace App\DomainService;
 
 
-use App\Actions\GetRegistrationCode;
+use App\BusinessProcess\GetRegistrationCode;
 use App\Http\Requests\StoreUserRequest;
 use App\Models\Coach;
 use App\Models\Parented;
@@ -15,23 +15,8 @@ use Illuminate\Support\Facades\Hash;
 
 class RegistrationUserAs
 {
-    public function registrationUser(StoreUserRequest $request)
+    public function registrationUserAs($request)
     {
-            $user = new User();
-
-            $user->firstname = $request->firstname;
-            $user->secondname = $request->secondname;
-            $user->patronymic = $request->patronymic;
-            $user->date_of_birth = $request->date_of_birth;
-            $user->email = $request->email;
-            $user->phone = $request->phone;
-            $user->role_id = $request->role_id;
-            $user->password = Hash::make($request->password);
-
-            $user->save();
-
-        Auth::login($user);
-
         switch ($request->role_id) {
             case ("5"):
                 $parented = new Parented();

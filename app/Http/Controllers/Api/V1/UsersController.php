@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Actions\GetRegistrationCode;
+use App\BusinessProcess\GetRegistrationCode;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
-use App\Service\RegistrationUserAs;
+use App\DomainService\RegistrationUserAs;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -27,15 +29,30 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
-    public function create(StoreUserRequest $request, GetRegistrationCode $reg_code, RegistrationUserAs $user)
+    public function create(StoreUserRequest $request, GetRegistrationCode $reg_code, RegistrationUserAs $userAs)
     {
         $request->validated();
 
-        $reg_code->getCode($request);
+        if (!$reg_code->getCode($request)) {
+            return back()->withInput();
+        }
 
-        $user = $user->registrationUser($request);
+        $user = new User();
 
-        return redirect($user);
+        $user->firstname = $request->firstname;
+        $user->secondname = $request->secondname;
+        $user->patronymic = $request->patronymic;
+        $user->date_of_birth = $request->date_of_birth;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->role_id = $request->role_id;
+        $user->password = Hash::make($request->password);
+
+        $user->save();
+
+        Auth::login($user);
+
+        return redirect($userAs->registrationUserAs($request));
     }
 
     /**

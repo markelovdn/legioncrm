@@ -1,16 +1,14 @@
 <?php
 
 
-namespace App\Actions;
+namespace App\BusinessProcess;
 
-
-use App\Http\Requests\StoreUserRequest;
 use App\Models\Coach;
 use App\Models\Organization;
 
 class GetRegistrationCode
 {
-    public function getCode(StoreUserRequest $request)
+    public function getCode($request)
     {
         $reg_code = "";
         switch ($request->role_id) {
@@ -26,7 +24,6 @@ class GetRegistrationCode
             }
         else {
             $request->session()->flash('status', 'Не верный код');
-            return back()->withInput();
         }
     }
 }
