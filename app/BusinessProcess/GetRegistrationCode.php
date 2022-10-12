@@ -8,22 +8,20 @@ use App\Models\Organization;
 
 class GetRegistrationCode
 {
-    public function getCode($request)
+    public function getCode($code, $role_id)
     {
         $reg_code = "";
-        switch ($request->role_id) {
-            case ("5"): $reg_code = Coach::find($request->input('coach_id'));
-                $request->only(['coach_id']);
+        switch ($role_id) {
+            case ("5"):
+                $reg_code = Coach::where('code', $code)->first();
                 break;
-            case ("4"): $reg_code = Organization::find($request->input('org_id'));
-                $request->only(['org_id']);
+            case ("4"):
+                $reg_code = Organization::where('code', $code)->first();
                 break;
         };
-        if ($reg_code->code == $request->reg_code) {
+
+        if (isset($reg_code->code) && $reg_code->code == $code) {
             return $reg_code;
             }
-        else {
-            $request->session()->flash('status', 'Не верный код');
-        }
     }
 }

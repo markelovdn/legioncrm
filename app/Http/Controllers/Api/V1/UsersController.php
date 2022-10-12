@@ -33,7 +33,8 @@ class UsersController extends Controller
     {
         $request->validated();
 
-        if (!$reg_code->getCode($request)) {
+        if (!$reg_code->getCode($request->reg_code, $request->role_id)) {
+            $request->session()->flash('status', 'Не верный код');
             return back()->withInput();
         }
 
