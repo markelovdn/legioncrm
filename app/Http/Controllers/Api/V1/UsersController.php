@@ -53,7 +53,8 @@ class UsersController extends Controller
 
         Auth::login($user);
 
-        return redirect($userAs->registrationUserAs($request));
+        return redirect($userAs->registrationUserAs($request->role_id));
+
     }
 
     /**
