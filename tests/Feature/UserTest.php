@@ -37,7 +37,6 @@ class UserTest extends TestCase
             'password' => '123123',
             'password_confirmation' => '123123',
             'org_id' => '1',
-            'coach_id' => '1',
             'reg_code' => '2217'
         ]);
 
@@ -86,7 +85,6 @@ class UserTest extends TestCase
             'password' => '123123',
             'password_confirmation' => '123123',
             'coach_id' => '1',
-            'org_id' => '1',
             'reg_code' => '1234'
         ]);
 
