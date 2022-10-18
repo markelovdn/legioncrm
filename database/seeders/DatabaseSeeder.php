@@ -31,6 +31,7 @@ use App\Models\SportsCategoriesTitle;
 use App\Models\SportsCategory;
 use App\Models\StudyPlace;
 use App\Models\Tqtitle;
+use App\Models\User;
 use App\Models\WeightCategory;
 use App\Models\WorkPlace;
 use Database\Factories\DepartmentFactory;
@@ -91,6 +92,18 @@ class DatabaseSeeder extends Seeder
 //        Payment::factory(3)->create();
 //        SportsCategory::factory(3)->create(); //Ошибка повторного сида
 //        StudyPlace::factory(3)->create();
+        User::insert([
+            'secondname' => 'Маркелов',
+            'firstname' => 'Дмитрий',
+            'patronymic' => 'Николаевич',
+            'date_of_birth' => '1983-10-08',
+            'email' => 'markelovdn@gmail.com',
+            'phone' => '+7 (961) 087-67-12',
+            'role_id' => '4',
+            'password' => '123123',
+
+        ]);
+
         Role::insert([
             ['id' => 1, 'name' => 'Администратор системы'],
             ['id' => 2, 'name' => 'Администратор организации'],

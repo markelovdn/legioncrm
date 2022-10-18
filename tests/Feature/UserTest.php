@@ -75,19 +75,18 @@ class UserTest extends TestCase
     public function test_user_as_parent_register()
     {
         $this->post('/create-user', [
-            'firstname'=>'Иванов',
             'secondname' => 'Иван',
+            'firstname' => 'Иванов',
             'patronymic' => 'Иванович',
             'date_of_birth' => '2000-01-01',
             'email' => 'test@test.ru',
             'phone' => '+7 (000) 000-00-00',
-            'role_id' => '5',
+            'role_id' => '4',
             'password' => '123123',
             'password_confirmation' => '123123',
-            'coach_id' => '1',
-            'reg_code' => '1234'
+            'org_id' => '1',
+            'reg_code' => '2217'
         ]);
-
 
         $user = User::where('email', 'test@test.ru')->first();
 

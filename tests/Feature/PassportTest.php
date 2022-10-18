@@ -17,7 +17,7 @@ class PassportTest extends TestCase
     public function test_store_passport()
     {
         $this->withoutMiddleware();
-        $user = User::where('id', '1')->first();
+        $user = User::get()->first();
         Auth::login($user);
         $this->post('/passport', [
             'passport_series' => 1800,
@@ -35,7 +35,7 @@ class PassportTest extends TestCase
     public function test_store_passport_for_athlete()
     {
         $this->withoutMiddleware();
-        $user = User::where('id', '1')->first();
+        $user = User::get()->first();
         Auth::login($user);
         $this->post('/passport', [
             'passport_series' => 1800,

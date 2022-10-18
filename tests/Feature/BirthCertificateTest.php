@@ -17,7 +17,7 @@ class BirthCertificateTest extends TestCase
     public function test_store_address()
     {
         $this->withoutMiddleware();
-        $user = User::where('id', '1')->first();
+        $user = User::get()->first();
         Auth::login($user);
         $this->post('/birthcertificate', [
             'birthcertificate_series' => 'I-РК',

@@ -23,8 +23,8 @@ class AthletesTest extends TestCase
      */
     public function test_store_athlete()
     {
-        $coach = Coach::find(1);
-        $user = User::where('id', '1')->first();
+        $coach = Coach::get()->first();
+        $user = User::get()->first();
         Auth::login($user);
         $this->withoutMiddleware();
         $this->post('/athlete', [

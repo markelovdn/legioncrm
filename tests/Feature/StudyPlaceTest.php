@@ -17,7 +17,7 @@ class StudyPlaceTest extends TestCase
     public function test_store_address()
     {
         $this->withoutMiddleware();
-        $user = User::where('id', '1')->first();
+        $user = User::get()->first();
         Auth::login($user);
         $this->post('/studyplace', [
             'org_title' => 'МОУ СШ№54',
