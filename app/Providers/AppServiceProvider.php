@@ -34,16 +34,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-//        $coaches = Coach::with('user')->get();
-//        $orgs = Organization::all();
-//        $countries = Country::all();
-//        $districts = District::all();
-//        $regions = Region::all();
-//
-//        View::share('coaches', $coaches);
-//        View::share('orgs', $orgs);
-//        View::share('countries', $countries);
-//        View::share('districts', $districts);
-//        View::share('regions', $regions);
+        $coaches = Coach::with('user')->get();
+        $orgs = Organization::all();
+        $countries = Country::all();
+        $districts = District::all();
+        $regions = Region::all();
+
+        View::share('coaches', $coaches);
+        View::share('orgs', $orgs);
+        View::share('countries', $countries);
+        View::share('districts', $districts);
+        View::share('regions', $regions);
     }
 }
