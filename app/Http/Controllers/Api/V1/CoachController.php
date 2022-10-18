@@ -57,7 +57,6 @@ class CoachController extends Controller
         }
         return view('coaches.cabinet', compact('coach', $coach));
 
-
     }
 
     /**

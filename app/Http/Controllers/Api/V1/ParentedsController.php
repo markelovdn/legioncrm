@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Models\Athlete;
 use App\Models\Coach;
+use App\Models\Country;
+use App\Models\District;
 use App\Models\Parented;
+use App\Models\Region;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -60,8 +63,17 @@ class ParentedsController extends Controller
         }
 
         $coaches = Coach::with('user')->get();
+        $countries = Country::all();
+        $districts = District::all();
+        $regions = Region::all();
 
-        return view('roditeli.cabinet', ['parented' => $parented, 'coaches' => $coaches]);
+        return view('roditeli.cabinet', [
+            'parented' => $parented,
+            'coaches' => $coaches,
+            'countries' => $countries,
+            'districts' => $districts,
+            'regions' => $regions,
+        ]);
     }
 
     /**

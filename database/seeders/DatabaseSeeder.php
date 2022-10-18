@@ -103,14 +103,22 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::insert([
-            'secondname' => 'Маркелов',
+            ['secondname' => 'Маркелов',
             'firstname' => 'Дмитрий',
             'patronymic' => 'Николаевич',
             'date_of_birth' => '1983-10-08',
             'email' => 'markelovdn@gmail.com',
             'phone' => '+7 (961) 087-67-12',
             'role_id' => '4',
-            'password' => '123123',
+            'password' => '123123',],
+            ['secondname' => 'Иванов',
+            'firstname' => 'Иван',
+            'patronymic' => 'Иванович',
+            'date_of_birth' => '1983-10-08',
+            'email' => 'lion831@yandex.ru',
+            'phone' => '+7 (961) 087-67-13',
+            'role_id' => '5',
+            'password' => '123123',]
 
         ]);
 

@@ -6,6 +6,8 @@ use App\BusinessProcess\GetRegistrationCode;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\DomainService\RegistrationUserAs;
+use App\Models\Coach;
+use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -29,7 +31,27 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
-    public function create(StoreUserRequest $request, GetRegistrationCode $reg_code, RegistrationUserAs $userAs)
+    public function create(Request $request)
+    {
+        if($request->has('parent')) {
+            $coaches = Coach::with('user')->get();
+            return view('auth.parent-register', ['coaches'=>$coaches]);
+        } elseif($request->has('coach')) {
+            $orgs = Organization::all();
+            return view('auth.coach-register', ['orgs'=>$orgs]);
+        } else
+            return redirect('/');
+
+
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(StoreUserRequest $request, GetRegistrationCode $reg_code, RegistrationUserAs $userAs)
     {
         $request->validated();
 
@@ -54,18 +76,6 @@ class UsersController extends Controller
         Auth::login($user);
 
         return redirect($userAs->registrationUserAs($request->role_id));
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**

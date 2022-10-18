@@ -48,14 +48,14 @@
                                         </a>
                                         <ul class="nav nav-treeview">
                                             <li class="nav-item">
-                                                <a href="/parent-registration" class="nav-link">
+                                                <a href="/user/create?parent" class="nav-link">
                                                     <i class="fas fa-user-friends"></i>
                                                     <p>Как родитель</p>
                                                 </a>
                                             </li>
 
                                             <li class="nav-item">
-                                                <a href="/coach-registration" class="nav-link">
+                                                <a href="/user/create?coach" class="nav-link">
                                                     <i class="fas fa-trophy"></i>
                                                     <p>Как тренер</p>
                                                 </a>

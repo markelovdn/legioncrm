@@ -6,7 +6,7 @@
     <div class="card-header">{{ __('auth.Register_parented') }}</div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route('create-user') }}">
+        <form method="POST" action="/user">
             <input type="text" name="url" style="display: none" value="{{url()->current()}}">
             <input type="text" name="role_id" style="display: none" value="5">
             @csrf

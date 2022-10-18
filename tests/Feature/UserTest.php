@@ -26,7 +26,7 @@ class UserTest extends TestCase
 
     public function test_user_as_coach_register()
     {
-        $this->post('/create-user', [
+        $this->post('/user', [
             'secondname' => 'Иван',
             'firstname' => 'Иванов',
             'patronymic' => 'Иванович',
@@ -55,7 +55,7 @@ class UserTest extends TestCase
 
     public function test_user_as_coach_errcode()
     {
-        $response = $this->post('/create-user', [
+        $response = $this->post('/user', [
             'firstname'=>'Иванов',
             'secondname' => 'Иван',
             'patronymic' => 'Иванович',
@@ -74,7 +74,7 @@ class UserTest extends TestCase
 
     public function test_user_as_parent_register()
     {
-        $this->post('/create-user', [
+        $this->post('/user', [
             'secondname' => 'Иван',
             'firstname' => 'Иванов',
             'patronymic' => 'Иванович',
@@ -102,7 +102,7 @@ class UserTest extends TestCase
 
     public function test_user_as_parent_errcode()
     {
-        $response = $this->post('/create-user', [
+        $response = $this->post('/user', [
             'firstname'=>'Иванов',
             'secondname' => 'Иван',
             'patronymic' => 'Иванович',
