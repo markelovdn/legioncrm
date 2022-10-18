@@ -16,7 +16,7 @@ class AddressTest extends TestCase
 
     public function test_store_address()
     {
-        $this->withoutMiddleware();
+//        $this->withoutMiddleware();
         $user = User::where('id', '1')->first();
         Auth::login($user);
         $this->post('/addresses', [
