@@ -116,7 +116,7 @@ class DatabaseSeeder extends Seeder
 
         Coach::insert([
             'user_id' => '1',
-            'coach_code' => '1234',
+            'code' => '1234',
         ]);
 
         Organization::insert([
