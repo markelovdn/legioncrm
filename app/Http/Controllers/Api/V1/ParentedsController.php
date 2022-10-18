@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Athlete;
+use App\Models\Coach;
 use App\Models\Parented;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -58,7 +59,9 @@ class ParentedsController extends Controller
             return redirect('/');
         }
 
-        return view('roditeli.cabinet', compact('parented', $parented));
+        $coaches = Coach::with('user')->get();
+
+        return view('roditeli.cabinet', ['parented' => $parented, 'coaches' => $coaches]);
     }
 
     /**
