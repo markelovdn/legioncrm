@@ -92,6 +92,16 @@ class DatabaseSeeder extends Seeder
 //        Payment::factory(3)->create();
 //        SportsCategory::factory(3)->create(); //Ошибка повторного сида
 //        StudyPlace::factory(3)->create();
+
+        Role::insert([
+            ['id' => 1, 'name' => 'Администратор системы'],
+            ['id' => 2, 'name' => 'Администратор организации'],
+            ['id' => 3, 'name' => 'Руководитель организации'],
+            ['id' => 4, 'name' => 'Тренер'],
+            ['id' => 5, 'name' => 'Родитель'],
+            ['id' => 6, 'name' => 'Спортсмен']
+        ]);
+
         User::insert([
             'secondname' => 'Маркелов',
             'firstname' => 'Дмитрий',
@@ -102,15 +112,6 @@ class DatabaseSeeder extends Seeder
             'role_id' => '4',
             'password' => '123123',
 
-        ]);
-
-        Role::insert([
-            ['id' => 1, 'name' => 'Администратор системы'],
-            ['id' => 2, 'name' => 'Администратор организации'],
-            ['id' => 3, 'name' => 'Руководитель организации'],
-            ['id' => 4, 'name' => 'Тренер'],
-            ['id' => 5, 'name' => 'Родитель'],
-            ['id' => 6, 'name' => 'Спортсмен']
         ]);
 
         Organization::insert([
