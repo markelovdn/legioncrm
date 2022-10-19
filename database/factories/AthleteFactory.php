@@ -28,15 +28,15 @@ class AthleteFactory extends Factory
     public function definition()
     {
         return [
-            'user_id'=>User::factory(),
+            'user_id'=> User::factory(),
             'gender' => $this->faker->randomElement([1, 2]),
             'photo' => $this->faker->imageUrl,
             'status' => $this->faker->randomElement(['1', '0']),
-            'studyplace_id'=>StudyPlace::factory(),
-            'passport_id'=>Passport::factory(),
-            'birthcertificate_id'=>BirthCertificate::factory(),
-            'snils_id'=>Snils::factory(),
-            'medicalpolicy_id'=>MedicalPolicy::factory(),
+            'studyplace_id'=> StudyPlace::factory(),
+            'passport_id' => Passport::factory(),
+            'birthcertificate_id' => BirthCertificate::factory(),
+            'snils_id' => Snils::factory(),
+            'medicalpolicy_id' => MedicalPolicy::factory(),
         ];
     }
 }

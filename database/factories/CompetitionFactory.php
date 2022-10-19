@@ -17,15 +17,15 @@ class CompetitionFactory extends Factory
     public function definition()
     {
         return [
-          'datebegin'=>$this->faker->date,
-          'datefinish'=>$this->faker->date,
+          'date_start'=>$this->faker->date,
+          'date_end'=>$this->faker->date,
           'title'=> $this->faker->title,
           'address'=> $this->faker->address,
           'linkreport'=>$this->faker->imageUrl,
           'status'=>$this->faker->randomElement(['1','2']),
-          'country_id'=>Country::factory(),
-          'district_id'=>District::factory(),
-          'region_id'=>Region::factory(),
+          'country_id'=>1,
+          'district_id'=>1,
+          'region_id'=>1,
         ];
     }
 }

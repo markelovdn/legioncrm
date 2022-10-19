@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Age;
+use App\Models\AgeCategory;
 use App\Models\CompetitionsRanksTitle;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -20,7 +20,7 @@ class CompetitionsRanksPointFactory extends Factory
                 '100','200','300'
             ]),
             'compranktitle_id'=>CompetitionsRanksTitle::factory(),
-            'age_id'=>Age::factory()
+            'age_id'=>4
         ];
     }
 }

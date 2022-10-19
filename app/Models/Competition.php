@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class Competition extends Model
 {
@@ -22,6 +23,22 @@ class Competition extends Model
     public function region()
     {
         return $this->hasOne(Region::class);
+    }
+
+    public function agecategories()
+    {
+        return $this->belongsToMany(AgeCategory::class,
+            'competition_agecategory',
+            'competition_id',
+            'agecategory_id');
+    }
+
+    public function competition_agecategories(Request $request)
+    {
+        $competition = Competition::find($request->competition_id);
+
+        $competition->agecategories()->detach();
+        $competition->agecategories()->attach($request->agecategory);
     }
 
 }

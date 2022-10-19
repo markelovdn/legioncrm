@@ -17,9 +17,9 @@ class AddressFactory extends Factory
     public function definition()
     {
         return [
-            'country_id' => Country::factory(),
-            'district_id' => District::factory(),
-            'region_id' => Region::factory(),
+            'country_id' => 1,
+            'district_id' => 1,
+            'region_id' => 1,
             'address' => $this->faker->address,
         ];
     }

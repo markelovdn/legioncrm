@@ -18,7 +18,7 @@ class DepartmentFactory extends Factory
             'fulltitle' => $this->faker->randomElement(['МОУ СШ№54', 'ЦСКА, 35-я Гвардейская']),
             'shorttitle' => $this->faker->randomElement(['СШ№54', '35-я Гвардейская']),
             'address' => $this->faker->address,
-            'organization_id' => Organization::factory(),
+            'organization_id' => 1,
         ];
     }
 }

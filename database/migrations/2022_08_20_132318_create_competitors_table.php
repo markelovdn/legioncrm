@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateWeightCategoriesTable extends Migration
+class CreateCompetitorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateWeightCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('weight_categories', function (Blueprint $table) {
+        Schema::create('competitors', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('gender');
-            $table->string('weight_start');
-            $table->string('weight_finish');
+            $table->string('athlete_id');
+            $table->double('weight');
+            $table->integer('lot')->nullable();
             $table->foreignId('agecategory_id')->nullable()->constrained('age_categories');
+            $table->foreignId('weightcategory_id')->nullable()->constrained('weight_categories');
+            $table->foreignId('tehkvalgroup_id')->nullable()->constrained('tehkvals_groups');
             $table->timestamps();
         });
     }
@@ -31,6 +32,6 @@ class CreateWeightCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('weight_categories');
+        Schema::dropIfExists('competitors');
     }
 }

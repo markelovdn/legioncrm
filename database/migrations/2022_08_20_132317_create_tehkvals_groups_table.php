@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateWeightCategoriesTable extends Migration
+class CreateTehkvalsGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateWeightCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('weight_categories', function (Blueprint $table) {
+        Schema::create('tehkvals_groups', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('gender');
-            $table->string('weight_start');
-            $table->string('weight_finish');
+            $table->foreignId('startgyp_id')->nullable()->constrained('tehkvals');
+            $table->foreignId('finishgyp_id')->nullable()->constrained('tehkvals');
             $table->foreignId('agecategory_id')->nullable()->constrained('age_categories');
             $table->timestamps();
         });
@@ -31,6 +30,6 @@ class CreateWeightCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('weight_categories');
+        Schema::dropIfExists('tehkvals_groups');
     }
 }

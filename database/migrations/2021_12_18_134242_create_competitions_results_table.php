@@ -20,7 +20,7 @@ class CreateCompetitionsResultsTable extends Migration
             $table->foreignId('athlete_id')->nullable()->constrained('athletes');
             $table->foreignId('competition_id')->nullable()->constrained('competitions');
             $table->foreignId('weight_id')->nullable()->constrained('weight_categories');
-            $table->foreignId('age_id')->nullable()->constrained('ages');
+            $table->foreignId('age_id')->nullable()->constrained('age_categories');
             $table->foreignId('rankpoint_id')->nullable()->constrained('competitions_ranks_points');
             $table->timestamps();
         });

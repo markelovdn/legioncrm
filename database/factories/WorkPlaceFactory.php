@@ -16,7 +16,7 @@ class WorkPlaceFactory extends Factory
     {
         return [
             'position'=>$this->faker->jobTitle,
-            'organization_id'=>Organization::factory()
+            'organization_id'=>1
         ];
     }
 }

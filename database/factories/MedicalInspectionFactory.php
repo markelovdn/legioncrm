@@ -19,7 +19,7 @@ class MedicalInspectionFactory extends Factory
           'dateinsp'=>$this->faker->date,
           'note'=>$this->faker->text,
           'athlete_id'=>Athlete::factory(),
-          'organization_id'=>Organization::factory(),
+          'organization_id'=>1,
         ];
     }
 }

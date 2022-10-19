@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAttestationResultsTable extends Migration
+class CreateSportkvalsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateAttestationResultsTable extends Migration
      */
     public function up()
     {
-        Schema::create('attestation_results', function (Blueprint $table) {
+        Schema::create('sportkvals', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('athlete_id')->constrained('athletes');
-            $table->foreignId('tehkval_id')->constrained('tehkvals');
-            $table->string('sertificatenum', 45);
+            $table->string('short_title');
+            $table->string('full_title');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateAttestationResultsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('attestation_results');
+        Schema::dropIfExists('sportkvals');
     }
 }

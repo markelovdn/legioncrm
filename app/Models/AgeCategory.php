@@ -5,7 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tqtitle extends Model
+class AgeCategory extends Model
 {
     use HasFactory;
+
+    public function competitor()
+    {
+        return $this->hasOne(Competitor::class);
+    }
+    
 }

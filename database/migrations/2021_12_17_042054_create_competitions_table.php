@@ -15,8 +15,8 @@ class CreateCompetitionsTable extends Migration
     {
         Schema::create('competitions', function (Blueprint $table) {
             $table->id();
-            $table->date('datebegin');
-            $table->date('datefinish');
+            $table->date('date_start');
+            $table->date('date_end');
             $table->string('title', 256);
             $table->string('address', 256);
             $table->string('linkreport', 256);

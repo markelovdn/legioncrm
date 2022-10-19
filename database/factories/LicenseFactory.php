@@ -22,7 +22,7 @@ class LicenseFactory extends Factory
             'scanlink'=>$this->faker->imageUrl,
             'athlete_id'=>Athlete::factory(),
             'coach_id'=>Coach::factory(),
-            'organization_id'=>Organization::factory(),
+            'organization_id'=>1,
         ];
     }
 }

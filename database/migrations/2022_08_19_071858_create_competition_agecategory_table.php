@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSportsCategoriesTitlesTable extends Migration
+class CreateCompetitionAgecategoryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateSportsCategoriesTitlesTable extends Migration
      */
     public function up()
     {
-        Schema::create('sports_categories_titles', function (Blueprint $table) {
+        Schema::create('competition_agecategory', function (Blueprint $table) {
             $table->id();
-            $table->string('fulltitle', 100)->nullable();
-            $table->string('shorttitle', 45);
-            $table->timestamps();
+            $table->bigInteger('competition_id');
+            $table->bigInteger('agecategory_id');
+//            $table->timestamps();
         });
     }
 
@@ -28,6 +28,6 @@ class CreateSportsCategoriesTitlesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sports_categories_titles');
+        Schema::dropIfExists('competition_agecategory');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAgesTable extends Migration
+class CreateGradesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateAgesTable extends Migration
      */
     public function up()
     {
-        Schema::create('ages', function (Blueprint $table) {
+        Schema::create('grades', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 45);
-            $table->integer('yearbegin');
-            $table->integer('yearfinish');
+            $table->integer('grade')->nullable();
+            $table->integer('competitor_id')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateAgesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ages');
+        Schema::dropIfExists('grades');
     }
 }

@@ -17,7 +17,7 @@ class AttestationFactory extends Factory
         return [
             'date' => $this->faker->date,
             'title' => $this->faker->title,
-            'organization_id' => Organization::factory(),
+            'organization_id' => '1',
         ];
     }
 }

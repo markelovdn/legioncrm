@@ -22,7 +22,7 @@ class DecreeFactory extends Factory
             'dateissue'=> $this->faker->date(),
             'title'=>$this->faker->title(),
             'scanlink'=>$this->faker->imageUrl(),
-            'organization_id'=>Organization::factory(),
+            'organization_id'=>1,
             'athlete_id'=>Athlete::factory(),
             'coach_id'=>Coach::factory(),
         ];
