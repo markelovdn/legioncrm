@@ -31,7 +31,7 @@ class RouteTest extends TestCase
 
     public function test_parented_cabinet()
     {
-        $user = User::where('role_id', '5')->first();
+        $user = User::where('role_id', '5')->with('parented')->first();
         Auth::login($user);
 
         $response = $this->get('/parented/'.$user->parented->id);
