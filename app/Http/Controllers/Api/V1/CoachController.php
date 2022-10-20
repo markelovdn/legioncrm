@@ -55,7 +55,7 @@ class CoachController extends Controller
         if ($url == 'athletes') {
             return view('coaches.athletes', compact('coach', $coach));
         }
-        return view('coaches.cabinet', compact('coach', $coach));
+            return view('coaches.cabinet', compact('coach', $coach));
 
     }
 

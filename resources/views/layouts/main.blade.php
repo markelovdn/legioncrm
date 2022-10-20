@@ -84,6 +84,7 @@
                                     <a href="/coach/{{\App\Models\Coach::getCoachId()}}" class="d-block">Личный кабинет</a>
                                     </div>
                             </div>
+{{--                            <a href="{{route('coach/'.\App\Models\Coach::getCoachId().'/athletes')}}" class="d-block">Мои спортсмены</a>--}}
                             <a href="/coach/{{\App\Models\Coach::getCoachId()}}/athletes" class="d-block">Мои спортсмены</a>
                                     @break
 
