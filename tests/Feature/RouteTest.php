@@ -34,7 +34,7 @@ class RouteTest extends TestCase
         $user = User::where('role_id', '5')->first();
         Auth::login($user);
 
-        $response = $this->get('/parented/1');
+        $response = $this->get('/parented/'.$user->parented->id);
 
         $response->assertStatus(200);
     }
