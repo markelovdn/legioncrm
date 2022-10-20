@@ -16,7 +16,7 @@ Route::resource('birthcertificate', \App\Http\Controllers\Api\V1\BirthCertificat
 Route::resource('studyplace', \App\Http\Controllers\Api\V1\StudyPlaceController::class)->middleware(['auth']);
 Route::resource('addresses', \App\Http\Controllers\Api\V1\AddressesController::class)->middleware(['auth']);
 
-Route::post('coach/{id}', [\App\Http\Controllers\Api\V1\CoachController::class, 'update'])->middleware(['auth']);
+//Route::post('coach/{id}', [\App\Http\Controllers\Api\V1\CoachController::class, 'update'])->middleware(['auth']);
 Route::get('coach/{id}/athletes', [\App\Http\Controllers\Api\V1\CoachController::class, 'show'])->middleware(['auth']);
 
 Route::get('/logout', function () {

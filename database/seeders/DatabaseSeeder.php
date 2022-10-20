@@ -398,11 +398,6 @@ class DatabaseSeeder extends Seeder
         MedicalInspection::factory(3)->create();
         Payment::factory(3)->create();
         StudyPlace::factory(3)->create();
-
-//        Athlete::factory(3)
-//            ->hasAttached(User::factory()->count(3), [
-//                'created_at'=>Factory::create()->dateTime,
-//                'updated_at'=>Factory::create()->dateTime])
-//            ->create();
+        Athlete::factory(3)->create();
     }
 }

@@ -4,7 +4,9 @@
     <div class="card card-info">
         <div class="card-header">Личный кабинет тренера</div>
         <div class="card-body">
-            <form method="POST" action="/coach/{{$coach->id}}">
+{{--            <form method="POST" action="{{route('coach/'.$coach->id)}}">--}}
+            <form method="POST" action="coach/{{$coach->id}}">
+                @method('PUT')
                 <input type="text" name="url" style="display: none" value="{{url()->current()}}">
                 <input type="text" name="role_id" style="display: none" value="4">
                 @csrf
