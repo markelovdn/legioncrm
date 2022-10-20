@@ -16,7 +16,6 @@ class PassportTest extends TestCase
 
     public function test_store_passport()
     {
-        $this->withoutMiddleware();
         $user = User::get()->first();
         Auth::login($user);
         $this->post('/passport', [
@@ -29,12 +28,11 @@ class PassportTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)->get('/parented/'.$user->id);
-        $response->assertStatus(302);
+        $response->assertStatus(200);
     }
 
     public function test_store_passport_for_athlete()
     {
-        $this->withoutMiddleware();
         $user = User::get()->first();
         Auth::login($user);
         $this->post('/passport', [
@@ -50,7 +48,8 @@ class PassportTest extends TestCase
 
         ]);
 
-        $response = $this->actingAs($user)->get('/parented/'.$user->id);
-        $response->assertStatus(302);
+        $response = $this->followingRedirects()->actingAs($user)->get('/parented/'.$user->id);
+
+        $response->assertStatus(200);
     }
 }

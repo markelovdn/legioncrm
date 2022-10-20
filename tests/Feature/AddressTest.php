@@ -16,7 +16,6 @@ class AddressTest extends TestCase
 
     public function test_store_address()
     {
-        $this->withoutMiddleware();
         $user = User::get()->first();
         Auth::login($user);
         $this->post('/addresses', [
@@ -28,7 +27,7 @@ class AddressTest extends TestCase
             'user_id' => 1
         ]);
 
-        $response = $this->actingAs($user)->get('/parented/'.$user->id);
-        $response->assertStatus(302);
+        $response = $this->followingRedirects()->actingAs($user)->get('/parented/'.$user->id);
+        $response->assertStatus(200);
     }
 }

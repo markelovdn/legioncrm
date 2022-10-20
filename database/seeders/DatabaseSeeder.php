@@ -380,9 +380,9 @@ class DatabaseSeeder extends Seeder
 
         ]);
 
+        User::factory(3)->create();
         Coach::factory(3)->create();
         Parented::factory(3)->create();
-        User::factory(3)->create();
         Attestation::factory(3)->create();
         AttestationResult::factory(3)->create();
         Competition::factory(3)->create();

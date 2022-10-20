@@ -26,7 +26,7 @@ class AthletesTest extends TestCase
         $coach = Coach::get()->first();
         $user = User::get()->first();
         Auth::login($user);
-        $this->withoutMiddleware();
+
         $this->post('/athlete', [
             'photo'=> UploadedFile::fake()->image('photo.jpg'),
             'gender' => '1',
@@ -39,7 +39,7 @@ class AthletesTest extends TestCase
             'user_id' => $user->id
         ]);
 
-        $response = $this->actingAs($user)->get('/parented/'.$user->id);
-        $response->assertStatus(302);
+        $response = $this->followingRedirects()->actingAs($user)->get('/parented/'.$user->id);
+        $response->assertStatus(200);
     }
 }

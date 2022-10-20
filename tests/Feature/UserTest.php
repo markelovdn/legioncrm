@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Coach;
+use App\Models\Organization;
 use App\Models\Parented;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -26,6 +27,7 @@ class UserTest extends TestCase
 
     public function test_user_as_coach_register()
     {
+        $org = Organization::first();
         $this->post('/user', [
             'secondname' => 'Иван',
             'firstname' => 'Иванов',
@@ -36,8 +38,8 @@ class UserTest extends TestCase
             'role_id' => '4',
             'password' => '123123',
             'password_confirmation' => '123123',
-            'org_id' => '1',
-            'reg_code' => '2217'
+            'org_id' => $org->id,
+            'reg_code' => $org->code
         ]);
 
         $user = User::where('email', 'test@test.ru')->first();
@@ -49,7 +51,8 @@ class UserTest extends TestCase
         $coach->code = rand(1000, 9999);
         $coach->save();
 
-        $response = $this->actingAs($user)->get('/coach/'.$coach->id);
+        $response = $this->followingRedirects()->actingAs($user)->get('coach/'.$coach->id);
+
         $response->assertStatus(200);
     }
 
@@ -74,6 +77,7 @@ class UserTest extends TestCase
 
     public function test_user_as_parent_register()
     {
+        $coach = Coach::first();
         $this->post('/user', [
             'secondname' => 'Иван',
             'firstname' => 'Иванов',
@@ -81,11 +85,11 @@ class UserTest extends TestCase
             'date_of_birth' => '2000-01-01',
             'email' => 'test@test.ru',
             'phone' => '+7 (000) 000-00-00',
-            'role_id' => '4',
+            'role_id' => '5',
             'password' => '123123',
             'password_confirmation' => '123123',
-            'org_id' => '1',
-            'reg_code' => '2217'
+            'coach_id' => $coach->id,
+            'reg_code' => $coach->code,
         ]);
 
         $user = User::where('email', 'test@test.ru')->first();
@@ -96,7 +100,8 @@ class UserTest extends TestCase
         $parented->user_id = $user->id;
         $parented->save();
 
-        $response = $this->actingAs($user)->get('/parented/'.$parented->id);
+        $response = $this->followingRedirects()->actingAs($user)->get('parented/'.$parented->id);
+
         $response->assertStatus(200);
     }
 

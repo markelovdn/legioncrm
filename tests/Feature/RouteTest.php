@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\Coach;
+use App\Models\Parented;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -31,7 +33,8 @@ class RouteTest extends TestCase
 
     public function test_parented_cabinet()
     {
-        $user = User::where('role_id', '5')->with('parented')->first();
+        $parented = Parented::where('user_id', '!=', null)->first();
+        $user = User::where('id', $parented->user_id)->with('parented')->first();
         Auth::login($user);
 
         $response = $this->get('/parented/'.$user->parented->id);
@@ -41,7 +44,8 @@ class RouteTest extends TestCase
 
     public function test_coach_cabinet()
     {
-        $user = User::where('role_id', '4')->with('coach')->first();
+        $coach = Coach::where('user_id', '!=', null)->first();
+        $user = User::where('id', $coach->user_id)->with('coach')->first();
         Auth::login($user);
 
         $response = $this->get('/coach/'.$user->coach->id);

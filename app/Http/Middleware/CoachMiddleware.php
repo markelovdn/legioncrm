@@ -18,15 +18,10 @@ class CoachMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $coach = Coach::with('user')->where('user_id', auth()->user()->id)->get();
+        $coach = Coach::with('user')->where('user_id', auth()->user()->id)->first();
 
-        $coach_id = '';
-        foreach ($coach as $item) {
-            $coach_id = 'coach/'.$item->id;
-        }
-
-        if($request->path() != $coach_id) {
-            return redirect($coach_id);
+        if($request->path() != 'coach/'.$coach->id) {
+            return redirect('coach/'.$coach->id);
         }
         return $next($request);
     }

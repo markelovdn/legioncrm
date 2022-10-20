@@ -17,16 +17,12 @@ class ParentedMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $parented = Parented::with('user')->where('user_id', auth()->user()->id)->get();
+        $parented = Parented::with('user')->where('user_id', auth()->user()->id)->first();
 
-        $parented_id = '';
-        foreach ($parented as $item) {
-            $parented_id = 'parented/'.$item->id;
+        if($request->path() != 'parented/'.$parented->id) {
+            return redirect('parented/'.$parented->id);
         }
 
-        if($request->path() != $parented_id) {
-            return redirect($parented_id);
-        }
         return $next($request);
     }
 }
