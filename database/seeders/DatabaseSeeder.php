@@ -55,14 +55,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Role::insert([
-            ['id' => 1, 'name' => 'Администратор системы'],
-            ['id' => 2, 'name' => 'Администратор организации'],
-            ['id' => 3, 'name' => 'Руководитель организации'],
-            ['id' => 4, 'name' => 'Тренер'],
-            ['id' => 5, 'name' => 'Родитель'],
-            ['id' => 6, 'name' => 'Спортсмен']
-        ]);
+//        $roles = Role::insert([
+//            ['id' => 1, 'name' => 'Администратор системы'],
+//            ['id' => 2, 'name' => 'Администратор организации'],
+//            ['id' => 3, 'name' => 'Руководитель организации'],
+//            ['id' => 4, 'name' => 'Тренер'],
+//            ['id' => 5, 'name' => 'Родитель'],
+//            ['id' => 6, 'name' => 'Спортсмен']
+//        ]);
 
 //        User::insert([
 //            ['secondname' => 'Маркелов',
@@ -380,7 +380,10 @@ class DatabaseSeeder extends Seeder
 
         ]);
 
+//        User::factory(3)->create();
+        Role::factory(1)->create();
         User::factory(3)->create();
+
         Coach::factory(3)->create();
         Parented::factory(3)->create();
         Attestation::factory(3)->create();
