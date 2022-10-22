@@ -8,6 +8,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\DomainService\RegistrationUserAs;
 use App\Models\Coach;
 use App\Models\Organization;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -55,7 +56,7 @@ class UsersController extends Controller
     {
         $request->validated();
 
-        if (!$reg_code->getCode($request->reg_code, $request->role_id)) {
+        if (!$reg_code->getCode($request->reg_code, $request->role_code)) {
             $request->session()->flash('status', 'Не верный код');
             return back()->withInput();
         }
@@ -73,9 +74,13 @@ class UsersController extends Controller
 
         $user->save();
 
+        $role = Role::where('code', $request->role_code)->get();
+
+        $user->role()->attach($role);
+
         Auth::login($user);
 
-        return redirect($userAs->registrationUserAs($request->role_id));
+        return redirect($userAs->registrationUserAs($request->role_code));
     }
 
     /**

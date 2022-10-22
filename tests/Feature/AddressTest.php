@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Parented;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,9 +15,9 @@ class AddressTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function test_store_address()
+    public function test_store_address_athlete_parented()
     {
-        $user = User::get()->first();
+        $user = User::with('parented')->has('parented')->first();
         Auth::login($user);
         $this->post('/addresses', [
             'country_id' => 1,

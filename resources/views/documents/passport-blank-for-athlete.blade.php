@@ -11,7 +11,7 @@
         <div class="card-body">
             <form method="POST" action="/passport" enctype="multipart/form-data">
                 @csrf
-                <input type="text" style="display: none" name="role_id" value="6">
+                <input type="text" style="display: none" name="role_code" value="athlete">
                 <input type="text" style="display: none" name="athlete_id" value="{{$athlete->user->athlete->id}}">
                 <input type="text" style="display: none" name="user_id" value="{{$athlete->user->id}}">
 

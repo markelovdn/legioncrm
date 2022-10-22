@@ -61,7 +61,7 @@ class User extends Authenticatable
         return $this->hasOne(Parented::class);
     }
 
-    public function roles()
+    public function role()
     {
         return $this->belongsToMany(Role::class);
     }

@@ -24,7 +24,7 @@ class AthletesTest extends TestCase
     public function test_store_athlete()
     {
         $coach = Coach::get()->first();
-        $user = User::get()->first();
+        $user = User::with('parented')->has('parented')->first();
         Auth::login($user);
 
         $this->post('/athlete', [

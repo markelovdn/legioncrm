@@ -29,7 +29,8 @@ class StorePassportRequest extends FormRequest
             'passport_date_issue' => ['required'],
             'passport_issued_by' => ['required', 'string'],
             'passport_subcode' => ['required'],
-            'passport_scan' => ['required', 'image:jpg,jpeg,png,bmp']
+            'role_code' => ['string'],
+            'passport_scan' => ['required_with:role_code', 'image:jpg,jpeg,png,bmp']
         ];
     }
 }

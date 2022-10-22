@@ -28,6 +28,7 @@ use App\Models\Payment;
 use App\Models\PaymentsTitle;
 use App\Models\Region;
 use App\Models\Role;
+use App\Models\RoleUser;
 use App\Models\Sportkval;
 use App\Models\SportsCategoriesTitle;
 use App\Models\SportsCategory;
@@ -55,34 +56,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-//        $roles = Role::insert([
-//            ['id' => 1, 'name' => 'Администратор системы'],
-//            ['id' => 2, 'name' => 'Администратор организации'],
-//            ['id' => 3, 'name' => 'Руководитель организации'],
-//            ['id' => 4, 'name' => 'Тренер'],
-//            ['id' => 5, 'name' => 'Родитель'],
-//            ['id' => 6, 'name' => 'Спортсмен']
-//        ]);
-
-//        User::insert([
-//            ['secondname' => 'Маркелов',
-//            'firstname' => 'Дмитрий',
-//            'patronymic' => 'Николаевич',
-//            'date_of_birth' => '1983-10-08',
-//            'email' => 'markelovdn@gmail.com',
-//            'phone' => '+7 (961) 087-67-12',
-//            'role_id' => '4',
-//            'password' => '123123',],
-//            ['secondname' => 'Иванов',
-//            'firstname' => 'Иван',
-//            'patronymic' => 'Иванович',
-//            'date_of_birth' => '1983-10-08',
-//            'email' => 'lion831@yandex.ru',
-//            'phone' => '+7 (961) 087-67-13',
-//            'role_id' => '5',
-//            'password' => '123123',]
-//
-//        ]);
+        Role::insert([
+            ['code' => 'system_admin', 'name' => 'Администратор системы'],
+            ['code' => 'organization_admin', 'name' => 'Администратор организации'],
+            ['code' => 'organization_chairman', 'name' => 'Руководитель организации'],
+            ['code' => 'coach', 'name' => 'Тренер'],
+            ['code' => 'parented', 'name' => 'Родитель'],
+            ['code' => 'athlete', 'name' => 'Спортсмен'],
+            ['code' => 'referee', 'name' => 'Судья']
+        ]);
 
         Organization::insert([
             ['fulltitle'=>'Волгоградская региональная детско-юношеская спортивная общественная организация "Спортивный клуб "Легион"',
@@ -380,8 +362,6 @@ class DatabaseSeeder extends Seeder
 
         ]);
 
-//        User::factory(3)->create();
-        Role::factory(1)->create();
         User::factory(3)->create();
 
         Coach::factory(3)->create();
@@ -401,6 +381,21 @@ class DatabaseSeeder extends Seeder
         MedicalInspection::factory(3)->create();
         Payment::factory(3)->create();
         StudyPlace::factory(3)->create();
-        Athlete::factory(3)->create();
+        Athlete::factory(3)
+            ->hasAttached(Parented::factory(3))
+            ->create();
+
+        DB::table('role_user')->insert([
+                ['role_id' => 1, 'user_id' => 1],
+                ['role_id' => 2, 'user_id' => 2],
+                ['role_id' => 3, 'user_id' => 3],
+                ['role_id' => 4, 'user_id' => 4],
+                ['role_id' => 5, 'user_id' => 5],
+                ['role_id' => 6, 'user_id' => 6],
+                ['role_id' => 7, 'user_id' => 7],
+            ]
+        );
+
+
     }
 }

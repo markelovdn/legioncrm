@@ -14,14 +14,14 @@ class StudyPlaceTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function test_store_address()
+    public function test_store_studyplace()
     {
-        $user = User::get()->first();
+        $user = User::with('parented')->has('parented')->first();
         Auth::login($user);
         $this->post('/studyplace', [
             'org_title' => 'МОУ СШ№54',
             'classnum' => '1',
-            'user_id' => 1
+            'user_id' => $user->id
         ]);
 
         $response = $this->followingRedirects()->actingAs($user)->get('/parented/'.$user->id);

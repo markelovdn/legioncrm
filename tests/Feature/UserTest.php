@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Coach;
 use App\Models\Organization;
 use App\Models\Parented;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Auth;
@@ -35,14 +36,18 @@ class UserTest extends TestCase
             'date_of_birth' => '2000-01-01',
             'email' => 'test@test.ru',
             'phone' => '+7 (000) 000-00-00',
-            'role_id' => '4',
+            'role_code' => 'coach',
             'password' => '123123',
             'password_confirmation' => '123123',
             'org_id' => $org->id,
             'reg_code' => $org->code
         ]);
 
+        $role = Role::where('code', 'coach')->get();
+
         $user = User::where('email', 'test@test.ru')->first();
+
+        $user->role()->attach($role);
 
         Auth::login($user);
 
@@ -65,7 +70,7 @@ class UserTest extends TestCase
             'date_of_birth' => '2000-01-01',
             'email' => 'test@test.ru',
             'phone' => '+7 (000) 000-00-00',
-            'role_id' => '4',
+            'role_code' => 'coach',
             'password' => '123123',
             'password_confirmation' => '123123',
             'org_id' => '1',
@@ -85,14 +90,18 @@ class UserTest extends TestCase
             'date_of_birth' => '2000-01-01',
             'email' => 'test@test.ru',
             'phone' => '+7 (000) 000-00-00',
-            'role_id' => '5',
+            'role_code' => 'parented',
             'password' => '123123',
             'password_confirmation' => '123123',
             'coach_id' => $coach->id,
             'reg_code' => $coach->code,
         ]);
 
+        $role = Role::where('code', 'coach')->get();
+
         $user = User::where('email', 'test@test.ru')->first();
+
+        $user->role()->attach($role);
 
         Auth::login($user);
 
@@ -114,7 +123,7 @@ class UserTest extends TestCase
             'date_of_birth' => '2000-01-01',
             'email' => 'test@test.ru',
             'phone' => '+7 (000) 000-00-00',
-            'role_id' => '5',
+            'role_code' => 'parented',
             'password' => '123123',
             'password_confirmation' => '123123',
             'coach_id' => '1',

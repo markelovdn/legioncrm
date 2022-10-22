@@ -8,14 +8,14 @@ use App\Models\Organization;
 
 class GetRegistrationCode
 {
-    public function getCode($code, $role_id)
+    public function getCode($code, $role_code)
     {
         $reg_code = "";
-        switch ($role_id) {
-            case ("5"):
+        switch ($role_code) {
+            case ("parented"):
                 $reg_code = Coach::where('code', $code)->first();
                 break;
-            case ("4"):
+            case ("coach"):
                 $reg_code = Organization::where('code', $code)->first();
                 break;
         };
