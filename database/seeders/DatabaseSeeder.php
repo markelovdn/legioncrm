@@ -66,18 +66,6 @@ class DatabaseSeeder extends Seeder
             ['code' => 'referee', 'name' => 'Судья']
         ]);
 
-        Organization::insert([
-            ['fulltitle'=>'Волгоградская региональная детско-юношеская спортивная общественная организация "Спортивный клуб "Легион"',
-            'address'=>'Волгоградская область, Городищенский район, п. Каменный, д. 17, кв. 1',
-            'shorttitle'=>'ВРДЮСОО СК "Легион"',
-            'code'=>'2217'],
-            ['fulltitle'=>'Волгоградская региональная общественная организация "Спортивный клуб "Дубовский чемпион"',
-            'address'=>'Волгоградская область, Дубовский район',
-            'shorttitle'=>'ВРОО СК "Дубовский чемпион"',
-            'code'=>'2234']
-
-        ]);
-
         Country::insert([[
             'title'=>'Россия',
             'code'=>'RU'
@@ -362,10 +350,21 @@ class DatabaseSeeder extends Seeder
 
         ]);
 
-        User::factory(3)->create();
+        User::factory(10)->create();
 
-        Coach::factory(3)->create();
-        Parented::factory(3)->create();
+        Organization::insert([
+            ['user_id' => 3,
+                'fulltitle'=>'Волгоградская региональная детско-юношеская спортивная общественная организация "Спортивный клуб "Легион"',
+                'address'=>'Волгоградская область, Городищенский район, п. Каменный, д. 17, кв. 1',
+                'shorttitle'=>'ВРДЮСОО СК "Легион"',
+                'code'=>'2217'],
+            [   'user_id' => 3,
+                'fulltitle'=>'Волгоградская региональная общественная организация "Спортивный клуб "Дубовский чемпион"',
+                'address'=>'Волгоградская область, Дубовский район',
+                'shorttitle'=>'ВРОО СК "Дубовский чемпион"',
+                'code'=>'2234']
+
+        ]);
         Attestation::factory(3)->create();
         AttestationResult::factory(3)->create();
         Competition::factory(3)->create();
@@ -381,9 +380,6 @@ class DatabaseSeeder extends Seeder
         MedicalInspection::factory(3)->create();
         Payment::factory(3)->create();
         StudyPlace::factory(3)->create();
-        Athlete::factory(3)
-            ->hasAttached(Parented::factory(3))
-            ->create();
 
         DB::table('role_user')->insert([
                 ['role_id' => 1, 'user_id' => 1],
@@ -395,6 +391,17 @@ class DatabaseSeeder extends Seeder
                 ['role_id' => 7, 'user_id' => 7],
             ]
         );
+
+        DB::table('system_codes')->insert([
+                ['code' => 1234]
+            ]
+        );
+
+        Coach::factory(1)->create();
+        Parented::factory(1)->create();
+        Athlete::factory(1)
+            ->hasAttached(Parented::factory(1))
+            ->create();
 
 
     }

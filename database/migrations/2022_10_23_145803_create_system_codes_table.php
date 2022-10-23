@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLicensesTable extends Migration
+class CreateSystemCodesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,9 @@ class CreateLicensesTable extends Migration
      */
     public function up()
     {
-        Schema::create('licenses', function (Blueprint $table) {
+        Schema::create('system_codes', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 45);
-            $table->date('validuntil');
-            $table->foreignId('athlete_id')->constrained('athletes');
-            $table->foreignId('organization_id')->constrained('organizations');
-            $table->string('scanlink', 300);
+            $table->integer('code');
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ class CreateLicensesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('licenses');
+        Schema::dropIfExists('system_codes');
     }
 }

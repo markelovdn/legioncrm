@@ -20,7 +20,7 @@ class ParentedFactory extends Factory
             'workplace_id' => WorkPlace::factory(),
             'passport_id' => Passport::factory(),
             'snils_id' => Snils::factory(),
-            'user_id' => User::where('role_id', '5')->first(),
+            'user_id' => User::with('role')->has('role')->where('id','=', '5')->first()
         ];
     }
 }

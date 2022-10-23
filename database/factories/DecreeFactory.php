@@ -3,8 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Athlete;
-use App\Models\Coach;
-use App\Models\Organization;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DecreeFactory extends Factory
@@ -24,7 +22,6 @@ class DecreeFactory extends Factory
             'scanlink'=>$this->faker->imageUrl(),
             'organization_id'=>1,
             'athlete_id'=>Athlete::factory(),
-            'coach_id'=>Coach::factory(),
         ];
     }
 }

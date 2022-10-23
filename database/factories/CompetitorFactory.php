@@ -3,16 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Athlete;
-use App\Models\Competition;
-use App\Models\Tehkval;
-use App\Models\Sportkval;
-use App\Models\Coach;
-use App\Models\Club;
-use App\Models\AgeCategory;
-use App\Models\TehkvalGroup;
-use App\Models\WeightCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 class CompetitorFactory extends Factory
 {

@@ -50,14 +50,21 @@
                                             <li class="nav-item">
                                                 <a href="/user/create?parent" class="nav-link">
                                                     <i class="fas fa-user-friends"></i>
-                                                    <p>Как родитель</p>
+                                                    <p>Родитель</p>
                                                 </a>
                                             </li>
 
                                             <li class="nav-item">
                                                 <a href="/user/create?coach" class="nav-link">
                                                     <i class="fas fa-trophy"></i>
-                                                    <p>Как тренер</p>
+                                                    <p>Тренер</p>
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-item">
+                                                <a href="/user/create?organization_chairman" class="nav-link">
+                                                    <i class="fas fa-trophy"></i>
+                                                    <p>Руководитель организации</p>
                                                 </a>
                                             </li>
 
@@ -68,9 +75,8 @@
                         @endif
                     @else
 
-
-                                @switch(\Illuminate\Support\Facades\Auth::user()->role_id)
-                                    @case(5)
+                @switch(\App\Models\User::getRole())
+                                    @case('parented')
                             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                                 <div class="info">
                                     <a href="/parented/{{\App\Models\Parented::getParentedId()}}" class="d-block">Личный кабинет</a>
@@ -78,7 +84,7 @@
                             </div>
                                     @break
 
-                                    @case(4)
+                                    @case('coach')
                             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                                 <div class="info">
                                     <a href="/coach/{{\App\Models\Coach::getCoachId()}}" class="d-block">Личный кабинет</a>
@@ -87,6 +93,15 @@
 {{--                            <a href="{{route('coach/'.\App\Models\Coach::getCoachId().'/athletes')}}" class="d-block">Мои спортсмены</a>--}}
                             <a href="/coach/{{\App\Models\Coach::getCoachId()}}/athletes" class="d-block">Мои спортсмены</a>
                                     @break
+                            @case('organization_chairman')
+                            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                                <div class="info">
+                                    <a href="" class="d-block">Личный кабинет организации</a>
+                                </div>
+                            </div>
+                            {{--                            <a href="{{route('coach/'.\App\Models\Coach::getCoachId().'/athletes')}}" class="d-block">Мои спортсмены</a>--}}
+                            <a href="" class="d-block">Мои спортсмены</a>
+                            @break
 
                                     @default
                                 @endswitch

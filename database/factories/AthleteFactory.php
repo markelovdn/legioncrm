@@ -2,21 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\Address;
 use App\Models\BirthCertificate;
-use App\Models\Coach;
-use App\Models\Country;
-use App\Models\District;
-use App\Models\Group;
 use App\Models\MedicalPolicy;
-use App\Models\Organization;
 use App\Models\Passport;
-use App\Models\Region;
 use App\Models\Snils;
 use App\Models\StudyPlace;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 class AthleteFactory extends Factory
 {
@@ -28,7 +20,7 @@ class AthleteFactory extends Factory
     public function definition()
     {
         return [
-            'user_id'=> User::factory(),
+            'user_id'=> User::with('role')->has('role')->where('id','=', '6')->first(),
             'gender' => $this->faker->randomElement([1, 2]),
             'photo' => $this->faker->imageUrl,
             'status' => $this->faker->randomElement(['1', '0']),

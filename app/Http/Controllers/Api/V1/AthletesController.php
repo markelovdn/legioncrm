@@ -52,7 +52,7 @@ class AthletesController extends Controller
         $user->firstname = $request->firstname;
         $user->patronymic = $request->patronymic;
         $user->date_of_birth = $request->date_of_birth;
-        $user->role_id = 6;
+        $user->role_code = 'athlete';
         $user->save();
 
         $path_photo = 'athlete/'.$user->id.'_'.$user->secondname.'_'.$user->firstname.'/'.'photo_'.$user->secondname.'_'.$user->firstname.'_'.$user->patronymic.'.jpg';

@@ -40,6 +40,8 @@ class UsersController extends Controller
         } elseif($request->has('coach')) {
             $orgs = Organization::all();
             return view('auth.coach-register', ['orgs'=>$orgs]);
+        } elseif($request->has('organization_chairman')) {
+            return view('auth.org-register');
         } else
             return redirect('/');
 
@@ -69,7 +71,6 @@ class UsersController extends Controller
         $user->date_of_birth = $request->date_of_birth;
         $user->email = $request->email;
         $user->phone = $request->phone;
-        $user->role_id = $request->role_id;
         $user->password = Hash::make($request->password);
 
         $user->save();

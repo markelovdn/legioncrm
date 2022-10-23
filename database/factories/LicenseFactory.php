@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Athlete;
 use App\Models\Coach;
-use App\Models\Organization;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class LicenseFactory extends Factory
@@ -21,7 +20,6 @@ class LicenseFactory extends Factory
             'validuntil'=> $this->faker->date(),
             'scanlink'=>$this->faker->imageUrl,
             'athlete_id'=>Athlete::factory(),
-            'coach_id'=>Coach::factory(),
             'organization_id'=>1,
         ];
     }

@@ -7,6 +7,7 @@ namespace App\DomainService;
 use App\BusinessProcess\GetRegistrationCode;
 use App\Http\Requests\StoreUserRequest;
 use App\Models\Coach;
+use App\Models\Organization;
 use App\Models\Parented;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
@@ -29,6 +30,12 @@ class RegistrationUserAs
                 $coach->code = rand(1000, 9999);
                 $coach->save();
                 return $user_type = '/coach/'.$coach->id;
+            case ("organization_chairman"):
+                $org = new Organization();
+                $org->user_id = auth()->user()->id;
+                $org->code = rand(1000, 9999);
+                $org->save();
+                return $user_type = '/organization/'.$org->id;
         }
 
     }

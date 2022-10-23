@@ -8,6 +8,7 @@ Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource('user', \App\Http\Controllers\Api\V1\UsersController::class);
+Route::resource('organization', \App\Http\Controllers\Api\V1\OrganizationController::class)->middleware(['auth', 'org']);
 Route::resource('coach', \App\Http\Controllers\Api\V1\CoachController::class)->middleware(['auth', 'coach']);
 Route::resource('parented', \App\Http\Controllers\Api\V1\ParentedsController::class)->middleware(['auth', 'parented']);
 Route::resource('athlete', \App\Http\Controllers\Api\V1\AthletesController::class)->middleware(['auth']);

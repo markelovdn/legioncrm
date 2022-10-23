@@ -21,7 +21,6 @@ class CreateDecreesTable extends Migration
             $table->string('title', 255);
             $table->foreignId('organization_id')->constrained('organizations');
             $table->foreignId('athlete_id')->constrained('athletes');
-            $table->foreignId('coach_id')->constrained('coaches');
             $table->string('scanlink');
             $table->timestamps();
         });

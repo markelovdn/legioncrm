@@ -70,4 +70,15 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Address::class)->with('country', 'district', 'region');
     }
+
+    public static function getRole()
+    {
+        $user = User::with('role')->find(auth()->user()->id);
+
+        foreach ($user->role as $item) {
+            return $item->code;
+        }
+
+
+    }
 }

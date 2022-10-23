@@ -5,6 +5,7 @@ namespace App\BusinessProcess;
 
 use App\Models\Coach;
 use App\Models\Organization;
+use Illuminate\Support\Facades\DB;
 
 class GetRegistrationCode
 {
@@ -17,6 +18,9 @@ class GetRegistrationCode
                 break;
             case ("coach"):
                 $reg_code = Organization::where('code', $code)->first();
+                break;
+            case ("organization_chairman"):
+                $reg_code = DB::table('system_codes')->where('code', $code)->first();
                 break;
         };
 

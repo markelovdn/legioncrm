@@ -7,8 +7,10 @@ use App\Models\Organization;
 use App\Models\Parented;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class UserTest extends TestCase
@@ -82,7 +84,7 @@ class UserTest extends TestCase
 
     public function test_user_as_parent_register()
     {
-        $coach = Coach::first();
+        $coach = Coach::with('user')->has('user')->first();
         $this->post('/user', [
             'secondname' => 'Иван',
             'firstname' => 'Иванов',
@@ -97,7 +99,7 @@ class UserTest extends TestCase
             'reg_code' => $coach->code,
         ]);
 
-        $role = Role::where('code', 'coach')->get();
+        $role = Role::where('code', 'parented')->get();
 
         $user = User::where('email', 'test@test.ru')->first();
 
@@ -131,5 +133,38 @@ class UserTest extends TestCase
         ]);
 
         $response->assertStatus(302);
+    }
+
+    public function test_user_as_org_chairman_register()
+    {
+        $system_code = DB::table('system_codes')->first();
+        $this->post('/user', [
+            'secondname' => 'Иван',
+            'firstname' => 'Иванов',
+            'patronymic' => 'Иванович',
+            'date_of_birth' => '2000-01-01',
+            'email' => 'test@test.ru',
+            'phone' => '+7 (000) 000-00-00',
+            'reg_code' => $system_code->code,
+            'role_code' => 'organization_chairman',
+            'password' => '123123',
+            'password_confirmation' => '123123',
+        ]);
+
+        $role = Role::where('code', 'organization_chairman')->get();
+
+        $user = User::where('email', 'test@test.ru')->first();
+
+        $user->role()->attach($role);
+
+        Auth::login($user);
+
+        $org = new Organization();
+        $org->user_id = $user->id;
+        $org->save();
+
+        $response = $this->followingRedirects()->actingAs($user)->get('organization/'.$org->id);
+
+        $response->assertStatus(200);
     }
 }

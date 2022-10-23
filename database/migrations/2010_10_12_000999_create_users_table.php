@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('date_of_birth')->nullable($value = true);;
             $table->string('email')->unique()->nullable($value = true);
             $table->string('phone')->unique()->nullable($value = true);
-            $table->foreignId('role_id')->nullable()->constrained('roles', 'id');
+//            $table->foreignId('role_id')->nullable()->constrained('roles', 'id');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable($value = true);
             $table->rememberToken();
