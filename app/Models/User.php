@@ -78,7 +78,21 @@ class User extends Authenticatable
         foreach ($user->role as $item) {
             return $item->code;
         }
-
-
     }
+
+    public static function hasRole($role_id, $user_id)
+    {
+        $role_user = RoleUser::where('user_id', $user_id)->where('role_id', $role_id)->get();
+
+        foreach ($role_user as $item) {
+            if ($item->role_id == $role_id) {
+                return true;
+            } else
+                return false;
+        }
+    }
+
+
+
+
 }

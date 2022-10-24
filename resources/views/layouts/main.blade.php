@@ -76,35 +76,43 @@
                     @else
 
                 @switch(\App\Models\User::getRole())
-                                    @case('parented')
-                            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                                <div class="info">
-                                    <a href="/parented/{{\App\Models\Parented::getParentedId()}}" class="d-block">Личный кабинет</a>
-                                </div>
-                            </div>
-                                    @break
+                    @case('system_admin')
+                        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                        <div class="info">
+                            <a href="{{route('role-user.create')}}" class="d-block">Роли-пользователи</a>
+                        </div>
+                    </div>
+                    @break
 
-                                    @case('coach')
-                            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                                <div class="info">
-                                    <a href="/coach/{{\App\Models\Coach::getCoachId()}}" class="d-block">Личный кабинет</a>
-                                    </div>
+                    @case('parented')
+                        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                            <div class="info">
+                                <a href="/parented/{{\App\Models\Parented::getParentedId()}}" class="d-block">Личный кабинет</a>
                             </div>
-{{--                            <a href="{{route('coach/'.\App\Models\Coach::getCoachId().'/athletes')}}" class="d-block">Мои спортсмены</a>--}}
-                            <a href="/coach/{{\App\Models\Coach::getCoachId()}}/athletes" class="d-block">Мои спортсмены</a>
-                                    @break
-                            @case('organization_chairman')
-                            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                                <div class="info">
-                                    <a href="" class="d-block">Личный кабинет организации</a>
-                                </div>
-                            </div>
-                            {{--                            <a href="{{route('coach/'.\App\Models\Coach::getCoachId().'/athletes')}}" class="d-block">Мои спортсмены</a>--}}
-                            <a href="" class="d-block">Мои спортсмены</a>
-                            @break
+                        </div>
+                    @break
 
-                                    @default
-                                @endswitch
+                    @case('coach')
+                        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                            <div class="info">
+                                <a href="/coach/{{\App\Models\Coach::getCoachId()}}" class="d-block">Личный кабинет</a>
+                                </div>
+                        </div>
+                                {{--                            <a href="{{route('coach/'.\App\Models\Coach::getCoachId().'/athletes')}}" class="d-block">Мои спортсмены</a>--}}
+                        <a href="/coach/{{\App\Models\Coach::getCoachId()}}/athletes" class="d-block">Мои спортсмены</a>
+                    @break
+                    @case('organization_chairman')
+                        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                            <div class="info">
+                                <a href="" class="d-block">Личный кабинет организации</a>
+                            </div>
+                        </div>
+                        {{--                            <a href="{{route('coach/'.\App\Models\Coach::getCoachId().'/athletes')}}" class="d-block">Мои спортсмены</a>--}}
+                        <a href="" class="d-block">Мои спортсмены</a>
+                    @break
+
+                    @default
+                @endswitch
 
 
                 </nav>

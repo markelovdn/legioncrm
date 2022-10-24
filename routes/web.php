@@ -18,6 +18,7 @@ Route::resource('studyplace', \App\Http\Controllers\Api\V1\StudyPlaceController:
 Route::resource('addresses', \App\Http\Controllers\Api\V1\AddressesController::class)->middleware(['auth']);
 Route::resource('competitors', \App\Http\Controllers\Api\V1\CompetitorsController::class);
 Route::resource('competitions', \App\Http\Controllers\Api\V1\CompetitionsController::class);
+Route::resource('role-user', \App\Http\Controllers\Api\V1\RoleUserController::class)->middleware(['auth']);
 
 //Route::post('coach/{id}', [\App\Http\Controllers\Api\V1\CoachController::class, 'update'])->middleware(['auth']);
 Route::get('coach/{id}/athletes', [\App\Http\Controllers\Api\V1\CoachController::class, 'show'])->middleware(['auth']);
