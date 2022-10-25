@@ -8,6 +8,7 @@ use App\Models\Athlete;
 use App\Models\BirthCertificate;
 use App\Models\Coach;
 use App\Models\Parented;
+use App\Models\Role;
 use App\Models\StudyPlace;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
@@ -52,7 +53,7 @@ class AthletesController extends Controller
         $user->firstname = $request->firstname;
         $user->patronymic = $request->patronymic;
         $user->date_of_birth = $request->date_of_birth;
-        $user->role_code = 'athlete';
+        $user->role_code = Role::ROLE_ATHLETE;
         $user->save();
 
         $path_photo = 'athlete/'.$user->id.'_'.$user->secondname.'_'.$user->firstname.'/'.'photo_'.$user->secondname.'_'.$user->firstname.'_'.$user->patronymic.'.jpg';
