@@ -24,8 +24,11 @@ class CreateUsersTableWithoutRoleId extends Migration
                     ['role_id' => $user->role_id, 'user_id' => $user->id,]
                 ]);
             }
+
         Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign(['role_id']);
+            if (DB::getDriverName() !== 'sqlite') {
+                $table->dropForeign(['role_id']);
+            }
             $table->dropColumn('role_id');
         });
 
