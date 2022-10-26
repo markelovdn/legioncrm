@@ -23,6 +23,13 @@ Route::resource('role-user', \App\Http\Controllers\Api\V1\RoleUserController::cl
 //Route::post('coach/{id}', [\App\Http\Controllers\Api\V1\CoachController::class, 'update'])->middleware(['auth']);
 Route::get('coach/{id}/athletes', [\App\Http\Controllers\Api\V1\CoachController::class, 'show'])->middleware(['auth']);
 
+
+Route::get('/authAs', function (\Illuminate\Http\Request $request) {
+    $id = $request->get('id');
+     \Illuminate\Support\Facades\Auth::loginUsingId($id);
+    return back();
+});
+
 Route::get('/logout', function () {
     Auth::logout();
     return redirect('/login');

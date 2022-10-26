@@ -34,85 +34,10 @@
                             <a class="nav-link" href="{{ route('login') }}" role="button">Войти</a>
                         @endif
 
-                        @if (Route::has('register'))
-                                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                                    <!-- Add icons to the links using the .nav-icon class
-                                         with font-awesome or any other icon font library -->
-                                    <li class="nav-item">
-                                        <a href="/" class="nav-link">
-                                            <p>
-                                                Зарегистрироваться
-                                                <i class="fas fa-angle-left right"></i>
-                                                <span class="badge badge-info right"></span>
-                                            </p>
-                                        </a>
-                                        <ul class="nav nav-treeview">
-                                            <li class="nav-item">
-                                                <a href="/user/create?parent" class="nav-link">
-                                                    <i class="fas fa-user-friends"></i>
-                                                    <p>Родитель</p>
-                                                </a>
-                                            </li>
-
-                                            <li class="nav-item">
-                                                <a href="/user/create?coach" class="nav-link">
-                                                    <i class="fas fa-trophy"></i>
-                                                    <p>Тренер</p>
-                                                </a>
-                                            </li>
-
-                                            <li class="nav-item">
-                                                <a href="/user/create?organization_chairman" class="nav-link">
-                                                    <i class="fas fa-trophy"></i>
-                                                    <p>Руководитель организации</p>
-                                                </a>
-                                            </li>
-
-
-                                        </ul>
-                                    </li>
-                                </ul>
-                        @endif
+                        @include('menu.register')
                     @else
 
-                @switch(\App\Models\User::getRole())
-                    @case('system_admin')
-                        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                        <div class="info">
-                            <a href="{{route('role-user.create')}}" class="d-block">Роли-пользователи</a>
-                        </div>
-                    </div>
-                    @break
-
-                    @case('parented')
-                        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                            <div class="info">
-                                <a href="/parented/{{\App\Models\Parented::getParentedId()}}" class="d-block">Личный кабинет</a>
-                            </div>
-                        </div>
-                    @break
-
-                    @case('coach')
-                        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                            <div class="info">
-                                <a href="/coach/{{\App\Models\Coach::getCoachId()}}" class="d-block">Личный кабинет</a>
-                                </div>
-                        </div>
-                                {{--                            <a href="{{route('coach/'.\App\Models\Coach::getCoachId().'/athletes')}}" class="d-block">Мои спортсмены</a>--}}
-                        <a href="/coach/{{\App\Models\Coach::getCoachId()}}/athletes" class="d-block">Мои спортсмены</a>
-                    @break
-                    @case('organization_chairman')
-                        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                            <div class="info">
-                                <a href="" class="d-block">Личный кабинет организации</a>
-                            </div>
-                        </div>
-                        {{--                            <a href="{{route('coach/'.\App\Models\Coach::getCoachId().'/athletes')}}" class="d-block">Мои спортсмены</a>--}}
-                        <a href="" class="d-block">Мои спортсмены</a>
-                    @break
-
-                    @default
-                @endswitch
+                @include('menu.lef-sidebar')
 
 
                 </nav>

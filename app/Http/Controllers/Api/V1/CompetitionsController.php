@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Competition;
+use App\Models\Competitor;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
@@ -22,8 +23,11 @@ class CompetitionsController extends Controller
     public function index()
     {
         $competitions = Competition::with('agecategories')->get();
+        $competitors = Competitor::get();
 
-        return view('competitions.competitions', ['competitions'=>$competitions]);
+        return view('competitions.competitions', [
+            'competitions'=>$competitions,
+            'competitors'=>$competitors]);
     }
 
     /**

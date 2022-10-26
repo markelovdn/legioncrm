@@ -16,7 +16,7 @@
 		@foreach ($competitions as $competition)
 			<div class="card card-danger collapsed-card shadow-lg">
 				<div class="card-header">
-					<h3 class="card-title"><b>{{$competition->name}}</b></h3><br>
+					<h3 class="card-title"><b>{{$competition->title}}</b></h3><br>
 					<p>Начало: {{ \Carbon\Carbon::parse($competition->date_start)->format('d.m.Y')}}</p>
 					Участники: <a href="/competitors/?competition_id={{$competition->id}}"><i class="nav-icon fas fa-users"></i>
 					</a><br>
