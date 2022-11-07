@@ -13,6 +13,11 @@
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
+                @if(Str::contains(url()->current(), 'competitors'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('competitions.competitors.create', [$competition->id])}}" role="button">Добавить спортсмена</a>
+                    </li>
+                @endif
             </ul>
             <ul class="navbar-nav ml-auto">
                     <li class="nav-item">

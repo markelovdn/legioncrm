@@ -16,6 +16,12 @@
                         <p>Все</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{route("competitions.create")}}" class="nav-link">
+                        <i class="fas fa-plus-square"></i>
+                        <p>Добавить</p>
+                    </a>
+                </li>
             </ul>
         </li>
         <li class="nav-item">

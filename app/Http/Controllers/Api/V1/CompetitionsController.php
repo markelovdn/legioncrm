@@ -3,10 +3,21 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCompetitionRequest;
+use App\Models\AgeCategory;
 use App\Models\Competition;
+use App\Models\CompetitionsRanksTitle;
 use App\Models\Competitor;
+use App\Models\Country;
+use App\Models\District;
+use App\Models\Organization;
+use App\Models\Region;
+use App\Models\Tehkval;
+use App\Models\TehkvalGroup;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CompetitionsController extends Controller
 {
@@ -15,14 +26,10 @@ class CompetitionsController extends Controller
     public function __construct(Competition $competition){
         $this->competition = $competition;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        $competitions = Competition::with('agecategories')->get();
+        $competitions = Competition::with('agecategories')->orderBy('id', 'DESC')->get();
         $competitors = Competitor::get();
 
         return view('competitions.competitions', [
@@ -30,111 +37,136 @@ class CompetitionsController extends Controller
             'competitors'=>$competitors]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        return view('competitions.addcompetition', []);
+        $agecategories = AgeCategory::get();
+        $tehkvalgroups = TehkvalGroup::get();
+        $countries = Country::get();
+        $districts = District::get();
+        $regions = Region::get();
+        $statuses = CompetitionsRanksTitle::get();
+
+        return view('competitions.addcompetition', [
+            'agecategories' => $agecategories,
+            'tehkvalgroups' => $tehkvalgroups,
+            'countries' => $countries,
+            'districts' => $districts,
+            'regions' => $regions,
+            'statuses' => $statuses,
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(StoreCompetitionRequest $request)
     {
-        $validate = $request->validate([
-            'name' => ['required', 'string', 'max:250'],
-            'place' => ['required', 'string', 'max:150'],
-            'date_start' => ['required', 'date'],
-            'date_end' => ['required', 'date'],
-        ]);
+        $request->validated();
 
         $competition = new Competition();
 
-        $competition->name = $request->name;
-        $competition->place = $request->place;
+        $competition->title = $request->title;
+        $competition->address = $request->address;
         $competition->date_start = $request->date_start;
         $competition->date_end = $request->date_end;
+        $competition->status = $request->status;
+        $competition->country_id = $request->country_id;
+        $competition->district_id = $request->district_id;
+        $competition->region_id = $request->region_id;
+        $competition->linkreport = $request->linkreport;
 
         $competition->save();
 
+        $organization = Organization::where('user_id', Auth::id())->first();
+        $comp = Competition::find($competition->id);
+
+        $comp->agecategories()->detach();
+
+        $comp->agecategories()->attach($request->agecategory);
+        $comp->organizations()->attach($organization->id);
+
+        foreach ($request->agecategory as $id) {
+            DB::table('tehkvals_groups')->insert([
+                ['title'=>'Без групп',
+                    'agecategory_id'=>$id,
+                    'startgyp_id'=>1,
+                    'finishgyp_id'=>14,
+                    'competition_id'=>$comp->id
+                ],
+            ]);
+        }
+
+
         $request->session()->flash('status', 'Соревнование успешно добавлено');
 
-        return redirect('/')->withInput();
+        return redirect('/competitions')->withInput();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-
+        //данный метод дублирует показ всех спортсменов по соревнования, реализован в CompetitorsControler@index
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        $competition = Competition::where('id', $id)->with('agecategories')->first();
+        $competition = Competition::with('agecategories', 'country', 'district', 'region', 'status', 'tehkvalsgroups')->find($id);
 
-        return view('competitions.editcompetition', ['competition' => $competition]);
-    }
+        $tehkvalgroups = TehkvalGroup::where('competition_id', $competition->id)->get();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        dd($request->agecategory);
+        $agecategories = AgeCategory::get();
+        $tehkvals = Tehkval::get();
+        $countries = Country::get();
+        $districts = District::get();
+        $regions = Region::get();
+        $statuses = CompetitionsRanksTitle::get();
 
-        $validate = $request->validate([
-            'name' => ['required', 'string', 'max:250'],
-            'place' => ['required', 'string', 'max:150'],
-            'date_start' => ['required', 'date'],
-            'date_end' => ['required', 'date'],
+        return view('competitions.editcompetition', [
+            'competition' => $competition,
+            'agecategories' => $agecategories,
+            'tehkvalgroups' => $tehkvalgroups,
+            'tehkvals' => $tehkvals,
+            'countries' => $countries,
+            'districts' => $districts,
+            'regions' => $regions,
+            'statuses' => $statuses,
         ]);
 
-        $competition = Competition::find($request->competition_id);
+    }
 
-        $competition->name = $request->name;
-        $competition->place = $request->place;
+    public function update(StoreCompetitionRequest $request, $id)
+    {
+        $request->validated();
+
+        $competition = Competition::find($id);
+
+        $competition->title = $request->title;
+        $competition->address = $request->address;
         $competition->date_start = $request->date_start;
         $competition->date_end = $request->date_end;
+        $competition->status = $request->status;
+        $competition->country_id = $request->country_id;
+        $competition->district_id = $request->district_id;
+        $competition->region_id = $request->region_id;
+        $competition->linkreport = $request->linkreport;
 
         $competition->save();
 
-        $this->competition->competition_agecategories($request);
+        $competition->agecategories()->detach();
+        $competition->agecategories()->attach($request->agecategory);
 
-        $request->session()->flash('status', 'Соревнование успешно добавлено');
+        $request->session()->flash('status', 'Соревнование успешно изменено');
 
-        return redirect('/')->withInput();
+        return redirect('/competitions')->withInput();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $competition = Competition::find($id);
+        $competition->agecategories()->detach();
+        $competition->organizations()->detach();
+
+        $competition->delete();
+
+        $request->session()->flash('status', 'Соревнование успешно удалены');
+
+        return redirect('/competitions')->withInput();
     }
+
 }

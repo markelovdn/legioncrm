@@ -11,7 +11,9 @@ use App\Models\BirthCertificate;
 use App\Models\Coach;
 use App\Models\Competition;
 use App\Models\CompetitionsRanksPoint;
+use App\Models\CompetitionsRanksTitle;
 use App\Models\CompetitionsResult;
+use App\Models\Competitor;
 use App\Models\Country;
 use App\Models\Decree;
 use App\Models\Department;
@@ -213,66 +215,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         WeightCategory::insert([
-            ['title'=> 'до 45 кг.','gender'=>1,'weight_start'=>  '30','weight_finish'=> '45.09','agecategory_id'=> '4'],
-            ['title'=> 'до 48 кг.','gender'=>1,'weight_start'=>  '45.1','weight_finish'=> '48.09','agecategory_id'=> '4'],
-            ['title'=> 'до 51 кг.','gender'=>1,'weight_start'=>  '48.1','weight_finish'=> '51.09','agecategory_id'=> '4'],
-            ['title'=> 'до 55 кг.','gender'=>1,'weight_start'=>  '51.1','weight_finish'=> '55.09','agecategory_id'=> '4'],
-            ['title'=> 'до 59 кг.','gender'=>1,'weight_start'=>  '55.1','weight_finish'=> '59.09','agecategory_id'=> '4'],
-            ['title'=> 'до 63 кг.','gender'=>1,'weight_start'=>  '59.1','weight_finish'=> '63.09','agecategory_id'=> '4'],
-            ['title'=> 'до 68 кг.','gender'=>1,'weight_start'=>  '63.1','weight_finish'=> '68.09','agecategory_id'=> '4'],
-            ['title'=> 'до 73 кг.','gender'=>1,'weight_start'=>  '68.1','weight_finish'=> '73.09','agecategory_id'=> '4'],
-            ['title'=> 'до 78 кг.','gender'=>1,'weight_start'=>  '73.1','weight_finish'=> '78.09','agecategory_id'=> '4'],
-            ['title'=> 'св. 78 кг.','gender'=>1,'weight_start'=>  '78.1','weight_finish'=> '200','agecategory_id'=> '4'],
-            ['title'=> 'до 42 кг.','gender'=>2,'weight_start'=>  '25','weight_finish'=> '42.09','agecategory_id'=> '4'],
-            ['title'=> 'до 44 кг.','gender'=>2,'weight_start'=>  '42.1','weight_finish'=> '44.09','agecategory_id'=> '4'],
-            ['title'=> 'до 46 кг.','gender'=>2,'weight_start'=>  '44.1','weight_finish'=> '46.09','agecategory_id'=> '4'],
-            ['title'=> 'до 49 кг.','gender'=>2,'weight_start'=>  '46.1','weight_finish'=> '49.09','agecategory_id'=> '4'],
-            ['title'=> 'до 52 кг.','gender'=>2,'weight_start'=>  '49.1','weight_finish'=> '52.09','agecategory_id'=> '4'],
-            ['title'=> 'до 55 кг.','gender'=>2,'weight_start'=>  '52.1','weight_finish'=> '55.09','agecategory_id'=> '4'],
-            ['title'=> 'до 59 кг.','gender'=>2,'weight_start'=>  '55.1','weight_finish'=> '59.09','agecategory_id'=> '4'],
-            ['title'=> 'до 63 кг.','gender'=>2,'weight_start'=>  '59.1','weight_finish'=> '63.09','agecategory_id'=> '4'],
-            ['title'=> 'до 68 кг.','gender'=>2,'weight_start'=>  '63.1','weight_finish'=> '68.09','agecategory_id'=> '4'],
-            ['title'=> 'св. 68 кг.','gender'=>2,'weight_start'=>  '68.1','weight_finish'=> '200','agecategory_id'=> '4'],
-            ['title'=> 'до 33 кг.','gender'=>1,'weight_start'=>  '20','weight_finish'=> '33.09','agecategory_id'=> '3'],
-            ['title'=> 'до 37 кг.','gender'=>1,'weight_start'=>  '33.1','weight_finish'=> '37.09','agecategory_id'=> '3'],
-            ['title'=> 'до 41 кг.','gender'=>1,'weight_start'=>  '37.1','weight_finish'=> '41.09','agecategory_id'=> '3'],
-            ['title'=> 'до 45 кг.','gender'=>1,'weight_start'=>  '41.1','weight_finish'=> '45.09','agecategory_id'=> '3'],
-            ['title'=> 'до 49 кг.','gender'=>1,'weight_start'=>  '45.1','weight_finish'=> '49.09','agecategory_id'=> '3'],
-            ['title'=> 'до 53 кг.','gender'=>1,'weight_start'=>  '49.1','weight_finish'=> '53.09','agecategory_id'=> '3'],
-            ['title'=> 'до 57 кг.','gender'=>1,'weight_start'=>  '53.1','weight_finish'=> '57.09','agecategory_id'=> '3'],
-            ['title'=> 'до 61 кг.','gender'=>1,'weight_start'=>  '57.1','weight_finish'=> '61.09','agecategory_id'=> '3'],
-            ['title'=> 'до 65 кг.','gender'=>1,'weight_start'=>  '61.1','weight_finish'=> '65.09','agecategory_id'=> '3'],
-            ['title'=> 'св. 65 кг.','gender'=>1,'weight_start'=>  '65.1','weight_finish'=> '200','agecategory_id'=> '3'],
-            ['title'=> 'до 29 кг.','gender'=>2,'weight_start'=>  '15','weight_finish'=> '29.09','agecategory_id'=> '3'],
-            ['title'=> 'до 33 кг.','gender'=>2,'weight_start'=>  '29.1','weight_finish'=> '33.09','agecategory_id'=> '3'],
-            ['title'=> 'до 37 кг.','gender'=>2,'weight_start'=>  '33.1','weight_finish'=> '37.09','agecategory_id'=> '3'],
-            ['title'=> 'до 41 кг.','gender'=>2,'weight_start'=>  '37.1','weight_finish'=> '41.09','agecategory_id'=> '3'],
-            ['title'=> 'до 44 кг.','gender'=>2,'weight_start'=>  '41.1','weight_finish'=> '44.09','agecategory_id'=> '3'],
-            ['title'=> 'до 47 кг.','gender'=>2,'weight_start'=>  '44.1','weight_finish'=> '47.09','agecategory_id'=> '3'],
-            ['title'=> 'до 51 кг.','gender'=>2,'weight_start'=>  '47.1','weight_finish'=> '51.09','agecategory_id'=> '3'],
-            ['title'=> 'до 55 кг.','gender'=>2,'weight_start'=>  '51.1','weight_finish'=> '55.09','agecategory_id'=> '3'],
-            ['title'=> 'до 59 кг.','gender'=>2,'weight_start'=>  '55.1','weight_finish'=> '59.09','agecategory_id'=> '3'],
-            ['title'=> 'св. 59 кг.','gender'=>2,'weight_start'=>  '59.1','weight_finish'=> '200','agecategory_id'=> '3'],
-            ['title'=> 'до 27 кг.','gender'=>1,'weight_start'=>  '15','weight_finish'=> '27.09','agecategory_id'=> '2'],
-            ['title'=> 'до 30 кг.','gender'=>1,'weight_start'=>  '27.1','weight_finish'=> '30.09','agecategory_id'=> '2'],
-            ['title'=> 'до 33 кг.','gender'=>1,'weight_start'=>  '30.1','weight_finish'=> '33.09','agecategory_id'=> '2'],
-            ['title'=> 'до 36 кг.','gender'=>1,'weight_start'=>  '33.1','weight_finish'=> '36.09','agecategory_id'=> '2'],
-            ['title'=> 'до 40 кг.','gender'=>1,'weight_start'=>  '36.1','weight_finish'=> '40.09','agecategory_id'=> '2'],
-            ['title'=> 'до 44 кг.','gender'=>1,'weight_start'=>  '40.1','weight_finish'=> '44.09','agecategory_id'=> '2'],
-            ['title'=> 'до 48 кг.','gender'=>1,'weight_start'=>  '44.1','weight_finish'=> '48.09','agecategory_id'=> '2'],
-            ['title'=> 'до 52 кг.','gender'=>1,'weight_start'=>  '48.1','weight_finish'=> '52.09','agecategory_id'=> '2'],
-            ['title'=> 'до 57 кг.','gender'=>1,'weight_start'=>  '52.1','weight_finish'=> '57.09','agecategory_id'=> '2'],
-            ['title'=> 'св. 57 кг.','gender'=>1,'weight_start'=>  '57.1','weight_finish'=> '200','agecategory_id'=> '2'],
-            ['title'=> 'до 27 кг.','gender'=>2,'weight_start'=>  '15','weight_finish'=> '27.09','agecategory_id'=> '2'],
-            ['title'=> 'до 30 кг.','gender'=>2,'weight_start'=>  '27.1','weight_finish'=> '30.09','agecategory_id'=> '2'],
-            ['title'=> 'до 33 кг.','gender'=>2,'weight_start'=>  '30.1','weight_finish'=> '33.09','agecategory_id'=> '2'],
-            ['title'=> 'до 36 кг.','gender'=>2,'weight_start'=>  '33.1','weight_finish'=> '36.09','agecategory_id'=> '2'],
-            ['title'=> 'до 40 кг.','gender'=>2,'weight_start'=>  '36.1','weight_finish'=> '40.09','agecategory_id'=> '2'],
-            ['title'=> 'до 44 кг.','gender'=>2,'weight_start'=>  '40.1','weight_finish'=> '44.09','agecategory_id'=> '2'],
-            ['title'=> 'до 48 кг.','gender'=>2,'weight_start'=>  '44.1','weight_finish'=> '48.09','agecategory_id'=> '2'],
-            ['title'=> 'до 52 кг.','gender'=>2,'weight_start'=>  '48.1','weight_finish'=> '52.09','agecategory_id'=> '2'],
-            ['title'=> 'до 57 кг.','gender'=>2,'weight_start'=>  '52.1','weight_finish'=> '57.09','agecategory_id'=> '2'],
-            ['title'=> 'св. 57 кг.','gender'=>2,'weight_start'=>  '57.1','weight_finish'=> '200','agecategory_id'=> '2'],
             ['title'=> 'до 24 кг.','gender'=>1,'weight_start'=>  '15','weight_finish'=> '24.09','agecategory_id'=> '1'],
             ['title'=> 'до 26 кг.','gender'=>1,'weight_start'=>  '24.1','weight_finish'=> '26.09','agecategory_id'=> '1'],
             ['title'=> 'до 28 кг.','gender'=>1,'weight_start'=>  '26.1','weight_finish'=> '28.09','agecategory_id'=> '1'],
@@ -293,6 +235,66 @@ class DatabaseSeeder extends Seeder
             ['title'=> 'до 41 кг.','gender'=>2,'weight_start'=>  '37.1','weight_finish'=> '41.09','agecategory_id'=> '1'],
             ['title'=> 'до 45 кг.','gender'=>2,'weight_start'=>  '41.1','weight_finish'=> '45.09','agecategory_id'=> '1'],
             ['title'=> 'св. 45 кг.','gender'=>2,'weight_start'=>  '45.1','weight_finish'=> '200','agecategory_id'=> '1'],
+            ['title'=> 'до 27 кг.','gender'=>1,'weight_start'=>  '15','weight_finish'=> '27.09','agecategory_id'=> '2'],
+            ['title'=> 'до 30 кг.','gender'=>1,'weight_start'=>  '27.1','weight_finish'=> '30.09','agecategory_id'=> '2'],
+            ['title'=> 'до 33 кг.','gender'=>1,'weight_start'=>  '30.1','weight_finish'=> '33.09','agecategory_id'=> '2'],
+            ['title'=> 'до 36 кг.','gender'=>1,'weight_start'=>  '33.1','weight_finish'=> '36.09','agecategory_id'=> '2'],
+            ['title'=> 'до 40 кг.','gender'=>1,'weight_start'=>  '36.1','weight_finish'=> '40.09','agecategory_id'=> '2'],
+            ['title'=> 'до 44 кг.','gender'=>1,'weight_start'=>  '40.1','weight_finish'=> '44.09','agecategory_id'=> '2'],
+            ['title'=> 'до 48 кг.','gender'=>1,'weight_start'=>  '44.1','weight_finish'=> '48.09','agecategory_id'=> '2'],
+            ['title'=> 'до 52 кг.','gender'=>1,'weight_start'=>  '48.1','weight_finish'=> '52.09','agecategory_id'=> '2'],
+            ['title'=> 'до 57 кг.','gender'=>1,'weight_start'=>  '52.1','weight_finish'=> '57.09','agecategory_id'=> '2'],
+            ['title'=> 'св. 57 кг.','gender'=>1,'weight_start'=>  '57.1','weight_finish'=> '200','agecategory_id'=> '2'],
+            ['title'=> 'до 27 кг.','gender'=>2,'weight_start'=>  '15','weight_finish'=> '27.09','agecategory_id'=> '2'],
+            ['title'=> 'до 30 кг.','gender'=>2,'weight_start'=>  '27.1','weight_finish'=> '30.09','agecategory_id'=> '2'],
+            ['title'=> 'до 33 кг.','gender'=>2,'weight_start'=>  '30.1','weight_finish'=> '33.09','agecategory_id'=> '2'],
+            ['title'=> 'до 36 кг.','gender'=>2,'weight_start'=>  '33.1','weight_finish'=> '36.09','agecategory_id'=> '2'],
+            ['title'=> 'до 40 кг.','gender'=>2,'weight_start'=>  '36.1','weight_finish'=> '40.09','agecategory_id'=> '2'],
+            ['title'=> 'до 44 кг.','gender'=>2,'weight_start'=>  '40.1','weight_finish'=> '44.09','agecategory_id'=> '2'],
+            ['title'=> 'до 48 кг.','gender'=>2,'weight_start'=>  '44.1','weight_finish'=> '48.09','agecategory_id'=> '2'],
+            ['title'=> 'до 52 кг.','gender'=>2,'weight_start'=>  '48.1','weight_finish'=> '52.09','agecategory_id'=> '2'],
+            ['title'=> 'до 57 кг.','gender'=>2,'weight_start'=>  '52.1','weight_finish'=> '57.09','agecategory_id'=> '2'],
+            ['title'=> 'св. 57 кг.','gender'=>2,'weight_start'=>  '57.1','weight_finish'=> '200','agecategory_id'=> '2'],
+            ['title'=> 'до 33 кг.','gender'=>1,'weight_start'=>  '20','weight_finish'=> '33.09','agecategory_id'=> '3'],
+            ['title'=> 'до 37 кг.','gender'=>1,'weight_start'=>  '33.1','weight_finish'=> '37.09','agecategory_id'=> '3'],
+            ['title'=> 'до 41 кг.','gender'=>1,'weight_start'=>  '37.1','weight_finish'=> '41.09','agecategory_id'=> '3'],
+            ['title'=> 'до 45 кг.','gender'=>1,'weight_start'=>  '41.1','weight_finish'=> '45.09','agecategory_id'=> '3'],
+            ['title'=> 'до 49 кг.','gender'=>1,'weight_start'=>  '45.1','weight_finish'=> '49.09','agecategory_id'=> '3'],
+            ['title'=> 'до 53 кг.','gender'=>1,'weight_start'=>  '49.1','weight_finish'=> '53.09','agecategory_id'=> '3'],
+            ['title'=> 'до 57 кг.','gender'=>1,'weight_start'=>  '53.1','weight_finish'=> '57.09','agecategory_id'=> '3'],
+            ['title'=> 'до 61 кг.','gender'=>1,'weight_start'=>  '57.1','weight_finish'=> '61.09','agecategory_id'=> '3'],
+            ['title'=> 'до 65 кг.','gender'=>1,'weight_start'=>  '61.1','weight_finish'=> '65.09','agecategory_id'=> '3'],
+            ['title'=> 'св. 65 кг.','gender'=>1,'weight_start'=>  '65.1','weight_finish'=> '200','agecategory_id'=> '3'],
+            ['title'=> 'до 29 кг.','gender'=>2,'weight_start'=>  '15','weight_finish'=> '29.09','agecategory_id'=> '3'],
+            ['title'=> 'до 33 кг.','gender'=>2,'weight_start'=>  '29.1','weight_finish'=> '33.09','agecategory_id'=> '3'],
+            ['title'=> 'до 37 кг.','gender'=>2,'weight_start'=>  '33.1','weight_finish'=> '37.09','agecategory_id'=> '3'],
+            ['title'=> 'до 41 кг.','gender'=>2,'weight_start'=>  '37.1','weight_finish'=> '41.09','agecategory_id'=> '3'],
+            ['title'=> 'до 44 кг.','gender'=>2,'weight_start'=>  '41.1','weight_finish'=> '44.09','agecategory_id'=> '3'],
+            ['title'=> 'до 47 кг.','gender'=>2,'weight_start'=>  '44.1','weight_finish'=> '47.09','agecategory_id'=> '3'],
+            ['title'=> 'до 51 кг.','gender'=>2,'weight_start'=>  '47.1','weight_finish'=> '51.09','agecategory_id'=> '3'],
+            ['title'=> 'до 55 кг.','gender'=>2,'weight_start'=>  '51.1','weight_finish'=> '55.09','agecategory_id'=> '3'],
+            ['title'=> 'до 59 кг.','gender'=>2,'weight_start'=>  '55.1','weight_finish'=> '59.09','agecategory_id'=> '3'],
+            ['title'=> 'св. 59 кг.','gender'=>2,'weight_start'=>  '59.1','weight_finish'=> '200','agecategory_id'=> '3'],
+            ['title'=> 'до 45 кг.','gender'=>1,'weight_start'=>  '30','weight_finish'=> '45.09','agecategory_id'=> '4'],
+            ['title'=> 'до 48 кг.','gender'=>1,'weight_start'=>  '45.1','weight_finish'=> '48.09','agecategory_id'=> '4'],
+            ['title'=> 'до 51 кг.','gender'=>1,'weight_start'=>  '48.1','weight_finish'=> '51.09','agecategory_id'=> '4'],
+            ['title'=> 'до 55 кг.','gender'=>1,'weight_start'=>  '51.1','weight_finish'=> '55.09','agecategory_id'=> '4'],
+            ['title'=> 'до 59 кг.','gender'=>1,'weight_start'=>  '55.1','weight_finish'=> '59.09','agecategory_id'=> '4'],
+            ['title'=> 'до 63 кг.','gender'=>1,'weight_start'=>  '59.1','weight_finish'=> '63.09','agecategory_id'=> '4'],
+            ['title'=> 'до 68 кг.','gender'=>1,'weight_start'=>  '63.1','weight_finish'=> '68.09','agecategory_id'=> '4'],
+            ['title'=> 'до 73 кг.','gender'=>1,'weight_start'=>  '68.1','weight_finish'=> '73.09','agecategory_id'=> '4'],
+            ['title'=> 'до 78 кг.','gender'=>1,'weight_start'=>  '73.1','weight_finish'=> '78.09','agecategory_id'=> '4'],
+            ['title'=> 'св. 78 кг.','gender'=>1,'weight_start'=>  '78.1','weight_finish'=> '200','agecategory_id'=> '4'],
+            ['title'=> 'до 42 кг.','gender'=>2,'weight_start'=>  '25','weight_finish'=> '42.09','agecategory_id'=> '4'],
+            ['title'=> 'до 44 кг.','gender'=>2,'weight_start'=>  '42.1','weight_finish'=> '44.09','agecategory_id'=> '4'],
+            ['title'=> 'до 46 кг.','gender'=>2,'weight_start'=>  '44.1','weight_finish'=> '46.09','agecategory_id'=> '4'],
+            ['title'=> 'до 49 кг.','gender'=>2,'weight_start'=>  '46.1','weight_finish'=> '49.09','agecategory_id'=> '4'],
+            ['title'=> 'до 52 кг.','gender'=>2,'weight_start'=>  '49.1','weight_finish'=> '52.09','agecategory_id'=> '4'],
+            ['title'=> 'до 55 кг.','gender'=>2,'weight_start'=>  '52.1','weight_finish'=> '55.09','agecategory_id'=> '4'],
+            ['title'=> 'до 59 кг.','gender'=>2,'weight_start'=>  '55.1','weight_finish'=> '59.09','agecategory_id'=> '4'],
+            ['title'=> 'до 63 кг.','gender'=>2,'weight_start'=>  '59.1','weight_finish'=> '63.09','agecategory_id'=> '4'],
+            ['title'=> 'до 68 кг.','gender'=>2,'weight_start'=>  '63.1','weight_finish'=> '68.09','agecategory_id'=> '4'],
+            ['title'=> 'св. 68 кг.','gender'=>2,'weight_start'=>  '68.1','weight_finish'=> '200','agecategory_id'=> '4'],
             ['title'=> 'до 54 кг.','gender'=>1,'weight_start'=>  '45','weight_finish'=> '54.09','agecategory_id'=> '5'],
             ['title'=> 'до 58 кг.','gender'=>1,'weight_start'=>  '54.1','weight_finish'=> '58.09','agecategory_id'=> '5'],
             ['title'=> 'до 63 кг.','gender'=>1,'weight_start'=>  '58.1','weight_finish'=> '63.09','agecategory_id'=> '5'],
@@ -325,29 +327,6 @@ class DatabaseSeeder extends Seeder
             ['title'=> 'до 67 кг.','gender'=>2,'weight_start'=>  '62.1','weight_finish'=> '67.09','agecategory_id'=> '6'],
             ['title'=> 'до 73 кг.','gender'=>2,'weight_start'=>  '67.1','weight_finish'=> '73.09','agecategory_id'=> '6'],
             ['title'=> 'св. 73 кг.','gender'=>2,'weight_start'=>  '73.1','weight_finish'=> '200','agecategory_id'=> '6'],
-
-        ]);
-
-        TehkvalGroup::insert([
-            ['title'=>'Группа С (до 8 гыпа)','startgyp_id'=> '1','finishgyp_id'=>  '4','agecategory_id'=>  '1'],
-            ['title'=>'Группа B (от 7 до 4 гыпа)','startgyp_id'=> '5','finishgyp_id'=>  '8','agecategory_id'=>  '1'],
-            ['title'=>'Группа А (от 3 и выше)','startgyp_id'=> '9','finishgyp_id'=>  '14','agecategory_id'=>  '1'],
-            ['title'=>'Группа С (до 8 гыпа)','startgyp_id'=> '1','finishgyp_id'=>  '4','agecategory_id'=>  '2'],
-            ['title'=>'Группа B (от 7 до 4 гыпа)','startgyp_id'=> '5','finishgyp_id'=>  '8','agecategory_id'=>  '2'],
-            ['title'=>'Группа А (от 3 и выше)','startgyp_id'=> '9','finishgyp_id'=>  '14','agecategory_id'=>  '2'],
-            ['title'=>'Группа С (до 8 гыпа)','startgyp_id'=> '1','finishgyp_id'=>  '4','agecategory_id'=>  '3'],
-            ['title'=>'Группа B (от 7 до 4 гыпа)','startgyp_id'=> '5','finishgyp_id'=>  '8','agecategory_id'=>  '3'],
-            ['title'=>'Группа А (от 3 и выше)','startgyp_id'=> '9','finishgyp_id'=>  '14','agecategory_id'=>  '3'],
-            ['title'=>'Группа С (до 8 гыпа)','startgyp_id'=> '1','finishgyp_id'=>  '4','agecategory_id'=>  '4'],
-            ['title'=>'Группа B (от 7 до 4 гыпа)','startgyp_id'=> '5','finishgyp_id'=>  '8','agecategory_id'=>  '4'],
-            ['title'=>'Группа А (от 3 и выше)','startgyp_id'=> '9','finishgyp_id'=>  '14','agecategory_id'=>  '4'],
-            ['title'=>'Группа С (до 8 гыпа)','startgyp_id'=> '1','finishgyp_id'=>  '4','agecategory_id'=>  '5'],
-            ['title'=>'Группа B (от 7 до 4 гыпа)','startgyp_id'=> '5','finishgyp_id'=>  '8','agecategory_id'=>  '5'],
-            ['title'=>'Группа А (от 3 и выше)','startgyp_id'=> '9','finishgyp_id'=>  '14','agecategory_id'=>  '5'],
-            ['title'=>'Группа С (до 8 гыпа)','startgyp_id'=> '1','finishgyp_id'=>  '4','agecategory_id'=>  '6'],
-            ['title'=>'Группа B (от 7 до 4 гыпа)','startgyp_id'=> '5','finishgyp_id'=>  '8','agecategory_id'=>  '6'],
-            ['title'=>'Группа А (от 3 и выше)','startgyp_id'=> '9','finishgyp_id'=>  '14','agecategory_id'=>  '6'],
-
         ]);
 
         User::factory(10)->create();
@@ -365,21 +344,48 @@ class DatabaseSeeder extends Seeder
                 'code'=>'2234']
 
         ]);
-        Attestation::factory(3)->create();
-        AttestationResult::factory(3)->create();
-        Competition::factory(3)->create();
-        CompetitionsRanksPoint::factory(3)->create();
-        CompetitionsResult::factory(3)->create();
-        Decree::factory(3)->create();
-        Department::factory(3)->create();
-        WorkPlace::factory(3)->create();
-        Group::factory(3)->create();
-        Insurance::factory(3)->create();
-        KindsOfSport::factory(3)->create();
-        License::factory(3)->create();
-        MedicalInspection::factory(3)->create();
-        Payment::factory(3)->create();
-        StudyPlace::factory(3)->create();
+
+        CompetitionsRanksTitle::insert([
+        ['title'=>'Всероссийские соревнования'],
+        ['title'=>'Региональные соревнования'],
+        ['title'=>'Городские соревнования'],
+        ['title'=>'Клубные соревнования'],
+        ]);
+
+        Attestation::factory(1)->create();
+        Competition::factory(1)->create();
+        TehkvalGroup::insert([
+            ['title'=>'Группа С (до 8 гыпа)','startgyp_id'=> '1','finishgyp_id'=>  '4','agecategory_id'=>  '1', 'competition_id' => 1],
+            ['title'=>'Группа B (от 7 до 4 гыпа)','startgyp_id'=> '5','finishgyp_id'=>  '8','agecategory_id'=>  '1', 'competition_id' => 1],
+            ['title'=>'Группа А (от 3 и выше)','startgyp_id'=> '9','finishgyp_id'=>  '14','agecategory_id'=>  '1', 'competition_id' => 1],
+            ['title'=>'Группа С (до 8 гыпа)','startgyp_id'=> '1','finishgyp_id'=>  '4','agecategory_id'=>  '2', 'competition_id' => 1],
+            ['title'=>'Группа B (от 7 до 4 гыпа)','startgyp_id'=> '5','finishgyp_id'=>  '8','agecategory_id'=>  '2', 'competition_id' => 1],
+            ['title'=>'Группа А (от 3 и выше)','startgyp_id'=> '9','finishgyp_id'=>  '14','agecategory_id'=>  '2', 'competition_id' => 1],
+            ['title'=>'Группа С (до 8 гыпа)','startgyp_id'=> '1','finishgyp_id'=>  '4','agecategory_id'=>  '3', 'competition_id' => 1],
+            ['title'=>'Группа B (от 7 до 4 гыпа)','startgyp_id'=> '5','finishgyp_id'=>  '8','agecategory_id'=>  '3', 'competition_id' => 1],
+            ['title'=>'Группа А (от 3 и выше)','startgyp_id'=> '9','finishgyp_id'=>  '14','agecategory_id'=>  '3', 'competition_id' => 1],
+            ['title'=>'Группа С (до 8 гыпа)','startgyp_id'=> '1','finishgyp_id'=>  '4','agecategory_id'=>  '4', 'competition_id' => 1],
+            ['title'=>'Группа B (от 7 до 4 гыпа)','startgyp_id'=> '5','finishgyp_id'=>  '8','agecategory_id'=>  '4', 'competition_id' => 1],
+            ['title'=>'Группа А (от 3 и выше)','startgyp_id'=> '9','finishgyp_id'=>  '14','agecategory_id'=>  '4', 'competition_id' => 1],
+            ['title'=>'Группа С (до 8 гыпа)','startgyp_id'=> '1','finishgyp_id'=>  '4','agecategory_id'=>  '5', 'competition_id' => 1],
+            ['title'=>'Группа B (от 7 до 4 гыпа)','startgyp_id'=> '5','finishgyp_id'=>  '8','agecategory_id'=>  '5', 'competition_id' => 1],
+            ['title'=>'Группа А (от 3 и выше)','startgyp_id'=> '9','finishgyp_id'=>  '14','agecategory_id'=>  '5', 'competition_id' => 1],
+            ['title'=>'Группа С (до 8 гыпа)','startgyp_id'=> '1','finishgyp_id'=>  '4','agecategory_id'=>  '6', 'competition_id' => 1],
+            ['title'=>'Группа B (от 7 до 4 гыпа)','startgyp_id'=> '5','finishgyp_id'=>  '8','agecategory_id'=>  '6', 'competition_id' => 1],
+            ['title'=>'Группа А (от 3 и выше)','startgyp_id'=> '9','finishgyp_id'=>  '14','agecategory_id'=>  '6', 'competition_id' => 1],
+
+        ]);
+        CompetitionsRanksPoint::factory(1)->create();
+        CompetitionsResult::factory(1)->create();
+
+        Department::factory(1)->create();
+        WorkPlace::factory(1)->create();
+        Group::factory(1)->create();
+        Insurance::factory(1)->create();
+        KindsOfSport::factory(1)->create();
+
+        Payment::factory(1)->create();
+        StudyPlace::factory(1)->create();
 
         DB::table('role_user')->insert([
                 ['role_id' => 1, 'user_id' => 1],
@@ -389,6 +395,16 @@ class DatabaseSeeder extends Seeder
                 ['role_id' => 5, 'user_id' => 5],
                 ['role_id' => 6, 'user_id' => 6],
                 ['role_id' => 7, 'user_id' => 7],
+            ]
+        );
+
+        DB::table('competition_competitor')->insert([
+                ['competition_id' => 1, 'competitor_id' => 1],
+            ]
+        );
+
+        DB::table('competition_competitor')->insert([
+                ['competition_id' => 1, 'competitor_id' => 1],
             ]
         );
 
@@ -403,6 +419,26 @@ class DatabaseSeeder extends Seeder
             ->hasAttached(Parented::factory(1))
             ->create();
 
+        AttestationResult::factory(1)->create();
+        Competitor::factory(1)->create();
+        Decree::factory(1)->create();
+        License::factory(1)->create();
+        MedicalInspection::factory(1)->create();
+
+        DB::table('athlete_coach')->insert([
+                ['athlete_id' => 1, 'coach_id' => 1],
+            ]
+        );
+
+        DB::table('athlete_tehkval')->insert([
+                ['athlete_id' => 1, 'tehkval_id' => 1],
+            ]
+        );
+
+        DB::table('athlete_sportkval')->insert([
+                ['athlete_id' => 1, 'sportkval_id' => 1],
+            ]
+        );
 
     }
 }

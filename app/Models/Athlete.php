@@ -10,6 +10,9 @@ class Athlete extends Model
 {
     use HasFactory;
 
+    public const GENDER_MALE = 1;
+    public const GENDER_FEMALE = 2;
+
     protected $fillable = ['firstname', 'secondname', 'patronymic'];
 
     //beelongsTo
@@ -66,7 +69,17 @@ class Athlete extends Model
 
     public function coaches()
     {
-        return $this->belongsToMany(Coach::class)->withPivot('coach_type');
+        return $this->belongsToMany(Coach::class, 'athlete_coach')->with('user')->withPivot('coach_type');
+    }
+
+    public function tehkval()
+    {
+        return $this->belongsToMany(Tehkval::class, 'athlete_tehkval');
+    }
+
+    public function sportkval()
+    {
+        return $this->belongsToMany(Sportkval::class, 'athlete_sportkval');
     }
 
     public function organizations()

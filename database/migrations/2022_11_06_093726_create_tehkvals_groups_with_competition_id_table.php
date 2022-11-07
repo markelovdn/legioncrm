@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCompetitionAgecategoryTable extends Migration
+class CreateTehkvalsGroupsWithCompetitionIdTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class CreateCompetitionAgecategoryTable extends Migration
      */
     public function up()
     {
-        Schema::create('competition_agecategory', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('competition_id');
-            $table->bigInteger('agecategory_id');
+        Schema::table('tehkvals_groups', function (Blueprint $table) {
+            $table->foreignId('competition_id')->constrained('competitions');
         });
     }
 
@@ -27,6 +25,6 @@ class CreateCompetitionAgecategoryTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('competition_agecategory');
+        Schema::dropIfExists('tehkvals_groups_with_competition_id');
     }
 }

@@ -15,4 +15,15 @@ class TehkvalGroup extends Model
     {
         return $this->hasOne(Competitor::class);
     }
+
+    public function agecategory()
+    {
+        return $this->belongsTo(AgeCategory::class);
+    }
+
+    public function competition()
+    {
+        return $this->belongsTo(Competition::class);
+    }
+
 }

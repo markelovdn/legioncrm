@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
+use App\Models\AgeCategory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
-use App\Models\AgeCategory;
 use App\Models\TehkvalGroup;
 use App\Filters\QueryFilter;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 class Competitor extends Model
 {
@@ -17,72 +19,56 @@ class Competitor extends Model
 
     protected $fillable = ['lot'];
 
-    public function getAgeCategory(Request $request) {
+    public function getAgeCategory($date_of_birth) {
 
-        $competitor_date = Carbon::parse($request->date_of_birth)->year;
+        $competitor_date = Carbon::parse($date_of_birth)->year;
         $now = Carbon::now()->year;
         $competitor_age = $now - $competitor_date;
-        $ageCategories = AgeCategory::all();
-        $age_category = "";
-        foreach ($ageCategories as $ageCategory) {
-            if ($competitor_age >= $ageCategory->age_start and $competitor_age <= $ageCategory->age_finish){
-                $age_category = $ageCategory->id;
-            }
-        }
+        $competition_age_category = DB::table('competition_agecategory')->get('agecategory_id');
 
-        return $age_category;
+        $age_category = AgeCategory::
+                whereRaw($competitor_age.' between `age_start` and `age_finish`')
+                    ->first()->id;
+
+        if ($competition_age_category->whereIn('agecategory_id', $age_category)->isNotEmpty()) {
+            return $age_category;
+        } else {
+            session()->flash('error', 'Нет подходящего возраста для данных соревнований');
+        }
     }
 
-    public function getWeightCategory(Request $request)
+    public function getWeightCategory($weight, $gender, $date_of_birth)
     {
+        $weightCategories = WeightCategory::
+            whereRaw($weight. ' between `weight_start` and `weight_finish` and `gender` = '
+                .$gender.' and `agecategory_id` = '
+                .$this->getAgeCategory($date_of_birth))
+                ->first();
 
-        $weightCategories = WeightCategory::all();
-
-        $weight_category = "";
-        foreach ($weightCategories as $weightCategory) {
-            if ($request->weight >= $weightCategory->weight_start
-                and $request->weight <= $weightCategory->weight_finish
-                and $request->gender == $weightCategory->gender
-                and $this->getAgeCategory($request) == $weightCategory->agecategory_id) {
-                $weight_category = $weightCategory->id;
-            }
+        if ($weightCategories) {
+            return $weightCategories->id;
         }
-
-        return $weight_category;
+        else {
+            session()->flash('error', 'Нет подходящей весовой категории на данных соревнований');
+        }
     }
 
-    public function getTehKvalGroup(Request $request) {
+    public function getTehKvalGroup($tehkval_id, $date_of_birth) {
 
-        $tehKvalGroups = TehkvalGroup::all();
+        $tehKvalGroups = TehkvalGroup::
+               whereRaw('agecategory_id = '.$this->getAgeCategory($date_of_birth).' and finishgyp_id >= '.$tehkval_id)
+                ->first();
 
-        $tehkval_group = "";
-        foreach ($tehKvalGroups as $tehKvalGroup) {
-            if ($request->tehkval_id >= $tehKvalGroup->startgyp_id
-                and $request->tehkval_id <= $tehKvalGroup->finishgyp_id
-                and $this->getAgeCategory($request) == $tehKvalGroup->agecategory_id) {
-                $tehkval_group = $tehKvalGroup->id;
+            if ($tehKvalGroups) {
+                return $tehKvalGroups->id;
             }
             else {
-                $request->session()->flash('error', 'Нет подходящей группы');
+                return session()->flash('error', 'Нет подходящей группы на данных соревнованиях');
             }
-
         }
-
-        return $tehkval_group;
-
-    }
 
     public function scopeFilter(Builder $builder, QueryFilter $filter){
         return $filter->apply($builder);
-    }
-    public function tehkval()
-    {
-        return $this->belongsTo(Tehkval::class);
-    }
-
-    public function sportkval()
-    {
-        return $this->belongsTo(Sportkval::class);
     }
 
     public function club()
@@ -108,5 +94,15 @@ class Competitor extends Model
     public function weightcategory()
     {
         return $this->belongsTo(WeightCategory::class);
+    }
+
+    public function competitions()
+    {
+        return $this->belongsToMany(Competition::class);
+    }
+
+    public function athlete()
+    {
+        return $this->belongsTo(Athlete::class)->with('user')->with('coaches');
     }
 }

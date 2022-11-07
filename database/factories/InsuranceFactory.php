@@ -18,7 +18,7 @@ class InsuranceFactory extends Factory
             'series' => $this->faker->randomNumber(),
             'number' => $this->faker->randomNumber(),
             'validuntil' => $this->faker->date,
-            'athlete_id' => Athlete::factory(),
+            'athlete_id' => Athlete::where('user_id','!=', null)->first(),
             'scanlink' => $this->faker->imageUrl,
         ];
     }

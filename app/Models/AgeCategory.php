@@ -13,5 +13,9 @@ class AgeCategory extends Model
     {
         return $this->hasOne(Competitor::class);
     }
-    
+
+    public function tehkvalgroup()
+    {
+        return $this->hasMany(TehkvalGroup::class, 'agecategory_id');
+    }
 }

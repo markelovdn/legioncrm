@@ -19,7 +19,7 @@ class CreateCompetitionsTable extends Migration
             $table->date('date_end');
             $table->string('title', 256);
             $table->string('address', 256);
-            $table->string('linkreport', 256);
+            $table->string('linkreport', 256)->nullable();
             $table->integer('status')->default(1);
             $table->foreignId('country_id')->constrained('countries');
             $table->foreignId('district_id')->constrained('districts');

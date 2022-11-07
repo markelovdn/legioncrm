@@ -18,7 +18,7 @@ class AttestationResultFactory extends Factory
     {
         return [
             'sertificatenum' => $this->faker->randomNumber(),
-            'athlete_id' => Athlete::factory(),
+            'athlete_id' => Athlete::where('user_id','!=', null)->first(),
             'tehkval_id' => 2,
         ];
     }

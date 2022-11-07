@@ -18,7 +18,7 @@ class MedicalInspectionFactory extends Factory
         return [
           'dateinsp'=>$this->faker->date,
           'note'=>$this->faker->text,
-          'athlete_id'=>Athlete::factory(),
+          'athlete_id'=>Athlete::where('user_id','!=', null)->first(),
           'organization_id'=>1,
         ];
     }

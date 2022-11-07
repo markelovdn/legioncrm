@@ -8,7 +8,6 @@
 		<!-- form start -->
 		<form class="form-horizontal" method="POST" action="/newcompetitor">
 			@csrf
-			<input class="form-control" style="display: none" name="competition_id" type="text" value="{{$request->competition_id}}">
 			<div class="card-body">
 				<div class="form-group row">
 					<label for="gender" class="col-sm-2 col-form-label">Пол<span class="text-danger">*</span></label>
@@ -106,7 +105,7 @@
 			<!-- /.card-body -->
 			<div class="card-footer">
 				<button id="submit" type="submit" onclick="blocked()" class="btn btn-info">Добавить</button>
-				<a href="/competitors?competition_id={{$request->competition_id}}" type="submit" class="btn btn-default float-right">Отменить</a>
+				<a href="/competitions" type="submit" class="btn btn-default float-right">Отменить</a>
                 <div class="spinner-border" id="loader" style="display: none" role="status">
                     <span class="sr-only">Loading...</span>
                 </div>

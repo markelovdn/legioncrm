@@ -11,7 +11,6 @@
                         <div class="col align-content-center">{{$role->name}}</div>
                     @endforeach
                     <span>Выбор</span>
-                    <span> Войти как</span>
                 </div>
                 <hr>
             @foreach($users as $user)
@@ -20,7 +19,7 @@
                         <div class="row align-content-center">
                             <div class="col align-content-center">
                                 <h6>{{$user->secondname}}</h6>
-                                <a href="/authAs?id={{$user->id}}" class="nav-link"><i class="fas fa-door-open"></i>
+                                <a href="/loginAs?id={{$user->id}}" class="nav-link"><i class="fas fa-door-open"></i>
                                     </a>
                             </div>
                             @foreach($roles as $role)

@@ -1,7 +1,7 @@
 @extends('layouts.main')
 @section('content')
 	<!-- Content Header (Page header) -->
-	<div class="content-header">
+    <div class="content-header" xmlns="http://www.w3.org/1999/html">
 		<div class="container-fluid">
 			<div class="row mb-2">
 				<div class="col-sm-6">
@@ -13,14 +13,19 @@
 	</div>
 	<!-- /.content-header -->
 	<section class="content">
+        @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
 		@foreach ($competitions as $competition)
 			<div class="card card-danger collapsed-card shadow-lg">
 				<div class="card-header">
 					<h3 class="card-title"><b>{{$competition->title}}</b></h3><br>
 					<p>Начало: {{ \Carbon\Carbon::parse($competition->date_start)->format('d.m.Y')}}</p>
-					Участники: <a href="/competitors/?competition_id={{$competition->id}}"><i class="nav-icon fas fa-users"></i>
+					Участники: <a href="{{route('competitions.competitors.index',[$competition->id])}}"><i class="nav-icon fas fa-users"></i>
 					</a><br>
-					Добавить: <a href="/addcompetitor/?competition_id={{$competition->id}}"><i class="nav-icon fas fa-user-plus"></i></a><br>
+					Добавить: <a href="{{route('competitions.competitors.create',[$competition->id])}}"><i class="nav-icon fas fa-user-plus"></i></a><br>
 
 					<div class="card-tools">
 						<button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -35,10 +40,17 @@
 					<b>Дата начала: </b>{{ \Carbon\Carbon::parse($competition->date_start)->format('d.m.Y')}}<br>
 					<b>Дата окончания: </b>{{ \Carbon\Carbon::parse($competition->date_finish)->format('d.m.Y')}}<br>
 					<b>Зарегестированно всего: </b>{{ count($competitors)}}<br>
+					<b>Возрастные категории: </b><br>@foreach($competition->agecategories as $agecategories) {{$agecategories->title}} <br> @endforeach
 				</div>
 
 				<div class="card-footer">
-					<a href="/editcompetition/?competition_id={{$competition->id}}"><i class="fas fa-wrench"></i></i>
+                    <a href="{{route('competitions.edit',[$competition->id])}}"><i class="fas fa-wrench"></i></a>
+                    <form method="POST" action="{{route('competitions.destroy',$competition->id)}}">
+                        @method('DELETE')
+                        @csrf
+                        <button type="submit"><i class="fas fa-trash"></i></button>
+                        </form>
+
 				</div>
 
 			</div>

@@ -9,9 +9,4 @@ class Tehkval extends Model
 {
     use HasFactory;
 
- public function competitor()
- {
-     return $this->hasOne(Competitor::class);
- }
-
 }

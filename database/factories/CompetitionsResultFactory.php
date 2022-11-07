@@ -20,11 +20,11 @@ class CompetitionsResultFactory extends Factory
         return [
             'number_of_fights' => $this->faker->randomElement(['1','2','3','4','5','6','7']),
             'place' => $this->faker->randomElement(['1','2','3','4','5','6','7', '8', '9']),
-            'athlete_id' => Athlete::factory(),
-            'competition_id' => Competition::factory(),
+            'athlete_id' => Athlete::where('user_id','!=', null)->first(),
+            'competition_id' => Competition::first(),
             'weight_id' => 4,
             'age_id' => 4,
-            'rankpoint_id' => CompetitionsRanksPoint::factory(),
+            'rankpoint_id' => CompetitionsRanksPoint::first(),
         ];
     }
 }

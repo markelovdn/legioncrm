@@ -31,8 +31,8 @@
                 <div class="col-md-6">
                     <select type="text" class="form-control @error('gender') is-invalid @enderror"  name="gender" id="gender" value="{{ old('gender') }}">
                         <option></option>
-                        <option value="1" @if(old('gender') == 1) selected @endif>Мужской</option>
-                        <option value="2" @if(old('gender') == 2) selected @endif>Женский</option>
+                        <option value="{{\App\Models\Athlete::GENDER_MALE}}" @if(old('gender') == \App\Models\Athlete::GENDER_MALE) selected @endif>Мужской</option>
+                        <option value="{{\App\Models\Athlete::GENDER_FEMALE}}" @if(old('gender') == \App\Models\Athlete::GENDER_FEMALE) selected @endif>Женский</option>
                     </select>
                 </div>
             </div>

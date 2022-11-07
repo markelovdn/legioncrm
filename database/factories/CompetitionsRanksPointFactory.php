@@ -19,7 +19,7 @@ class CompetitionsRanksPointFactory extends Factory
             'point'=>$this->faker->randomElement([
                 '100','200','300'
             ]),
-            'compranktitle_id'=>CompetitionsRanksTitle::factory(),
+            'compranktitle_id'=>1,
             'age_id'=>4
         ];
     }

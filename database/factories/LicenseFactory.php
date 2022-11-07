@@ -19,7 +19,7 @@ class LicenseFactory extends Factory
             'title' => $this->faker->title(),
             'validuntil'=> $this->faker->date(),
             'scanlink'=>$this->faker->imageUrl,
-            'athlete_id'=>Athlete::factory(),
+            'athlete_id'=>Athlete::where('user_id','!=', null)->first(),
             'organization_id'=>1,
         ];
     }

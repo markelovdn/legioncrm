@@ -16,7 +16,7 @@ class Coach extends Model
 
     public function athletes()
     {
-        return $this->belongsToMany(Athlete::class)->with('user')->withPivot('coach_type');
+        return $this->belongsToMany(Athlete::class, 'athlete_coach')->with('user')->withPivot('coach_type');
     }
 
     public static function getId() {

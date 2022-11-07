@@ -67,7 +67,7 @@ class ParentedsController extends Controller
         $districts = District::all();
         $regions = Region::all();
 
-        return view('roditeli.cabinet', [
+        return view('parented.cabinet', [
             'parented' => $parented,
             'coaches' => $coaches,
             'countries' => $countries,

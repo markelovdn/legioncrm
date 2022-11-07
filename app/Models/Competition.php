@@ -12,17 +12,22 @@ class Competition extends Model
 
     public function country()
     {
-        return $this->hasOne(Country::class);
+        return $this->belongsTo(Country::class);
     }
 
     public function district()
     {
-        return $this->hasOne(District::class);
+        return $this->belongsTo(District::class);
     }
 
     public function region()
     {
-        return $this->hasOne(Region::class);
+        return $this->belongsTo(Region::class);
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(CompetitionsRanksTitle::class);
     }
 
     public function agecategories()
@@ -33,12 +38,22 @@ class Competition extends Model
             'agecategory_id');
     }
 
-    public function competition_agecategories(Request $request)
+    public function tehkvalsgroups()
     {
-        $competition = Competition::find($request->competition_id);
+        return $this->hasMany(TehkvalGroup::class);
+    }
 
-        $competition->agecategories()->detach();
-        $competition->agecategories()->attach($request->agecategory);
+    public function organizations()
+    {
+        return $this->belongsToMany(Organization::class,
+            'competition_organization',
+            'competition_id',
+            'organization_id');
+    }
+
+    public function competitors()
+    {
+        return $this->belongsToMany(Competitor::class);
     }
 
 }

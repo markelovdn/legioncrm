@@ -31,7 +31,7 @@
                         <form method="POST" action="/passport">
                             <input type="text" name="parented_id" style="display: none" value="{{url()->current()}}">
                             @csrf
-                            @include('roditeli.main-data')
+                            @include('parented.main-data')
                             @if(!$parented->passport)
                                 @include('documents.passport-blank')
                             @else
