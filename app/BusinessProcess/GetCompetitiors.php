@@ -13,8 +13,10 @@ class GetCompetitiors
     {
         switch ($role_code)
         {
+            case (Role::ROLE_PARENTED):
             case (Role::ROLE_COACH):
-                return Athlete::with('coaches', 'user', 'tehkval', 'sportkval')->has('coaches')->get();;
+                return Athlete::with('coaches', 'user', 'tehkval', 'sportkval')->has('coaches')->get();
+
         }
     }
 

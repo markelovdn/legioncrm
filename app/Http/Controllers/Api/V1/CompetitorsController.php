@@ -72,6 +72,7 @@ class CompetitorsController extends Controller
 
         switch (\App\Models\User::getRole()){
             case('coach') :
+            case('parented') :
                 return view('competitors.addcompetitor_as_coach',
                     [
                         'tehkvals'=>$tehkvals,

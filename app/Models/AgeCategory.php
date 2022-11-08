@@ -18,4 +18,12 @@ class AgeCategory extends Model
     {
         return $this->hasMany(TehkvalGroup::class, 'agecategory_id');
     }
+
+    public function competitions()
+    {
+        return $this->belongsToMany(Competition::class,
+            'competition_agecategory',
+            'competition_id',
+            'agecategory_id');
+    }
 }

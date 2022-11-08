@@ -16,20 +16,14 @@ class TehkvalGroupsController extends Controller
 
     public function index($competition_id)
     {
-        $competition = Competition::where('id', $competition_id)->first();
+        $competition = Competition::with('agecategories')->where('id', $competition_id)->first();
         $tehkvals = Tehkval::get();
         $tehkvalgroups = TehkvalGroup::with('agecategory')
             ->where('competition_id', $competition_id)->orderBy('agecategory_id')->get();
-        foreach ($tehkvalgroups as $tehkvalgroup) {
-
-            $tehkvalgroupId[] = $tehkvalgroup->agecategory->id;
-        }
-        $agecategories = AgeCategory::whereIn('id', $tehkvalgroupId)->get();
 
         return view('competitions.tehkvalgroups', [
             'competition' => $competition,
             'tehkvals' => $tehkvals,
-            'agecategories' => $agecategories,
             'tehkvalgroups' => $tehkvalgroups,
         ]);
     }
@@ -64,7 +58,7 @@ class TehkvalGroupsController extends Controller
 
     public function edit($id)
     {
-        //сделал так потомучто не смог разобраться с версткой
+        //сделал так потому что не смог разобраться с версткой
         $tehkvalgroup = TehkvalGroup::find($id);
 
         $tehkvalgroup->delete();

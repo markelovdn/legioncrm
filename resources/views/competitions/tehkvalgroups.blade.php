@@ -16,7 +16,7 @@
                     <div class="col-sm-3">
                         <strong>Возраст</strong>
                         <select name="agecategory_id" class="form-control">
-                            @foreach($agecategories as $agecategory)
+                            @foreach($competition->agecategories as $agecategory)
                                 <option value="{{$agecategory->id}}">{{$agecategory->title}}</option>
                             @endforeach
                         </select>
@@ -58,7 +58,7 @@
                         <div class="row mt-2">
                             <div class="col-sm-3">
                                 <select name="agecategory_id" class="form-control">
-                                    @foreach($agecategories as $agecategory)
+                                    @foreach($competition->agecategories as $agecategory)
                                         <option value="{{$agecategory->id}}" @if($agecategory->id==$tehkvalgroup->agecategory_id) selected @endif>{{$agecategory->title}}</option>
                                     @endforeach
                                 </select>
