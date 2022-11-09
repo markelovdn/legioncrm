@@ -18,7 +18,8 @@ Route::resource('studyplace', \App\Http\Controllers\Api\V1\StudyPlaceController:
 Route::resource('addresses', \App\Http\Controllers\Api\V1\AddressesController::class)->middleware(['auth']);
 //Route::resource('competitors', \App\Http\Controllers\Api\V1\CompetitorsController::class);
 Route::resource('competitions', \App\Http\Controllers\Api\V1\CompetitionsController::class);
-Route::resource('competitions.competitors', \App\Http\Controllers\Api\V1\CompetitorsController::class)->shallow()->middleware(['auth']);
+Route::resource('competitions.competitors', \App\Http\Controllers\Api\V1\CompetitorsController::class)->shallow();
+Route::any('/competitions/{id}/competitors-new-user', [\App\Http\Controllers\Api\V1\CompetitorsController::class, 'store_as_new_user']);
 Route::resource('competitions.tehkvalgroups', \App\Http\Controllers\Api\V1\TehkvalGroupsController::class)->shallow()->middleware(['auth']);
 Route::resource('role-user', \App\Http\Controllers\Api\V1\RoleUserController::class)->middleware(['auth']);
 

@@ -92,6 +92,20 @@ class User extends Authenticatable
         }
     }
 
+    public static function checkUserUnique($firstname, $secondname, $patronymic, $dateOfBirth)
+    {
+        $user = User::where('firstname', $firstname)
+            ->where('secondname', $secondname)
+            ->where('patronymic', $patronymic)
+            ->where('date_of_birth', $dateOfBirth)
+            ->first();
+
+        if ($user) {
+            return true;
+        }
+        return false;
+    }
+
 
 
 

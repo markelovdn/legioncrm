@@ -37,9 +37,20 @@ class TehkvalGroupsController extends Controller
     {
         $request->validated();
 
+        if (!TehkvalGroup::checkTehkvalGroup(
+            $request->competition_id,
+            $request->agecategory_id,
+            $request->startgyp_id,
+            $request->finishgyp_id
+        )) {
+            return back();
+        };
+
+        $titleTehkvalGroup = TehkvalGroup::getNameTehKvalGroup($request->startgyp_id, $request->finishgyp_id);
+
         $tehkvalgroup = new TehkvalGroup();
 
-        $tehkvalgroup->title = $request->title;
+        $tehkvalgroup->title = $request->title.$titleTehkvalGroup;
         $tehkvalgroup->competition_id = $request->competition_id;
         $tehkvalgroup->agecategory_id = $request->agecategory_id;
         $tehkvalgroup->startgyp_id = $request->startgyp_id;
@@ -73,10 +84,6 @@ class TehkvalGroupsController extends Controller
         $tehkvalgroup = TehkvalGroup::find($id);
 
         $tehkvalgroup->title = $request->title;
-        $tehkvalgroup->competition_id = $request->competition_id;
-        $tehkvalgroup->agecategory_id = $request->agecategory_id;
-        $tehkvalgroup->startgyp_id = $request->startgyp_id;
-        $tehkvalgroup->finishgyp_id = $request->finishgyp_id;
 
         $tehkvalgroup->save();
 

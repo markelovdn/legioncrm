@@ -44,15 +44,19 @@
 				</div>
 
 				<div class="card-footer">
-                    <a href="{{route('competitions.edit',[$competition->id])}}"><i class="fas fa-wrench"></i></a>
-                    <form method="POST" action="{{route('competitions.destroy',$competition->id)}}">
-                        @method('DELETE')
-                        @csrf
-                        <button type="submit"><i class="fas fa-trash"></i></button>
-                        </form>
-
+                    <div class="row row-cols-2">
+                        <div class="col text-left">
+                            <a class="btn btn-primary" href="{{route('competitions.edit',[$competition->id])}}"><i class="fas fa-cog"></i></a>
+                        </div>
+                        <div class="col text-right">
+                            <form method="POST" action="{{route('competitions.destroy',$competition->id)}}">
+                                @method('DELETE')
+                                @csrf
+                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                            </form>
+                        </div>
+                    </div>
 				</div>
-
 			</div>
 	@endforeach
 	<!-- /.card-body -->

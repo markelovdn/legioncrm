@@ -6,7 +6,7 @@
 		</div>
 		<!-- /.card-header -->
 		<!-- form start -->
-		<form class="form-horizontal" method="POST" action="/newcompetitor">
+		<form class="form-horizontal" method="POST" action="/competitions/{id}/competitors-new-user">
 			@csrf
 			<div class="card-body">
 				<div class="form-group row">

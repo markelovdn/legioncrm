@@ -167,4 +167,17 @@ class UserTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    public function test_user_unique() {
+        $firstname = 'Иван';
+        $secondname = 'Иванов';
+        $patronymic = 'Иванович';
+        $dateOfBirth = '2000-01-01';
+
+        $user = User::checkUserUnique($firstname, $secondname, $patronymic, $dateOfBirth);
+
+        $this->assertTrue($user);
+
+    }
+
 }

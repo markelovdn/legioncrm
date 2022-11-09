@@ -138,8 +138,7 @@
                 </div>
                 <div class="card collapsed-card">
                     <div class="card-header">
-                        <label for="linkreport" class="col-sm-10 col-form-label">Группы по технической квалификации<span
-                                class="text-danger">*</span></label>
+                        <label for="linkreport" class="col-sm-10 col-form-label">Группы по технической квалификации</label>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                 <i class="fas fa-plus"></i>
@@ -165,8 +164,8 @@
                         @error('date_end')<p class="text-danger">{{$errors->first('date_end')}}</p>@enderror
                     </div>
                     <div class="card-footer">
-                        <a href="{{route('competitions.tehkvalgroups.index',[$competition->id])}}" class="m-3">
-                            <i class="fas fa-wrench"></i>
+                        <a href="{{route('competitions.tehkvalgroups.index',[$competition->id])}}" class="btn btn-primary">
+                            <i class="fas fa-cog"></i>
                         </a>
                     </div>
                 </div>

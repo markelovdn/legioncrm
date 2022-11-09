@@ -4,6 +4,13 @@
 
 <div class="card card-info">
     <div class="card-header">{{ __('auth.Register_coach') }}</div>
+    @if(session('error_unique_user'))
+    <div class="alert alert-warning alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h5><i class="icon fas fa-exclamation-triangle"></i> Внимание</h5>
+        {{session('error_unique_user')}}
+    </div>
+    @endif
     <div class="card-body">
         <form method="POST" action="{{route('user.store')}}">
             <input type="text" name="url" style="display: none" value="{{url()->current()}}">

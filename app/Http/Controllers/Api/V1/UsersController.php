@@ -63,6 +63,11 @@ class UsersController extends Controller
             return back()->withInput();
         }
 
+        if (User::checkUserUnique($request->firstname, $request->secondname, $request->patronymic, $request->date_of_birth)) {
+            $request->session()->flash('error_unique_user', 'Данные ФИО и дата рождения уже зарегистрированны в системе, войдите в личный кабинет или свяжитесь с системным администратором');
+            return back()->withInput();
+        }
+
         $user = new User();
 
         $user->firstname = $request->firstname;

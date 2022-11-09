@@ -6,8 +6,12 @@
                 <a href="{{route('competitions.edit',[$competition->id])}}">{{$competition->title}}</a>
             </h3>
         </div>
-
         <div class="card-body">
+                @if (session('status'))
+                    <div class="alert alert-success">
+                        {{ session('status') }}
+                    </div>
+                @endif
             <form method="POST" action="{{route('competitions.tehkvalgroups.store', [$competition->id])}}">
                 @csrf
                 <input type="text" name="competition_id" class="form-control" style="display: none"
@@ -28,6 +32,9 @@
                                 <option value="{{$tehkval->id}}">{{$tehkval->title}}</option>
                             @endforeach
                         </select>
+                        @if (session('error'))
+                            <p class="text-danger">{{ session('error') }}</p>
+                        @endif
                     </div>
                     <div class="col-sm-2">
                         <strong>Максимальный гып</strong>
@@ -36,10 +43,14 @@
                                 <option value="{{$tehkval->id}}">{{$tehkval->title}}</option>
                             @endforeach
                         </select>
+                        @if (session('error'))
+                            <p class="text-danger">{{ session('error') }}</p>
+                        @endif
                     </div>
                     <div class="col-sm-3">
                         <strong>Наименование</strong>
                         <input type="text" name="title" class="form-control">
+                        @error('title')<p class="text-danger">{{$errors->first('title')}}</p>@enderror
                     </div>
                     <div class="col-sm-2">
                         <button type="submit" class="btn btn-success mt-4">Добавить</button>
@@ -57,21 +68,21 @@
                                value="{{$competition->id}}">
                         <div class="row mt-2">
                             <div class="col-sm-3">
-                                <select name="agecategory_id" class="form-control">
+                                <select name="agecategory_id" class="form-control" disabled>
                                     @foreach($competition->agecategories as $agecategory)
                                         <option value="{{$agecategory->id}}" @if($agecategory->id==$tehkvalgroup->agecategory_id) selected @endif>{{$agecategory->title}}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="col-sm-2">
-                                <select name="startgyp_id" class="form-control">
+                                <select name="startgyp_id" class="form-control" disabled>
                                     @foreach($tehkvals as $tehkval)
                                         <option value="{{$tehkval->id}}" @if($tehkval->id==$tehkvalgroup->startgyp_id) selected @endif>{{$tehkval->title}}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="col-sm-2">
-                                <select name="finishgyp_id" class="form-control">
+                                <select name="finishgyp_id" class="form-control" disabled>
                                     @foreach($tehkvals as $tehkval)
                                         <option value="{{$tehkval->id}}" @if($tehkval->id==$tehkvalgroup->finishgyp_id) selected @endif>{{$tehkval->title}}</option>
                                     @endforeach

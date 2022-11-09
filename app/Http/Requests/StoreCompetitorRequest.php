@@ -32,6 +32,7 @@ class StoreCompetitorRequest extends FormRequest
             'weight' => ['required', 'numeric', 'max:150', 'min:15'],
             'coach_code' => ['required_with:coach_id', 'numeric'],
             'sportkval_id' => ['required_with:coach_id', 'numeric'],
+            'tehkval_id' => ['required_with:coach_id', 'numeric'],
             'coach_id' => ['required_with:secondname', 'numeric'],
         ];
     }

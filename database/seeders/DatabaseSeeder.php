@@ -185,7 +185,7 @@ class DatabaseSeeder extends Seeder
         Tehkval::insert([
             ['title' => 'Нет',  'belt_color' => 'Нет'],
             ['title' => '10 гып',  'belt_color' => 'Белый'],
-            ['title' => '9 ып',  'belt_color' => 'Бело-желтый'],
+            ['title' => '9 гып',  'belt_color' => 'Бело-желтый'],
             ['title' => '8 гып',  'belt_color' => 'Желтый'],
             ['title' => '7 гып',  'belt_color' => 'Желто-зеленый'],
             ['title' => '6 гып',  'belt_color' => 'Зеленый'],
