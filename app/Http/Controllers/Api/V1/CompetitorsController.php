@@ -49,6 +49,10 @@ class CompetitorsController extends Controller
             ->with('athlete', 'agecategory', 'weightcategory', 'tehkvalgroup')
             ->get();
 
+        foreach ($competitors as $competitor) {
+            $a = $competitor->athlete->gender;
+        }
+
         return view('competitions.competitors', ['competition'=>$competition, 'competitors'=>$competitors]);
     }
 
@@ -58,7 +62,7 @@ class CompetitorsController extends Controller
         $tehkvals = Tehkval::all();
         $sportkvals = Sportkval::all();
         $organization = Organization::all();
-        $coaches = Coach::all();
+        $coaches = Coach::with('user')->get();
         $competition = Competition::find($competition_id);
 
         if (Auth::user()) {
@@ -93,11 +97,6 @@ class CompetitorsController extends Controller
     {
         $request->validated();
 
-        if (\App\Models\User::checkUserUnique($request->firstname, $request->secondname, $request->patronymic, $request->date_of_birth)) {
-            $request->session()->flash('error_unique_user', 'Данные ФИО и дата рождения уже зарегистрированны в системе, войдите в личный кабинет и добавте спортсменов из личного кабинета, или свяжитесь с системным администратором');
-            return back()->withInput();
-        }
-
         $competitor = Athlete::with('user', 'tehkval', 'sportkval')->where('id', $request->input('athlete_id'))->first();
         $competition = \Illuminate\Support\Facades\Request::input('competition_id');
 
@@ -107,6 +106,12 @@ class CompetitorsController extends Controller
         if(!$weightcategory_id) {return back();}
         $tehkvalgroup_id = $this->competitor->getTehKvalGroup($competitor->tehkval->max('id'), $competitor->user->date_of_birth);
         if(!$tehkvalgroup_id) {return back();}
+
+        if (!Competitor::checkUniqueCompetitorWeightCategory(
+            $competitor->id, $agecategory_id, $weightcategory_id, $tehkvalgroup_id, $competition
+        )) {
+            return back()->withInput();
+        }
 
         $competitor = new Competitor();
         $competitor->athlete_id = $request->input('athlete_id');
@@ -126,14 +131,28 @@ class CompetitorsController extends Controller
     public function store_as_new_user(StoreCompetitorRequest $request)
     {
         $request->validated();
+        $competition = \Illuminate\Support\Facades\Request::input('competition_id');
 
         if (\App\Models\User::checkUserUnique($request->firstname, $request->secondname, $request->patronymic, $request->date_of_birth)) {
-            $request->session()->flash('error_unique_user', 'Данные ФИО и дата рождения уже зарегистрированны в системе, войдите в личный кабинет и добавте спортсменов из личного кабинета, или свяжитесь с системным администратором');
+            return back()->withInput();
+        }
+
+        $agecategory_id = $this->competitor->getAgeCategory($request->date_of_birth);
+        if(!$agecategory_id) {
+            return back()->withInput();
+        }
+
+        $weightcategory_id = $this->competitor->getWeightCategory($request->input('weight'), $request->gender, $request->date_of_birth);
+        if(!$weightcategory_id) {
+            return back()->withInput();
+        }
+
+        $tehkvalgroup_id = $this->competitor->getTehKvalGroup($request->tehkval_id, $request->date_of_birth);
+        if(!$tehkvalgroup_id) {
             return back()->withInput();
         }
 
         $user = new User();
-
         $user->firstname = $request->firstname;
         $user->secondname = $request->secondname;
         $user->patronymic = $request->patronymic;
@@ -145,29 +164,29 @@ class CompetitorsController extends Controller
         $athlete->gender = $request->gender;
         $athlete->save();
 
-        $competitor = Athlete::with('user', 'tehkval', 'sportkval')->where('id', $athlete->id)->first();
-        $competition = \Illuminate\Support\Facades\Request::input('competition_id');
+        $athlete->tehkval()->attach($request->tehkval_id);
+        $athlete->sportkval()->attach($request->sportkval_id);
 
-        $agecategory_id = $this->competitor->getAgeCategory($competitor->user->date_of_birth);
-        if(!$agecategory_id) {return back();} //Не добавляется потомучто нет такого возраста на соревнованиях
-        $weightcategory_id = $this->competitor->getWeightCategory($request->input('weight'), $competitor->gender, $competitor->user->date_of_birth);
-        if(!$weightcategory_id) {return back();}
-        $tehkvalgroup_id = $this->competitor->getTehKvalGroup($competitor->tehkval->max('id'), $competitor->user->date_of_birth);
-        if(!$tehkvalgroup_id) {return back();}
+        if (!Competitor::checkUniqueCompetitorWeightCategory(
+            $athlete->id, $agecategory_id, $weightcategory_id, $tehkvalgroup_id, $competition
+        )) {
+            return back()->withInput();
+        }
 
         $competitor = new Competitor();
-        $competitor->athlete_id = $request->input('athlete_id');
+        $competitor->athlete_id = $athlete->id;
         $competitor->weight = $request->input('weight');
         $competitor->agecategory_id = $agecategory_id;
         $competitor->weightcategory_id = $weightcategory_id;
         $competitor->tehkvalgroup_id = $tehkvalgroup_id;
-
         $competitor->save();
 
         $competitor->competitions()->attach($competition);
 
-    }
 
+        return redirect('competitions/'.\Illuminate\Support\Facades\Request::input('competition_id').'/competitors/');
+
+    }
 
     public function show($id)
     {

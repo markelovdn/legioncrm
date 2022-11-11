@@ -15,7 +15,7 @@ class CreateCompetitorsTable extends Migration
     {
         Schema::create('competitors', function (Blueprint $table) {
             $table->id();
-            $table->string('athlete_id');
+            $table->foreignId('athlete_id')->constrained('athletes');
             $table->double('weight');
             $table->integer('lot')->nullable();
             $table->foreignId('agecategory_id')->nullable()->constrained('age_categories');

@@ -4,18 +4,22 @@
 		<div class="card-header">
 			<h3 class="card-title">Внесите данные участника соревнований {{$competition->name}}</h3>
 		</div>
+        @if (session('error_unique_user'))
+            <p class="text-danger">{{ session('error_unique_user') }}</p>
+        @endif
 		<!-- /.card-header -->
 		<!-- form start -->
 		<form class="form-horizontal" method="POST" action="/competitions/{id}/competitors-new-user">
 			@csrf
+            <input type="number" style="display: none" class="form-control" id="competition_id" name="competition_id" value="{{$competition->id}}">
 			<div class="card-body">
 				<div class="form-group row">
 					<label for="gender" class="col-sm-2 col-form-label">Пол<span class="text-danger">*</span></label>
 					<div class="col-sm-10">
 						<select type="text" class="form-control" name="gender" id="gender">
                             <option></option>
-							<option @if(old('gender') == 'мужской') selected @endif>мужской</option>
-							<option @if(old('gender') == 'женский') selected @endif>женский</option>
+							<option value="1" @if(old('gender') == '1') selected @endif>мужской</option>
+							<option value="2" @if(old('gender') == '2') selected @endif>женский</option>
 						</select>
                         @error('gender')<p class="text-danger">{{$errors->first('gender')}}</p>@enderror
 					</div>
@@ -46,6 +50,7 @@
 					<div class="col-sm-10">
 						<input type="date" class="form-control" id="date_of_birth" name="date_of_birth" value="{{old('date_of_birth')}}">
 						@error('date_of_birth')<p class="text-danger">{{$errors->first('date_of_birth')}}</p>@enderror
+                        @if (session('error_age'))<p class="text-danger">{{ session('error_age') }}</p>@endif
 					</div>
 				</div>
 				<div class="form-group row">
@@ -53,7 +58,7 @@
 					<div class="col-sm-10">
 						<input type="number" step="0.01" class="form-control" id="weight" name="weight" value="{{old('weight')}}">
 						@error('weight')<p class="text-danger">{{$errors->first('weight')}}</p>@enderror
-						@if (session('error'))<p class="text-danger">{{ session('error') }}</p>@endif
+                        @if (session('error_weight'))<p class="text-danger">{{ session('error_weight') }}</p>@endif
 					</div>
 				</div>
 				<div class="form-group row">
@@ -62,11 +67,11 @@
 						<select type="text" class="form-control" name="tehkval_id" id="tehkval_id">
                             <option></option>
 							@foreach($tehkvals as $tehkval)
-								<option value="{{$tehkval->id}}" @if(old('tehkval_id') == $tehkval->id) selected @endif>{{$tehkval->belt_color}} ({{$tehkval->name}})</option>
+								<option value="{{$tehkval->id}}" @if(old('tehkval_id') == $tehkval->id) selected @endif>{{$tehkval->belt_color}} ({{$tehkval->title}})</option>
 							@endforeach
 						</select>
 						@error('tehkval_id')<p class="text-danger">{{$errors->first('tehkval_id')}}</p>@enderror
-						@if (session('error'))<p class="text-danger">{{ session('error') }}</p>@endif
+                        @if (session('error_tehkval'))<p class="text-danger">{{ session('error_tehkval') }}</p>@endif
 					</div>
 				</div>
 				<div class="form-group row">
@@ -75,7 +80,7 @@
 						<select type="text" class="form-control" name="sportkval_id" id="sportkval_id">
                             <option></option>
 							@foreach($sportkvals as $sportkval)
-								<option value="{{$sportkval->id}}" @if(old('sportkval_id') == $sportkval->id) selected @endif>{{$sportkval->shortname}}</option>
+								<option value="{{$sportkval->id}}" @if(old('sportkval_id') == $sportkval->id) selected @endif>{{$sportkval->short_title}}</option>
 							@endforeach
 						</select>
                         @error('sportkval_id')<p class="text-danger">{{$errors->first('sportkval_id')}}</p>@enderror
@@ -87,7 +92,7 @@
 						<select type="text" class="form-control" name="coach_id" id="coach_id">
                             <option></option>
 							@foreach($coaches as $coach)
-								<option value="{{$coach->id}}" @if(old('coach_id') == $coach->id) selected @endif>{{$coach->secondname}} {{$coach->firstname}} {{$coach->patronymic}}</option>
+								<option value="{{$coach->id}}" @if(old('coach_id') == $coach->id) selected @endif>{{$coach->user->secondname}} {{$coach->user->firstname}} {{$coach->user->patronymic}}</option>
 							@endforeach
 						</select>
                         @error('coach_id')<p class="text-danger">{{$errors->first('coach_id')}}</p>@enderror

@@ -33,7 +33,8 @@ class Competitor extends Model
         if ($competition_age_category->whereIn('agecategory_id', $age_category)->isNotEmpty()) {
             return $age_category;
         } else {
-            session()->flash('error', 'Нет подходящего возраста для данных соревнований');
+            session()->flash('error_age', 'Нет подходящего возраста для данных соревнований');
+            return false;
         }
     }
 
@@ -49,23 +50,49 @@ class Competitor extends Model
             return $weightCategories->id;
         }
         else {
-            session()->flash('error', 'Нет подходящей весовой категории на данных соревнований');
+            session()->flash('error_weight', 'Нет подходящей весовой категории для данных соревнований');
+            return false;
         }
     }
 
     public function getTehKvalGroup($tehkval_id, $date_of_birth) {
 
         $tehKvalGroups = TehkvalGroup::
-               whereRaw('agecategory_id = '.$this->getAgeCategory($date_of_birth).' and finishgyp_id >= '.$tehkval_id)
+               whereRaw('agecategory_id = '.$this->getAgeCategory($date_of_birth).
+            ' and finishgyp_id >= '.$tehkval_id)
                 ->first();
 
             if ($tehKvalGroups) {
                 return $tehKvalGroups->id;
             }
             else {
-                return session()->flash('error', 'Нет подходящей группы на данных соревнованиях');
+                session()->flash('error_tehkval', 'Нет подходящей группы по технической квалификации для данных соревнований');
+                return false;
             }
         }
+
+    public static function checkUniqueCompetitorWeightCategory(
+        $athlete_id, $agecategory_id, $weightcategory_id, $tehkvalgroup_id, $competition_id) {
+
+        $competitor = Competitor::where('athlete_id', $athlete_id)
+                                ->where('agecategory_id', $agecategory_id)
+                                ->where('weightcategory_id', $weightcategory_id)
+                                ->where('tehkvalgroup_id', $tehkvalgroup_id)
+                                ->first();
+
+        if ($competitor) {
+            $competition = DB::table('competition_competitor')
+                ->where('competition_id', $competition_id)
+                ->where('competitor_id', $competitor->id)
+                ->first();
+                if ($competition){
+                    session()->flash('error_unique_competitor', 'Данный спорстмен уже заявлен в весовой категории');
+                    return false;
+                    }
+        } else {
+            return true;
+        }
+    }
 
     public function scopeFilter(Builder $builder, QueryFilter $filter){
         return $filter->apply($builder);

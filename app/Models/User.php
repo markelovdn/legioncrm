@@ -101,6 +101,7 @@ class User extends Authenticatable
             ->first();
 
         if ($user) {
+            session()->flash('error_unique_user', 'Данные ФИО и дата рождения уже зарегистрированны в системе, войдите в личный кабинет и добавте спортсменов из личного кабинета, или свяжитесь с системным администратором');
             return true;
         }
         return false;

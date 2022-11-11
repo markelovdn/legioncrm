@@ -169,12 +169,9 @@ class UserTest extends TestCase
     }
 
     public function test_user_unique() {
-        $firstname = 'Иван';
-        $secondname = 'Иванов';
-        $patronymic = 'Иванович';
-        $dateOfBirth = '2000-01-01';
+        $user = User::find(1);
 
-        $user = User::checkUserUnique($firstname, $secondname, $patronymic, $dateOfBirth);
+        $user = User::checkUserUnique($user->firstname, $user->secondname, $user->patronymic, $user->date_of_birth);
 
         $this->assertTrue($user);
 
