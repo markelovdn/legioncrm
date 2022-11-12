@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCompetitorRequest;
 use App\Models\Athlete;
 use App\Models\Coach;
+use App\Models\Role;
 use App\Models\User;
 use App\Models\Competition;
 use App\Models\Competitor;
@@ -133,7 +134,7 @@ class CompetitorsController extends Controller
         $request->validated();
         $competition = \Illuminate\Support\Facades\Request::input('competition_id');
 
-        if (\App\Models\User::checkUserUnique($request->firstname, $request->secondname, $request->patronymic, $request->date_of_birth)) {
+        if (!\App\Models\User::checkUserUnique($request->firstname, $request->secondname, $request->patronymic, $request->date_of_birth)) {
             return back()->withInput();
         }
 
@@ -158,11 +159,25 @@ class CompetitorsController extends Controller
         $user->patronymic = $request->patronymic;
         $user->date_of_birth = $request->date_of_birth;
         $user->save();
+        $role = Role::where('code', 'athlete')->get();
 
-        $athlete = new Athlete();
-        $athlete->user_id = $user->id;
-        $athlete->gender = $request->gender;
-        $athlete->save();
+        $user->role()->attach($role);
+
+        $coaches = Coach::find($request->coach_id);
+
+        if($coaches->code == $request->coach_code) {
+            $athlete = new Athlete();
+            $athlete->user_id = $user->id;
+            $athlete->gender = $request->gender;
+            $athlete->status = 1;
+            $athlete->save();
+
+            $athlete->coaches()->attach($coaches, ['coach_type' => 1]);
+        }
+        else{
+            $request->session()->flash('status', 'Не верный код тренера');
+            return back()->withInput();
+        }
 
         $athlete->tehkval()->attach($request->tehkval_id);
         $athlete->sportkval()->attach($request->sportkval_id);

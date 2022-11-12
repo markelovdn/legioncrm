@@ -170,10 +170,22 @@ class UserTest extends TestCase
 
     public function test_user_unique() {
         $user = User::find(1);
+        $coach = Coach::find(1);
 
-        $user = User::checkUserUnique($user->firstname, $user->secondname, $user->patronymic, $user->date_of_birth);
+        $response = $this->post('/user', [
+            'secondname' => $user->secondname,
+            'firstname' => $user->firstname,
+            'patronymic' => $user->patronymic,
+            'date_of_birth' => $user->date_of_birth,
+            'email' => 'test@test.ru',
+            'phone' => '+7 (123) 000 0000',
+            'role_code' => 'athlete',
+            'reg_code' => $coach->code,
+            'password' => '123123'
+        ]);
 
-        $this->assertTrue($user);
+        $response->assertSessionHas('error_unique_user');
+        $response->assertStatus(302);
 
     }
 

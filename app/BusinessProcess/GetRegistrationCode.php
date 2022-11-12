@@ -15,6 +15,7 @@ class GetRegistrationCode
         $reg_code = "";
         switch ($role_code) {
             case (Role::ROLE_PARENTED):
+            case (Role::ROLE_ATHLETE):
                 $reg_code = Coach::where('code', $code)->first();
                 break;
             case (Role::ROLE_COACH):
