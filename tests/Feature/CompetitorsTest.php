@@ -18,6 +18,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class CompetitorsTest extends TestCase
@@ -248,9 +249,9 @@ class CompetitorsTest extends TestCase
         $now = Carbon::now()->year;
         $competitor_age = $now - $competitor_date;
 
-        $age_category = AgeCategory::
-        whereRaw($competitor_age.' between `age_start` and `age_finish`')
-            ->first();
+        $age_category = DB::table('age_categories')
+            ->whereRaw($competitor_age.' between `age_start` and `age_finish`')
+        ->first();
 
         $competition = Competition::first();
         $competition->agecategories()->attach($age_category->id);
