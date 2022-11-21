@@ -88,10 +88,10 @@ class CompetitorsTest extends TestCase
 
         $age_category = AgeCategory::
         whereRaw($competitor_age.' between `age_start` and `age_finish`')
-            ->first()->id;
+            ->first();
 
         $competition = Competition::first();
-        $competition->agecategories()->attach($age_category);
+        $competition->agecategories()->attach($age_category->id);
 
         $sportKval = Sportkval::find(1);
         $tehKval = Tehkval::find(1);
