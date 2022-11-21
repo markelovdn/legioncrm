@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Coach;
 use App\Models\Parented;
+use App\Models\Role;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -32,15 +33,15 @@ class LoginController extends Controller
     }
 
     protected function redirectTo(){
-        switch (auth()->user()->role_id) {
-            case (5):
+        switch (auth()->user()->role_code) {
+            case (Role::ROLE_PARENTED):
                 $parented = Parented::with('user')->where('user_id', auth()->user()->id)->get();
                 $parented_id = '';
                 foreach ($parented as $item) {
                     $parented_id = $item->id;
                 }
                 return url('/parented',$parented_id);
-            case (4):
+            case (Role::ROLE_ATHLETE):
                 $coach = Coach::with('user')->where('user_id', auth()->user()->id)->get();
                 $coach_id = '';
                 foreach ($coach as $item) {

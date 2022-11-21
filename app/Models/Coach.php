@@ -28,7 +28,10 @@ class Coach extends Model
     public static function getCoachId() {
         $coach = Coach::where('user_id', auth()->user()->id)->with('user')->first();
 
-        return $coach->id;
+        if ($coach) {
+            return $coach->id;
+        }
+
     }
 
 

@@ -58,6 +58,7 @@ class Kernel extends HttpKernel
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'org' => \App\Http\Middleware\OrganizationMiddleware::class,
+        'system_admin' => \App\Http\Middleware\SuperAdminMiddleware::class,
         'coach' => \App\Http\Middleware\CoachMiddleware::class,
         'parented' => \App\Http\Middleware\ParentedMiddleware::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,

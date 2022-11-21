@@ -22,7 +22,7 @@ use Tests\TestCase;
 
 class CompetitorsTest extends TestCase
 {
-//    use DatabaseTransactions;
+    use DatabaseTransactions;
 
     public function test_competitiors_index()
     {
@@ -227,6 +227,46 @@ class CompetitorsTest extends TestCase
             $competitor->tehkvalgroup_id, $competition->id);
 
         $this->assertFalse($unique_competitor);
+    }
+
+    public function test_competitor_edit() {
+        $user = User::whereRelation('role', 'code', Role::ROLE_COACH)->first();
+        Auth::login($user);
+
+        $competitor = Competitor::factory(1)->create();
+
+        $response = $this->get('/competitors/'.$competitor->first()->id.'/edit');
+        $response->assertStatus(200);
+    }
+
+    public function test_competitor_update() {
+        $user = User::whereRelation('role', 'code', Role::ROLE_COACH)->first();
+        Auth::login($user);
+
+        $competitor_date = Carbon::parse('2000-01-01')->year;
+        $now = Carbon::now()->year;
+        $competitor_age = $now - $competitor_date;
+
+        $age_category = AgeCategory::
+        whereRaw($competitor_age.' between `age_start` and `age_finish`')
+            ->first()->id;
+
+        $competition = Competition::first();
+        $competition->agecategories()->attach($age_category);
+
+        $competitor = Competitor::factory(1)->create();
+        $sportKval = Sportkval::find(1);
+        $tehKval = Tehkval::find(1);
+
+        $response = $this->followingRedirects()->put('/competitors/'.$competitor->first()->id, [
+            'gender' => 1,
+            'weight' => 54,
+            'date_of_birth' =>'2000-01-01',
+            'tehkval_id' => $tehKval->id,
+            'sportval_id' => $sportKval->id,
+
+        ]);
+        $response->assertStatus(200);
     }
 
 }

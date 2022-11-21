@@ -22,7 +22,7 @@ class AthleteFactory extends Factory
         return [
             'user_id'=> User::with('role')->has('role')->where('id','=', '6')->first(),
             'gender' => $this->faker->randomElement([1, 2]),
-            'photo' => $this->faker->imageUrl,
+            'photo' => 'images/no_photo.jpg',
             'status' => $this->faker->randomElement(['1', '0']),
             'studyplace_id'=> StudyPlace::factory(),
             'passport_id' => Passport::factory(),

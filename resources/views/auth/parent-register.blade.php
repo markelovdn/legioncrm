@@ -14,7 +14,7 @@
     <div class="card-body">
         <form method="POST" action="{{route('user.store')}}">
             <input type="text" name="url" style="display: none" value="{{url()->current()}}">
-            <input type="text" name="role_id" style="display: none" value="5">
+            <input type="text" name="role_code" style="display: none" value="{{\App\Models\Role::ROLE_PARENTED}}">
             @csrf
 
             <div class="row mb-3">

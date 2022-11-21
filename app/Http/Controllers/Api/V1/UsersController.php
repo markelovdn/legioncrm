@@ -25,6 +25,7 @@ class UsersController extends Controller
     public function index()
     {
         //
+
     }
 
     /**
@@ -85,7 +86,7 @@ class UsersController extends Controller
 
         Auth::login($user);
 
-        return redirect($userAs->registrationUserAs($request->role_code));
+        return redirect($userAs->registrationUserAs($request->role_code, $user->id));
     }
 
     /**

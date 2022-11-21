@@ -28,13 +28,18 @@ class Competitor extends Model
 
         $age_category = AgeCategory::
                 whereRaw($competitor_age.' between `age_start` and `age_finish`')
-                    ->first()->id;
+                    ->first();
 
-        if ($competition_age_category->whereIn('agecategory_id', $age_category)->isNotEmpty()) {
-            return $age_category;
-        } else {
-            session()->flash('error_age', 'Нет подходящего возраста для данных соревнований');
+        if(empty($age_category)) {
+            session()->flash('error_age', 'Спортсмен данного возраста пока не может принимать участи в соревнованиях по спаррингу');
             return false;
+        } else {
+            if ($competition_age_category->whereIn('agecategory_id', $age_category->id)->isNotEmpty()) {
+                return $age_category->id;
+            } else {
+                session()->flash('error_age', 'Нет подходящего возраста для данных соревнований');
+                return false;
+            }
         }
     }
 
@@ -130,6 +135,10 @@ class Competitor extends Model
 
     public function athlete()
     {
-        return $this->belongsTo(Athlete::class)->with('user')->with('coaches');
+        return $this->belongsTo(Athlete::class)
+            ->with('user')
+            ->with('coaches')
+            ->with('tehkval')
+            ->with('sportkval');
     }
 }

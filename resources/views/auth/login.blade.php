@@ -4,9 +4,8 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <div class="card-header"><span>{{ __('auth.Login_in_cabinet')}} или <a data-widget="pushmenu" href="#" >Зарегистрироваться</a></span></div>
             <div class="card">
-                <div class="card-header"><span>{{ __('auth.Login_in_cabinet')}} или <a data-widget="pushmenu" href="#" >Зарегистрироваться</a></span></div>
-
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
@@ -18,7 +17,7 @@
                                 <input id="phone" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}">
 
                                 @error('phone')
-                                    <span class="invalid-feedback" role="alert">
+                                <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
@@ -32,24 +31,24 @@
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password">
 
                                 @error('password')
-                                    <span class="invalid-feedback" role="alert">
+                                <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
                         </div>
 
-{{--                        <div class="row mb-3">--}}
-{{--                            <div class="col-md-6 offset-md-4">--}}
-{{--                                <div class="form-check">--}}
-{{--                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>--}}
+                        {{--                        <div class="row mb-3">--}}
+                        {{--                            <div class="col-md-6 offset-md-4">--}}
+                        {{--                                <div class="form-check">--}}
+                        {{--                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>--}}
 
-{{--                                    <label class="form-check-label" for="remember">--}}
-{{--                                        {{ __('auth.remember') }}--}}
-{{--                                    </label>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
+                        {{--                                    <label class="form-check-label" for="remember">--}}
+                        {{--                                        {{ __('auth.remember') }}--}}
+                        {{--                                    </label>--}}
+                        {{--                                </div>--}}
+                        {{--                            </div>--}}
+                        {{--                        </div>--}}
 
                         <div class="row mb-0">
                             <div class="col-md-8 offset-md-4">

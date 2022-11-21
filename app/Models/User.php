@@ -24,7 +24,6 @@ class User extends Authenticatable
         'email',
         'phone',
         'password',
-        'role_id'
     ];
 
     /**
@@ -76,16 +75,28 @@ class User extends Authenticatable
         $user = User::with('role')->find(auth()->user()->id);
 
         foreach ($user->role as $item) {
+            return $item->name;
+        }
+    }
+
+    public static function getRoleCode()
+    {
+        $user = User::with('role')->find(auth()->user()->id);
+
+        foreach ($user->role as $item) {
             return $item->code;
         }
     }
 
-    public static function hasRole($role_id, $user_id)
+
+    public static function hasRole($role_code, $user_id)
     {
-        $role_user = RoleUser::where('user_id', $user_id)->where('role_id', $role_id)->get();
+        $role = Role::where('code', $role_code)->first();
+
+        $role_user = RoleUser::where('user_id', $user_id)->where('role_id', $role->id)->get();
 
         foreach ($role_user as $item) {
-            if ($item->role_id == $role_id) {
+            if ($item->role_id == $role->id) {
                 return true;
             } else
                 return false;

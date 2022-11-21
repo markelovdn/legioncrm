@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\DomainService\RegistrationUserAs;
 use App\Http\Controllers\Controller;
+use App\Models\Athlete;
+use App\Models\Coach;
+use App\Models\Parented;
 use App\Models\Role;
 use App\Models\RoleUser;
 use App\Models\User;
@@ -40,14 +44,37 @@ class RoleUserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, RegistrationUserAs $registrationUserAs)
     {
+        $request->validate([
+            'role_id' => ['required'],
+        ]);
+
+        $roles = Role::whereIn('id', $request->role_id)->get();
 
         $user = User::find($request->user_id);
 
         $user->role()->detach();
 
         $user->role()->attach($request->role_id);
+
+        $coach = Coach::where('user_id', $user->id)->first();
+        $parent = Parented::where('user_id', $user->id)->first();
+        $athlete = Athlete::where('user_id', $user->id)->first();
+
+        foreach ($roles as $role){
+            if (!$coach && $role->code == Role::ROLE_COACH) {
+                $registrationUserAs->registrationUserAs(Role::ROLE_COACH, $user->id);
+            }
+
+            if (!$parent && $role->code == Role::ROLE_PARENTED) {
+                $registrationUserAs->registrationUserAs(Role::ROLE_PARENTED, $user->id);
+            }
+
+            if (!$athlete && $role->code == Role::ROLE_ATHLETE) {
+                $registrationUserAs->registrationUserAs(Role::ROLE_ATHLETE, $user->id);
+            }
+        }
 
         return back();
 

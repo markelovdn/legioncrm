@@ -39,6 +39,12 @@ class AthletesTest extends TestCase
             'user_id' => $user->id
         ]);
 
+        $this->assertDatabaseHas('users', [
+            'secondname' => 'Иванов',
+            'firstname' => 'Иван',
+            'patronymic' => 'Иванович',
+        ]);
+
         $response = $this->followingRedirects()->actingAs($user)->get('/parented/'.$user->id);
         $response->assertStatus(200);
     }

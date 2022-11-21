@@ -1,7 +1,5 @@
-@if (Route::has('register'))
+<nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-        <!-- Add icons to the links using the .nav-icon class
-             with font-awesome or any other icon font library -->
         <li class="nav-item">
             <a href="/" class="nav-link">
                 <p>
@@ -10,7 +8,7 @@
                     <span class="badge badge-info right"></span>
                 </p>
             </a>
-            <ul class="nav nav-treeview">
+            <ul class="nav nav-treeview" style="display: block">
                 <li class="nav-item">
                     <a href="/user/create?parent" class="nav-link">
                         <i class="fas fa-user-friends"></i>
@@ -31,9 +29,7 @@
                         <p>Руководитель организации</p>
                     </a>
                 </li>
-
-
             </ul>
         </li>
     </ul>
-@endif
+</nav>

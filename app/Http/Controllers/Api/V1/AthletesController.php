@@ -10,6 +10,7 @@ use App\Models\Coach;
 use App\Models\Parented;
 use App\Models\Role;
 use App\Models\StudyPlace;
+use App\Models\Tehkval;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -25,6 +26,12 @@ class AthletesController extends Controller
      */
     public function index()
     {
+        $id = auth()->user()->id;
+
+        if (\App\Models\User::hasRole(Role::ROLE_COACH, $id)) {
+            $coach = Coach::where('user_id', $id)->with('user', 'athletes')->first();
+                return view('coaches.athletes', compact('coach', $coach));
+        }
         return Athlete::all();
     }
 
@@ -53,8 +60,10 @@ class AthletesController extends Controller
         $user->firstname = $request->firstname;
         $user->patronymic = $request->patronymic;
         $user->date_of_birth = $request->date_of_birth;
-        $user->role_code = Role::ROLE_ATHLETE;
         $user->save();
+
+        $role = Role::where('code', Role::ROLE_ATHLETE)->get();
+        $user->role()->attach($role);
 
         $path_photo = 'athlete/'.$user->id.'_'.$user->secondname.'_'.$user->firstname.'/'.'photo_'.$user->secondname.'_'.$user->firstname.'_'.$user->patronymic.'.jpg';
         if ($request->hasFile('photo')) {
@@ -62,6 +71,7 @@ class AthletesController extends Controller
                 ->storeAs('athlete/'.$user->id.'_'.$user->secondname.'_'.$user->firstname, 'photo_'.$user->secondname.'_'.$user->firstname.'_'.$user->patronymic.'.jpg');
         }
         $coaches = Coach::find($request->coach_id);
+        $tehKval = Tehkval::find(1);
 
         if($coaches->code == $request->reg_code) {
             $athlete = new Athlete();
@@ -72,6 +82,7 @@ class AthletesController extends Controller
             $athlete->save();
 
             $athlete->coaches()->attach($coaches, ['coach_type' => 1]);
+            $athlete->tehkval()->attach($tehKval->id);
         }
         else{
             $request->session()->flash('status', 'Не верный код тренера');
