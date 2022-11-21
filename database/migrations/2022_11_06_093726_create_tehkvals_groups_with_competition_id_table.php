@@ -14,7 +14,7 @@ class CreateTehkvalsGroupsWithCompetitionIdTable extends Migration
     public function up()
     {
         Schema::table('tehkvals_groups', function (Blueprint $table) {
-            $table->foreignId('competition_id')->constrained('competitions');
+            $table->foreignId('competition_id')->nullable()->constrained('competitions');
         });
     }
 
