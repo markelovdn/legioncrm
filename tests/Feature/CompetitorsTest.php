@@ -22,7 +22,7 @@ use Tests\TestCase;
 
 class CompetitorsTest extends TestCase
 {
-//    use DatabaseTransactions;
+    use DatabaseTransactions;
 
     public function test_competitiors_index()
     {
