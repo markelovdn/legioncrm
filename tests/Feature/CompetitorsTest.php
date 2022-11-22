@@ -139,7 +139,7 @@ class CompetitorsTest extends TestCase
             'secondname' => 'Иванов',
             'firstname' => 'Иван',
             'patronymic' => 'Иванович',
-            'date_of_birth' => '2000-01-01',
+            'date_of_birth' => '1000-01-01',
             'weight' => random_int(54, 80),
             'tehkval_id' => $tehKval->id,
             'sportkval_id' => $sportKval->id,
