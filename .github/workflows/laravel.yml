@@ -44,6 +44,8 @@ jobs:
     - name: Run laravel database migrations
       run: |
         mysql --version
-        php artisan migrate:fresh --seed
+        php artisan migrate --force
+    - name: Run laravel database seed
+        run: php artisan db:seed
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       run: vendor/bin/phpunit
