@@ -22,7 +22,7 @@ use Tests\TestCase;
 
 class CompetitorsTest extends TestCase
 {
-    use DatabaseTransactions;
+//    use DatabaseTransactions;
 
     public function test_competitiors_index()
     {
@@ -200,9 +200,9 @@ class CompetitorsTest extends TestCase
         $user = User::find(6);
         $athlete = Athlete::where('user_id', $user->id)->first();
 
-        $weight = 54;
-        $weightcategory = WeightCategory::whereRaw($weight.' between `weight_start` and `weight_finish` and `gender` = 1 and `agecategory_id` = 1')
-            ->first();
+//        $weight = 54;
+//        $weightcategory = WeightCategory::whereRaw($weight.' between `weight_start` and `weight_finish` and `gender` = 1 and `agecategory_id` = 1')
+//            ->first();
 
         $tehKvalGroup = TehkvalGroup::
         whereRaw('agecategory_id = 1 and finishgyp_id >= '.$tehKval->id)
@@ -210,9 +210,9 @@ class CompetitorsTest extends TestCase
 
         $competitor = new Competitor();
         $competitor->athlete_id = $athlete->id;
-        $competitor->weight = $weight;
+        $competitor->weight = 30;
         $competitor->agecategory_id = 1;
-        $competitor->weightcategory_id = $weightcategory->id;
+        $competitor->weightcategory_id = 4;
         $competitor->tehkvalgroup_id = $tehKvalGroup->id;
         $competitor->save();
 
