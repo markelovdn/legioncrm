@@ -81,17 +81,17 @@ class CompetitorsTest extends TestCase
     public function test_competitors_store_as_new_user()
     {
         $coach = Coach::with('user')->has('user')->first();
-
-        $competitor_date = Carbon::parse('2000-01-01')->year;
-        $now = Carbon::now()->year;
-        $competitor_age = $now - $competitor_date;
-
-        $age_category = AgeCategory::
-        whereRaw($competitor_age.' between `age_start` and `age_finish`')
-            ->first();
-
         $competition = Competition::first();
-        $competition->agecategories()->attach($age_category->id);
+
+//        $competitor_date = Carbon::parse('2000-01-01')->year;
+//        $now = Carbon::now()->year;
+//        $competitor_age = $now - $competitor_date;
+//
+//        $age_category = AgeCategory::
+//        whereRaw($competitor_age.' between `age_start` and `age_finish`')
+//            ->first();
+//
+//        $competition->agecategories()->attach($age_category->id);
 
         $sportKval = Sportkval::find(1);
         $tehKval = Tehkval::find(1);
