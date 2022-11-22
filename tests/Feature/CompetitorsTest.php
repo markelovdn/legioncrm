@@ -51,18 +51,18 @@ class CompetitorsTest extends TestCase
         $user = User::whereRelation('role', 'code', Role::ROLE_COACH)->first();
         Auth::login($user);
 
-        $competitor = Athlete::with('user', 'tehkval', 'sportkval')->where('id', 1)->first();
-
-        $competitor_date = Carbon::parse($competitor->user->date_of_birth)->year;
-        $now = Carbon::now()->year;
-        $competitor_age = $now - $competitor_date;
-
-        $age_category = AgeCategory::
-        whereRaw($competitor_age.' between `age_start` and `age_finish`')
-            ->first();
-
+        $competitor = Athlete::with('user', 'tehkval', 'sportkval')->find(1);
         $competition = Competition::first();
-        $competition->agecategories()->attach($age_category->id);
+
+//        $competitor_date = Carbon::parse($competitor->user->date_of_birth)->year;
+//        $now = Carbon::now()->year;
+//        $competitor_age = $now - $competitor_date;
+//
+//        $age_category = AgeCategory::
+//        whereRaw($competitor_age.' between `age_start` and `age_finish`')
+//            ->first();
+//
+//        $competition->agecategories()->attach($age_category->id);
 
         $response = $this->followingRedirects()->post('/competitions/'.$competition->id.'/competitors', [
             'weight' => 55,
