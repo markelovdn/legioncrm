@@ -18,7 +18,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class CompetitorsTest extends TestCase
@@ -191,8 +190,7 @@ class CompetitorsTest extends TestCase
         $competitor_date = Carbon::parse('2000-01-01')->year;
         $now = Carbon::now()->year;
         $competitor_age = $now - $competitor_date;
-        $age_category = AgeCategory::
-        whereRaw($competitor_age.' between `age_start` and `age_finish`')
+        $age_category = AgeCategory::whereRaw($competitor_age.' between `age_start` and `age_finish`')
             ->first();
 
         $competition = Competition::first();
@@ -203,20 +201,19 @@ class CompetitorsTest extends TestCase
         $athlete = Athlete::where('user_id', $user->id)->first();
 
         $weight = 54;
-        $weightcategory = WeightCategory::
-        whereRaw($weight.' between `weight_start` and `weight_finish` and `gender` = 1 and `agecategory_id` = '
-            .$age_category)
+        $weightcategory = WeightCategory::whereRaw($weight.' between `weight_start` and `weight_finish` and `gender` = 1 and `agecategory_id` = '
+            .$age_category->id)
             ->first();
 
         $tehKvalGroup = TehkvalGroup::
-        whereRaw('agecategory_id = '.$age_category.
+        whereRaw('agecategory_id = '.$age_category->id.
             ' and finishgyp_id >= '.$tehKval->id)
             ->first();
 
         $competitor = new Competitor();
         $competitor->athlete_id = $athlete->id;
         $competitor->weight = $weight;
-        $competitor->agecategory_id = $age_category;
+        $competitor->agecategory_id = $age_category->id;
         $competitor->weightcategory_id = $weightcategory->id;
         $competitor->tehkvalgroup_id = $tehKvalGroup->id;
         $competitor->save();
@@ -249,9 +246,8 @@ class CompetitorsTest extends TestCase
         $now = Carbon::now()->year;
         $competitor_age = $now - $competitor_date;
 
-        $age_category = DB::table('age_categories')
-            ->whereRaw($competitor_age.' between `age_start` and `age_finish`')
-        ->first();
+        $age_category = AgeCategory::whereRaw($competitor_age.' between `age_start` and `age_finish`')
+            ->first();
 
         $competition = Competition::first();
         $competition->agecategories()->attach($age_category->id);
