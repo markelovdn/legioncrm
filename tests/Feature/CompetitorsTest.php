@@ -154,17 +154,17 @@ class CompetitorsTest extends TestCase
     public function test_competitors_store_as_new_user_error_tehkval()
     {
         $coach = Coach::with('user')->has('user')->first();
-
-        $competitor_date = Carbon::parse('2000-01-01')->year;
-        $now = Carbon::now()->year;
-        $competitor_age = $now - $competitor_date;
-
-        $age_category = AgeCategory::
-        whereRaw($competitor_age.' between `age_start` and `age_finish`')
-            ->first();
-
         $competition = Competition::first();
-        $competition->agecategories()->attach($age_category->id);
+
+//        $competitor_date = Carbon::parse('2000-01-01')->year;
+//        $now = Carbon::now()->year;
+//        $competitor_age = $now - $competitor_date;
+//
+//        $age_category = AgeCategory::
+//        whereRaw($competitor_age.' between `age_start` and `age_finish`')
+//            ->first();
+//
+//        $competition->agecategories()->attach($age_category->id);
 
         $sportKval = Sportkval::find(1);
 
@@ -187,33 +187,31 @@ class CompetitorsTest extends TestCase
 
     public function test_check_unique_competitor_weight_category()
     {
-        $competitor_date = Carbon::parse('2000-01-01')->year;
-        $now = Carbon::now()->year;
-        $competitor_age = $now - $competitor_date;
-        $age_category = AgeCategory::whereRaw($competitor_age.' between `age_start` and `age_finish`')
-            ->first();
+//        $competitor_date = Carbon::parse('2000-01-01')->year;
+//        $now = Carbon::now()->year;
+//        $competitor_age = $now - $competitor_date;
+//        $age_category = AgeCategory::whereRaw($competitor_age.' between `age_start` and `age_finish`')
+//            ->first();
+//
+//        $competition->agecategories()->attach($age_category->id);
 
         $competition = Competition::first();
-        $competition->agecategories()->attach($age_category->id);
-
         $tehKval = Tehkval::find(1);
         $user = User::find(6);
         $athlete = Athlete::where('user_id', $user->id)->first();
 
         $weight = 54;
-        $weightcategory = WeightCategory::whereRaw($weight.' between `weight_start` and `weight_finish` and `gender` = 1 and `agecategory_id` = '
-            .$age_category->id)
+        $weightcategory = WeightCategory::whereRaw($weight.' between `weight_start` and `weight_finish` and `gender` = 1 and `agecategory_id` = 1')
             ->first();
 
         $tehKvalGroup = TehkvalGroup::
-        whereRaw('agecategory_id = '.$age_category->id.
-            ' and finishgyp_id >= '.$tehKval->id)
+        whereRaw('agecategory_id = 1 and finishgyp_id >= '.$tehKval->id)
             ->first();
 
         $competitor = new Competitor();
         $competitor->athlete_id = $athlete->id;
         $competitor->weight = $weight;
-        $competitor->agecategory_id = $age_category->id;
+        $competitor->agecategory_id = 1;
         $competitor->weightcategory_id = $weightcategory->id;
         $competitor->tehkvalgroup_id = $tehKvalGroup->id;
         $competitor->save();
@@ -242,16 +240,16 @@ class CompetitorsTest extends TestCase
         $user = User::whereRelation('role', 'code', Role::ROLE_COACH)->first();
         Auth::login($user);
 
-        $competitor_date = Carbon::parse('2000-01-01')->year;
-        $now = Carbon::now()->year;
-        $competitor_age = $now - $competitor_date;
-
-        $age_category = AgeCategory::whereRaw($competitor_age.' between `age_start` and `age_finish`')
-            ->first();
+//        $competitor_date = Carbon::parse('2000-01-01')->year;
+//        $now = Carbon::now()->year;
+//        $competitor_age = $now - $competitor_date;
+//
+//        $age_category = AgeCategory::whereRaw($competitor_age.' between `age_start` and `age_finish`')
+//            ->first();
+//
+//        $competition->agecategories()->attach($age_category->id);
 
         $competition = Competition::first();
-        $competition->agecategories()->attach($age_category->id);
-
         $competitor = Competitor::factory(1)->create();
         $competitor_id = $competitor->first()->id;
         $sportKval = Sportkval::find(1);
