@@ -117,6 +117,7 @@ class CompetitorsTest extends TestCase
             ->first();
 
         $athlete = Athlete::where('user_id', $user->id)->first();
+        dump($athlete);
 
         $this->assertDatabaseHas('competitors', [
             'athlete_id' => $athlete->id
