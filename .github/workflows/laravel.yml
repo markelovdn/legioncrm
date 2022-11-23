@@ -28,6 +28,10 @@ jobs:
         run: npm install
       - name: Generate key
         run: php artisan key:generate
+      - name: Run laravel database migrations
+        run: php artisan migrate --force
+      - name: Run laravel database seed
+        run: php artisan db:seed
       - name: Execute tests (Unit and Feature tests) using PHPUnit
         env:
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
