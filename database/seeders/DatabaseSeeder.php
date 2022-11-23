@@ -440,15 +440,5 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        DB::table('competition_agecategory')->insert([
-                ['competition_id' => 1, 'agecategory_id' => 1],
-                ['competition_id' => 1, 'agecategory_id' => 2],
-                ['competition_id' => 1, 'agecategory_id' => 3],
-                ['competition_id' => 1, 'agecategory_id' => 4],
-                ['competition_id' => 1, 'agecategory_id' => 5],
-                ['competition_id' => 1, 'agecategory_id' => 6],
-            ]
-        );
-
     }
 }
