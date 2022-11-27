@@ -25,7 +25,7 @@ class CreateOrganizationsTableWithoutUserId extends Migration
                     ['organization_id' => $org->id, 'user_id' => $org->user_id,]
                 ]);
 
-                DB::table('organizationS')
+                DB::table('organizations')
                     ->where('id', '!=', null)
                     ->update(['user_id' => null]);
             }
