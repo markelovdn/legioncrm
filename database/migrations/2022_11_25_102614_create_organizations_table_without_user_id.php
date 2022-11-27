@@ -29,8 +29,7 @@ class CreateOrganizationsTableWithoutUserId extends Migration
                     ->where('id', '!=', null)
                     ->update(['user_id' => null]);
             }
-            $table->dropIndex('organizations_user_id_foreign');
-            $table->dropForeign('organizations_user_id_foreign');
+            $table->dropConstrainedForeignId('organizations_user_id_foreign');
             $table->dropColumn('user_id');
         });
     }
