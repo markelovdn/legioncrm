@@ -157,13 +157,11 @@ class UserTest extends TestCase
 
         $user->role()->attach($role);
 
+        $org_id = Organization::getChairman()->organizations->first()->id;
+
         Auth::login($user);
 
-        $org = new Organization();
-        $org->user_id = $user->id;
-        $org->save();
-
-        $response = $this->followingRedirects()->actingAs($user)->get('organization/'.$org->id);
+        $response = $this->followingRedirects()->actingAs($user)->get('organization/'.$org_id);
 
         $response->assertStatus(200);
     }

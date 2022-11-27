@@ -14,6 +14,7 @@ use App\Models\Organization;
 use App\Models\Region;
 use App\Models\Tehkval;
 use App\Models\TehkvalGroup;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,6 +46,7 @@ class CompetitionsController extends Controller
         $districts = District::get();
         $regions = Region::get();
         $statuses = CompetitionsRanksTitle::get();
+        $organizations = User::getUserOrganizations(auth()->user()->id);
 
         return view('competitions.addcompetition', [
             'agecategories' => $agecategories,
@@ -53,6 +55,7 @@ class CompetitionsController extends Controller
             'districts' => $districts,
             'regions' => $regions,
             'statuses' => $statuses,
+            'organizations' => $organizations,
         ]);
     }
 
@@ -74,13 +77,12 @@ class CompetitionsController extends Controller
 
         $competition->save();
 
-        $organization = Organization::where('user_id', Auth::id())->first();
         $comp = Competition::find($competition->id);
 
         $comp->agecategories()->detach();
 
         $comp->agecategories()->attach($request->agecategory);
-        $comp->organizations()->attach($organization->id);
+        $comp->organizations()->attach($request->org_id);
 
         foreach ($request->agecategory as $id) {
             DB::table('tehkvals_groups')->insert([

@@ -12,6 +12,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class CompetitionsTest extends TestCase
@@ -42,11 +43,10 @@ class CompetitionsTest extends TestCase
 
     public function test_competitions_store()
     {
-
         $user = User::whereRelation('role', 'code', Role::ROLE_ORGANIZATION_CHAIRMAN)->first();
         Auth::login($user);
 
-        $organization = Organization::where('user_id',$user->id)->first();
+        $organization = Organization::with('users')->whereHas('users')->first();
 
         $country = Country::first();
         $district = District::first();
@@ -55,10 +55,12 @@ class CompetitionsTest extends TestCase
 
         $this->post('/competitions', [
             'title' => 'Тестовые соревнованя',
+            'org_id' => $organization->id,
             'status' => $status->id,
             'country_id' => $country->id,
             'district_id' => $district->id,
             'region_id' => $region->id,
+            'agecategory' => [1,2,3,4],
             'address' => 'г. Волгоград, ЦСКА',
             'date_start' => '2000-10-10',
             'date_end' => '2000-10-10',
@@ -73,6 +75,9 @@ class CompetitionsTest extends TestCase
 
         $comp->organizations()->attach($organization->id);
 
+        $this->assertDatabaseHas('competitions', [
+            'title' => $comp->title
+        ]);
 
         $response = $this->followingRedirects()->get('competitions');
         $response->assertStatus(200);
@@ -104,6 +109,7 @@ class CompetitionsTest extends TestCase
         $user = User::whereRelation('role', 'code', Role::ROLE_ORGANIZATION_CHAIRMAN)->first();
         Auth::login($user);
 
+        $organization = Organization::with('users')->whereHas('users')->first();
         $competition = Competition::first(); //сделать под собственника соревнований
 
         $country = Country::first();
@@ -112,21 +118,20 @@ class CompetitionsTest extends TestCase
         $status = CompetitionsRanksTitle::first();
 
         $this->put('/competitions/'.$competition->id, [
-            'title' => 'Тестовые соревнованя',
+            'title' => 'Тестовые соревнованя2',
+            'org_id' => $organization->id,
             'status' => $status->id,
             'country_id' => $country->id,
             'district_id' => $district->id,
             'region_id' => $region->id,
             'address' => 'г. Волгоград, ЦСКА',
             'date_start' => '2000-10-10',
+            'agecategory' => [1,2,3,4],
             'date_end' => '2000-10-10',
             'linkreport' => 'http://tesst',
         ]);
 
-        $comp = Competition::where('title', 'Тестовые соревнованя')->first();
-
-        $comp->agecategories()->detach();
-        $comp->agecategories()->attach([1,2,3,4]);
+        $comp = Competition::where('title', 'Тестовые соревнованя2')->first();
 
         $response = $this->followingRedirects()->get('competitions');
         $response->assertStatus(200);

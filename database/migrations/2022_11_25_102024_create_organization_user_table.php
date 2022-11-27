@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAthleteOrganizationTable extends Migration
+class CreateOrganizationUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateAthleteOrganizationTable extends Migration
      */
     public function up()
     {
-        Schema::create('athlete_organization', function (Blueprint $table) {
-            $table->id('id');
-            $table->foreignId('athlete_id')->constrained('athletes');
+        Schema::create('organization_user', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('organization_id')->constrained('organizations');
-            $table->integer('org_type')->nullable();
+            $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateAthleteOrganizationTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('athlete_organization');
+        Schema::dropIfExists('organization_user');
     }
 }

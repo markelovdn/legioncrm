@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrganizationRequest;
 use App\Models\Organization;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrganizationController extends Controller
 {
@@ -48,13 +49,14 @@ class OrganizationController extends Controller
      */
     public function show($id)
     {
-        $org = Organization::where('user_id', auth()->user()->id)->with('user')->find($id);
+        $org = Organization::with('users')->find($id);
+        $user = Organization::getChairman();
 
-        if (!$org) {
+        if (!$org and !$user) {
             return redirect('/');
         }
 
-        return view('organization.cabinet', ['org' => $org]);
+        return view('organization.cabinet', ['org' => $org, 'user' => $user]);
     }
 
     /**

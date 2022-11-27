@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Organization extends Model
 {
@@ -24,8 +25,20 @@ class Organization extends Model
         return $this->hasMany(WorkPlace::class);
     }
 
-    public function user()
+    public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class);
+    }
+
+    public static function getChairman()
+    {
+        $user = User::with('organizations')->where('id', auth()->user()->id)->whereRelation('role', 'code', Role::ROLE_ORGANIZATION_CHAIRMAN)->first();
+
+        $org_count = $user->organizations->count();
+
+        if ($org_count >= 1) {
+            return $user;
+        } return false;
+
     }
 }

@@ -25,6 +25,7 @@ class StoreCompetitionRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:250'],
+            'org_id' => ['required', 'integer'],
             'status' => ['required', 'integer'],
             'country_id' => ['required', 'integer'],
             'district_id' => ['required', 'integer'],
@@ -33,6 +34,7 @@ class StoreCompetitionRequest extends FormRequest
             'date_start' => ['required', 'date'],
             'date_end' => ['required', 'date'],
             'linkreport' => ['required', 'string'],
+            'agecategory' => ['required', 'array']
         ];
     }
 }

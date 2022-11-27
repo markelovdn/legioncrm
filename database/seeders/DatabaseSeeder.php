@@ -332,13 +332,11 @@ class DatabaseSeeder extends Seeder
         User::factory(10)->create();
 
         Organization::insert([
-            ['user_id' => 3,
-                'fulltitle'=>'Волгоградская региональная детско-юношеская спортивная общественная организация "Спортивный клуб "Легион"',
+            [   'fulltitle'=>'Волгоградская региональная детско-юношеская спортивная общественная организация "Спортивный клуб "Легион"',
                 'address'=>'Волгоградская область, Городищенский район, п. Каменный, д. 17, кв. 1',
                 'shorttitle'=>'ВРДЮСОО СК "Легион"',
                 'code'=>'2217'],
-            [   'user_id' => 3,
-                'fulltitle'=>'Волгоградская региональная общественная организация "Спортивный клуб "Дубовский чемпион"',
+            [   'fulltitle'=>'Волгоградская региональная общественная организация "Спортивный клуб "Дубовский чемпион"',
                 'address'=>'Волгоградская область, Дубовский район',
                 'shorttitle'=>'ВРОО СК "Дубовский чемпион"',
                 'code'=>'2234']
@@ -395,6 +393,17 @@ class DatabaseSeeder extends Seeder
                 ['role_id' => 5, 'user_id' => 5],
                 ['role_id' => 6, 'user_id' => 6],
                 ['role_id' => 7, 'user_id' => 7],
+            ]
+        );
+
+        DB::table('organization_user')->insert([
+                ['organization_id' => 1, 'user_id' => 1],
+                ['organization_id' => 1, 'user_id' => 2],
+                ['organization_id' => 1, 'user_id' => 3],
+                ['organization_id' => 1, 'user_id' => 4],
+                ['organization_id' => 1, 'user_id' => 5],
+                ['organization_id' => 1, 'user_id' => 6],
+                ['organization_id' => 1, 'user_id' => 7],
             ]
         );
 

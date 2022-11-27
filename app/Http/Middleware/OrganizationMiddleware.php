@@ -18,12 +18,6 @@ class OrganizationMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $org = Organization::with('user')->where('user_id', auth()->user()->id)->first();
-
-        if($request->path() != 'organization/'.$org->id) {
-            return redirect('organization/'.$org->id);
-        }
-
         return $next($request);
     }
 }

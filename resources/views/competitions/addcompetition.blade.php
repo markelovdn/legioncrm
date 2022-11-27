@@ -18,6 +18,17 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label for="org_id" class="col-sm-2 col-form-label">Проводящая организация<span class="text-danger">*</span></label>
+                    <div class="col-sm-10">
+                        <select name="org_id" id="status" class="form-control">
+                            @foreach($organizations as $organization)
+                                <option value="{{$organization->id}}">{{$organization->shorttitle}}</option>
+                            @endforeach
+                        </select>
+                        @error('org_id')<p class="text-danger">{{$errors->first('org_id')}}</p>@enderror
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label for="date_end" class="col-sm-2 col-form-label">Статус<span class="text-danger">*</span></label>
                     <div class="col-sm-10">
                         <select name="status" id="status" class="form-control">

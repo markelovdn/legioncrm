@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 
 
 class User extends Authenticatable
@@ -65,6 +66,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
+    public function organizations()
+    {
+        return $this->belongsToMany(Organization::class);
+    }
+
     public function address()
     {
         return $this->belongsToMany(Address::class)->with('country', 'district', 'region');
@@ -101,6 +107,39 @@ class User extends Authenticatable
             } else
                 return false;
         }
+    }
+
+    public static function hasOrganization($org_id, $user_id)
+    {
+        $organization = Organization::find($org_id);
+
+        $org_user = DB::table('organization_user')
+            ->where('organization_id', $organization->id)
+            ->where('user_id', $user_id)->get();
+
+        foreach ($org_user as $item) {
+            if ($item->organization_id == $organization->id) {
+                return true;
+            } else
+                return false;
+        }
+    }
+
+    public static function getUserOrganizations($user_id)
+    {
+        $org_user = DB::table('organization_user')
+            ->where('user_id', $user_id)->get();
+        $orgs = [];
+        foreach ($org_user as $item) {
+            $orgs[] = $item->organization_id;
+        }
+
+        $organizations = Organization::whereIn('id',$orgs)->get();
+
+            if ($org_user) {
+                return $organizations;
+            } else
+                return false;
     }
 
     public static function checkUserUnique($firstname, $secondname, $patronymic, $dateOfBirth)
