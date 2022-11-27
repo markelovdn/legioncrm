@@ -14,7 +14,8 @@ class CreateOrganizationsTableWithoutUserId extends Migration
     public function up()
     {
         Schema::table('organizations', function (Blueprint $table) {
-            $table->dropConstrainedForeignId('user_id');
+            $table->dropForeign('organizations_user_id_foreign');
+            $table->dropColumn('user_id');
         });
     }
 
