@@ -160,6 +160,8 @@ class CompetitionsController extends Controller
 
     public function destroy(Request $request, $id)
     {
+        $tehkvalgroups = TehkvalGroup::where('competition_id', $id)->delete();
+
         $competition = Competition::find($id);
         $competition->agecategories()->detach();
         $competition->organizations()->detach();

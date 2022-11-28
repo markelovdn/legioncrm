@@ -1,6 +1,6 @@
 @if(Str::contains(url()->current(), 'competitions') and !Str::contains(url()->current(), 'competitors'))
-    @if(\App\Models\User::hasRole(\App\Models\Role::ROLE_ORGANIZATION_ADMIN)
-        or \App\Models\User::hasRole(\App\Models\Role::ROLE_ORGANIZATION_ADMIN))
+    @if(\App\Models\User::hasRole(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN, \Illuminate\Support\Facades\Auth::id())
+        or \App\Models\User::hasRole(\App\Models\Role::ROLE_ORGANIZATION_ADMIN, \Illuminate\Support\Facades\Auth::id()))
         <li class="nav-item">
             <a class="nav-link" href="{{route('competitions.create')}}" role="button">Добавить соревнование</a>
         </li>
