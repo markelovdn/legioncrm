@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Competition extends Model
 {
@@ -56,9 +58,34 @@ class Competition extends Model
         return $this->belongsToMany(Competitor::class);
     }
 
-    public function getOwner()
+    public static function getOwner($competition_id)
     {
+        if (!Auth::user()){
+            return false;
+        }
 
+        $chair_man = User::hasRole(Role::ROLE_ORGANIZATION_CHAIRMAN, \auth()->user()->id);
+        $admin_org = User::hasRole(Role::ROLE_ORGANIZATION_ADMIN, \auth()->user()->id);
+
+        if(!$chair_man and !$admin_org) {
+            return false;
+        }
+
+        $orgs = User::getUserOrganizations(\auth()->user()->id);
+
+        $orgs_id = [];
+        foreach ($orgs as $org) {
+            $orgs_id[] = $org->id;
+        }
+
+        $competition = DB::table('competition_organization')
+            ->where('competition_id', $competition_id)
+            ->whereIn('organization_id', $orgs_id)->get();
+
+        if ($competition->count() >= 1) {
+            return true;
+        }
+        return false;
     }
 
 }

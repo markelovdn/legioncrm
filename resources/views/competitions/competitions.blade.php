@@ -45,6 +45,7 @@
 
 				<div class="card-footer">
                     <div class="row row-cols-2">
+                        @if(\App\Models\Competition::getOwner($competition->id))
                         <div class="col text-left">
                             <a class="btn btn-primary" href="{{route('competitions.edit',[$competition->id])}}"><i class="fas fa-cog"></i></a>
                         </div>
@@ -55,6 +56,7 @@
                                 <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                             </form>
                         </div>
+                        @endif
                     </div>
 				</div>
 			</div>

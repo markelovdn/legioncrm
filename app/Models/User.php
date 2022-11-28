@@ -96,15 +96,15 @@ class User extends Authenticatable
     }
 
 
-    public static function hasRole($role_code)
+    public static function hasRole($role_code, $user_id = null)
     {
         $role = Role::where('code', $role_code)->first();
 
-        if (!Auth::user()){
+        if (!$user_id){
             return false;
         }
 
-        $role_user = RoleUser::where('user_id', auth()->user()->id)->where('role_id', $role->id)->get();
+        $role_user = RoleUser::where('user_id', $user_id)->where('role_id', $role->id)->get();
 
         foreach ($role_user as $item) {
             if ($item->role_id == $role->id) {
