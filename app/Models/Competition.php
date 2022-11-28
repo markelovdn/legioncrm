@@ -56,4 +56,9 @@ class Competition extends Model
         return $this->belongsToMany(Competitor::class);
     }
 
+    public function getOwner()
+    {
+
+    }
+
 }

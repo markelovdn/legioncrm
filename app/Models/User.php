@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 
@@ -95,11 +96,15 @@ class User extends Authenticatable
     }
 
 
-    public static function hasRole($role_code, $user_id)
+    public static function hasRole($role_code)
     {
         $role = Role::where('code', $role_code)->first();
 
-        $role_user = RoleUser::where('user_id', $user_id)->where('role_id', $role->id)->get();
+        if (!Auth::user()){
+            return false;
+        }
+
+        $role_user = RoleUser::where('user_id', auth()->user()->id)->where('role_id', $role->id)->get();
 
         foreach ($role_user as $item) {
             if ($item->role_id == $role->id) {
