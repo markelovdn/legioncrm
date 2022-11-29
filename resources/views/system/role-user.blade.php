@@ -28,7 +28,61 @@
                                 <div class="col align-content-center">
                                     <input type="checkbox"
                                            @if(\App\Models\User::hasRole($role->code, $user->id)) checked @endif
-                                           name="role_id[]" value="{{$role->id}}" class="form-check-input">
+                                           name="role_id[]" value="{{$role->id}}" class="form-check-input"
+                                           @if($role->code == \App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN)
+                                           data-toggle="modal" data-target="#organizations_chairmain"
+                                           @endif
+
+                                    @if($role->code == \App\Models\Role::ROLE_ORGANIZATION_ADMIN)
+                                           data-toggle="modal" data-target="#organizations_admin"
+                                        @endif>
+                                    {{--    modal organization chairman--}}
+                                        <div class="modal fade" id="organizations_chairmain" style="display: none;" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Руководитель организации</h4>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">×</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <select class="custom-select" name="orgs[]" multiple>
+                                                            @foreach($orgs as $org)
+                                                                <option value="{{$org->id}}">{{$org->shorttitle}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    {{--    modal organization admin--}}
+                                        <div class="modal fade" id="organizations_admin" style="display: none;" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Администратор организации</h4>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">×</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <select class="custom-select" name="orgs[]" multiple>
+                                                            @foreach($orgs as $org)
+                                                                <option value="{{$org->id}}">{{$org->shorttitle}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+
                                 </div>
                             @endforeach
                             <div class="row">

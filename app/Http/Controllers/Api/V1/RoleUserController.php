@@ -6,6 +6,7 @@ use App\DomainService\RegistrationUserAs;
 use App\Http\Controllers\Controller;
 use App\Models\Athlete;
 use App\Models\Coach;
+use App\Models\Organization;
 use App\Models\Parented;
 use App\Models\Role;
 use App\Models\RoleUser;
@@ -34,8 +35,9 @@ class RoleUserController extends Controller
     {
         $users = User::get();
         $roles = Role::get();
+        $orgs = Organization::get();
 
-        return view('system.role-user', ['users'=>$users, 'roles'=>$roles]);
+        return view('system.role-user', ['users'=>$users, 'roles'=>$roles, 'orgs'=>$orgs]);
     }
 
     /**
@@ -50,6 +52,8 @@ class RoleUserController extends Controller
             'role_id' => ['required'],
         ]);
 
+        $orgs = $request->input('orgs');
+
         $roles = Role::whereIn('id', $request->role_id)->get();
 
         $user = User::find($request->user_id);
@@ -57,6 +61,19 @@ class RoleUserController extends Controller
         $user->role()->detach();
 
         $user->role()->attach($request->role_id);
+
+        if ($orgs) {
+            $org_user = DB::table('organization_user')
+                ->where('user_id', $user->id)
+                ->whereIn('organization_id', $orgs)->get();
+
+            if ($org_user->count() >= 1) {
+                $user->organizations()->detach();
+                $user->organizations()->attach($orgs);
+            }
+
+            $user->organizations()->attach($orgs);
+        }
 
         $coach = Coach::where('user_id', $user->id)->first();
         $parent = Parented::where('user_id', $user->id)->first();
