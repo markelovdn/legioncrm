@@ -60,10 +60,6 @@ class UsersController extends Controller
     {
         $request->validated();
 
-        if (User::where('email', $request->email)->orWhere('phone', $request->phone)) {
-            throw new Exception('Такой имейл или телефон уже зарегистрирован');
-        }
-
         if (!$reg_code->getCode($request->reg_code, $request->role_code)) {
             $request->session()->flash('status', 'Не верный код');
             return back()->withInput();

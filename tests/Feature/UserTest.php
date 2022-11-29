@@ -179,7 +179,8 @@ class UserTest extends TestCase
             'phone' => '+7 (123) 000 0000',
             'role_code' => 'athlete',
             'reg_code' => $coach->code,
-            'password' => '123123'
+            'password' => '123123',
+            'password_confirmation' => '123123'
         ]);
 
         $response->assertSessionHas('error_unique_user');
