@@ -8,6 +8,7 @@ use App\Models\Athlete;
 use App\Models\Coach;
 use App\Models\Parented;
 use App\Models\Passport;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -83,13 +84,13 @@ class PassportController extends Controller
             return redirect('/parented/'.Parented::getParentedId())->withInput();
         } else {
 
-            switch (Auth::user()->role_id) {
-                case ("5"):
+            switch (User::getRoleCode()) {
+                case (Role::ROLE_PARENTED):
                     $parented = Parented::find(Parented::getParentedId());
                     $parented->passport_id = $passport->id;
                     $parented->save();
                     return redirect('/parented/' . Parented::getParentedId());
-                case ("4"):
+                case (Role::ROLE_COACH):
                     $coach = Coach::find(Coach::getCoachId());
                     $coach->passport_id = $passport->id;
                     $coach->save();

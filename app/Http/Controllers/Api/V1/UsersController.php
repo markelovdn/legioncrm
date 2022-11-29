@@ -10,6 +10,7 @@ use App\Models\Coach;
 use App\Models\Organization;
 use App\Models\Role;
 use App\Models\User;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -58,6 +59,10 @@ class UsersController extends Controller
     public function store(StoreUserRequest $request, GetRegistrationCode $reg_code, RegistrationUserAs $userAs)
     {
         $request->validated();
+
+        if (User::where('email', $request->email)->orWhere('phone', $request->phone)) {
+            throw new Exception('Такой имейл или телефон уже зарегистрирован');
+        }
 
         if (!$reg_code->getCode($request->reg_code, $request->role_code)) {
             $request->session()->flash('status', 'Не верный код');
