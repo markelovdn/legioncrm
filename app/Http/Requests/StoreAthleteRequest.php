@@ -25,7 +25,7 @@ class StoreAthleteRequest extends FormRequest
     {
         return [
             'photo' => ['required', 'image:jpg,jpeg,png,bmp'],
-            'gender' => ['required', 'integer', 'max:1'],
+            'gender' => ['required', 'integer', 'max:2'],
             'secondname' => ['required', 'string', 'max:255'],
             'firstname' => ['required', 'string', 'max:255'],
             'patronymic' => ['required', 'string', 'max:255'],
