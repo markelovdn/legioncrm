@@ -36,7 +36,7 @@
 				</div>
 
 				<div class="card-body" style="display: none;">
-					<b>Место проведения: </b>{{$competition->place}}<br>
+					<b>Место проведения: </b>{{$competition->address}}<br>
 					<b>Дата начала: </b>{{ \Carbon\Carbon::parse($competition->date_start)->format('d.m.Y')}}<br>
 					<b>Дата окончания: </b>{{ \Carbon\Carbon::parse($competition->date_finish)->format('d.m.Y')}}<br>
 					<b>Зарегестированно всего: </b>{{ count($competitors)}}<br>
