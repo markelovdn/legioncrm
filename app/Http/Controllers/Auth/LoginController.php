@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Coach;
 use App\Models\Parented;
 use App\Models\Role;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -32,22 +33,43 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    protected function redirectTo(){
-        switch (auth()->user()->role_code) {
-            case (Role::ROLE_PARENTED):
-                $parented = Parented::with('user')->where('user_id', auth()->user()->id)->get();
-                $parented_id = '';
-                foreach ($parented as $item) {
-                    $parented_id = $item->id;
-                }
-                return url('/parented',$parented_id);
-            case (Role::ROLE_ATHLETE):
-                $coach = Coach::with('user')->where('user_id', auth()->user()->id)->get();
-                $coach_id = '';
-                foreach ($coach as $item) {
-                    $coach_id = $item->id;
-                }
-                return url('/coach',$coach_id);
+    protected function redirectTo()
+    {
+        if (User::isParented()) {
+            $parented = Parented::with('user')->where('user_id', auth()->user()->id)->get();
+            $parented_id = '';
+            foreach ($parented as $item) {
+                $parented_id = $item->id;
+            }
+            return url('/parented',$parented_id);
         }
+
+        if (User::isCoach()) {
+            $coach = Coach::with('user')->where('user_id', auth()->user()->id)->get();
+            $coach_id = '';
+            foreach ($coach as $item) {
+                $coach_id = $item->id;
+            }
+            return url('/coach',$coach_id);
+        }
+
+        return redirect('/');
+
+//        switch (auth()->user()->role_code) {
+//            case (Role::ROLE_PARENTED):
+//                $parented = Parented::with('user')->where('user_id', auth()->user()->id)->get();
+//                $parented_id = '';
+//                foreach ($parented as $item) {
+//                    $parented_id = $item->id;
+//                }
+//                return url('/parented',$parented_id);
+//            case (Role::ROLE_ATHLETE):
+//                $coach = Coach::with('user')->where('user_id', auth()->user()->id)->get();
+//                $coach_id = '';
+//                foreach ($coach as $item) {
+//                    $coach_id = $item->id;
+//                }
+//                return url('/coach',$coach_id);
+//        }
     }
 }

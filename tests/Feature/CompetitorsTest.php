@@ -18,6 +18,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class CompetitorsTest extends TestCase
@@ -240,7 +241,7 @@ class CompetitorsTest extends TestCase
     }
 
     public function test_competitor_update() {
-        $user = User::whereRelation('role', 'code', Role::ROLE_COACH)->first();
+        $user = User::find(1);
         Auth::login($user);
 
         $competitor_date = Carbon::parse('2000-01-01')->year;
@@ -252,9 +253,10 @@ class CompetitorsTest extends TestCase
             ->first()->id;
 
         $competition = Competition::first();
+
         $competition->agecategories()->attach($age_category);
 
-        $competitor = Competitor::factory(1)->create();
+        $competitor = Competitor::find(1);
         $sportKval = Sportkval::find(1);
         $tehKval = Tehkval::find(1);
 

@@ -19,7 +19,7 @@ class Competitor extends Model
 
     protected $fillable = ['lot'];
 
-    public function getAgeCategory($date_of_birth) {
+    public static function getAgeCategory($date_of_birth) {
 
         $competitor_date = Carbon::parse($date_of_birth)->year;
         $now = Carbon::now()->year;
@@ -43,12 +43,12 @@ class Competitor extends Model
         }
     }
 
-    public function getWeightCategory($weight, $gender, $date_of_birth)
+    public static function getWeightCategory($weight, $gender, $date_of_birth)
     {
         $weightCategories = WeightCategory::
             whereRaw($weight. ' between `weight_start` and `weight_finish` and `gender` = '
                 .$gender.' and `agecategory_id` = '
-                .$this->getAgeCategory($date_of_birth))
+                .Competitor::getAgeCategory($date_of_birth))
                 ->first();
 
         if ($weightCategories) {
@@ -60,10 +60,10 @@ class Competitor extends Model
         }
     }
 
-    public function getTehKvalGroup($tehkval_id, $date_of_birth) {
+    public static function getTehKvalGroup($tehkval_id, $date_of_birth) {
 
         $tehKvalGroups = TehkvalGroup::
-               whereRaw('agecategory_id = '.$this->getAgeCategory($date_of_birth).
+               whereRaw('agecategory_id = '.Competitor::getAgeCategory($date_of_birth).
             ' and finishgyp_id >= '.$tehkval_id)
                 ->first();
 
@@ -96,6 +96,18 @@ class Competitor extends Model
                     }
         } else {
             return true;
+        }
+    }
+
+    public static function isCoachAthlete($athlete_id) {
+
+        $athletes = DB::table('athlete_coach')->where('coach_id', \auth()->user()->id)->get();
+
+        foreach ($athletes as $athlete) {
+            if ($athlete->athlete_id == $athlete_id) {
+                return true;
+            } else
+                return false;
         }
     }
 

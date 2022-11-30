@@ -114,7 +114,7 @@ class User extends Authenticatable
         }
     }
 
-    public static function hasOrganization($org_id, $user_id)
+    public static function hasOrganization($org_id, $user_id) :bool
     {
         $organization = Organization::find($org_id);
 
@@ -147,7 +147,7 @@ class User extends Authenticatable
                 return false;
     }
 
-    public static function checkUserUnique($firstname, $secondname, $patronymic, $dateOfBirth)
+    public static function checkUserUnique($firstname, $secondname, $patronymic, $dateOfBirth) :bool
     {
         $user = User::where('firstname', $firstname)
             ->where('secondname', $secondname)
@@ -161,6 +161,49 @@ class User extends Authenticatable
         }
         return true;
     }
+
+    public static function isSystemAdmin() :bool
+    {
+        $isSysytemAdmin = \App\Models\User::hasRole(\App\Models\Role::ROLE_SYSTEM_ADMIN, \auth()->user()->id) ? true : false;
+        return $isSysytemAdmin;
+    }
+
+    public static function isOrganizationChairman() :bool
+    {
+        $isOrganizationChairman = \App\Models\User::hasRole(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN, \auth()->user()->id) ? true : false;
+        return $isOrganizationChairman;
+    }
+
+    public static function isOrganizationAdmin() :bool
+    {
+        $isOrganizationAdmin = \App\Models\User::hasRole(\App\Models\Role::ROLE_ORGANIZATION_ADMIN, \auth()->user()->id) ? true : false;
+        return $isOrganizationAdmin;
+    }
+
+    public static function isCoach() :bool
+    {
+        $isCoach = \App\Models\User::hasRole(\App\Models\Role::ROLE_COACH, \auth()->user()->id) ? true : false;
+        return $isCoach;
+    }
+
+    public static function isParented() :bool
+    {
+        $isParented = \App\Models\User::hasRole(\App\Models\Role::ROLE_PARENTED, \auth()->user()->id) ? true : false;
+        return $isParented;
+    }
+
+    public static function isAthlete() :bool
+    {
+        $isAthlete = \App\Models\User::hasRole(\App\Models\Role::ROLE_ATHLETE, \auth()->user()->id) ? true : false;
+        return $isAthlete;
+    }
+
+    public static function isReferee() :bool
+    {
+        $isReferee = \App\Models\User::hasRole(\App\Models\Role::ROLE_REFEREE, \auth()->user()->id) ? true : false;
+        return $isReferee;
+    }
+
 
 
 

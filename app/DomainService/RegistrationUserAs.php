@@ -12,12 +12,14 @@ use App\Models\Organization;
 use App\Models\Parented;
 use App\Models\Role;
 use App\Models\User;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class RegistrationUserAs
 {
+
     public function registrationUserAs($role_code, $id)
     {
         switch ($role_code) {
@@ -46,6 +48,9 @@ class RegistrationUserAs
                 $user->organizations()->attach($org);
 
                 return $user_type = '/organization/'.$org->id;
+
+            default:
+                throw new Exception('Неизвестная роль');
         }
 
     }

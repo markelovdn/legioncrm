@@ -34,6 +34,7 @@ class StoreCompetitorRequest extends FormRequest
             'sportkval_id' => ['required_with:secondname', 'numeric'],
             'tehkval_id' => ['required_with:secondname', 'numeric'],
             'coach_id' => ['required_with:coach_code', 'numeric'],
+            'competition_id' => ['required_with:coach_code', 'numeric'],
         ];
     }
 }

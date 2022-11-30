@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('secondname')->nullable($value = true);
             $table->string('firstname')->nullable($value = true);
             $table->string('patronymic')->nullable($value = true);
-            $table->string('date_of_birth')->nullable($value = true);;
+            $table->date('date_of_birth')->nullable($value = true);;
             $table->string('email')->unique()->nullable($value = true);
             $table->string('phone')->unique()->nullable($value = true);
             $table->foreignId('role_id')->nullable()->constrained('roles', 'id');
