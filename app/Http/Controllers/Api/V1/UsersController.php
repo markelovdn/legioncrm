@@ -13,6 +13,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -59,6 +60,11 @@ class UsersController extends Controller
     public function store(StoreUserRequest $request, GetRegistrationCode $reg_code, RegistrationUserAs $userAs)
     {
         $request->validated();
+
+        if ($request->role_code == Role::ROLE_PARENTED && Carbon::parse($request->date_of_birth)->diffInYears() < 18) {
+            $request->session()->flash('error', 'Возраст родителя не должен быть младше 18 лет');
+            return back()->withInput();
+        }
 
         if (!$reg_code->getCode($request->reg_code, $request->role_code)) {
             $request->session()->flash('status', 'Не верный код');
@@ -119,9 +125,29 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreUserRequest $request, $id)
     {
-        //
+        $request->validated();
+
+        if ($request->role_code == Role::ROLE_PARENTED && Carbon::parse($request->date_of_birth)->diffInYears() < 18) {
+            $request->session()->flash('error', 'Возраст родителя не должен быть младше 18 лет');
+            return back()->withInput();
+        }
+
+        if (!User::checkUserUnique($request->firstname, $request->secondname, $request->patronymic, $request->date_of_birth)) {
+            return back()->withInput();
+        }
+
+        $user = User::find($id);
+
+        $user->firstname = $request->firstname;
+        $user->secondname = $request->secondname;
+        $user->patronymic = $request->patronymic;
+        $user->date_of_birth = $request->date_of_birth;
+
+        $user->save();
+
+        return back();
     }
 
     /**

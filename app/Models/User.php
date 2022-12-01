@@ -162,46 +162,42 @@ class User extends Authenticatable
         return true;
     }
 
-    public static function isSystemAdmin() :bool
+    public function isSystemAdmin($user_id) :?bool
     {
-        $isSysytemAdmin = \App\Models\User::hasRole(\App\Models\Role::ROLE_SYSTEM_ADMIN, \auth()->user()->id) ? true : false;
-        return $isSysytemAdmin;
+        return \App\Models\User::hasRole(\App\Models\Role::ROLE_SYSTEM_ADMIN, $user_id);
     }
 
-    public static function isOrganizationChairman() :bool
+    public function isOrganizationChairman($user)
     {
-        $isOrganizationChairman = \App\Models\User::hasRole(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN, \auth()->user()->id) ? true : false;
-        return $isOrganizationChairman;
+        return \App\Models\User::hasRole(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN, $user->id);
     }
 
-    public static function isOrganizationAdmin() :bool
+    public function isOrganizationAdmin($user)
     {
-        $isOrganizationAdmin = \App\Models\User::hasRole(\App\Models\Role::ROLE_ORGANIZATION_ADMIN, \auth()->user()->id) ? true : false;
-        return $isOrganizationAdmin;
+        if (!$user) {
+            return false;
+        }
+        return \App\Models\User::hasRole(\App\Models\Role::ROLE_ORGANIZATION_ADMIN, $user->id);
     }
 
-    public static function isCoach() :bool
+    public function isCoach($user) :?bool
     {
-        $isCoach = \App\Models\User::hasRole(\App\Models\Role::ROLE_COACH, \auth()->user()->id) ? true : false;
-        return $isCoach;
+        return \App\Models\User::hasRole(\App\Models\Role::ROLE_COACH, $user->id);
     }
 
-    public static function isParented() :bool
+    public function isParented($user) :?bool
     {
-        $isParented = \App\Models\User::hasRole(\App\Models\Role::ROLE_PARENTED, \auth()->user()->id) ? true : false;
-        return $isParented;
+        return \App\Models\User::hasRole(\App\Models\Role::ROLE_PARENTED, $user->id);
     }
 
-    public static function isAthlete() :bool
+    public function isAthlete($user) :?bool
     {
-        $isAthlete = \App\Models\User::hasRole(\App\Models\Role::ROLE_ATHLETE, \auth()->user()->id) ? true : false;
-        return $isAthlete;
+        return \App\Models\User::hasRole(\App\Models\Role::ROLE_ATHLETE, $user->id);
     }
 
-    public static function isReferee() :bool
+    public function isReferee($user) :?bool
     {
-        $isReferee = \App\Models\User::hasRole(\App\Models\Role::ROLE_REFEREE, \auth()->user()->id) ? true : false;
-        return $isReferee;
+        return \App\Models\User::hasRole(\App\Models\Role::ROLE_REFEREE, $user->id);
     }
 
 

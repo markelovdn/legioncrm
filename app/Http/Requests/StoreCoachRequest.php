@@ -24,7 +24,7 @@ class StoreCoachRequest extends FormRequest
     public function rules()
     {
         return [
-            'org_id' => 'required', 'integer',
+            'org_id' => ['required', 'integer'],
         ];
     }
 }

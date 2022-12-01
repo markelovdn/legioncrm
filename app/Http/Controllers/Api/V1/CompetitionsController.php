@@ -64,15 +64,6 @@ class CompetitionsController extends Controller
     {
         $request->validated();
 
-        if (Country::find($request->country_id) == null ||
-            District::find($request->district_id) == null ||
-            Region::find($request->region_id) == null ||
-            Organization::find($request->org_id) == null ||
-            AgeCategory::whereIn('id', $request->agecategory)->get()->count() == 0)
-        {
-            throw new \Exception('Не найден регион, страна или округ');
-        }
-
         $competition = new Competition();
 
         $competition->title = $request->title;
@@ -146,15 +137,6 @@ class CompetitionsController extends Controller
     {
         $request->validated();
 
-        if (Country::find($request->country_id) == null ||
-            District::find($request->district_id) == null ||
-            Region::find($request->region_id) == null ||
-            Organization::find($request->org_id) == null ||
-            AgeCategory::whereIn('id', $request->agecategory)->get()->count() == 0)
-        {
-            throw new \Exception('Не найден регион, страна или округ');
-        }
-
         $competition = Competition::find($id);
 
         $competition->title = $request->title;
@@ -179,9 +161,14 @@ class CompetitionsController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        if (Competition::getOwner($id)) {
-        $tehkvalgroups = TehkvalGroup::where('competition_id', $id)->delete();
+        if (!Competition::getOwner($id)) {
 
+            $request->session()->flash('error', 'Вы не можете удалить данные соревнования');
+
+            return redirect('/competitions')->withInput();
+        }
+
+        $tehkvalgroups = TehkvalGroup::where('competition_id', $id)->delete();
         $competition = Competition::find($id);
         $competition->agecategories()->detach();
         $competition->organizations()->detach();
@@ -192,10 +179,5 @@ class CompetitionsController extends Controller
 
         return redirect('/competitions')->withInput();
         }
-
-        $request->session()->flash('error', 'Вы не можете удалить данные соревнования');
-
-        return redirect('/competitions')->withInput();
-    }
 
 }

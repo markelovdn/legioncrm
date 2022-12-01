@@ -167,7 +167,7 @@ class CompetitorsTest extends TestCase
         $competition = Competition::first();
         $competition->agecategories()->attach($age_category);
 
-        $sportKval = Sportkval::find(1);
+        $sportKval = Sportkval::first();
 
         $response = $this->post('/competitions/'.$competition->id.'/competitors-new-user', [
             'gender' => 1,
@@ -241,7 +241,7 @@ class CompetitorsTest extends TestCase
     }
 
     public function test_competitor_update() {
-        $user = User::find(1);
+        $user = User::first();
         Auth::login($user);
 
         $competitor_date = Carbon::parse('2000-01-01')->year;
@@ -256,9 +256,9 @@ class CompetitorsTest extends TestCase
 
         $competition->agecategories()->attach($age_category);
 
-        $competitor = Competitor::find(1);
-        $sportKval = Sportkval::find(1);
-        $tehKval = Tehkval::find(1);
+        $competitor = Competitor::first();
+        $sportKval = Sportkval::first();
+        $tehKval = Tehkval::first();
 
         $response = $this->followingRedirects()->put('/competitors/'.$competitor->first()->id, [
             'gender' => 1,

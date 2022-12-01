@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'failed' => 'Пользователь с данным номером телефона отсутствует в базе данных.',
+    'failed' => 'Не верный номер телефона или пароль.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'Mobile_Phone' => 'Мобильный телефон',
     'Login_in_cabinet' => 'Войти в личный кабинет',

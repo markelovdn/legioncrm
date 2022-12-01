@@ -28,10 +28,10 @@
                         </div>
                     </div>
                     <div class="card-body" style="display: none;">
+                        @include('parented.main-data')
                         <form method="POST" action="/passport">
                             <input type="text" name="parented_id" style="display: none" value="{{url()->current()}}">
                             @csrf
-                            @include('parented.main-data')
                             @if(!$parented->passport)
                                 @include('documents.passport-blank')
                             @else

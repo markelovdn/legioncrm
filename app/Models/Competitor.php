@@ -19,7 +19,7 @@ class Competitor extends Model
 
     protected $fillable = ['lot'];
 
-    public static function getAgeCategory($date_of_birth) {
+    public function getAgeCategory($date_of_birth) {
 
         $competitor_date = Carbon::parse($date_of_birth)->year;
         $now = Carbon::now()->year;
@@ -60,7 +60,7 @@ class Competitor extends Model
         }
     }
 
-    public static function getTehKvalGroup($tehkval_id, $date_of_birth) {
+    public function getTehKvalGroup($tehkval_id, $date_of_birth) {
 
         $tehKvalGroups = TehkvalGroup::
                whereRaw('agecategory_id = '.Competitor::getAgeCategory($date_of_birth).

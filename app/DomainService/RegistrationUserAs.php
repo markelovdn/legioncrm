@@ -50,7 +50,9 @@ class RegistrationUserAs
                 return $user_type = '/organization/'.$org->id;
 
             default:
-                throw new Exception('Неизвестная роль');
+                session()->flash('error', 'Неизвестная роль'.$role_code);
+
+                return redirect('/');
         }
 
     }

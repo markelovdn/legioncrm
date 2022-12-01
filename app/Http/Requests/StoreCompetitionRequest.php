@@ -27,14 +27,14 @@ class StoreCompetitionRequest extends FormRequest
             'title' => ['required', 'string', 'max:250'],
             'org_id' => ['required', 'integer'],
             'status' => ['required', 'integer'],
-            'country_id' => ['required', 'integer'],
-            'district_id' => ['required', 'integer'],
-            'region_id' => ['required', 'integer'],
+            'country_id' => ['required', 'integer', 'exists:countries,id'],
+            'district_id' => ['required', 'integer', 'exists:districts,id'],
+            'region_id' => ['required', 'integer', 'exists:regions,id'],
             'address' => ['required', 'string'],
             'date_start' => ['required', 'date'],
             'date_end' => ['required', 'date'],
             'linkreport' => ['required', 'string'],
-            'agecategory' => ['required', 'array']
+            'agecategory' => ['required', 'array', 'exists:age_categories,id']
         ];
     }
 }
