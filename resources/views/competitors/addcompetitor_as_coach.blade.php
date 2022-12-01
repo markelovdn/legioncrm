@@ -7,6 +7,9 @@
 		<!-- /.card-header -->
 		<!-- form start -->
     </div>
+
+        <p class="text-danger">{{ session('error') }}</p>
+
     @foreach($competitors as $competitor)
     <form class="form-horizontal" method="POST" action="{{route('competitions.competitors.store', [$competition->id])}}">
         @csrf

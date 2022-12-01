@@ -58,6 +58,10 @@ class CompetitorsController extends Controller
         $competition = Competition::find($competition_id);
         $competitors = $competitors->getCompetitors(auth()->user()->id);
 
+        if($competitors->count() < 1) {
+            session()->flash('error', 'Добавте занимающихся через личный кабинет');
+        }
+
         if ($competitors) {
                 return view('competitors.addcompetitor_as_coach',
                     [

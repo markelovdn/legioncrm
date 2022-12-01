@@ -20,15 +20,30 @@ class GetCompetitiors
         $parented = Parented::where('user_id', $id)->first();
 
         if ($coach) {
-            if(DB::table('athlete_coach')->where('coach_id', $coach->id)->get()) {
-                return Athlete::with('coaches', 'user', 'tehkval', 'sportkval')->has('coaches')->get();
+            $coach_athletes = DB::table('athlete_coach')->where('coach_id', $coach->id)->get();
+
+            if($coach_athletes) {
+                $athletes = [];
+                foreach ($coach_athletes as $item) {
+                    $athletes[] = $item->athlete_id;
+                }
+
+                return Athlete::with('coaches', 'user', 'tehkval', 'sportkval')
+                    ->whereIn('id', $athletes)->get();
             } else
                 return false;
         }
 
         if ($parented) {
-            if(DB::table('athlete_parented')->where('parented_id', $parented->id)->get()) {
-                return Athlete::with('parenteds', 'coaches', 'user', 'tehkval', 'sportkval')->has('parenteds')->get();
+            $parented_athletes =DB::table('athlete_parented')->where('parented_id', $parented->id)->get();
+            if($parented_athletes) {
+                $athletes = [];
+                foreach ($parented_athletes as $item) {
+                    $athletes[] = $item->athlete_id;
+                }
+
+                return Athlete::with('coaches', 'user', 'tehkval', 'sportkval')
+                    ->whereIn('id', $athletes)->get();
             } else
                 return false;
         }

@@ -4,7 +4,7 @@
     </div>
     <div class="info">
         <a href="{{\App\Models\User::getRoleCode()}}" class="d-block">{{\Illuminate\Support\Facades\Auth::user()->firstname}} {{\Illuminate\Support\Facades\Auth::user()->secondname}}</a>
-        <a href="{{\App\Models\User::getRoleCode()}}" class="d-block">{{\App\Models\User::getRole()}} (кабинет)</a>
+        <a href="{{asset(\App\Models\User::getRoleCode())}}" class="d-block">{{\App\Models\User::getRole()}} (кабинет)</a>
 
     </div>
 </div>
