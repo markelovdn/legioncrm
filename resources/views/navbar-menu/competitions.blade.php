@@ -2,7 +2,7 @@
     $user = auth()->user();
     @endphp
 @if(Str::contains(url()->current(), 'competitions') and !Str::contains(url()->current(), 'competitors'))
-    @if($user && $user->isOrganizationAdmin($user) || $user->isOrganizationChairman($user))
+    @if($user && $user->isOrganizationAdmin(auth()->user()->getAuthIdentifier()) || $user->isOrganizationChairman(auth()->user()->getAuthIdentifier()))
         <li class="nav-item">
             <a class="nav-link" href="{{route('competitions.create')}}" role="button">Добавить соревнование</a>
         </li>

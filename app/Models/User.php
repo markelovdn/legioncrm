@@ -162,14 +162,14 @@ class User extends Authenticatable
         return true;
     }
 
-    public function isSystemAdmin($user_id) :?bool
+    public function isSystemAdmin($user)
     {
-        return \App\Models\User::hasRole(\App\Models\Role::ROLE_SYSTEM_ADMIN, $user_id);
+        return \App\Models\User::hasRole(\App\Models\Role::ROLE_SYSTEM_ADMIN, $user);
     }
 
     public function isOrganizationChairman($user)
     {
-        return \App\Models\User::hasRole(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN, $user->id);
+        return \App\Models\User::hasRole(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN, $user);
     }
 
     public function isOrganizationAdmin($user)
@@ -177,27 +177,27 @@ class User extends Authenticatable
         if (!$user) {
             return false;
         }
-        return \App\Models\User::hasRole(\App\Models\Role::ROLE_ORGANIZATION_ADMIN, $user->id);
+        return \App\Models\User::hasRole(\App\Models\Role::ROLE_ORGANIZATION_ADMIN, $user);
     }
 
-    public function isCoach($user) :?bool
+    public function isCoach($user)
     {
-        return \App\Models\User::hasRole(\App\Models\Role::ROLE_COACH, $user->id);
+        return \App\Models\User::hasRole(\App\Models\Role::ROLE_COACH, $user);
     }
 
-    public function isParented($user) :?bool
+    public function isParented($user)
     {
-        return \App\Models\User::hasRole(\App\Models\Role::ROLE_PARENTED, $user->id);
+        return \App\Models\User::hasRole(\App\Models\Role::ROLE_PARENTED, $user);
     }
 
-    public function isAthlete($user) :?bool
+    public function isAthlete($user)
     {
-        return \App\Models\User::hasRole(\App\Models\Role::ROLE_ATHLETE, $user->id);
+        return \App\Models\User::hasRole(\App\Models\Role::ROLE_ATHLETE, $user);
     }
 
-    public function isReferee($user) :?bool
+    public function isReferee($user)
     {
-        return \App\Models\User::hasRole(\App\Models\Role::ROLE_REFEREE, $user->id);
+        return \App\Models\User::hasRole(\App\Models\Role::ROLE_REFEREE, $user);
     }
 
 
