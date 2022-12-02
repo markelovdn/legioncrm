@@ -119,6 +119,7 @@ class CompetitionsController extends Controller
         $districts = District::get();
         $regions = Region::get();
         $statuses = CompetitionsRanksTitle::get();
+        $organizations = User::getUserOrganizations(auth()->user()->id);
 
         return view('competitions.editcompetition', [
             'competition' => $competition,
@@ -129,6 +130,7 @@ class CompetitionsController extends Controller
             'districts' => $districts,
             'regions' => $regions,
             'statuses' => $statuses,
+            'organizations' => $organizations,
         ]);
 
     }
