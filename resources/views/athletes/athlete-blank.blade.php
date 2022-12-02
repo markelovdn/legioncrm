@@ -1,6 +1,9 @@
-@if (session('status'))<div class="alert alert-danger">
+@if (session('status'))
+    <div class="alert alert-danger">
     <p>{{ session('status') }}</p>
-</div>@endif
+</div>
+@endif
+
 <div class="card collapsed-card">
     <div class="card-header">
         <h3 class="card-title">Добавить занимающегося</h3>

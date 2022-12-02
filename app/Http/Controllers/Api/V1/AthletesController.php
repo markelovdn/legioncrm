@@ -55,6 +55,10 @@ class AthletesController extends Controller
     {
         $request->validated();
 
+        if (!User::checkUserUnique($request->firstname, $request->secondname, $request->patronymic, $request->date_of_birth)) {
+            return back()->withInput();
+        }
+
         $user = new User();
         $user->secondname = $request->secondname;
         $user->firstname = $request->firstname;

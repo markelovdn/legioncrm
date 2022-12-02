@@ -33,7 +33,7 @@
                         <i class="fas fa-male"></i>
                     @else
                         <i class="fas fa-female"></i>
-                    @endif - {{$competitor->agecategory->title}}, {{$competitor->weightcategory->title}}, {{$competitor->tehkvalgroup->title}}
+                    @endif - {{$competitor->agecategory->title}},
                     @foreach($competitor->athlete->coaches as $coaches)
                         Тренер: {{$coaches->user->secondname}} {{substr($coaches->user->firstname, 0,2)}}. {{substr($coaches->user->patronymic, 0, 2)}}.
                     @endforeach

@@ -42,6 +42,11 @@
                 </div>
             {{--/ Данные родителя--}}
             <h5>Занимающиеся в секции:</h5>
+                @if(session('error_unique_user'))
+                <div class="alert alert-danger">
+                    <p>{{ session('error_unique_user') }}</p>
+                </div>
+                @endif
         @foreach($parented->athletes as $athlete)
                 {{-- Данные спортсмена--}}
                 <div class="card collapsed-card">
