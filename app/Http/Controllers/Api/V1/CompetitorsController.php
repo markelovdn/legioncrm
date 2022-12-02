@@ -58,11 +58,7 @@ class CompetitorsController extends Controller
         $competition = Competition::find($competition_id);
         $competitors = $competitors->getCompetitors(auth()->user()->id);
 
-        if($competitors->count() < 1) {
-            session()->flash('error', 'Добавте занимающихся через личный кабинет');
-        }
-
-        if ($competitors) {
+        if ($competitors && $competitors->count() >= 1) {
                 return view('competitors.addcompetitor_as_coach',
                     [
                         'tehkvals'=>$tehkvals,
@@ -105,6 +101,7 @@ class CompetitorsController extends Controller
         if (!Competitor::checkUniqueCompetitorWeightCategory(
             $athlete->id, $agecategory_id, $weightcategory_id, $tehkvalgroup_id, $request->competition_id
         )) {
+            session()->flash('error_unique_competitor', 'Данный спорстмен уже заявлен в весовой категории');
             return back()->withInput();
         }
 

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class UserTest extends TestCase
@@ -26,6 +27,18 @@ class UserTest extends TestCase
         $response = $this->get('/');
 
         $response->assertStatus(302);
+    }
+
+    public function test_login()
+    {
+        $user = User::first();
+
+        $response = $this->followingRedirects()->post('/login', [
+            'phone' => $user->phone,
+            'password' => 'password'
+            ]);
+
+        $response->assertStatus(200);
     }
 
     public function test_user_as_coach_register()

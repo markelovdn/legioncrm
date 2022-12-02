@@ -35,7 +35,7 @@ class LoginController extends Controller
 
     protected function redirectTo()
     {
-        if (User::isParented(auth()->user()->id)) {
+        if (User::isParented(auth()->user())) {
             $parented = Parented::with('user')->where('user_id', auth()->user()->id)->get();
             $parented_id = '';
             foreach ($parented as $item) {
@@ -44,7 +44,7 @@ class LoginController extends Controller
             return url('/parented',$parented_id);
         }
 
-        if (User::isCoach(auth()->user()->id)) {
+        if (User::isCoach(auth()->user())) {
             $coach = Coach::with('user')->where('user_id', auth()->user()->id)->get();
             $coach_id = '';
             foreach ($coach as $item) {

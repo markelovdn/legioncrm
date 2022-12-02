@@ -8,8 +8,6 @@
 		<!-- form start -->
     </div>
 
-        <p class="text-danger">{{ session('error') }}</p>
-
     @foreach($competitors as $competitor)
     <form class="form-horizontal" method="POST" action="{{route('competitions.competitors.store', [$competition->id])}}">
         @csrf
@@ -23,6 +21,7 @@
                     <input type="number" style="display: none" class="form-control" id="competition_id" name="competition_id" value="{{$competition->id}}">
                     @error('weight')<p class="text-danger">{{$errors->first('weight')}}</p>@enderror
                     @if (session('error'))<p class="text-danger">{{ session('error') }}</p>@endif
+                    <p class="text-danger">{{ session('error_unique_competitor') }}</p>
                 </div>
                 <div class="col">
                     <button id="submit" type="submit" onclick="blocked()" class="btn btn-info">Добавить</button>

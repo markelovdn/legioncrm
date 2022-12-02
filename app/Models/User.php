@@ -96,7 +96,7 @@ class User extends Authenticatable
     }
 
 
-    public static function hasRole($role_code, $user_id = null)
+    public static function hasRole(string $role_code, int $user_id = null) :bool
     {
         $role = Role::where('code', $role_code)->first();
 
@@ -105,6 +105,10 @@ class User extends Authenticatable
         }
 
         $role_user = RoleUser::where('user_id', $user_id)->where('role_id', $role->id)->get();
+
+        if ($role_user->count() < 1) {
+            return false;
+        }
 
         foreach ($role_user as $item) {
             if ($item->role_id == $role->id) {
@@ -164,40 +168,60 @@ class User extends Authenticatable
 
     public function isSystemAdmin($user)
     {
-        return \App\Models\User::hasRole(\App\Models\Role::ROLE_SYSTEM_ADMIN, $user);
+        return \App\Models\User::hasRole(\App\Models\Role::ROLE_SYSTEM_ADMIN, $user->id);
     }
 
-    public function isOrganizationChairman($user)
-    {
-        return \App\Models\User::hasRole(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN, $user);
-    }
-
-    public function isOrganizationAdmin($user)
+    public function isOrganizationChairman(object $user)
     {
         if (!$user) {
             return false;
         }
-        return \App\Models\User::hasRole(\App\Models\Role::ROLE_ORGANIZATION_ADMIN, $user);
+
+        return \App\Models\User::hasRole(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN, $user->id);
     }
 
-    public function isCoach($user)
+    public function isOrganizationAdmin(object $user)
     {
-        return \App\Models\User::hasRole(\App\Models\Role::ROLE_COACH, $user);
+        if (!$user) {
+            return false;
+        }
+        return \App\Models\User::hasRole(\App\Models\Role::ROLE_ORGANIZATION_ADMIN, $user->id);
     }
 
-    public function isParented($user)
+    public function isCoach(object $user)
     {
-        return \App\Models\User::hasRole(\App\Models\Role::ROLE_PARENTED, $user);
+        if (!$user) {
+            return false;
+        }
+
+        return \App\Models\User::hasRole(\App\Models\Role::ROLE_COACH, $user->id);
     }
 
-    public function isAthlete($user)
+    public function isParented(object $user)
     {
-        return \App\Models\User::hasRole(\App\Models\Role::ROLE_ATHLETE, $user);
+        if (!$user) {
+            return false;
+        }
+
+        return \App\Models\User::hasRole(\App\Models\Role::ROLE_PARENTED, $user->id);
     }
 
-    public function isReferee($user)
+    public function isAthlete(object $user)
     {
-        return \App\Models\User::hasRole(\App\Models\Role::ROLE_REFEREE, $user);
+        if (!$user) {
+            return false;
+        }
+
+        return \App\Models\User::hasRole(\App\Models\Role::ROLE_ATHLETE, $user->id);
+    }
+
+    public function isReferee(object $user)
+    {
+        if (!$user) {
+            return false;
+        }
+
+        return \App\Models\User::hasRole(\App\Models\Role::ROLE_REFEREE, $user->id);
     }
 
 
