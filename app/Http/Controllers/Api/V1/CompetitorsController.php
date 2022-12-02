@@ -116,6 +116,8 @@ class CompetitorsController extends Controller
 
         $competitor->competitions()->attach($request->competition_id);
 
+        session()->flash('status', 'Спортсмен успешно добавлен на соревнования');
+
         return back();
 
     }
