@@ -171,7 +171,7 @@ class User extends Authenticatable
         return \App\Models\User::hasRole(\App\Models\Role::ROLE_SYSTEM_ADMIN, $user->id);
     }
 
-    public function isOrganizationChairman(object $user)
+    public function isOrganizationChairman(object $user) :bool
     {
         if (!$user) {
             return false;

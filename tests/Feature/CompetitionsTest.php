@@ -23,6 +23,13 @@ class CompetitionsTest extends TestCase
      *
      * @return void
      */
+
+    public function test_competitions_list()
+    {
+        $response = $this->get('/competitions');
+        $response->assertStatus(200);
+    }
+
     public function test_competitions_index()
     {
         $user = User::whereRelation('role', 'code', Role::ROLE_ORGANIZATION_CHAIRMAN)->first();
