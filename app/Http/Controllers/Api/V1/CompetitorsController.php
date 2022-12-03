@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\BusinessProcess\GetCompetitiors;
+use App\DomainService\RegistrationUserAs;
 use App\Filters\CompetitorFilter;
 use App\Filters\WeightcategoryFilter;
 use App\Http\Controllers\Controller;
@@ -25,7 +26,7 @@ use Illuminate\Support\Facades\Hash;
 class CompetitorsController extends Controller
 {
 
-    public function index($competition_id, Request $request, CompetitorFilter $CompetitorFilter, WeightcategoryFilter $weightFilter)
+    public function index($competition_id, Request $request, CompetitorFilter $CompetitorFilter, WeightcategoryFilter $weightFilter, GetCompetitiors $competitors)
     {
 
 //        $competitors = Competitor::filter($CompetitorFilter)->orderBy('created_at', 'desc')->get();
@@ -39,18 +40,39 @@ class CompetitorsController extends Controller
 //                'weightcategories'=>$weightcategories,
 //            ]);
 
+        $user = \auth()->user();
+
         $competition = Competition::where('id', $competition_id)->first();
 
-        $competitors = $competition->competitors()
-            ->with('athlete', 'agecategory', 'weightcategory', 'tehkvalgroup')
-            ->get();
+
+        if ($user->isParented($user)) {
+            session()->flash('status', 'Вы не добавляли спортсменов на данное мероприятие');
+            $competitors = $competitors->getCompetitors(auth()->user()->id);
+            foreach ($competitors as $competitor) {
+                $competitors[] = $competitor;
+            }
+            $competitors = $competition->competitors()
+                ->with('athlete', 'agecategory', 'weightcategory', 'tehkvalgroup')
+                ->whereIn('athlete_id', $competitors)
+                ->get();
+        } else {
+            $competitors = $competition->competitors()
+                ->with('athlete', 'agecategory', 'weightcategory', 'tehkvalgroup')
+                ->get();
+        }
+
+
 
         return view('competitions.competitors', ['competition'=>$competition, 'competitors'=>$competitors]);
     }
 
 
-    public function create($competition_id, GetCompetitiors $competitors)
+    public function create($competition_id, GetCompetitiors $competitors, RegistrationUserAs $userAs)
     {
+        if (\auth()->user()->isParented(\auth()->user()) && $competitors->getCompetitors(auth()->user()->id)->count() < 1) {
+            return redirect($userAs->registrationUserAs(Role::ROLE_PARENTED, \auth()->user()->id));
+        }
+
         $tehkvals = Tehkval::all();
         $sportkvals = Sportkval::all();
         $organization = Organization::all();

@@ -11,4 +11,8 @@
     @if(Str::contains(url()->current(), 'competitions'))
         @include('navbar-menu.competitions')
     @endif
+
+    @if(Str::contains(url()->current(), 'athlete'))
+        @include('navbar-menu.athletes')
+    @endif
 </ul>
