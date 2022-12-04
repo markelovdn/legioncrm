@@ -50,7 +50,7 @@ class CompetitorsController extends Controller
             return view('competitions.competitors', ['competition'=>$competition, 'competitors'=>$competitors]);
         }
 
-        if($athletes_parent != null && $athletes_parent->count() >= 1) {
+        if($athletes_parent != null && $athletes_parent->count() >= 1 && $user->isParented($user)) {
             foreach ($athletes_parent as $athlete_parent) {
                 $ids[] = $athlete_parent->id;
             }
