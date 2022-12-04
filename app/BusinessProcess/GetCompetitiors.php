@@ -35,7 +35,7 @@ class GetCompetitiors
         }
 
         if ($parented) {
-            $parented_athletes =DB::table('athlete_parented')->where('parented_id', $parented->id)->get();
+            $parented_athletes = DB::table('athlete_parented')->where('parented_id', $parented->id)->get();
             if($parented_athletes) {
                 $athletes = [];
                 foreach ($parented_athletes as $item) {
