@@ -12,6 +12,7 @@ use App\Models\Role;
 use App\Models\StudyPlace;
 use App\Models\Tehkval;
 use App\Models\User;
+use http\Env\Url;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +33,11 @@ class AthletesController extends Controller
             $coach = Coach::where('user_id', $id)->with('user', 'athletes')->first();
                 return view('coaches.athletes', compact('coach', $coach));
         }
-        return Athlete::all();
+
+        if (\App\Models\User::hasRole(Role::ROLE_PARENTED, $id)) {
+            return redirect('/parented/'.$id);
+        }
+        return back();
     }
 
     /**
