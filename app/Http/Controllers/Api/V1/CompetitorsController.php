@@ -45,9 +45,12 @@ class CompetitorsController extends Controller
         $competition = Competition::where('id', $competition_id)->first();
         $athletes_parent = $competitors->getCompetitors(auth()->user()->id);
 
-        if ($user->isParented($user) && $athletes_parent->count() < 1) {
+        if ($athletes_parent == null && $user->isParented($user) || $athletes_parent != null && $user->isParented($user) && $athletes_parent->count() < 1) {
             session()->flash('status', 'Вы не добавляли спортсменов на данное мероприятие');
-        } elseif($athletes_parent->count() >= 1) {
+            return view('competitions.competitors', ['competition'=>$competition, 'competitors'=>$competitors]);
+        }
+
+        if($athletes_parent != null && $athletes_parent->count() >= 1) {
             foreach ($athletes_parent as $athlete_parent) {
                 $ids[] = $athlete_parent->id;
             }
