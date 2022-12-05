@@ -33,7 +33,7 @@ class RoleUserController extends Controller
      */
     public function create()
     {
-        $users = User::get();
+        $users = User::paginate(10);
         $roles = Role::get();
         $orgs = Organization::get();
 
