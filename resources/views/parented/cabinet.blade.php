@@ -58,7 +58,7 @@
                             <span class="description font-italic ml-3">(Необходимо заполнить паспортные данные)</span>
                             <br>
                         @endif
-                        @if(Carbon\Carbon::parse($athlete->user->date_of_birth)->diffInYears() <= 14 and !$athlete->birthcertificate)
+                        @if(Carbon\Carbon::parse($athlete->user->date_of_birth)->diffInYears() < 14 and !$athlete->birthcertificate)
                             <span class="description font-italic ml-3">(Необходимо заполнить данные свидетельства о рождении)</span>
                             <br>
                         @endif

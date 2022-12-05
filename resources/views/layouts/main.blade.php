@@ -29,7 +29,7 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <a href="" class="brand-link">
                 <img src="{{asset("/storage/images/logo.png")}}" alt="LegionCRM Logo" class="brand-image">
-                <span class="brand-text font-weight-light">LEGIONCRM</span>
+                <span class="brand-text font-weight-light"><a href="/">LEGIONCRM</a></span>
             </a>
             <!-- Sidebar -->
             <div class="sidebar">

@@ -75,7 +75,7 @@ class PassportController extends Controller
             ]
         );
 
-        if (isset($request->role_id)) {
+        if (isset($request->role_code)) {
             $request->only(['passport_scan']);
 
             $athlete = Athlete::find($request->athlete_id);
