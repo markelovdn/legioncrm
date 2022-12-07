@@ -16,3 +16,14 @@
         @include('navbar-menu.athletes')
     @endif
 </ul>
+<ul class="navbar-nav ml-auto">
+    @if(!\Illuminate\Support\Facades\Auth::user())
+        <li class="nav-item">
+            <a href="/login" type="submit"><i class="fas fa-sign-in-alt"></i></a>
+        </li>
+    @endif
+
+    @if(\Illuminate\Support\Facades\Auth::user())
+        @include('navbar-menu.right.search')
+    @endif
+</ul>

@@ -10,18 +10,7 @@
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->
             @include('layouts.parts.navbar')
-            <ul class="navbar-nav ml-auto">
-                @if(\Illuminate\Support\Facades\Auth::user())
-                    <li class="nav-item">
-                        <a href="/logout" type="submit"><i class="fas fa-sign-out-alt"></i></a>
-                    </li>
-                    @endif
-                    @if(!\Illuminate\Support\Facades\Auth::user())
-                        <li class="nav-item">
-                            <a href="/login" type="submit"><i class="fas fa-sign-in-alt"></i></a>
-                        </li>
-                    @endif
-            </ul>
+
         </nav>
         <!-- /.navbar -->
 

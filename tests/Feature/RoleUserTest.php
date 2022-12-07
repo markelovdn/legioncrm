@@ -22,9 +22,16 @@ class RoleUserTest extends TestCase
     {
         $user = User::find(1);
         Auth::login($user);
-        $response = $this->get('/role-user');
+        $response = $this->get('/role-user/create');
 
         $response->assertStatus(200);
+    }
+
+    public function test_role_user_route_unAuthorize()
+    {
+        $response = $this->get('/role-user/create');
+
+        $response->assertStatus(302);
     }
 
     public function test_role_user_store()
