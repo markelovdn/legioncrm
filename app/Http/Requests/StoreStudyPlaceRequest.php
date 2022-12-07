@@ -24,7 +24,7 @@ class StoreStudyPlaceRequest extends FormRequest
     public function rules()
     {
         return [
-            'org_title' => ['required', 'string'],
+            'org_title' => ['required', 'string', 'max:49'],
             'classnum' => ['required', 'numeric'],
         ];
     }
