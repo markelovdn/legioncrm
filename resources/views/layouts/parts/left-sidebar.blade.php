@@ -8,12 +8,12 @@
                 {{\Illuminate\Support\Facades\Auth::user()->firstname}}
                 {{\Illuminate\Support\Facades\Auth::user()->secondname}}
             </a>
-            @if(\Illuminate\Support\Facades\Auth::user())
-                <a href="/logout" type="submit"><i class="fas fa-sign-out-alt"></i></a>
-            @endif
         </span>
         <a href="{{asset(\App\Models\User::getRoleCode())}}" class="d-block">{{\App\Models\User::getRole()}}
             (кабинет)</a>
+        @if(\Illuminate\Support\Facades\Auth::user())
+            <a href="/logout" type="submit"><i class="fas fa-sign-out-alt"></i></a>
+        @endif
     </div>
 </div>
 

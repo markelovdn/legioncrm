@@ -54,7 +54,7 @@
                         <b>Спортивная квалификация: </b>{{$sportkval->full_title}}<br>
                     @endforeach
                 </div>
-                @if(\App\Models\Competitor::isCoachAthlete($competitor->id))
+                @if(\App\Models\Competitor::isCoachAthlete($competitor->athlete->id))
                 <div class="card-footer">
                     <div class="row row-cols-2">
                         <div class="col text-left">

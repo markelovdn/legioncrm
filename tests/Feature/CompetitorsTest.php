@@ -241,7 +241,8 @@ class CompetitorsTest extends TestCase
     }
 
     public function test_competitor_update() {
-        $user = User::first();
+        $coach = Coach::with('user')->first();
+        $user = User::where('id', $coach->user->id)->first();
         Auth::login($user);
 
         $competitor_date = Carbon::parse('2000-01-01')->year;

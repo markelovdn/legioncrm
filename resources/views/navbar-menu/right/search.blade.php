@@ -2,11 +2,11 @@
 $action = '';
 
 if (Str::contains(url()->current(), 'role-user/create')){
-    $action = '/role-user';
+    $action = route('role-user.index');
 }
 
 if (Str::contains(url()->current(), 'athlete')){
-    $action = '/athlete';
+    $action = route('athlete.index');
 }
 
 @endphp

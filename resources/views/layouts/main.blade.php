@@ -32,7 +32,7 @@
                     @endif
 
                     @else
-                        @include('layouts.parts.lef-sidebar')
+                        @include('layouts.parts.left-sidebar')
 
                 <!-- /.sidebar-menu -->
                 @endguest

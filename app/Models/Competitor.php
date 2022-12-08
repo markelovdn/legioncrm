@@ -101,14 +101,18 @@ class Competitor extends Model
 
     public static function isCoachAthlete($athlete_id) {
 
-        $athletes = DB::table('athlete_coach')->where('coach_id', \auth()->user()->id)->get();
+        $coach = Coach::where('user_id', \auth()->user()->id)->first();
+        $athletes = DB::table('athlete_coach')->where('athlete_id', $athlete_id)->get();
 
-        foreach ($athletes as $athlete) {
-            if ($athlete->athlete_id == $athlete_id) {
-                return true;
-            } else
-                return false;
-        }
+        if($coach != null) {
+            foreach ($athletes as $athlete) {
+                if ($athlete->coach_id == $coach->id) {
+                    return true;
+                } else
+                    return false;
+            }
+        } else
+            return false;
     }
 
     public function scopeFilter(Builder $builder, QueryFilter $filter){

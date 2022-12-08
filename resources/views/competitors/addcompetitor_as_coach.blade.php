@@ -20,7 +20,8 @@
                     <input type="number" style="display: none" class="form-control" id="athlete_id" name="athlete_id" value="{{$competitor->id}}">
                     <input type="number" style="display: none" class="form-control" id="competition_id" name="competition_id" value="{{$competition->id}}">
                     @error('weight')<p class="text-danger">{{$errors->first('weight')}}</p>@enderror
-                    @if (session('error'))<p class="text-danger">{{ session('error') }}</p>@endif
+                    <p class="text-danger">{{ session('error') }}</p>
+                    <p class="text-danger">{{ session('error_age') }}</p>
                     <p class="text-danger">{{ session('error_unique_competitor') }}</p>
                     <p class="text-danger">{{ session('status') }}</p>
                 </div>
