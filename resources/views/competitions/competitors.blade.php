@@ -46,19 +46,14 @@
                 <div class="card-body" style="display: none;">
                     <b>Дата рождения: </b> {{ \Carbon\Carbon::parse($competitor->athlete->user->date_of_birth)->format('d.m.Y')}}<br>
                     <b>Вес: </b>{{$competitor->weight}}<br>
-                    @foreach($competitor->athlete->tehkval as $tehkval)
-                        <b>Техническая квалификация: </b>{{$tehkval->title}}<br>
-                    @endforeach
-
-                    @foreach($competitor->athlete->sportkval as $sportkval)
-                        <b>Спортивная квалификация: </b>{{$sportkval->full_title}}<br>
-                    @endforeach
+                        <b>Техническая квалификация: </b>{{$competitor->athlete->tehkval->min('title')}}<br>
+                        <b>Спортивная квалификация: </b>{{$competitor->athlete->sportkval->min('short_title')}}<br>
                 </div>
                 @if(\App\Models\Competitor::isCoachAthlete($competitor->athlete->id))
                 <div class="card-footer">
                     <div class="row row-cols-2">
                         <div class="col text-left">
-                            <a class="btn btn-primary" href="{{route('competitors.edit',[$competitor->id])}}"><i class="fas fa-cog"></i></a>
+                            <a class="btn btn-primary" href="{{route('competitors.edit',[$competitor->id])}}?competition_id={{$competition->id}}"><i class="fas fa-cog"></i></a>
                         </div>
                         <div class="col text-right">
                             <form method="POST" action="{{route('competitors.destroy',$competitor->id)}}">

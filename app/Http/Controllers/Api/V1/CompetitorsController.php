@@ -241,6 +241,7 @@ class CompetitorsController extends Controller
         $coach_id = Athlete::with('coaches')->has('coaches')->where('id', $competitor->athlete_id)->first();
         $tehkvals = Tehkval::all();
         $sportkvals = Sportkval::all();
+        $competition_id = \Illuminate\Support\Facades\Request::input('competition_id');
 
         return view('competitors.editcompetitor',
             [
@@ -248,6 +249,7 @@ class CompetitorsController extends Controller
                 'sportkvals'=>$sportkvals,
                 'competitor'=>$competitor,
                 'coach_id'=>$coach_id,
+                'competition_id'=>$competition_id,
             ]);
     }
 
@@ -259,16 +261,16 @@ class CompetitorsController extends Controller
             throw new \Exception('Вы не можете редактировать данного спортсмена');
         }
 
-        $competitor = Competitor::find($id);
+        $competitor = Competitor::with('athlete')->where('athlete_id', $id)->first();
         $user = User::find($competitor->athlete->user->id);
 
-        $competition = Competitor::with('competitions')->has('competitions')->first('id');
+        $competition = Competitor::with('competitions')->has('competitions')->first();
 
         $agecategory_id = Competitor::getAgeCategory($request->date_of_birth);
         if(!$agecategory_id) {return back();}
         $weightcategory_id = Competitor::getWeightCategory($request->input('weight'), $request->gender, $request->date_of_birth);
         if(!$weightcategory_id) {return back();}
-        $tehkvalgroup_id = Competitor::getTehKvalGroup($request->tehkval_id, $request->date_of_birth);
+        $tehkvalgroup_id = Competitor::getTehKvalGroup($competitor->athlete->tehkval->max('id'), $request->date_of_birth);
         if(!$tehkvalgroup_id) {return back();}
 
         if ($request->weight != $competitor->weight) {
@@ -295,7 +297,7 @@ class CompetitorsController extends Controller
         $user->date_of_birth = $request->date_of_birth;
         $user->save();
 
-        return redirect('competitions/' . $competition->id . '/competitors/');
+        return redirect('competitions/' . $request->input('competition_id') . '/competitors/');
 
     }
 

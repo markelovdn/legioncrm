@@ -9,10 +9,11 @@
         @endif
 		<!-- /.card-header -->
 		<!-- form start -->
-		<form class="form-horizontal" method="POST" action="{{route('competitors.update', [$competitor->id])}}">
+		<form class="form-horizontal" method="POST" action="{{route('competitors.update', [$competitor->athlete->id])}}">
             @method('PUT')
 			@csrf
 			<div class="card-body">
+                <input type="text" name="competition_id" style="display: none" value="{{$competition_id}}">
 				<div class="form-group row">
 					<label for="gender" class="col-sm-2 col-form-label">Пол<span class="text-danger">*</span></label>
 					<div class="col-sm-10">
@@ -62,31 +63,31 @@
                         @if (session('error_unique_competitor'))<p class="text-danger">{{ session('error_unique_competitor') }}</p>@endif
 					</div>
 				</div>
-				<div class="form-group row">
-					<label for="tehkval_id" class="col-sm-2 col-form-label">Пояс<span class="text-danger">*</span></label>
-					<div class="col-sm-10">
-						<select type="text" class="form-control" name="tehkval_id" id="tehkval_id">
-                            <option></option>
-							@foreach($tehkvals as $tehkval)
-								<option value="{{$tehkval->id}}" @if($competitor->athlete->tehkval->max('id') == $tehkval->id) selected @endif>{{$tehkval->belt_color}} ({{$tehkval->title}})</option>
-							@endforeach
-						</select>
-						@error('tehkval_id')<p class="text-danger">{{$errors->first('tehkval_id')}}</p>@enderror
-                        @if (session('error_tehkval'))<p class="text-danger">{{ session('error_tehkval') }}</p>@endif
-					</div>
-				</div>
-				<div class="form-group row">
-					<label for="sportkval_id" class="col-sm-2 col-form-label">Разряд<span class="text-danger">*</span></label>
-					<div class="col-sm-10">
-						<select type="text" class="form-control" name="sportkval_id" id="sportkval_id">
-                            <option></option>
-							@foreach($sportkvals as $sportkval)
-								<option value="{{$sportkval->id}}" @if($competitor->athlete->sportkval->max('id') == $sportkval->id) selected @endif>{{$sportkval->short_title}}</option>
-							@endforeach
-						</select>
-                        @error('sportkval_id')<p class="text-danger">{{$errors->first('sportkval_id')}}</p>@enderror
-					</div>
-				</div>
+{{--				<div class="form-group row">--}}
+{{--					<label for="tehkval_id" class="col-sm-2 col-form-label">Пояс<span class="text-danger">*</span></label>--}}
+{{--					<div class="col-sm-10">--}}
+{{--						<select type="text" class="form-control" name="tehkval_id" id="tehkval_id">--}}
+{{--                            <option></option>--}}
+{{--							@foreach($tehkvals as $tehkval)--}}
+{{--								<option value="{{$tehkval->id}}" @if($competitor->athlete->tehkval->max('id') == $tehkval->id) selected @endif>{{$tehkval->belt_color}} ({{$tehkval->title}})</option>--}}
+{{--							@endforeach--}}
+{{--						</select>--}}
+{{--						@error('tehkval_id')<p class="text-danger">{{$errors->first('tehkval_id')}}</p>@enderror--}}
+{{--                        @if (session('error_tehkval'))<p class="text-danger">{{ session('error_tehkval') }}</p>@endif--}}
+{{--					</div>--}}
+{{--				</div>--}}
+{{--				<div class="form-group row">--}}
+{{--					<label for="sportkval_id" class="col-sm-2 col-form-label">Разряд<span class="text-danger">*</span></label>--}}
+{{--					<div class="col-sm-10">--}}
+{{--						<select type="text" class="form-control" name="sportkval_id" id="sportkval_id">--}}
+{{--                            <option></option>--}}
+{{--							@foreach($sportkvals as $sportkval)--}}
+{{--								<option value="{{$sportkval->id}}" @if($competitor->athlete->sportkval->max('id') == $sportkval->id) selected @endif>{{$sportkval->short_title}}</option>--}}
+{{--							@endforeach--}}
+{{--						</select>--}}
+{{--                        @error('sportkval_id')<p class="text-danger">{{$errors->first('sportkval_id')}}</p>@enderror--}}
+{{--					</div>--}}
+{{--				</div>--}}
 			</div>
 			<!-- /.card-body -->
 			<div class="card-footer">

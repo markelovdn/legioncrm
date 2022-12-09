@@ -267,6 +267,7 @@ class CompetitorsTest extends TestCase
             'date_of_birth' =>'2000-01-01',
             'tehkval_id' => $tehKval->id,
             'sportval_id' => $sportKval->id,
+            'competition_id' => $competition->id
 
         ]);
         $response->assertStatus(200);

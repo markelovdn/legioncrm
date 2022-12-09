@@ -31,8 +31,8 @@ class StoreCompetitorRequest extends FormRequest
             'date_of_birth' => ['required_with:secondname'],
             'weight' => ['required', 'numeric', 'max:150', 'min:15'],
             'coach_code' => ['required_with:coach_id', 'numeric'],
-            'sportkval_id' => ['required_with:secondname', 'numeric'],
-            'tehkval_id' => ['required_with:secondname', 'numeric'],
+            'sportkval_id' => ['required_with:coach_code', 'numeric'],
+            'tehkval_id' => ['required_with:coach_code', 'numeric'],
             'coach_id' => ['required_with:coach_code', 'numeric'],
             'competition_id' => ['required_with:coach_code', 'numeric'],
         ];

@@ -9,6 +9,7 @@ use App\Models\BirthCertificate;
 use App\Models\Coach;
 use App\Models\Parented;
 use App\Models\Role;
+use App\Models\Sportkval;
 use App\Models\StudyPlace;
 use App\Models\Tehkval;
 use App\Models\User;
@@ -81,6 +82,7 @@ class AthletesController extends Controller
         }
         $coaches = Coach::find($request->coach_id);
         $tehKval = Tehkval::find(1);
+        $sportKval = Sportkval::find(1);
 
         if($coaches->code == $request->reg_code) {
             $athlete = new Athlete();
@@ -92,6 +94,7 @@ class AthletesController extends Controller
 
             $athlete->coaches()->attach($coaches, ['coach_type' => 1]);
             $athlete->tehkval()->attach($tehKval->id);
+            $athlete->sportkval()->attach($sportKval->id);
         }
         else{
             $request->session()->flash('status', 'Не верный код тренера');
