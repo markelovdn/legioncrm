@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\BusinessProcess\GetCompetitiors;
 use App\DomainService\RegistrationUserAs;
+use App\Exports\CompetitorsExport;
 use App\Filters\CompetitorFilter;
 use App\Filters\WeightcategoryFilter;
 use App\Http\Controllers\Controller;
@@ -22,6 +23,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CompetitorsController extends Controller
 {
@@ -315,5 +317,10 @@ class CompetitorsController extends Controller
         session()->flash('status', 'Спортсмен успешно удален с соревнований');
 
         return redirect('/competitions/'.$request->input('competition_id').'/competitors')->withInput();
+    }
+
+    public function competitorsExport()
+    {
+        return Excel::download(new CompetitorsExport, 'competitors.xlsx');
     }
 }

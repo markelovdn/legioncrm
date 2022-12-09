@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\CompetitorsController;
 use App\Http\Controllers\Api\V1\UsersController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +22,7 @@ Route::resource('competitions', \App\Http\Controllers\Api\V1\CompetitionsControl
 Route::resource('competitions.competitors', \App\Http\Controllers\Api\V1\CompetitorsController::class)->shallow()->middleware(['auth']);
 Route::any('/competitions/{id}/competitors-new-user', [\App\Http\Controllers\Api\V1\CompetitorsController::class, 'store_as_new_user']);
 Route::resource('competitions.tehkvalgroups', \App\Http\Controllers\Api\V1\TehkvalGroupsController::class)->shallow()->middleware(['auth']);
+Route::get('/competitorsExport', [CompetitorsController::class, 'competitorsExport'])->middleware('auth');
 Route::resource('role-user', \App\Http\Controllers\Api\V1\RoleUserController::class)->middleware(['auth', 'system_admin']);
 
 Route::get('coach/{id}/athletes', [\App\Http\Controllers\Api\V1\CoachController::class, 'show'])->middleware(['auth']);
