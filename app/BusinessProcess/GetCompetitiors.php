@@ -48,6 +48,4 @@ class GetCompetitiors
                 return false;
         }
     }
-
-
 }

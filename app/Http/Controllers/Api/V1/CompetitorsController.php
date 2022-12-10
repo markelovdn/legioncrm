@@ -30,7 +30,6 @@ class CompetitorsController extends Controller
 
     public function index($competition_id, Request $request, CompetitorFilter $CompetitorFilter, WeightcategoryFilter $weightFilter, GetCompetitiors $competitors)
     {
-
 //        $competitors = Competitor::filter($CompetitorFilter)->orderBy('created_at', 'desc')->get();
 //        $weightcategories = WeightCategory::filter($weightFilter)->orderBy('agecategory_id')->get();
 //        $competition = Competition::where('id', $request->input('competition_id'))->with('agecategories')->get();
