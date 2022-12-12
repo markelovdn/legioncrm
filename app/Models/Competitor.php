@@ -94,7 +94,11 @@ class Competitor extends Model
                     session()->flash('error_unique_competitor', 'Данный спорстмен уже заявлен в весовой категории');
                     return false;
                     }
-        } else {
+                else {
+                    return true;
+                }
+        }
+        else {
             return true;
         }
     }
