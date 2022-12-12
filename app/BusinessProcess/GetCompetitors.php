@@ -12,7 +12,7 @@ use App\Models\RoleUser;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
-class GetCompetitiors
+class GetCompetitors
 {
     public function getCompetitors (int $id)
     {

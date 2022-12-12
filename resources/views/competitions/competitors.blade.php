@@ -53,7 +53,7 @@
                 <div class="card-footer">
                     <div class="row row-cols-2">
                         <div class="col text-left">
-                            <a class="btn btn-primary" href="{{route('competitors.edit',[$competitor->id])}}?competition_id={{$competition->id}}"><i class="fas fa-cog"></i></a>
+                            <a class="btn btn-primary" href="{{route('competitors.edit',[$competitor->id])}}"><i class="fas fa-cog"></i></a>
                         </div>
                         <div class="col text-right">
                             <form method="POST" action="{{route('competitors.destroy',$competitor->id)}}">

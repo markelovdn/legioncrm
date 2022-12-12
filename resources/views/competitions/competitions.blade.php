@@ -39,7 +39,7 @@
 					<b>Место проведения: </b>{{$competition->address}}<br>
 					<b>Дата начала: </b>{{ \Carbon\Carbon::parse($competition->date_start)->format('d.m.Y')}}<br>
 					<b>Дата окончания: </b>{{ \Carbon\Carbon::parse($competition->date_end)->format('d.m.Y')}}<br>
-					<b>Зарегестированно всего: </b>{{ count($competitors)}}<br>
+                    <b>Зарегестированно всего: </b>{{ \App\Models\Competition::competitorsCount($competition->id)}}<br>
 					<b>Возрастные категории: </b><br>@foreach($competition->agecategories as $agecategories) {{$agecategories->title}} <br> @endforeach
 				</div>
 

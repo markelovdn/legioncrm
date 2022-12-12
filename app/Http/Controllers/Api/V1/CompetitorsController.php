@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\BusinessProcess\GetCompetitiors;
+use App\BusinessProcess\GetCompetitors;
 use App\DomainService\RegistrationUserAs;
 use App\Exports\CompetitorsExport;
 use App\Filters\CompetitorFilter;
@@ -28,7 +28,11 @@ use Maatwebsite\Excel\Facades\Excel;
 class CompetitorsController extends Controller
 {
 
-    public function index($competition_id, Request $request, CompetitorFilter $CompetitorFilter, WeightcategoryFilter $weightFilter, GetCompetitiors $competitors)
+    public function index($competition_id,
+                          Request $request,
+                          CompetitorFilter $CompetitorFilter,
+                          WeightcategoryFilter $weightFilter,
+                          GetCompetitors $competitors)
     {
 //        $competitors = Competitor::filter($CompetitorFilter)->orderBy('created_at', 'desc')->get();
 //        $weightcategories = WeightCategory::filter($weightFilter)->orderBy('agecategory_id')->get();
@@ -76,7 +80,7 @@ class CompetitorsController extends Controller
     }
 
 
-    public function create($competition_id, GetCompetitiors $competitors, RegistrationUserAs $userAs)
+    public function create($competition_id, GetCompetitors $competitors, RegistrationUserAs $userAs)
     {
         if (\auth()->user()->isParented(\auth()->user()) && $competitors->getCompetitors(auth()->user()->id)->count() < 1) {
             return redirect($userAs->registrationUserAs(Role::ROLE_PARENTED, \auth()->user()->id));

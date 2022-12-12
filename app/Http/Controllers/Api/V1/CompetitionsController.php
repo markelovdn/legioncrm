@@ -32,11 +32,13 @@ class CompetitionsController extends Controller
     public function index()
     {
         $competitions = Competition::with('agecategories')->orderBy('id', 'DESC')->get();
-        $competitors = Competitor::get();
+//        $competitors = DB::table('competition_competitor')->get();
 
         return view('competitions.competitions', [
             'competitions'=>$competitions,
-            'competitors'=>$competitors]);
+//            'competitors'=>$competitors
+            ]
+        );
     }
 
     public function create()

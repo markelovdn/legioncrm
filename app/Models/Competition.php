@@ -88,4 +88,12 @@ class Competition extends Model
         return false;
     }
 
+    public function competitorsCount(int $competition_id) :int
+    {
+        if (!$competition_id) {
+            session()->flash('error', 'Нет соревнований с данным id');
+        }
+        return count(DB::table('competition_competitor')->where('competition_id', $competition_id)->get());
+    }
+
 }
