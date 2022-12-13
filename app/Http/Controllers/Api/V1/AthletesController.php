@@ -61,9 +61,16 @@ class AthletesController extends Controller
     {
         $request->validated();
 
+        $coaches = Coach::find($request->coach_id);
+        $tehKval = Tehkval::find(1);
+        $sportKval = Sportkval::find(1);
+
+
         if (!User::checkUserUnique($request->firstname, $request->secondname, $request->patronymic, $request->date_of_birth)) {
             return back()->withInput();
         }
+
+        if($coaches->code == $request->reg_code) {
 
         $user = new User();
         $user->secondname = $request->secondname;
@@ -80,11 +87,7 @@ class AthletesController extends Controller
             $request->file('photo')
                 ->storeAs('athlete/'.$user->id.'_'.$user->secondname.'_'.$user->firstname, 'photo_'.$user->secondname.'_'.$user->firstname.'_'.$user->patronymic.'.jpg');
         }
-        $coaches = Coach::find($request->coach_id);
-        $tehKval = Tehkval::find(1);
-        $sportKval = Sportkval::find(1);
 
-        if($coaches->code == $request->reg_code) {
             $athlete = new Athlete();
             $athlete->user_id = $user->id;
             $athlete->gender = $request->gender;

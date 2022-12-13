@@ -308,11 +308,12 @@ class CompetitorsController extends Controller
 
     public function destroy($id, Request $request)
     {
-        if (!Competitor::isCoachAthlete($id)){
+        $competitor = Competitor::with('athlete')->find($id);
+
+        if (!Competitor::isCoachAthlete($competitor->athlete_id)){
             throw new \Exception('Вы не можете редактировать данного спортсмена');
         }
 
-        $competitor = Competitor::find($id);
         $competitor->competitions()->detach();
 
         $competitor->delete();
