@@ -56,7 +56,7 @@
                             <a class="btn btn-primary" href="{{route('competitors.edit',[$competitor->id])}}"><i class="fas fa-cog"></i></a>
                         </div>
                         <div class="col text-right">
-                            <form method="POST" action="{{route('competitors.destroy',$competitor->id)}}">
+                            <form method="POST" action="{{route('competitors.destroy',$competitor->athlete->id)}}">
                                 @method('DELETE')
                                 @csrf
                                 <input type="number" style="display: none" class="form-control" id="competition_id" name="competition_id" value="{{$competition->id}}">
