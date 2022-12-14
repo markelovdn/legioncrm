@@ -8,6 +8,8 @@
                     @endforeach
                     <form method="POST" action="{{route('tehkval.store')}}">
                         <input type="text" name="athlete_id" style="display: none" value="{{$competitor->athlete->id}}">
+                        <input type="text" name="competitor_id" style="display: none" value="{{$competitor->id}}">
+                        <input type="text" name="competition_id" style="display: none" value="{{$competition->id}}">
 
                     @csrf
                     <div class="form-group row">

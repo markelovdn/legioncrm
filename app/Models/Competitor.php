@@ -61,7 +61,7 @@ class Competitor extends Model
     }
 
     public function getTehKvalGroup($tehkval_id, $date_of_birth) {
-
+//TODO:Исправить, с передачей id соревнования
         $tehKvalGroups = TehkvalGroup::
                whereRaw('agecategory_id = '.Competitor::getAgeCategory($date_of_birth).
             ' and finishgyp_id >= '.$tehkval_id)

@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Athlete;
+use App\Models\Competitor;
 use App\Models\Tehkval;
+use App\Models\TehkvalGroup;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class TehkvalsController extends Controller
@@ -37,10 +40,21 @@ class TehkvalsController extends Controller
      */
     public function store(Request $request)
     {
-        $athlete = Athlete::find($request->athlete_id);
+        $athlete = Athlete::with('user')->find($request->athlete_id);
         $tehkval = Tehkval::find($request->tehkval_id);
-
+//TODO:Сделать проверку на существующую запись
         $athlete->tehkval()->attach($tehkval->id);
+
+        //TODO:Убрать эту хрень
+        $tehkvalgroup = TehkvalGroup::
+        whereRaw('agecategory_id = '.Competitor::getAgeCategory($athlete->user->date_of_birth).
+            ' and finishgyp_id >= '.$tehkval->id.' and competition_id = '.$request->competition_id)
+            ->first();
+
+        $competitor = Competitor::find($request->competitor_id);
+        $competitor->tehkvalgroup_id = $tehkvalgroup->id;
+
+        $competitor->save();
 
         return back();
     }
