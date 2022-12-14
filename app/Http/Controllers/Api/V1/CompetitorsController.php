@@ -46,6 +46,7 @@ class CompetitorsController extends Controller
 //            ]);
 
         $user = \auth()->user();
+        $tehkvals = Tehkval::get();
 
         $competition = Competition::where('id', $competition_id)->first();
         $athletes_parent = $competitors->getCompetitors(auth()->user()->id);
@@ -53,7 +54,8 @@ class CompetitorsController extends Controller
         if ($athletes_parent == null && $user->isParented($user) ||
             $athletes_parent != null && $user->isParented($user) && $athletes_parent->count() < 1) {
             session()->flash('status', 'Вы не добавляли спортсменов на данное мероприятие');
-            return view('competitions.competitors', ['competition'=>$competition, 'competitors'=>$competitors]);
+            return view('competitions.competitors',
+                ['competition'=>$competition, 'competitors'=>$competitors, 'tehkvals'=>$tehkvals]);
         }
 
         if($athletes_parent != null && $athletes_parent->count() >= 1 && $user->isParented($user)) {
@@ -69,14 +71,15 @@ class CompetitorsController extends Controller
                 session()->flash('status', 'Вы не добавляли спортсменов на данное мероприятие');
                 return view('competitions.competitors', ['competition'=>$competition, 'competitors'=>$competitors]);
             }
-            return view('competitions.competitors', ['competition'=>$competition, 'competitors'=>$competitors]);
+            return view('competitions.competitors', ['competition'=>$competition, 'competitors'=>$competitors, 'tehkvals'=>$tehkvals]);
         }
 
             $competitors = $competition->competitors()
                 ->with('athlete', 'agecategory', 'weightcategory', 'tehkvalgroup')
+                ->orderBy('id', 'DESC')
                 ->get();
 
-        return view('competitions.competitors', ['competition'=>$competition, 'competitors'=>$competitors]);
+        return view('competitions.competitors', ['competition'=>$competition, 'competitors'=>$competitors, 'tehkvals'=>$tehkvals]);
     }
 
 

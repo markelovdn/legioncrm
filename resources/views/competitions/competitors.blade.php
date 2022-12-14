@@ -4,7 +4,7 @@
     <div class="content-header">
         <div class="card collapsed-card">
             <div class="card-header">
-                <h1 class="card-title">{{$competition->title}}</h1>
+                <h1 class="card-title">{{$competition->title}} ({{ \App\Models\Competition::competitorsCount($competition->id)}})</h1>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                         <i class="fas fa-plus"></i>
@@ -46,7 +46,7 @@
                 <div class="card-body" style="display: none;">
                     <b>Дата рождения: </b> {{ \Carbon\Carbon::parse($competitor->athlete->user->date_of_birth)->format('d.m.Y')}}<br>
                     <b>Вес: </b>{{$competitor->weight}}<br>
-                        <b>Техническая квалификация: </b>{{$competitor->athlete->tehkval->min('title')}}<br>
+                        <b>Техническая квалификация: </b><span data-toggle="modal" data-target="#modal-tehkval-{{$competitor->athlete->id}}">{{$competitor->athlete->tehkval->last()->title}}</span><br>
                         <b>Спортивная квалификация: </b>{{$competitor->athlete->sportkval->min('short_title')}}<br>
                 </div>
                 @if(\App\Models\Competitor::isCoachAthlete($competitor->athlete->id))
@@ -67,7 +67,9 @@
                 </div>
                 @endif
             </div>
+                @include('athletes.tehkval-history-modal')
         @endforeach
     </section>
+
 @endsection
 

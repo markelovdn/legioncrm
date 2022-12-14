@@ -13,6 +13,7 @@ Route::resource('organization', \App\Http\Controllers\Api\V1\OrganizationControl
 Route::resource('coach', \App\Http\Controllers\Api\V1\CoachController::class)->middleware(['auth', 'coach']);
 Route::resource('parented', \App\Http\Controllers\Api\V1\ParentedsController::class)->middleware(['auth', 'parented']);
 Route::resource('athlete', \App\Http\Controllers\Api\V1\AthletesController::class)->middleware(['auth']);
+Route::resource('tehkval', \App\Http\Controllers\Api\V1\TehkvalsController::class)->middleware(['auth']);
 Route::resource('passport', \App\Http\Controllers\Api\V1\PassportController::class)->middleware(['auth']);
 Route::resource('birthcertificate', \App\Http\Controllers\Api\V1\BirthCertificateController::class)->middleware(['auth']);
 Route::resource('studyplace', \App\Http\Controllers\Api\V1\StudyPlaceController::class)->middleware(['auth']);

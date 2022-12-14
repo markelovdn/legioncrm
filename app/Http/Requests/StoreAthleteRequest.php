@@ -24,7 +24,7 @@ class StoreAthleteRequest extends FormRequest
     public function rules()
     {
         return [
-            'photo' => ['required', 'image:jpg,jpeg,png,bmp'],
+            'photo' => ['required', 'image:jpg,jpeg,png,bmp', 'max:3000'],
             'gender' => ['required', 'integer', 'max:2'],
             'secondname' => ['required', 'string', 'max:255'],
             'firstname' => ['required', 'string', 'max:255'],
