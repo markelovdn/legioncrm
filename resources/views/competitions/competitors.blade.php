@@ -46,7 +46,12 @@
                 <div class="card-body" style="display: none;">
                     <b>Дата рождения: </b> {{ \Carbon\Carbon::parse($competitor->athlete->user->date_of_birth)->format('d.m.Y')}}<br>
                     <b>Вес: </b>{{$competitor->weight}}<br>
-                        <b>Техническая квалификация: </b><span data-toggle="modal" data-target="#modal-tehkval-{{$competitor->athlete->id}}">{{$competitor->athlete->tehkval->last()->title}}</span><br>
+                        <b>Техническая квалификация: </b>
+                    <span
+                        @if(\App\Models\Competitor::isCoachAthlete($competitor->athlete->id))
+                            data-toggle="modal" data-target="#modal-tehkval-{{$competitor->athlete->id}}"
+                        @endif
+                    >{{$competitor->athlete->tehkval->last()->title}}</span><br>
                         <b>Спортивная квалификация: </b>{{$competitor->athlete->sportkval->min('short_title')}}<br>
                 </div>
                 @if(\App\Models\Competitor::isCoachAthlete($competitor->athlete->id))
