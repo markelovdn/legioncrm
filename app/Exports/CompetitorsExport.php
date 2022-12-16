@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Athlete;
+use App\Models\Competition;
 use App\Models\Competitor;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
@@ -16,11 +17,15 @@ class CompetitorsExport implements FromView
      */
     public function view(): View
     {
-//        $a = Competitor::with('athlete')->get();
+
+        $competition = Competition::where('id', 4)->first();
+        $competitors = $competition->competitors()
+            ->with('athlete', 'agecategory', 'weightcategory', 'tehkvalgroup')
+            ->orderBy('id', 'DESC')
+            ->get();
 
         return view('exports.competitors', [
-//            'competitors' => Competitor::all()
-            'competitors' => Competitor::with('athlete')->get()
+            'competitors' => $competitors
         ]);
     }
 }

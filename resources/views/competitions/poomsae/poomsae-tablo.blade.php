@@ -23,7 +23,7 @@
         @else
         <div class="competitor">
             <span>{{$competitor->athlete->user->secondname}} {{$competitor->athlete->user->firstname}}</span>
-            <img src="{{asset('storage/images/logo.png')}}" alt="">
+            <img src="{{asset('storage/images/logo.png')}}" height="300px" alt="">
         </div>
         @endif
 

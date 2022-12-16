@@ -335,7 +335,7 @@ class CompetitorsController extends Controller
 
     public function addCompetitorsToPoomsaeTablo() {
 
-        $competition = Competition::where('id', 1)->first();
+        $competition = Competition::where('id', 3)->first();
         $competitors = $competition->competitors()
             ->with('athlete', 'agecategory', 'weightcategory', 'tehkvalgroup')
             ->orderBy('id', 'DESC')
