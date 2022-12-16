@@ -40,6 +40,9 @@ class UsersController extends Controller
         if($request->has('parent')) {
             $coaches = Coach::with('user')->get();
             return view('auth.parent-register', ['coaches'=>$coaches]);
+        } elseif($request->has('referee')) {
+            $orgs = Organization::all();
+            return view('auth.referee-register', ['orgs'=>$orgs]);
         } elseif($request->has('coach')) {
             $orgs = Organization::all();
             return view('auth.coach-register', ['orgs'=>$orgs]);

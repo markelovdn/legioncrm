@@ -311,6 +311,8 @@ class CompetitorsController extends Controller
 
     public function destroy($id, Request $request)
     {
+
+        //TODO:Добавить всплвающее окно с подтверждением
         $competitor = Competitor::with('athlete')->find($id);
 
         if (!Competitor::isCoachAthlete($competitor->athlete_id)){
@@ -329,5 +331,15 @@ class CompetitorsController extends Controller
     public function competitorsExport()
     {
         return Excel::download(new CompetitorsExport, 'competitors.xlsx');
+    }
+
+    public function addCompetitorsToPoomsaeTablo() {
+
+        $competition = Competition::where('id', 1)->first();
+        $competitors = $competition->competitors()
+            ->with('athlete', 'agecategory', 'weightcategory', 'tehkvalgroup')
+            ->orderBy('id', 'DESC')
+            ->get();
+        return view('competitions.poomsae.poomsae-competitor', ['competitors' => $competitors]);
     }
 }

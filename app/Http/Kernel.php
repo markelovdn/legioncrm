@@ -60,6 +60,7 @@ class Kernel extends HttpKernel
         'org' => \App\Http\Middleware\OrganizationMiddleware::class,
         'system_admin' => \App\Http\Middleware\SuperAdminMiddleware::class,
         'coach' => \App\Http\Middleware\CoachMiddleware::class,
+        'referee' => \App\Http\Middleware\RefereeMiddleware::class,
         'parented' => \App\Http\Middleware\ParentedMiddleware::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,

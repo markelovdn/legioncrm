@@ -10,6 +10,7 @@ use App\Models\Athlete;
 use App\Models\Coach;
 use App\Models\Organization;
 use App\Models\Parented;
+use App\Models\Referee;
 use App\Models\Role;
 use App\Models\User;
 use Exception;
@@ -34,6 +35,11 @@ class RegistrationUserAs
                 $coach->code = rand(1000, 9999);
                 $coach->save();
                 return $user_type = '/coach/'.$coach->id;
+            case (Role::ROLE_REFEREE):
+                $referee = new Referee();
+                $referee->user_id = $id;
+                $referee->save();
+                return $user_type = '/referee/'.$referee->id;
             case (Role::ROLE_ATHLETE):
                 $athlete = new Athlete();
                 $athlete->user_id = $id;

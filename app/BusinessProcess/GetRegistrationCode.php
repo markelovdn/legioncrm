@@ -19,6 +19,7 @@ class GetRegistrationCode
                 $reg_code = Coach::where('code', $code)->first();
                 break;
             case (Role::ROLE_COACH):
+            case (Role::ROLE_REFEREE):
                 $reg_code = Organization::where('code', $code)->first();
                 break;
             case (Role::ROLE_ORGANIZATION_CHAIRMAN):

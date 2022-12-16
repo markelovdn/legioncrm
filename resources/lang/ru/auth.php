@@ -21,6 +21,7 @@ return [
     'Password' => 'Пароль',
     'remember' => 'Запомнить',
     'Register_coach' => 'Регистрация в роли тренера',
+    'Register_referee' => 'Регистрация в роли судьи',
     'Register_parented' => 'Регистрация в роли родителя',
     'Confirm_Password' => 'Подтверждение пароля',
     'Confirm_Password_text' => 'Пожалуйста, подтвердите свой пароль, прежде чем продолжить',
