@@ -12,6 +12,7 @@ use Illuminate\Auth\Events\Login;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -46,6 +47,10 @@ class AppServiceProvider extends ServiceProvider
 
         Blade::directive('endhasrole', function () {
             return '<?php endif; ?>';
+        });
+
+        Gate::define('viewWebSocketsDashboard', function ($user = null) {
+            return $user != null;
         });
     }
 }
