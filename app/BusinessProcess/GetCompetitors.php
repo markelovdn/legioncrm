@@ -4,6 +4,7 @@
 namespace App\BusinessProcess;
 
 
+use App\Filters\UserFilter;
 use App\Models\Athlete;
 use App\Models\Coach;
 use App\Models\Parented;
@@ -16,6 +17,7 @@ class GetCompetitors
 {
     public function getCompetitors (int $id)
     {
+
         $coach = Coach::where('user_id', $id)->first();
         $parented = Parented::where('user_id', $id)->first();
 
@@ -47,5 +49,10 @@ class GetCompetitors
             } else
                 return false;
         }
+    }
+
+    public function allCompetitors ($user) {
+
+        return User::filter($user)->orderBy('secondname')->paginate(10);
     }
 }

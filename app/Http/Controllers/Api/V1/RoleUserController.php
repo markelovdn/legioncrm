@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\DomainService\RegistrationUserAs;
+use App\Filters\UserFilter;
 use App\Http\Controllers\Controller;
 use App\Models\Athlete;
 use App\Models\Coach;
@@ -21,9 +22,13 @@ class RoleUserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(UserFilter $userFilter)
     {
-        //
+        $users = User::filter($userFilter)->orderBy('secondname')->paginate(10);
+        $roles = Role::get();
+        $orgs = Organization::get();
+
+        return view('system.role-user', ['users'=>$users, 'roles'=>$roles, 'orgs'=>$orgs]);
     }
 
     /**
@@ -33,11 +38,7 @@ class RoleUserController extends Controller
      */
     public function create()
     {
-        $users = User::orderBy('secondname')->paginate(10);
-        $roles = Role::get();
-        $orgs = Organization::get();
 
-        return view('system.role-user', ['users'=>$users, 'roles'=>$roles, 'orgs'=>$orgs]);
     }
 
     /**

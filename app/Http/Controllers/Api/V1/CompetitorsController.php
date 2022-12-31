@@ -6,6 +6,7 @@ use App\BusinessProcess\GetCompetitors;
 use App\DomainService\RegistrationUserAs;
 use App\Exports\CompetitorsExport;
 use App\Filters\CompetitorFilter;
+use App\Filters\UserFilter;
 use App\Filters\WeightcategoryFilter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCompetitorRequest;
@@ -32,7 +33,8 @@ class CompetitorsController extends Controller
                           Request $request,
                           CompetitorFilter $CompetitorFilter,
                           WeightcategoryFilter $weightFilter,
-                          GetCompetitors $competitors)
+                          GetCompetitors $competitors,
+    UserFilter $userFilter)
     {
 //        $competitors = Competitor::filter($CompetitorFilter)->orderBy('created_at', 'desc')->get();
 //        $weightcategories = WeightCategory::filter($weightFilter)->orderBy('agecategory_id')->get();
@@ -74,10 +76,14 @@ class CompetitorsController extends Controller
             return view('competitions.competitors', ['competition'=>$competition, 'competitors'=>$competitors, 'tehkvals'=>$tehkvals]);
         }
 
-            $competitors = $competition->competitors()
-                ->with('athlete', 'agecategory', 'weightcategory', 'tehkvalgroup')
-                ->orderBy('id', 'DESC')
-                ->get();
+//            $competitors = $competition->competitors()
+//                ->with('athlete', 'agecategory', 'weightcategory', 'tehkvalgroup')
+//                ->orderBy('id', 'DESC')
+//                ->get();
+
+       $a = $competitors->allCompetitors($userFilter);
+
+
 
         return view('competitions.competitors', ['competition'=>$competition, 'competitors'=>$competitors, 'tehkvals'=>$tehkvals]);
     }
