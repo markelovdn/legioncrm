@@ -34,15 +34,13 @@ Route::get('coach/{id}/athletes', [\App\Http\Controllers\Api\V1\CoachController:
 //Route::view('/poomsae-tablo', 'competitions.poomsae.poomsae-tablo')->name('poomsae-tablo');
 Route::get('/poomsae-competitors', [\App\Http\Controllers\Api\V1\CompetitorsController::class, 'addCompetitorsToPoomsaeTablo'])->name('poomsae-competitors');
 
-
 Route::get('/loginAs', function (\Illuminate\Http\Request $request) {
     $id = $request->get('id');
      \Illuminate\Support\Facades\Auth::loginUsingId($id);
     return back();
-})->name('loginas');
+})->middleware(['auth', 'system_admin'])->name('loginas');
 
 Route::get('/logout', function () {
     Auth::logout();
     return redirect('/login');
 }); //Сделал отдельный метод потомучто не удавалось войти в систему повторно после использования стандартного метода logout щаблон не видел переменную тренера или родителя при повторном входе.
-

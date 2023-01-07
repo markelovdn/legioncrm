@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SuperAdminMiddleware
 {
@@ -17,10 +18,10 @@ class SuperAdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if(User::getRoleCode() != 'system_admin') {
-            return redirect('/');
+        if(User::getRoleCode() == 'system_admin') {
+            return $next($request);
         }
+        return redirect('/');
 
-        return $next($request);
     }
 }
