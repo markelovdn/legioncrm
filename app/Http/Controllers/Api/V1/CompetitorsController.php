@@ -76,14 +76,10 @@ class CompetitorsController extends Controller
             return view('competitions.competitors', ['competition'=>$competition, 'competitors'=>$competitors, 'tehkvals'=>$tehkvals]);
         }
 
-//            $competitors = $competition->competitors()
-//                ->with('athlete', 'agecategory', 'weightcategory', 'tehkvalgroup')
-//                ->orderBy('id', 'DESC')
-//                ->get();
-
-       $a = $competitors->allCompetitors($userFilter);
-
-
+            $competitors = $competition->competitors()
+                ->with('athlete', 'agecategory', 'weightcategory', 'tehkvalgroup')
+                ->orderBy('id', 'DESC')
+                ->get();
 
         return view('competitions.competitors', ['competition'=>$competition, 'competitors'=>$competitors, 'tehkvals'=>$tehkvals]);
     }
