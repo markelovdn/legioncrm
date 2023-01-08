@@ -24,6 +24,6 @@ Homestead.json
 
 CONST
 .idea
-.dbprod
 
 PROBLEMS.TXT
+/.dbprod/
