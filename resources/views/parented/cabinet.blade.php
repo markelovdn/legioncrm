@@ -134,6 +134,9 @@
                             @include('documents.address-registration')
                         @endif
             {{--/ Адресс по прописке --}}
+                    {{-- Ежегодный взнос --}}
+                        @include('athletes.athlete-year-payment')
+                    {{--/ Ежегодный взнос --}}
 
                 </div>
             </div>

@@ -27,7 +27,7 @@ class Organization extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->with('athlete');
     }
 
     public static function getChairman()
@@ -39,6 +39,29 @@ class Organization extends Model
         if ($org_count >= 1) {
             return $user;
         } return false;
+    }
 
+    public function getOrganizationId() :int
+    {
+        $id = auth()->user()->id;
+        if (!$id) {
+            return false;
+        }
+
+        $oranization_id = DB::table('organization_user')->where('user_id', $id)->first();
+        return $oranization_id->organization_id;
+    }
+
+    public function getAthletes()
+    {
+        $organization = Organization::with('users')->where('id', Organization::getOrganizationId())->first();
+
+        $organization_athletes = [];
+        foreach ($organization->users as $athlete) {
+            if ($athlete->athlete != null) {
+                $organization_athletes[] = $athlete->athlete;
+            }
+        }
+        return $organization_athletes;
     }
 }

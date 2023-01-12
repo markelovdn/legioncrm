@@ -7,6 +7,7 @@ use App\Http\Requests\StoreAthleteRequest;
 use App\Models\Athlete;
 use App\Models\BirthCertificate;
 use App\Models\Coach;
+use App\Models\Organization;
 use App\Models\Parented;
 use App\Models\Role;
 use App\Models\Sportkval;
@@ -30,14 +31,23 @@ class AthletesController extends Controller
     {
         $id = auth()->user()->id;
 
-        if (\App\Models\User::hasRole(Role::ROLE_COACH, $id)) {
-            $coach = Coach::where('user_id', $id)->with('user', 'athletes')->first();
-                return view('coaches.athletes', compact('coach', $coach));
-        }
-
         if (\App\Models\User::hasRole(Role::ROLE_PARENTED, $id)) {
             return redirect('/parented/'.$id);
         }
+
+        if (\App\Models\User::hasRole(Role::ROLE_COACH, $id)) {
+            $coach = Coach::where('user_id', $id)->with('user', 'athletes')->first();
+            return view('coaches.athletes', compact('coach', $coach));
+        }
+
+        if (\App\Models\User::hasRole(Role::ROLE_ORGANIZATION_ADMIN, $id) ||
+            \App\Models\User::hasRole(Role::ROLE_ORGANIZATION_CHAIRMAN, $id)) {
+            $organization = Organization::with('users')->where('id', Organization::getOrganizationId())->first();
+            $organization_athlete = Organization::getAthletes();
+
+            return view('organization.athletes', compact(['organization', $organization, 'organization_athlete', $organization_athlete]));
+        }
+
         return back();
     }
 

@@ -51,7 +51,7 @@ class User extends Authenticatable
 
     public function athlete()
     {
-        return $this->hasOne(Athlete::class);
+        return $this->hasOne(Athlete::class)->with('user', 'birthcertificate', 'passport', 'studyplace');
     }
 
     public function coach()
