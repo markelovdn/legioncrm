@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\BusinessProcess\uploadFile;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAthleteRequest;
 use App\Models\Athlete;
@@ -18,6 +19,7 @@ use http\Env\Url;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use function PHPUnit\Framework\isEmpty;
 
 class AthletesController extends Controller
@@ -37,7 +39,7 @@ class AthletesController extends Controller
 
         if (\App\Models\User::hasRole(Role::ROLE_COACH, $id)) {
             $coach = Coach::where('user_id', $id)->with('user', 'athletes')->first();
-            return view('coaches.athletes', compact('coach', $coach));
+            return view('coaches.athletes', ['coach' => $coach]);
         }
 
         if (\App\Models\User::hasRole(Role::ROLE_ORGANIZATION_ADMIN, $id) ||
@@ -92,16 +94,25 @@ class AthletesController extends Controller
         $role = Role::where('code', Role::ROLE_ATHLETE)->get();
         $user->role()->attach($role);
 
-        $path_photo = 'athlete/'.$user->id.'_'.$user->secondname.'_'.$user->firstname.'/'.'photo_'.$user->secondname.'_'.$user->firstname.'_'.$user->patronymic.'.jpg';
-        if ($request->hasFile('photo')) {
-            $request->file('photo')
-                ->storeAs('athlete/'.$user->id.'_'.$user->secondname.'_'.$user->firstname, 'photo_'.$user->secondname.'_'.$user->firstname.'_'.$user->patronymic.'.jpg');
-        }
+////        $path_photo = 'athlete/'.$user->id.'_'.$user->secondname.'_'.$user->firstname.'/'.'photo_'.$user->secondname.'_'.$user->firstname.'_'.$user->patronymic.'.jpg';
+//            $file = $request->file('photo');
+//            $filecontent = $file->openFile()->fread($file->getSize());
+//            $filename = $user->id.'_'.$user->secondname.'_'.$user->firstname.'.jpeg';
+//
+//        if ($request->hasFile('photo')) {
+////            $request->file('photo')
+////                ->storeAs('athlete/'.$user->id.'_'.$user->secondname.'_'.$user->firstname, 'photo_'.$user->secondname.'_'.$user->firstname.'_'.$user->patronymic.'.jpg');
+//            Storage::disk('s3')->put($filename, $filecontent);
+//        }
+
+            if ($request->hasFile('photo')) {
+                $path_scanlink = uploadFile::uploadFile($user->id, $user->secondname,$user->firstname, 'photo', $request->file('photo'));
+            }
 
             $athlete = new Athlete();
             $athlete->user_id = $user->id;
             $athlete->gender = $request->gender;
-            $athlete->photo =  $path_photo;
+            $athlete->photo =  $path_scanlink;
             $athlete->status = 1;
             $athlete->save();
 

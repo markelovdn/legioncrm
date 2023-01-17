@@ -105,7 +105,7 @@
                                             <dt class="col-sm-4">Код подразделения:</dt>
                                             <dd class="col-sm-8">{{$athlete->passport->code}}</dd>
                                             <dt class="col-sm-4">Скачать скан копию:</dt>
-                                            <dd class="col-sm-8"><a href="{{asset('storage/'.$athlete->passport->scanlink)}}">Скачать</a></dd>
+                                            <dd class="col-sm-8"><a href="{{$athlete->passport->scanlink}}">Скачать</a></dd>
                                         </dl>
                                     </div>
                                 </div>

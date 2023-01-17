@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\BusinessProcess\uploadFile;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePassportRequest;
 use App\Models\Athlete;
@@ -47,8 +48,11 @@ class PassportController extends Controller
 
         if ($request->user_id) {
         $user = User::where('id', $request->user_id)->first();
-        $path_scanlink = 'athlete/'.$user->id.'_'.$user->secondname.'_'.$user->firstname.'/'.'passport_'.$user->secondname.'_'.$user->firstname.'_'.$user->patronymic.'.jpg';
+//        $path_scanlink = 'athlete/'.$user->id.'_'.$user->secondname.'_'.$user->firstname.'/'.'passport_'.$user->secondname.'_'.$user->firstname.'_'.$user->patronymic.'.jpg';
 
+            if ($request->hasFile('passport_scan')) {
+                $path_scanlink = uploadFile::uploadFile($user->id, $user->secondname,$user->firstname, 'passport_scan', $request->file('passport_scan'));
+            }
             $passport = Passport::updateOrCreate(
                 ['series' => $request->passport_series, 'number' => $request->passport_number],
                 [
@@ -60,11 +64,13 @@ class PassportController extends Controller
             );
         }
 
-        if ($request->hasFile('passport_scan')) {
-            $request->file('passport_scan')
-                ->storeAs('athlete/'.$user->id.'_'.$user->secondname.'_'.$user->firstname, 'passport_'.$user->secondname.'_'.$user->firstname.'_'.$user->patronymic.'.jpg');
+//        if ($request->hasFile('passport_scan')) {
+//            $request->file('passport_scan')
+//                ->storeAs('athlete/'.$user->id.'_'.$user->secondname.'_'.$user->firstname, 'passport_'.$user->secondname.'_'.$user->firstname.'_'.$user->patronymic.'.jpg');
+//
+//        }
 
-        }
+
 
         $passport = Passport::updateOrCreate(
             ['series' => $request->passport_series, 'number' => $request->passport_number],

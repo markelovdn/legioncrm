@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\BusinessProcess\uploadFile;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBirthCertificateRequest;
 use App\Models\Athlete;
@@ -44,11 +45,8 @@ class BirthCertificateController extends Controller
 
         $user = User::where('id', $request->user_id)->first();
 
-        $path_scanlink = 'athlete/'.$user->id.'_'.$user->secondname.'_'.$user->firstname.'/'.'birthcertificate_'.$user->secondname.'_'.$user->firstname.'_'.$user->patronymic.'.jpg';
         if ($request->hasFile('birthcertificate_scan')) {
-            $request->file('birthcertificate_scan')
-                ->storeAs('athlete/'.$user->id.'_'.$user->secondname.'_'.$user->firstname, 'birthcertificate_'.$user->secondname.'_'.$user->firstname.'_'.$user->patronymic.'.jpg');
-
+            $path_scanlink = uploadFile::uploadFile($user->id, $user->secondname,$user->firstname, 'birthcertificate', $request->file('birthcertificate_scan'));
         }
 
         $birthcertificate = new BirthCertificate();

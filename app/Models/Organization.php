@@ -44,9 +44,6 @@ class Organization extends Model
     public function getOrganizationId() :int
     {
         $id = auth()->user()->id;
-        if (!$id) {
-            return false;
-        }
 
         $oranization_id = DB::table('organization_user')->where('user_id', $id)->first();
         return $oranization_id->organization_id;

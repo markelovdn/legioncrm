@@ -28,7 +28,7 @@
             @endforeach
             <dt class="col-sm-4">Скан документа о прописке:</dt>
             @foreach($athlete->user->address as $address)
-                <dd class="col-sm-8"><a href="{{asset('storage/'.$address->scanlink)}}">Скачать</a></dd>
+                <dd class="col-sm-8"><a href="{{$address->scanlink}}">Скачать</a></dd>
             @endforeach
         </dl>
     </div>

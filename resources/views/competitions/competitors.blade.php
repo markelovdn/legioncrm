@@ -27,7 +27,7 @@
         @foreach ($competitors as $competitor)
             <div @if($competitor->athlete->gender == \App\Models\Athlete::GENDER_MALE)class="card card-primary collapsed-card" @else class="card card-danger collapsed-card" @endif>
                 <div class="card-header">
-                    <span><img class="direct-chat-img" src="@if(!$competitor->athlete->photo){{asset('/storage/images/no_photo.jpg')}}@else{{asset('/storage/'.$competitor->athlete->photo)}}@endif" alt="message user image"></span>
+                    <span><img class="direct-chat-img" src="@if(!$competitor->athlete->photo){{asset('/storage/images/no_photo.jpg')}}@else{{$competitor->athlete->photo}}@endif" alt="message user image"></span>
                     <h3 class="card-title">{{$competitor->athlete->user->secondname}} {{$competitor->athlete->user->firstname}} {{$competitor->athlete->user->patronymic}}</h3><br>
                     @if($competitor->athlete->gender == \App\Models\Athlete::GENDER_MALE)
                         <i class="fas fa-male"></i>

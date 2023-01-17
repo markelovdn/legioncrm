@@ -15,7 +15,7 @@
             <dt class="col-sm-4">Выдан:</dt>
             <dd class="col-sm-8">{{$athlete->birthcertificate->dateissue}}, {{$athlete->birthcertificate->issuedby}}</dd>
             <dt class="col-sm-4">Скачать:</dt>
-            <dd class="col-sm-8"><a href="{{asset('storage/'.$athlete->birthcertificate->scanlink)}}">Скачать</a></dd>
+            <dd class="col-sm-8"><a href="{{$athlete->birthcertificate->scanlink}}">Скачать</a></dd>
         </dl>
     </div>
 </div>

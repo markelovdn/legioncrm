@@ -11,7 +11,7 @@
                 {{-- Данные спортсмена--}}
                 <div class="card collapsed-card">
                     <div class="card-header">
-                        <span><img class="direct-chat-img" src="@if(!$athlete->photo){{asset('/storage/images/no_photo.jpg')}}@else{{asset('/storage/'.$athlete->photo)}}@endif" alt="message user image"></span>
+                        <span><img class="direct-chat-img" src="@if(!$athlete->photo){{asset('/storage/images/no_photo.jpg')}}@else{{$athlete->photo}}@endif" alt="message user image"></span>
                         <div class="ml-5 mt-2 position-relative">{{$athlete->user->secondname}} {{$athlete->user->firstname}}
                             <br>
                             @if(Carbon\Carbon::parse($athlete->user->date_of_birth)->diffInYears() >= 14 and !$athlete->passport)
