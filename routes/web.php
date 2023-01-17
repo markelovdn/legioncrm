@@ -44,14 +44,3 @@ Route::get('/logout', function () {
     Auth::logout();
     return redirect('/login');
 }); //Сделал отдельный метод потомучто не удавалось войти в систему повторно после использования стандартного метода logout щаблон не видел переменную тренера или родителя при повторном входе.
-
-Route::get('/test', function () {
-    return view('/test');
-});
-
-Route::post('post-foto', [\App\Http\Controllers\TestController::class, 'post_foto']);
-Route::post('post-reg', [\App\Http\Controllers\TestController::class, 'post_reg']);
-Route::get('renamePhoto', [\App\Http\Controllers\TestController::class, 'renamePhoto']);
-Route::get('renameAddress', [\App\Http\Controllers\TestController::class, 'renameAddress']);
-Route::get('renameBS', [\App\Http\Controllers\TestController::class, 'renameBS']);
-Route::get('renamePassport', [\App\Http\Controllers\TestController::class, 'renamePassport']);
