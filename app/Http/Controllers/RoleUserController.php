@@ -1,16 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers;
 
 use App\DomainService\RegistrationUserAs;
 use App\Filters\UserFilter;
-use App\Http\Controllers\Controller;
 use App\Models\Athlete;
 use App\Models\Coach;
 use App\Models\Organization;
 use App\Models\Parented;
 use App\Models\Role;
-use App\Models\RoleUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

@@ -1,22 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\User;
 use App\Models\Coach;
+use App\Models\Country;
+use App\Models\District;
+use App\Models\Parented;
+use App\Models\Region;
 use Illuminate\Http\Request;
 
-class CoachController extends Controller
+class ParentedsController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return Coach[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Http\Response
+     * @return Parented[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Http\Response
      */
     public function index()
     {
-        return Coach::all();
+//        return Parented::all();
     }
 
     /**
@@ -26,8 +28,7 @@ class CoachController extends Controller
      */
     public function create()
     {
-        $coach = new Coach();
-        $coach->save();
+        //
     }
 
     /**
@@ -38,7 +39,7 @@ class CoachController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -47,17 +48,26 @@ class CoachController extends Controller
      * @param  int  $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
-        $url = substr(\Illuminate\Support\Facades\Request::url(), -8);
+        $parented = Parented::where('user_id', auth()->user()->id)->with('user', 'passport', 'athletes')->find($id);
 
-        $coach = Coach::where('user_id', auth()->user()->id)->with('user', 'athletes')->find($id);
-
-        if ($url == 'athletes') {
-            return view('coaches.athletes', compact('coach', $coach));
+        if (!$parented) {
+            return redirect('/');
         }
-            return view('coaches.cabinet', compact('coach', $coach));
 
+        $coaches = Coach::with('user')->get();
+        $countries = Country::all();
+        $districts = District::all();
+        $regions = Region::all();
+
+        return view('parented.cabinet', [
+            'parented' => $parented,
+            'coaches' => $coaches,
+            'countries' => $countries,
+            'districts' => $districts,
+            'regions' => $regions,
+        ]);
     }
 
     /**
@@ -80,13 +90,7 @@ class CoachController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $coach = Coach::find($id);
-
-        $coach->code = $request->coach_code;
-
-        $coach->save();
-
-        return back();
+        //
     }
 
     /**
@@ -100,7 +104,6 @@ class CoachController extends Controller
         //
     }
 
-    public function updateCode(Request $request, $id) {
 
-    }
+
 }

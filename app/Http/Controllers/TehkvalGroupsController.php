@@ -1,15 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTehkvalgroupRequest;
-use App\Models\AgeCategory;
 use App\Models\Competition;
 use App\Models\Tehkval;
 use App\Models\TehkvalGroup;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 
 class TehkvalGroupsController extends Controller
 {

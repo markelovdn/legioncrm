@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers;
 
 use App\BusinessProcess\uploadFile;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAddressRequest;
 use App\Models\Address;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class AddressesController extends Controller
 {

@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers;
 
 use App\BusinessProcess\uploadFile;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePassportRequest;
 use App\Models\Athlete;
 use App\Models\Coach;
@@ -12,7 +11,6 @@ use App\Models\Passport;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class PassportController extends Controller
 {

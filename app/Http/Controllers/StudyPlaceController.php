@@ -1,17 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers;
 
-use App\BusinessProcess\uploadFile;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreBirthCertificateRequest;
+use App\Http\Requests\StoreStudyPlaceRequest;
 use App\Models\Athlete;
-use App\Models\BirthCertificate;
 use App\Models\StudyPlace;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class BirthCertificateController extends Controller
+class StudyPlaceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -39,25 +36,19 @@ class BirthCertificateController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(StoreBirthCertificateRequest $request)
+    public function store(StoreStudyPlaceRequest $request)
     {
         $request->validated();
 
         $user = User::where('id', $request->user_id)->first();
 
-        if ($request->hasFile('birthcertificate_scan')) {
-            $path_scanlink = uploadFile::uploadFile($user->id, $user->secondname,$user->firstname, 'birthcertificate', $request->file('birthcertificate_scan'));
-        }
+        $studyplace = new StudyPlace();
+        $studyplace->org_title = $request->org_title;
+        $studyplace->classnum = $request->classnum;
+        $studyplace->letter = $request->letter;
+        $studyplace->save();
 
-        $birthcertificate = new BirthCertificate();
-        $birthcertificate->series = $request->birthcertificate_series;
-        $birthcertificate->number = $request->birthcertificate_number;
-        $birthcertificate->dateissue = $request->birthcertificate_date_issue;
-        $birthcertificate->issuedby = $request->birthcertificate_issued_by;
-        $birthcertificate->scanlink = $path_scanlink;
-        $birthcertificate->save();
-
-        Athlete::where('user_id', $user->id)->update(['birthcertificate_id' => $birthcertificate->id]);
+        Athlete::where('user_id', $user->id)->update(['studyplace_id' => $studyplace->id]);
         return back();
     }
 

@@ -1,17 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers;
 
 use App\BusinessProcess\GetRegistrationCode;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreUserRequest;
+use App\DomainService\AttachOrganization;
 use App\DomainService\RegistrationUserAs;
+use App\Http\Requests\StoreUserRequest;
 use App\Models\Coach;
 use App\Models\Organization;
 use App\Models\Role;
 use App\Models\User;
-use Exception;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -93,6 +91,8 @@ class UsersController extends Controller
         $role = Role::where('code', $request->role_code)->get();
 
         $user->role()->attach($role);
+
+        AttachOrganization::attachOrganization($request->role_code,  $user->id, $request->reg_code);
 
         Auth::login($user);
 

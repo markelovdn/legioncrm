@@ -1,26 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers;
 
 use App\BusinessProcess\uploadFile;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAthleteRequest;
 use App\Models\Athlete;
-use App\Models\BirthCertificate;
 use App\Models\Coach;
 use App\Models\Organization;
 use App\Models\Parented;
 use App\Models\Role;
 use App\Models\Sportkval;
-use App\Models\StudyPlace;
 use App\Models\Tehkval;
 use App\Models\User;
-use http\Env\Url;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use function PHPUnit\Framework\isEmpty;
 
 class AthletesController extends Controller
 {

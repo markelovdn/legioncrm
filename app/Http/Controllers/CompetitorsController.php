@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers;
 
 use App\BusinessProcess\GetCompetitors;
 use App\DomainService\RegistrationUserAs;
@@ -8,22 +8,17 @@ use App\Exports\CompetitorsExport;
 use App\Filters\CompetitorFilter;
 use App\Filters\UserFilter;
 use App\Filters\WeightcategoryFilter;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCompetitorRequest;
 use App\Models\Athlete;
 use App\Models\Coach;
-use App\Models\Role;
-use App\Models\User;
 use App\Models\Competition;
 use App\Models\Competitor;
 use App\Models\Organization;
+use App\Models\Role;
 use App\Models\Sportkval;
 use App\Models\Tehkval;
-use App\Models\WeightCategory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CompetitorsController extends Controller

@@ -1,16 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreStudyPlaceRequest;
-use App\Models\Athlete;
-use App\Models\StudyPlace;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Referee;
 use Illuminate\Http\Request;
 
-class StudyPlaceController extends Controller
+class RefereesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -36,22 +31,11 @@ class StudyPlaceController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\Response
      */
-    public function store(StoreStudyPlaceRequest $request)
+    public function store(Request $request)
     {
-        $request->validated();
-
-        $user = User::where('id', $request->user_id)->first();
-
-        $studyplace = new StudyPlace();
-        $studyplace->org_title = $request->org_title;
-        $studyplace->classnum = $request->classnum;
-        $studyplace->letter = $request->letter;
-        $studyplace->save();
-
-        Athlete::where('user_id', $user->id)->update(['studyplace_id' => $studyplace->id]);
-        return back();
+        //
     }
 
     /**
@@ -62,7 +46,10 @@ class StudyPlaceController extends Controller
      */
     public function show($id)
     {
-        //
+        $referee = Referee::where('user_id', auth()->user()->id)->find($id);
+
+        return view('referee.cabinet', compact('referee', $referee));
+
     }
 
     /**

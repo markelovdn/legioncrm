@@ -1,23 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCompetitionRequest;
 use App\Models\AgeCategory;
 use App\Models\Competition;
 use App\Models\CompetitionsRanksTitle;
-use App\Models\Competitor;
 use App\Models\Country;
 use App\Models\District;
-use App\Models\Organization;
 use App\Models\Region;
 use App\Models\Tehkval;
 use App\Models\TehkvalGroup;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CompetitionsController extends Controller

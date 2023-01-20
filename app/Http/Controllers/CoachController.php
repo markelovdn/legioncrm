@@ -1,25 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Athlete;
-use App\Models\Competitor;
-use App\Models\Tehkval;
-use App\Models\TehkvalGroup;
-use Illuminate\Database\Eloquent\Model;
+use App\Http\Controllers\User;
+use App\Models\Coach;
 use Illuminate\Http\Request;
 
-class TehkvalsController extends Controller
+class CoachController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Coach[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        return Coach::all();
     }
 
     /**
@@ -29,7 +25,8 @@ class TehkvalsController extends Controller
      */
     public function create()
     {
-        //
+        $coach = new Coach();
+        $coach->save();
     }
 
     /**
@@ -40,33 +37,25 @@ class TehkvalsController extends Controller
      */
     public function store(Request $request)
     {
-        $athlete = Athlete::with('user')->find($request->athlete_id);
-        $tehkval = Tehkval::find($request->tehkval_id);
-//TODO:Сделать проверку на существующую запись
-        $athlete->tehkval()->attach($tehkval->id);
-
-        //TODO:Убрать эту хрень
-        $tehkvalgroup = TehkvalGroup::
-        whereRaw('agecategory_id = '.Competitor::getAgeCategory($athlete->user->date_of_birth).
-            ' and finishgyp_id >= '.$tehkval->id.' and competition_id = '.$request->competition_id)
-            ->first();
-
-        $competitor = Competitor::find($request->competitor_id);
-        $competitor->tehkvalgroup_id = $tehkvalgroup->id;
-
-        $competitor->save();
-
-        return back();
+        //
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function show($id)
     {
+        $url = substr(\Illuminate\Support\Facades\Request::url(), -8);
+
+        $coach = Coach::where('user_id', auth()->user()->id)->with('user', 'athletes')->find($id);
+
+        if ($url == 'athletes') {
+            return view('coaches.athletes', compact('coach', $coach));
+        }
+            return view('coaches.cabinet', compact('coach', $coach));
 
     }
 
@@ -90,7 +79,13 @@ class TehkvalsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $coach = Coach::find($id);
+
+        $coach->code = $request->coach_code;
+
+        $coach->save();
+
+        return back();
     }
 
     /**
@@ -102,5 +97,9 @@ class TehkvalsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function updateCode(Request $request, $id) {
+
     }
 }

@@ -1,12 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Referee;
+use App\BusinessProcess\uploadFile;
+use App\Http\Requests\StoreBirthCertificateRequest;
+use App\Models\Athlete;
+use App\Models\BirthCertificate;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class RefereesController extends Controller
+class BirthCertificateController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -32,11 +35,28 @@ class RefereesController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreBirthCertificateRequest $request)
     {
-        //
+        $request->validated();
+
+        $user = User::where('id', $request->user_id)->first();
+
+        if ($request->hasFile('birthcertificate_scan')) {
+            $path_scanlink = uploadFile::uploadFile($user->id, $user->secondname,$user->firstname, 'birthcertificate', $request->file('birthcertificate_scan'));
+        }
+
+        $birthcertificate = new BirthCertificate();
+        $birthcertificate->series = $request->birthcertificate_series;
+        $birthcertificate->number = $request->birthcertificate_number;
+        $birthcertificate->dateissue = $request->birthcertificate_date_issue;
+        $birthcertificate->issuedby = $request->birthcertificate_issued_by;
+        $birthcertificate->scanlink = $path_scanlink;
+        $birthcertificate->save();
+
+        Athlete::where('user_id', $user->id)->update(['birthcertificate_id' => $birthcertificate->id]);
+        return back();
     }
 
     /**
@@ -47,10 +67,7 @@ class RefereesController extends Controller
      */
     public function show($id)
     {
-        $referee = Referee::where('user_id', auth()->user()->id)->find($id);
-
-        return view('referee.cabinet', compact('referee', $referee));
-
+        //
     }
 
     /**

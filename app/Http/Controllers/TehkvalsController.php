@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreOrganizationRequest;
-use App\Models\Organization;
+use App\Models\Athlete;
+use App\Models\Competitor;
+use App\Models\Tehkval;
+use App\Models\TehkvalGroup;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class OrganizationController extends Controller
+class TehkvalsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -38,7 +38,23 @@ class OrganizationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $athlete = Athlete::with('user')->find($request->athlete_id);
+        $tehkval = Tehkval::find($request->tehkval_id);
+//TODO:Сделать проверку на существующую запись
+        $athlete->tehkval()->attach($tehkval->id);
+
+        //TODO:Убрать эту хрень
+        $tehkvalgroup = TehkvalGroup::
+        whereRaw('agecategory_id = '.Competitor::getAgeCategory($athlete->user->date_of_birth).
+            ' and finishgyp_id >= '.$tehkval->id.' and competition_id = '.$request->competition_id)
+            ->first();
+
+        $competitor = Competitor::find($request->competitor_id);
+        $competitor->tehkvalgroup_id = $tehkvalgroup->id;
+
+        $competitor->save();
+
+        return back();
     }
 
     /**
@@ -49,14 +65,7 @@ class OrganizationController extends Controller
      */
     public function show($id)
     {
-        $org = Organization::with('users')->find($id);
-        $user = Organization::getChairman();
 
-        if (!$org and !$user) {
-            return redirect('/');
-        }
-
-        return view('organization.cabinet', ['org' => $org, 'user' => $user]);
     }
 
     /**
@@ -77,20 +86,9 @@ class OrganizationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreOrganizationRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $request->validated();
-
-        $org = Organization::find($id);
-
-        $org->fulltitle = $request->fulltitle;
-        $org->shorttitle = $request->shorttitle;
-        $org->address = $request->address;
-        $org->code = $request->code;
-
-        $org->save();
-
-        return back();
+        //
     }
 
     /**

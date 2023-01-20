@@ -8,7 +8,7 @@ class uploadFile
 {
     public function uploadFile($id, $user_secondname, $user_firstname, $prefix, $file)
     {
-        $main_url = 'https://storage.yandexcloud.net/legioncrm-storage-pub/';
+        $main_url = env('AWS_ENDPOINT').'/'.env('AWS_BUCKET').'/';
 
         $filecontent = $file->openFile()->fread($file->getSize());
         $filename = $id.'_'.$user_secondname.'_'.$user_firstname.
