@@ -48,7 +48,7 @@
                             <label class="custom-file-label" for="birthcertificate_scan">Выбрать файл</label>
                         </div>
                     </div>
-                    <span class="description font-italic">Принимаются файлы только изображений (jpg,jpeg,png,bmp)</span>
+                    <span class="description font-italic">Принимаются файлы только изображений (jpg,jpeg,png,bmp) размер файла должен быть менее 1 мб</span>
                 </div>
             </div>
             <div class="row mb-0">
