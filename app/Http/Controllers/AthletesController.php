@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\BusinessProcess\uploadFile;
+use App\DomainService\AttachOrganization;
 use App\Http\Requests\StoreAthleteRequest;
 use App\Models\Athlete;
 use App\Models\Coach;
@@ -112,6 +113,8 @@ class AthletesController extends Controller
             $athlete->coaches()->attach($coaches, ['coach_type' => 1]);
             $athlete->tehkval()->attach($tehKval->id);
             $athlete->sportkval()->attach($sportKval->id);
+
+            AttachOrganization::attachOrganization(Role::ROLE_ATHLETE,  $user->id, $request->reg_code);
         }
         else{
             $request->session()->flash('status', 'Не верный код тренера');
