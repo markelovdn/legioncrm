@@ -15,7 +15,7 @@ class PaymentsTableDropYearFieldAddScanLinkTable extends Migration
     {
         Schema::table('payments', function (Blueprint $table) {
             $table->string('scan_payment_document')->nullable();
-//            $table->dropColumn('year');
+            $table->dropColumn('year');
             $table->foreignId('user_id')->nullable()->constrained('users');
         });
     }
