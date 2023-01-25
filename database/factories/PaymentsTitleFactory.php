@@ -14,7 +14,7 @@ class PaymentsTitleFactory extends Factory
     public function definition()
     {
         return [
-            'title'=>$this->faker->randomElement(['Ежегодный','Аттестация', 'За месяц'])
+            'title'=>$this->faker->randomElement(['Ежегодный'])
         ];
     }
 }

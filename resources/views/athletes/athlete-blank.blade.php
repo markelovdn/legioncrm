@@ -1,4 +1,4 @@
-@if (session('status'))
+@if (session('error_coach_code'))
     <div class="alert alert-danger">
     <p>{{ session('status') }}</p>
 </div>

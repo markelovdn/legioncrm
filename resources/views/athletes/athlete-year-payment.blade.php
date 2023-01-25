@@ -9,11 +9,32 @@
     </div>
 
     <div class="card-body" style="display: none;">
-        <dl class="row">
-            <dt class="col-sm-4">Организация</dt>
-            <dd class="col-sm-8"></dd>
-            <dt class="col-sm-4">Класс</dt>
-            <dd class="col-sm-8"></dd>
-        </dl>
+        @if(!\App\BusinessProcess\GetPaymentInfo::getPaymentInfo($athlete->user_id))
+            @include('finance.forms.form-year-payment')
+        @else
+            @foreach(\App\BusinessProcess\GetPaymentInfo::getPaymentInfo($athlete->user_id) as $payment)
+                @if(Carbon\Carbon::parse($payment->date)->year != Carbon\Carbon::parse(date('Y'))->year)
+                    @include('finance.forms.form-year-payment')
+                @endif
+
+                @if($payment->sum > 0
+                     && $payment->paymenttitle_id == \App\Models\Payment::ID_YEAR_PAYMENT
+                     && Carbon\Carbon::parse($payment->date)->year == Carbon\Carbon::parse(date('Y'))->year
+                     && !$payment->approve)
+                    <span class="badge bg-warning">
+                        Взнос за {{Carbon\Carbon::parse(date('Y'))->year}} ожидает проверки
+                    </span>
+                @endif
+
+                @if($payment->sum > 0
+                    && $payment->paymenttitle_id == \App\Models\Payment::ID_YEAR_PAYMENT
+                    && Carbon\Carbon::parse($payment->date)->year == Carbon\Carbon::parse(date('Y'))->year
+                    && $payment->approve)
+                    <span class="badge bg-success">
+                       Взнос за {{Carbon\Carbon::parse(date('Y'))->year}} оплачен
+                   </span>
+                @endif
+            @endforeach
+        @endif
     </div>
 </div>
