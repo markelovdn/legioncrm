@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,5 +23,15 @@ class Payment extends Model
     public function users()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function isYearPayment(): bool
+    {
+        return $this->paymenttitle_id == \App\Models\Payment::ID_YEAR_PAYMENT;
+    }
+
+    public function isCurrentYearPayment(): bool
+    {
+        return Carbon::parse($this->date)->year == Carbon::parse(date('Y'))->year;
     }
 }

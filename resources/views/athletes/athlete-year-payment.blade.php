@@ -9,33 +9,21 @@
     </div>
 
     <div class="card-body" style="display: none;">
-        @if(!\App\BusinessProcess\GetPaymentInfo::getPaymentInfo($athlete->user_id))
-            @include('finance.forms.form-year-payment')
-        @else
             @foreach(\App\BusinessProcess\GetPaymentInfo::getPaymentInfo($athlete->user_id) as $payment)
 {{--                TODO:Делать запросы из вьюх это плохо--}}
-                @if(Carbon\Carbon::parse($payment->date)->year != Carbon\Carbon::parse(date('Y'))->year)
+                @if(!$payment->isCurrentYearPayment()
+                    || !$payment->isYearPayment())
                     @include('finance.forms.form-year-payment')
-                @endif
-
-                @if($payment->sum > 0
-                     && $payment->paymenttitle_id == \App\Models\Payment::ID_YEAR_PAYMENT
-                     && Carbon\Carbon::parse($payment->date)->year == Carbon\Carbon::parse(date('Y'))->year
+                @elseif ($payment->sum > 0
                      && !$payment->approve)
                     <span class="badge bg-warning">
                         Взнос за {{Carbon\Carbon::parse(date('Y'))->year}} ожидает проверки
                     </span>
-                @endif
-
-                @if($payment->sum > 0
-                    && $payment->paymenttitle_id == \App\Models\Payment::ID_YEAR_PAYMENT
-                    && Carbon\Carbon::parse($payment->date)->year == Carbon\Carbon::parse(date('Y'))->year
-                    && $payment->approve)
+                @else
                     <span class="badge bg-success">
                        Взнос за {{Carbon\Carbon::parse(date('Y'))->year}} оплачен
                    </span>
                 @endif
             @endforeach
-        @endif
     </div>
 </div>
