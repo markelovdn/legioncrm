@@ -30,7 +30,7 @@
                             </div>
                                 <input type="text" style="display:none" name="user_id" value="{{$payment->users->id}}">
                                 <div class="col align-content-center">
-                                    @if($payment->approve == \App\Models\Payment::APPROVE_FALSE)
+                                    @if($payment->approve == \App\Models\Payment::DECLINED)
                                         <span class="badge bg-warning" data-toggle="modal" data-target="#approved">Ожидает проверки</span>
                                     @else
                                         <span class="badge bg-success" data-toggle="modal" data-target="#not_approved">Оплачен</span>
@@ -58,31 +58,32 @@
                         </div>
                         <hr>
                     </form>
+                    {{--modal not_approve--}}
+                    <div class="modal fade" id="not_approved" style="display: none;" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" action="{{route('payment.destroy', [$payment->id])}}">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger">Отменить проверку<i class="fas fa-check"></i></button>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    {{-- / modal not_approve--}}
                 @endforeach
             </div>
         </div>
     </div>
 
-    {{--modal not_approve--}}
-    <div class="modal fade" id="not_approved" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" action="{{route('payment.destroy', [$payment->id])}}">
-                        @method('DELETE')
-                        @csrf
-                        <button type="submit" class="btn btn-danger">Отменить проверку<i class="fas fa-check"></i></button>
-                    </form>
-                </div>
 
-            </div>
-        </div>
-
-    </div>
-    {{-- / modal not_approve--}}
 @endsection

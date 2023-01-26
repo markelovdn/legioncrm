@@ -24,7 +24,7 @@ class PaymentsTest extends TestCase
         $user = User::with('parented')->has('parented')->first();
         Auth::login($user);
 
-        $this->post('/payment', [
+        $response = $this->post('/payment', [
             'user_id' => $user->id,
             'sum_payment' => '1500',
             'date_payment' => date('Y-m-d'),
@@ -32,11 +32,15 @@ class PaymentsTest extends TestCase
             'scan_payment_document' => UploadedFile::fake()->image('scan_payment_document.jpg'),
         ]);
 
-//        $this->assertDatabaseHas('payments', [
-//            'user_id' => $user->id
-//        ]);
+       $response->assertSessionDoesntHaveErrors($keys = [], $format = null, $errorBag = 'default');
+       $response2 = $this->followingRedirects()->actingAs($user)->get('/parented/'.$user->id);
+       $response->assertStatus(302);
+       $response2->assertStatus(200);
+       $response2->assertSuccessful();
 
-        $response = $this->followingRedirects()->actingAs($user)->get('/parented/'.$user->id);
-        $response->assertStatus(200);
+        $this->assertDatabaseHas('payments', [
+            'user_id' => $user->id
+        ]); //не проходят тесты в гит экшенс
+
     }
 }

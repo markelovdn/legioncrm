@@ -13,6 +13,7 @@
             @include('finance.forms.form-year-payment')
         @else
             @foreach(\App\BusinessProcess\GetPaymentInfo::getPaymentInfo($athlete->user_id) as $payment)
+{{--                TODO:Делать запросы из вьюх это плохо--}}
                 @if(Carbon\Carbon::parse($payment->date)->year != Carbon\Carbon::parse(date('Y'))->year)
                     @include('finance.forms.form-year-payment')
                 @endif

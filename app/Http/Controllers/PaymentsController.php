@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\BusinessProcess\uploadFile;
 use App\Http\Requests\StorePaymentRequest;
+use App\Models\Athlete;
 use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -52,7 +53,7 @@ class PaymentsController extends Controller
         $payment->date = $request->date_payment;
         $payment->paymenttitle_id = $request->paymenttitle_id;
         $payment->scan_payment_document =  $path_scanlink;
-        $payment->approve = Payment::APPROVE_FALSE;
+        $payment->approve = Payment::DECLINED;
         $payment->save();
 
         $request->session()->flash('status', 'Данные отправлены');
@@ -95,7 +96,7 @@ class PaymentsController extends Controller
     {
         $payment = Payment::where('id', $id)->first();
 
-        $payment->approve = Payment::APPROVE_TRUE;
+        $payment->approve = Payment::APPROVED;
         $payment->save();
 
         return back();
@@ -112,7 +113,7 @@ class PaymentsController extends Controller
     {
         $payment = Payment::where('id', $id)->first();
 
-        $payment->approve = Payment::APPROVE_FALSE;
+        $payment->approve = Payment::DECLINED;
         $payment->save();
 
         return back();
