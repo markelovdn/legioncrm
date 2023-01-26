@@ -29,7 +29,7 @@ class PaymentsTest extends TestCase
             'sum_payment' => '1500',
             'date_payment' => date('Y-m-d'),
             'paymenttitle_id' => Payment::ID_YEAR_PAYMENT,
-            'scan_payment_document' => UploadedFile::fake()->image('scan_payment_document.jpg'),
+            'scan_payment_document' => UploadedFile::fake()->image('photo.jpg'),
         ]);
 
        $response->assertSessionDoesntHaveErrors($keys = [], $format = null, $errorBag = 'default');
@@ -37,6 +37,8 @@ class PaymentsTest extends TestCase
        $response->assertStatus(302);
        $response2->assertStatus(200);
        $response2->assertSuccessful();
+
+       $user = $user->get('id');
 
         $this->assertDatabaseHas('payments', [
             'user_id' => $user->id
