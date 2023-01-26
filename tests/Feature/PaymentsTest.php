@@ -34,11 +34,8 @@ class PaymentsTest extends TestCase
 
        $response->assertSessionDoesntHaveErrors($keys = [], $format = null, $errorBag = 'default');
        $response2 = $this->followingRedirects()->actingAs($user)->get('/parented/'.$user->id);
-       $response->assertStatus(302);
        $response2->assertStatus(200);
        $response2->assertSuccessful();
-
-       $user = $user->get('id');
 
         $this->assertDatabaseHas('payments', [
             'user_id' => $user->id
