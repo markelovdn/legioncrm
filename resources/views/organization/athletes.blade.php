@@ -44,37 +44,13 @@
                         {{-- Свидетельство о рождении/паспорт--}}
                         @if(Carbon\Carbon::parse($athlete->user->date_of_birth)->diffInYears() >= 14)
                             @if(!$athlete->passport_id)
-
+                                @include('documents.passport-blank-for-athlete')
                             @else
-                                {{--                            @include('documents.passport')--}}
-                                <div class="card collapsed-card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Паспортные данные</h3>
-                                        <div class="card-tools">
-                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="card-body" style="display: none;">
-                                        <div class="card-body">
-                                            <dl class="row">
-                                                <dt class="col-sm-4">Серия номер:</dt>
-                                                <dd class="col-sm-8">{{$athlete->passport->series}} {{$athlete->passport->number}}</dd>
-                                                <dt class="col-sm-4">Выдан:</dt>
-                                                <dd class="col-sm-8">{{$athlete->passport->dateissue}}, {{$athlete->passport->issuedby}}</dd>
-                                                <dt class="col-sm-4">Код подразделения:</dt>
-                                                <dd class="col-sm-8">{{$athlete->passport->code}}</dd>
-                                                <dt class="col-sm-4">Скачать скан копию:</dt>
-                                                <dd class="col-sm-8"><a href="{{$athlete->passport->scanlink}}">Скачать</a></dd>
-                                            </dl>
-                                        </div>
-                                    </div>
-                                </div>
+                                 @include('documents.passport-athlete')
                             @endif
                         @else
                             @if(!$athlete->birthcertificate_id)
-
+                                @include('documents.birthcertificate-blank')
                             @else
                                 @include('documents.birthcertificate')
                             @endif
@@ -83,19 +59,21 @@
 
                         {{-- Место учебы --}}
                         @if(!$athlete->studyplace_id)
-
+                            @include('athletes.athlete-blank-study-place')
                         @else
                             @include('athletes.athlete-study-place')
                         @endif
                         {{--/ Место учебы --}}
                         {{-- Адресс по прописке --}}
                         @if(count($athlete->user->address) == 0)
-
+                            @include('documents.address-registration-blank')
                         @else
                             @include('documents.address-registration')
                         @endif
                         {{--/ Адресс по прописке --}}
-
+                        {{-- Ежегодный взнос --}}
+                        @include('athletes.athlete-year-payment')
+                        {{--/ Ежегодный взнос --}}
                     </div>
                 </div>
                 {{--/ Данные спортсмена--}}

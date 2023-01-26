@@ -62,14 +62,6 @@ class PassportController extends Controller
             );
         }
 
-//        if ($request->hasFile('passport_scan')) {
-//            $request->file('passport_scan')
-//                ->storeAs('athlete/'.$user->id.'_'.$user->secondname.'_'.$user->firstname, 'passport_'.$user->secondname.'_'.$user->firstname.'_'.$user->patronymic.'.jpg');
-//
-//        }
-
-
-
         $passport = Passport::updateOrCreate(
             ['series' => $request->passport_series, 'number' => $request->passport_number],
             [
@@ -85,7 +77,7 @@ class PassportController extends Controller
             $athlete = Athlete::find($request->athlete_id);
             $athlete->passport_id = $passport->id;
             $athlete->save();
-            return redirect('/parented/'.Parented::getParentedId())->withInput();
+            return back()->withInput();
         } else {
 
             switch (User::getRoleCode()) {

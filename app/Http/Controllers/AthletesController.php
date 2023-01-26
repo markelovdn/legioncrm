@@ -7,8 +7,11 @@ use App\DomainService\AttachOrganization;
 use App\Http\Requests\StoreAthleteRequest;
 use App\Models\Athlete;
 use App\Models\Coach;
+use App\Models\Country;
+use App\Models\District;
 use App\Models\Organization;
 use App\Models\Parented;
+use App\Models\Region;
 use App\Models\Role;
 use App\Models\Sportkval;
 use App\Models\Tehkval;
@@ -41,7 +44,13 @@ class AthletesController extends Controller
             $organization = Organization::with('users')->where('id', Organization::getOrganizationId())->first();
             $organization_athlete = Organization::getAthletes();
 
-            return view('organization.athletes', compact(['organization', $organization, 'organization_athlete', $organization_athlete]));
+            $countries = Country::get();
+            $districts = District::get();
+            $regions = Region::get();
+
+            return view('organization.athletes',
+                compact(['organization', $organization, 'organization_athlete', $organization_athlete]),
+                        ['countries' => $countries, 'districts' => $districts, 'regions' => $regions,]);
         }
 
         return back();
