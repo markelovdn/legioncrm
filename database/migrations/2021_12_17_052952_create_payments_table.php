@@ -17,7 +17,7 @@ class CreatePaymentsTable extends Migration
             $table->id();
             $table->date('date');
             $table->integer('sum');
-            $table->integer('year');
+            $table->integer('year')->nullable();
             $table->foreignId('paymenttitle_id')->constrained('payments_titles');
             $table->timestamps();
         });

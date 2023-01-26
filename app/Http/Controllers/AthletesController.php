@@ -88,17 +88,6 @@ class AthletesController extends Controller
         $role = Role::where('code', Role::ROLE_ATHLETE)->get();
         $user->role()->attach($role);
 
-////        $path_photo = 'athlete/'.$user->id.'_'.$user->secondname.'_'.$user->firstname.'/'.'photo_'.$user->secondname.'_'.$user->firstname.'_'.$user->patronymic.'.jpg';
-//            $file = $request->file('photo');
-//            $filecontent = $file->openFile()->fread($file->getSize());
-//            $filename = $user->id.'_'.$user->secondname.'_'.$user->firstname.'.jpeg';
-//
-//        if ($request->hasFile('photo')) {
-////            $request->file('photo')
-////                ->storeAs('athlete/'.$user->id.'_'.$user->secondname.'_'.$user->firstname, 'photo_'.$user->secondname.'_'.$user->firstname.'_'.$user->patronymic.'.jpg');
-//            Storage::disk('s3')->put($filename, $filecontent);
-//        }
-
             if ($request->hasFile('photo')) {
                 $path_scanlink = uploadFile::uploadFile($user->id, $user->secondname,$user->firstname, 'photo', $request->file('photo'));
             }
@@ -117,7 +106,7 @@ class AthletesController extends Controller
             AttachOrganization::attachOrganization(Role::ROLE_ATHLETE,  $user->id, $request->reg_code);
         }
         else{
-            $request->session()->flash('status', 'Не верный код тренера');
+            $request->session()->flash('error_coach_code', 'Не верный код тренера');
             return back()->withInput();
         }
 

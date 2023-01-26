@@ -30,6 +30,7 @@
     @case(\App\Models\Role::ROLE_ORGANIZATION_ADMIN)
     @include('left-menu.coaches')
     @include('left-menu.referee')
+    @include('left-menu.finance')
 
     @case(\App\Models\Role::ROLE_SYSTEM_ADMIN)
     @case(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN)

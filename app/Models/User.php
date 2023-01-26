@@ -79,6 +79,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Address::class)->with('country', 'district', 'region');
     }
 
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
     public static function getRole()
     {
         $user = User::with('role')->find(auth()->user()->id);

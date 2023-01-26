@@ -17,7 +17,6 @@ class PaymentFactory extends Factory
         return [
             'date' => $this->faker->date,
             'sum' => $this->faker->randomNumber(),
-            'year' => $this->faker->year,
             'paymenttitle_id'=>PaymentsTitle::factory()
         ];
     }

@@ -26,7 +26,9 @@ Route::resource('competitions.tehkvalgroups', \App\Http\Controllers\TehkvalGroup
 Route::get('/competitorsExport', [CompetitorsController::class, 'competitorsExport'])->middleware('auth')->name('competitorsExport');
 Route::resource('role-user', \App\Http\Controllers\RoleUserController::class)->middleware(['auth', 'system_admin']);
 Route::resource('grade', \App\Http\Controllers\GradesCntroller::class)->middleware(['auth']);
+Route::resource('payment', \App\Http\Controllers\PaymentsController::class)->middleware(['auth']);
 Route::post('setNamePoomsaeTablo', [\App\Http\Controllers\GradesCntroller::class, 'setName'])->middleware(['auth'])->name('setNamePoomsaeTablo');
+
 
 Route::get('coach/{id}/athletes', [\App\Http\Controllers\CoachController::class, 'show'])->middleware(['auth']);
 

@@ -9,11 +9,21 @@
     </div>
 
     <div class="card-body" style="display: none;">
-        <dl class="row">
-            <dt class="col-sm-4">Организация</dt>
-            <dd class="col-sm-8"></dd>
-            <dt class="col-sm-4">Класс</dt>
-            <dd class="col-sm-8"></dd>
-        </dl>
+            @foreach(\App\BusinessProcess\GetPaymentInfo::getPaymentInfo($athlete->user_id) as $payment)
+{{--                TODO:Делать запросы из вьюх это плохо--}}
+                @if(!$payment->isCurrentYearPayment()
+                    || !$payment->isYearPayment())
+                    @include('finance.forms.form-year-payment')
+                @elseif ($payment->sum > 0
+                     && !$payment->approve)
+                    <span class="badge bg-warning">
+                        Взнос за {{Carbon\Carbon::parse(date('Y'))->year}} ожидает проверки
+                    </span>
+                @else
+                    <span class="badge bg-success">
+                       Взнос за {{Carbon\Carbon::parse(date('Y'))->year}} оплачен
+                   </span>
+                @endif
+            @endforeach
     </div>
 </div>

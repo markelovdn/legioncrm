@@ -13,8 +13,12 @@
                     </ul>
                 </div>
             @endif
-
-            {{-- Данные родителя--}}
+        @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
+                {{-- Данные родителя--}}
             <div class="card collapsed-card">
                     <div class="card-header">
                         <h3 class="card-title">Родитель: {{$parented->user->secondname}} {{$parented->user->firstname}}</h3>
