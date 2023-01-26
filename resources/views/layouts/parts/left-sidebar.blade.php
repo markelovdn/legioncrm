@@ -40,5 +40,8 @@
     @case(\App\Models\Role::ROLE_REFEREE)
     @include('left-menu.poomsae-tablo')
     @include('left-menu.poomsae-competition')
+    @case(\App\Models\Role::ROLE_PARENTED)
+    @case(\App\Models\Role::ROLE_ATHLETE)
+    @include('left-menu.about-organizations')
 
 @endswitch
