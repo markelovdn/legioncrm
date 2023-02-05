@@ -11,24 +11,16 @@
     <div class="card-body" style="display: none;">
         <dl class="row">
             <dt class="col-sm-4">Страна:</dt>
-            @foreach($athlete->user->address as $address_country)
-            <dd class="col-sm-8">{{$address_country->country->title}}</dd>
-            @endforeach
+            @foreach(\App\Models\Athlete::getAddress($athlete->user_id) as $athlete_address)
+                <dd class="col-sm-8">{{$athlete_address->country->title}}</dd>
             <dt class="col-sm-4">Округ:</dt>
-            @foreach($athlete->user->address as $address_district)
-                <dd class="col-sm-8">{{$address_district->district->shorttitle}}</dd>
-            @endforeach
+                <dd class="col-sm-8">{{$athlete_address->district->shorttitle}}</dd>
             <dt class="col-sm-4">Регион:</dt>
-            @foreach($athlete->user->address as $address_region)
-                <dd class="col-sm-8">{{$address_region->region->title}}</dd>
-            @endforeach
+                <dd class="col-sm-8">{{$athlete_address->region->title}}</dd>
             <dt class="col-sm-4">Адресс:</dt>
-            @foreach($athlete->user->address as $address)
-                <dd class="col-sm-8">{{$address->address}}</dd>
-            @endforeach
+                <dd class="col-sm-8">{{$athlete_address->address}}</dd>
             <dt class="col-sm-4">Скан документа о прописке:</dt>
-            @foreach($athlete->user->address as $address)
-                <dd class="col-sm-8"><a href="{{$address->scanlink}}">Скачать</a></dd>
+                <dd class="col-sm-8"><a href="{{$athlete_address->scanlink}}">Скачать</a></dd>
             @endforeach
         </dl>
     </div>

@@ -59,11 +59,11 @@
                             <label class="custom-file-label" for="registration_scan"></label>
                         </div>
                     </div>
-                    @if(Carbon\Carbon::parse($athlete->user->date_of_birth)->diffInYears() >= 14)
+                    @if(Carbon\Carbon::parse($athlete->date_of_birth)->diffInYears() >= 14)
                         <span class="description font-italic">Скан страницы паспорта с последней записью о регистрации</span>
                         <br>
                     @endif
-                    @if(Carbon\Carbon::parse($athlete->user->date_of_birth)->diffInYears() <= 14)
+                    @if(Carbon\Carbon::parse($athlete->date_of_birth)->diffInYears() <= 14)
                         <span class="description font-italic">Документ с красной печатью о регистрации ребенка по месту жительства.</span>
                         <span class="description font-italic">Принимаются файлы только изображений (jpg,jpeg,png,bmp) размер файла должен быть менее 1 мб</span>
                         <br>

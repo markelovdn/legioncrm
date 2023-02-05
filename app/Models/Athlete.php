@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Athlete extends Model
 {
@@ -145,5 +146,21 @@ class Athlete extends Model
         }
     }
 
+    public function getAddress($athlete_user_id)
+    {
+        return Address::with('country', 'region', 'district')
+                        ->whereRelation('users', 'user_id', $athlete_user_id)
+                        ->get();
+
+//        return DB::table('addresses')
+//            ->select(['*', 'countries.title as country_title',
+//                           'regions.title as region_title'])
+//            ->join('address_user', 'address_user.address_id', '=', 'addresses.id')
+//            ->join('countries',  'countries.id', '=', 'addresses.country_id')
+//            ->join('regions', 'regions.id', '=', 'addresses.region_id')
+//            ->join('districts', 'districts.id', '=', 'addresses.district_id')
+//            ->where('address_user.user_id', '=', $athlete_user_id)
+//            ->get();
+    }
 
 }

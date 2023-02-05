@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Coach extends Model
 {
@@ -32,6 +34,15 @@ class Coach extends Model
             return $coach->id;
         }
 
+    }
+
+    public function getAthletes($coach_id, $search_field)
+    {
+        return Athlete::whereHas('user', function (Builder $query) use ($search_field) {
+            $query->where('secondname', 'like', '%'.$search_field.'%');
+            })->with('user', 'birthcertificate', 'passport', 'studyplace')
+            ->whereRelation('coaches', 'coach_id', $coach_id)
+            ->get();
     }
 
 

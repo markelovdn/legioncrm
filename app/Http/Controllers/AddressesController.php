@@ -42,28 +42,9 @@ class AddressesController extends Controller
 
         $user = User::where('id', $request->user_id)->first();
 
-////        $path_scanlink = 'athlete/'.$user->id.'_'.$user->secondname.'_'.$user->firstname.'/'.'registration_'.$user->secondname.'_'.$user->firstname.'_'.$user->patronymic.'.jpg';
-////        if ($request->hasFile('registration_scan')) {
-////            $request->file('registration_scan')
-////                ->storeAs('athlete/'.$user->id.'_'.$user->secondname.'_'.$user->firstname, 'registration_'.$user->secondname.'_'.$user->firstname.'_'.$user->patronymic.'.jpg');
-////        }
-//
-//        //        $path_photo = 'athlete/'.$user->id.'_'.$user->secondname.'_'.$user->firstname.'/'.'photo_'.$user->secondname.'_'.$user->firstname.'_'.$user->patronymic.'.jpg';
-//        $file = $request->file('registration_scan');
-//        $filecontent = $file->openFile()->fread($file->getSize());
-//        $filename = 'athlete/'.$user->id.'_'.$user->secondname.'_'.$user->firstname.
-//                    '/registration_scan_'.$user->id.'_'.$user->secondname.'_'.$user->firstname.'.jpg';
-//
-//        if ($request->hasFile('registration_scan')) {
-////            $request->file('photo')
-////                ->storeAs('athlete/'.$user->id.'_'.$user->secondname.'_'.$user->firstname, 'photo_'.$user->secondname.'_'.$user->firstname.'_'.$user->patronymic.'.jpg');
-//            Storage::disk('s3')->put($filename, $filecontent);
-//        }
-
         if ($request->hasFile('registration_scan')) {
             $path_scanlink = uploadFile::uploadFile($user->id, $user->secondname,$user->firstname, 'registration_scan', $request->file('registration_scan'));
         }
-
 
         $address = new Address();
         $address->country_id = $request->country_id;

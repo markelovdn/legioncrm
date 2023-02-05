@@ -2,12 +2,12 @@
 
 @section('content')
     <div class="card card-info">
-       @if(isset($coach))
+       @if(isset($coach_athletes))
         <div class="card-header">
             Все спортсмены тренера: {{$coach->user->secondname}} {{$coach->user->firstname}} {{$coach->user->patronymic}}
         </div>
         <div class="card-body">
-            @foreach($coach->athletes as $athlete)
+            @foreach($coach_athletes as $athlete)
                 {{-- Данные спортсмена--}}
                 <div class="card collapsed-card">
                     <div class="card-header">
@@ -18,7 +18,7 @@
                                 <span class="description font-italic ml-3">(Необходимо заполнить паспортные данные)</span>
                                 <br>
                             @endif
-                            @if(Carbon\Carbon::parse($athlete->user->date_of_birth)->diffInYears() < 14 and !$athlete->birthcertificate)
+                            @if(Carbon\Carbon::parse($athlete->user->date_of_birth)->diffInYears() < 14 and !$athlete->birthcertificate_id)
                                 <span class="description font-italic ml-3">(Необходимо заполнить данные свидетельства о рождении)</span>
                                 <br>
                             @endif
@@ -41,11 +41,11 @@
                         @include('athletes.athlete-maindata')
                         {{--/ Общие данные--}}
                         {{-- Свидетельство о рождении/паспорт--}}
-                        @if(Carbon\Carbon::parse($athlete->user->date_of_birth)->diffInYears() >= 14)
+                        @if(Carbon\Carbon::parse($athlete->date_of_birth)->diffInYears() >= 14)
                             @if(!$athlete->passport_id)
-
+                                @include('documents.passport-blank-for-athlete')
                             @else
-                                 @include('documents.passport-athlete')
+
                             @endif
                         @else
                             @if(!$athlete->birthcertificate_id)
@@ -63,13 +63,14 @@
                             @include('athletes.athlete-study-place')
                         @endif
                         {{--/ Место учебы --}}
-                        {{-- Адресс по прописке --}}
+{{--                         Адресс по прописке--}}
+
                         @if(count($athlete->user->address) == 0)
 
                         @else
                             @include('documents.address-registration')
                         @endif
-                        {{--/ Адресс по прописке --}}
+{{--                        / Адресс по прописке--}}
 
                     </div>
                 </div>

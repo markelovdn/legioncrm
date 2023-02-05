@@ -97,7 +97,7 @@
                         <hr>
                     </form>
                 @endforeach
-{{$users->links()}}
+    {{$users->links()}}
             </div>
         </div>
     </div>

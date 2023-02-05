@@ -38,10 +38,10 @@
                         </div>
                     </div>
                     <div class="card-body" style="display: none;">
-                        {{-- Общие данные--}}
+                {{-- Общие данные--}}
                         @include('athletes.athlete-maindata')
-                        {{--/ Общие данные--}}
-                        {{-- Свидетельство о рождении/паспорт--}}
+                {{-- / Общие данные--}}
+                {{-- Свидетельство о рождении/паспорт--}}
                         @if(Carbon\Carbon::parse($athlete->user->date_of_birth)->diffInYears() >= 14)
                             @if(!$athlete->passport_id)
                                 @include('documents.passport-blank-for-athlete')
@@ -55,25 +55,25 @@
                                 @include('documents.birthcertificate')
                             @endif
                         @endif
-                        {{--/ Свидетельство о рождении/паспорт--}}
+                    {{--/ Свидетельство о рождении/паспорт--}}
 
-                        {{-- Место учебы --}}
+                    {{--Место учебы--}}
                         @if(!$athlete->studyplace_id)
                             @include('athletes.athlete-blank-study-place')
                         @else
                             @include('athletes.athlete-study-place')
                         @endif
-                        {{--/ Место учебы --}}
-                        {{-- Адресс по прописке --}}
+                    {{-- / Место учебы--}}
+                    {{-- Адресс по прописке--}}
                         @if(count($athlete->user->address) == 0)
                             @include('documents.address-registration-blank')
                         @else
                             @include('documents.address-registration')
                         @endif
-                        {{--/ Адресс по прописке --}}
-                        {{-- Ежегодный взнос --}}
+                {{-- / Адресс по прописке--}}
+                {{-- Ежегодный взнос--}}
                         @include('athletes.athlete-year-payment')
-                        {{--/ Ежегодный взнос --}}
+                {{-- / Ежегодный взнос--}}
                     </div>
                 </div>
                 {{--/ Данные спортсмена--}}
@@ -82,5 +82,6 @@
         @else
            {{'Нет спортсменов'}}
         @endif
+        {{$organization_athlete->links()}}
     </div>
 @endsection
