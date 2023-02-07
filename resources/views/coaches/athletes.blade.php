@@ -80,5 +80,6 @@
         @else
            {{'Нет спортсменов'}}
         @endif
+           {{$coach_athletes->links()}}
     </div>
 @endsection

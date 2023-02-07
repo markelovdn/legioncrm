@@ -13,6 +13,8 @@ class Athlete extends Model
 
     public const GENDER_MALE = 1;
     public const GENDER_FEMALE = 2;
+    public const ACTIVE = 1;
+    public const INACTIVE = 0;
 
     protected $fillable = ['firstname', 'secondname', 'patronymic'];
 

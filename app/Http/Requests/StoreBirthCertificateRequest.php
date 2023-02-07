@@ -24,11 +24,12 @@ class StoreBirthCertificateRequest extends FormRequest
     public function rules()
     {
         return [
+            'birthcertificate_scan' => ['required_without:user_id', 'image:jpg,jpeg,png,bmp', 'max:1000'],
             'birthcertificate_series' => ['required'],
+            'user_id' => ['numeric'],
             'birthcertificate_number' => ['required', 'numeric'],
             'birthcertificate_date_issue' => ['required'],
             'birthcertificate_issued_by' => ['required', 'string'],
-            'birthcertificate_scan' => ['required', 'image:jpg,jpeg,png,bmp'],
         ];
     }
 }

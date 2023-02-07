@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\BusinessProcess\uploadFile;
 use App\Http\Requests\StoreAddressRequest;
 use App\Models\Address;
+use App\Models\Organization;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class AddressesController extends Controller
@@ -88,9 +90,29 @@ class AddressesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreAddressRequest $request, $id)
     {
-        //
+        $request->validated();
+
+        $user = User::where('id', $request->user_id)->first();
+        $address = Address::where('id', $id)->first();
+
+        if ($request->hasFile('registration_scan')) {
+            $path_scanlink = uploadFile::uploadFile($user->id, $user->secondname,$user->firstname, 'registration_scan', $request->file('registration_scan'));
+            $address->scanlink =  $path_scanlink;
+        }
+
+        $address->country_id = $request->country_id;
+        $address->district_id = $request->district_id;
+        $address->region_id = $request->region_id;
+        $address->address = $request->address;
+
+        $address->save();
+
+        $user->address()->detach($address);
+        $user->address()->attach($address);
+
+        return back();
     }
 
     /**
@@ -99,8 +121,30 @@ class AddressesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $organization_id = Organization::getOrganizationId();
+        $organization = Organization::where('id', $organization_id)->first();
+        $user = User::where('id', $request->user_id)->first();
+
+        switch(\App\Models\User::getRoleCode()) :
+            case(\App\Models\Role::ROLE_SYSTEM_ADMIN) :
+            case(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN) :
+            case(\App\Models\Role::ROLE_ORGANIZATION_ADMIN) :
+
+                if ($organization->code == $request->input('code')) {
+                    $address = Address::where('id', $id)->first();
+                    $user->address()->detach($address);
+
+                    Address::destroy($id);
+
+                    return back();
+                }
+                break;
+            default:
+                session()->flash('error', 'Неизвестная роль');
+                return back();
+
+        endswitch;
     }
 }

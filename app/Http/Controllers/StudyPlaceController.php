@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreStudyPlaceRequest;
 use App\Models\Athlete;
+use App\Models\BirthCertificate;
+use App\Models\Organization;
 use App\Models\StudyPlace;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class StudyPlaceController extends Controller
@@ -81,9 +84,20 @@ class StudyPlaceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreStudyPlaceRequest $request, $id)
     {
-        //
+        $request->validated();
+
+        $user = User::where('id', $request->user_id)->first();
+
+        $studyplace = StudyPlace::where('id', $id)->first();
+        $studyplace->org_title = $request->org_title;
+        $studyplace->classnum = $request->classnum;
+        $studyplace->letter = $request->letter;
+        $studyplace->save();
+
+        Athlete::where('user_id', $user->id)->update(['studyplace_id' => $studyplace->id]);
+        return back();
     }
 
     /**
@@ -92,8 +106,29 @@ class StudyPlaceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $organization_id = Organization::getOrganizationId();
+        $organization = Organization::where('id', $organization_id)->first();
+
+        switch(\App\Models\User::getRoleCode()) :
+            case(\App\Models\Role::ROLE_SYSTEM_ADMIN) :
+            case(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN) :
+            case(\App\Models\Role::ROLE_ORGANIZATION_ADMIN) :
+
+                if ($organization->code == $request->input('code')) {
+                    $athlete = Athlete::where('studyplace_id', $id)->first();
+                    $athlete->studyplace_id = null;
+                    $athlete->save();
+
+                    StudyPlace::destroy($id);
+                    return back();
+                }
+                break;
+            default:
+                session()->flash('error', 'Неизвестная роль');
+                return back();
+
+        endswitch;
     }
 }

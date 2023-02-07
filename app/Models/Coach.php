@@ -42,7 +42,7 @@ class Coach extends Model
             $query->where('secondname', 'like', '%'.$search_field.'%');
             })->with('user', 'birthcertificate', 'passport', 'studyplace')
             ->whereRelation('coaches', 'coach_id', $coach_id)
-            ->get();
+            ->paginate(10);
     }
 
 

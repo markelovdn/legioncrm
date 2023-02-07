@@ -24,14 +24,15 @@ class StoreAthleteRequest extends FormRequest
     public function rules()
     {
         return [
-            'photo' => ['required', 'image:jpg,jpeg,png,bmp', 'max:1000'],
-            'gender' => ['required', 'integer', 'max:2'],
-            'secondname' => ['required', 'string', 'max:255'],
-            'firstname' => ['required', 'string', 'max:255'],
-            'patronymic' => ['required', 'string', 'max:255'],
-            'date_of_birth' => ['required', 'date'],
-            'coach_id' => ['required'],
-            'reg_code' => ['required'],
+            'user_id' => ['numeric'],
+            'photo' => ['required_without:user_id', 'image:jpg,jpeg,png,bmp', 'max:1000'],
+            'gender' => ['required_without:user_id', 'integer', 'max:2'],
+            'secondname' => ['required_without:user_id', 'string', 'max:255'],
+            'firstname' => ['required_without:user_id', 'string', 'max:255'],
+            'patronymic' => ['required_without:user_id', 'string', 'max:255'],
+            'date_of_birth' => ['required_without:user_id', 'date'],
+            'coach_id' => ['required_without:user_id'],
+            'reg_code' => ['required_without:user_id'],
         ];
     }
 }

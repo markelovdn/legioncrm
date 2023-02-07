@@ -17,6 +17,7 @@ use App\Models\Role;
 use App\Models\Sportkval;
 use App\Models\Tehkval;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -110,7 +111,7 @@ class AthletesController extends Controller
             $athlete->user_id = $user->id;
             $athlete->gender = $request->gender;
             $athlete->photo =  $path_scanlink;
-            $athlete->status = 1;
+            $athlete->status = Athlete::ACTIVE;
             $athlete->save();
 
             $athlete->coaches()->attach($coaches, ['coach_type' => 1]);
@@ -160,9 +161,26 @@ class AthletesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreAthleteRequest $request, $id)
     {
-        //
+        $user = User::where('id', $request->input('user_id'))->first();
+        $athlete = Athlete::where('id', $id)->first();
+
+        if ($request->hasFile('photo')) {
+            $path_scanlink = uploadFile::uploadFile($user->id, $user->secondname,$user->firstname, 'photo', $request->file('photo'));
+            $athlete->photo =  $path_scanlink;
+        }
+
+        if ($request->has('gender')) {
+            $athlete->gender = $request->gender;
+        }
+
+        if ($request->has('status')) {
+            $athlete->status = Athlete::INACTIVE;
+        }
+
+        $athlete->save();
+        return back();
     }
 
     /**

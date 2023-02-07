@@ -6,7 +6,10 @@ use App\BusinessProcess\uploadFile;
 use App\Http\Requests\StoreBirthCertificateRequest;
 use App\Models\Athlete;
 use App\Models\BirthCertificate;
+use App\Models\Organization;
+use App\Models\Role;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class BirthCertificateController extends Controller
@@ -85,12 +88,32 @@ class BirthCertificateController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreBirthCertificateRequest $request, int $id)
     {
-        //
+        $request->validated();
+
+        $user = User::where('id', $request->input('user_id'))->first();
+
+        $birthcertificate = BirthCertificate::find($id);
+
+        if ($request->hasFile('birthcertificate_scan')) {
+            $path_scanlink = uploadFile::uploadFile($user->id, $user->secondname, $user->firstname, 'birthcertificate', $request->file('birthcertificate_scan'));
+            $birthcertificate->scanlink = $path_scanlink;
+        }
+
+
+        $birthcertificate->series = $request->birthcertificate_series;
+        $birthcertificate->number = $request->birthcertificate_number;
+        $birthcertificate->dateissue = $request->birthcertificate_date_issue;
+        $birthcertificate->issuedby = $request->birthcertificate_issued_by;
+
+        $birthcertificate->save();
+
+        Athlete::where('user_id', $user->id)->update(['birthcertificate_id' => $birthcertificate->id]);
+        return back();
     }
 
     /**
@@ -99,8 +122,29 @@ class BirthCertificateController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $organization_id = Organization::getOrganizationId();
+        $organization = Organization::where('id', $organization_id)->first();
+
+        switch(\App\Models\User::getRoleCode()) :
+            case(\App\Models\Role::ROLE_SYSTEM_ADMIN) :
+            case(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN) :
+            case(\App\Models\Role::ROLE_ORGANIZATION_ADMIN) :
+
+        if ($organization->code == $request->input('code')) {
+            $athlete = Athlete::where('birthcertificate_id', $id)->first();
+            $athlete->birthcertificate_id = null;
+            $athlete->save();
+
+            BirthCertificate::destroy($id);
+            return back();
+        }
+                break;
+            default:
+                session()->flash('error', 'Неизвестная роль');
+                return back();
+
+        endswitch;
     }
 }

@@ -57,7 +57,8 @@ class Organization extends Model
             $query->where('secondname', 'like', '%'.$search_field.'%');
         })->whereHas('user', function (Builder $query) use ($organization_id) {
             $query->whereRelation('organizations', 'organization_id', $organization_id);
-        })->with('user', 'birthcertificate', 'passport', 'studyplace')->paginate(10);
+        })->with('user', 'birthcertificate', 'passport', 'studyplace')
+            ->where('status', Athlete::ACTIVE)->paginate(10);
 
     }
 }
