@@ -53,8 +53,8 @@ class AppServiceProvider extends ServiceProvider
             return $user != null;
         });
 
-        $coaches = Coach::all();
-
-        View::share('coaches', $coaches);
+//        $coaches = Coach::all();
+//
+//        View::share('coaches', $coaches);
     }
 }
