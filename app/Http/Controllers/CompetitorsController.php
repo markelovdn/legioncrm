@@ -76,7 +76,8 @@ class CompetitorsController extends Controller
                 ->orderBy('id', 'DESC')
                 ->get();
 
-        return view('competitions.competitors', ['competition'=>$competition, 'competitors'=>$competitors, 'tehkvals'=>$tehkvals]);
+        return view('competitions.competitors', ['competition'=>$competition,
+            'competitors'=>$competitors, 'tehkvals'=>$tehkvals]);
     }
 
 

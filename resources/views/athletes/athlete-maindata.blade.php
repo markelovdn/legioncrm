@@ -15,6 +15,14 @@
                     <dd class="col-sm-8">{{$athlete->user->secondname}} {{$athlete->user->firstname}} {{$athlete->user->patronymic}}</dd>
                     <dt class="col-sm-4">Дата рождения</dt>
                     <dd class="col-sm-8">{{$athlete->user->date_of_birth}}</dd>
+                    <dt class="col-sm-4">Пол</dt>
+                    <dd class="col-sm-8">
+                        @if($athlete->gender == \App\Models\Athlete::GENDER_MALE)
+                            <i class="fas fa-male" data-toggle="modal" data-target="#modal-gender{{$athlete->id}}"></i>
+                        @else
+                            <i class="fas fa-female" data-toggle="modal" data-target="#modal-gender{{$athlete->id}}"></i>
+                        @endif
+                    </dd>
                 </dl>
             </div>
         @switch(\App\Models\User::getRoleCode())
@@ -103,6 +111,38 @@
                                             <strong>{{ $message }}</strong>
                                         </span>
                                         @enderror
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                    <button type="reset" class="btn btn-default" data-dismiss="modal">Отмена
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{--modal edit gender--}}
+            <div class="modal fade" id="modal-gender{{$athlete->id}}" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <form method="POST" action="{{route('athlete.update',[$athlete->id])}}">
+                                <input type="text" name="id" style="display: none" value="{{$athlete->id}}">
+                                <input type="text" name="user_id" style="display: none" value="{{$athlete->user->id}}">
+                                @method('PUT')
+                                @csrf
+
+                                <div class="row mb-3">
+                                    <label for="gender" class="col-md-4 col-form-label text-md-end">Пол<span class="text-danger">*</span></label>
+                                    <div class="col-md-6">
+                                        <select type="text" class="form-control @error('gender') is-invalid @enderror"  name="gender" id="gender">
+                                            <option></option>
+                                            <option value="{{\App\Models\Athlete::GENDER_MALE}}" @if($athlete->gender == \App\Models\Athlete::GENDER_MALE) selected @endif>Мужской</option>
+                                            <option value="{{\App\Models\Athlete::GENDER_FEMALE}}" @if($athlete->gender == \App\Models\Athlete::GENDER_FEMALE) selected @endif>Женский</option>
+                                        </select>
                                     </div>
                                 </div>
 

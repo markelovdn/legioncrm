@@ -9,13 +9,12 @@
     </div>
 
     <div class="card-body" style="display: none;">
-        @if(!\App\BusinessProcess\GetPaymentInfo::getPaymentInfo($athlete->id))
+        @if(!\App\BusinessProcess\GetPaymentInfo::getPaymentInfo($athlete->user->id))
             @include('finance.forms.form-year-payment')
         @else
-            @foreach(\App\BusinessProcess\GetPaymentInfo::getPaymentInfo($athlete->id) as $payment)
+            @foreach(\App\BusinessProcess\GetPaymentInfo::getPaymentInfo($athlete->user->id) as $payment)
 {{--                TODO:Делать запросы из вьюх это плохо--}}
-                @if(!$payment->isCurrentYearPayment()
-                    || !$payment->isYearPayment())
+                @if(!\App\Models\Payment::isCurrentYearPayment($athlete->user->id))
                     @include('finance.forms.form-year-payment')
                 @elseif ($payment->sum > 0
                      && !$payment->approve)

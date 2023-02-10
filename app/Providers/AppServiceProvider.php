@@ -52,5 +52,9 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('viewWebSocketsDashboard', function ($user = null) {
             return $user != null;
         });
+
+        $coaches = Coach::all();
+
+        View::share('coaches', $coaches);
     }
 }

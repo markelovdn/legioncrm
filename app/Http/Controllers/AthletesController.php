@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\BusinessProcess\uploadFile;
 use App\DomainService\AttachOrganization;
+use App\Filters\AthleteFilter;
 use App\Filters\UserFilter;
 use App\Http\Requests\StoreAthleteRequest;
 use App\Models\Athlete;
@@ -29,7 +30,7 @@ class AthletesController extends Controller
      *
      * @return Athlete[]|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Database\Eloquent\Collection|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
-    public function index(UserFilter $userFilter, Request $request)
+    public function index(AthleteFilter $athleteFilter, UserFilter $userFilter, Request $request)
     {
         $id = auth()->user()->id;
         $countries = Country::get();
@@ -42,20 +43,23 @@ class AthletesController extends Controller
 
         if (\App\Models\User::hasRole(Role::ROLE_COACH, $id)) {
             $coach = Coach::where('user_id', $id)->first();
-            $coach_athletes = Coach::getAthletes($coach->id, $request->input('search_field'));
+            $coach_athletes = Coach::getAthletes($coach->id, $userFilter, $athleteFilter);
+            $count_coach_athletes = Coach::getCountAthletes($coach->id, $athleteFilter);
 
             return view('coaches.athletes',
-                ['coach' => $coach, 'coach_athletes' => $coach_athletes],
-                ['countries' => $countries, 'districts' => $districts, 'regions' => $regions,]);
+                compact(['count_coach_athletes', $count_coach_athletes]),
+                ['coach' => $coach, 'coach_athletes' => $coach_athletes,
+                 'countries' => $countries, 'districts' => $districts, 'regions' => $regions,]);
         }
 
         if (\App\Models\User::hasRole(Role::ROLE_ORGANIZATION_ADMIN, $id) ||
             \App\Models\User::hasRole(Role::ROLE_ORGANIZATION_CHAIRMAN, $id)) {
             $organization = Organization::with('users')->where('id', Organization::getOrganizationId())->first();
-            $organization_athlete = Organization::getAthletes($organization->id, $request->input('search_field'));
+            $organization_athlete = Organization::getAthletes($organization->id, $userFilter, $athleteFilter);
+            $count_athletes = Organization::getCountAthletes($organization->id, $athleteFilter);
 
             return view('organization.athletes',
-                compact(['organization', $organization, 'organization_athlete', $organization_athlete]),
+                compact(['organization', $organization, 'organization_athlete', $organization_athlete, 'count_athletes', $count_athletes]),
                         ['countries' => $countries, 'districts' => $districts, 'regions' => $regions,]);
         }
 
@@ -176,7 +180,7 @@ class AthletesController extends Controller
         }
 
         if ($request->has('status')) {
-            $athlete->status = Athlete::INACTIVE;
+            $athlete->status = $request->input('status');
         }
 
         $athlete->save();
@@ -189,8 +193,34 @@ class AthletesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $request->validate([
+            'code' => 'required|numeric',
+            'user_id' => 'required|numeric'
+        ]);
+
+        $user = User::where('id', $request->input('user_id'))->first();
+        $athlete = Athlete::where('id', $id)->first();
+        $system_code = DB::table('system_codes')->where('code', $request->input('code'))->first();
+
+                if ($system_code && \App\Models\User::getRoleCode() == Role::ROLE_SYSTEM_ADMIN) {
+                    DB::table('athlete_coach')->where('athlete_id', $id)->delete();
+                    DB::table('athlete_parented')->where('athlete_id', $id)->delete();
+                    DB::table('organization_user')->where('user_id', $user->id)->delete();
+                    DB::table('role_user')->where('user_id', $user->id)->delete();
+                    DB::table('address_user')->where('user_id', $user->id)->delete();
+                    Athlete::destroy($id);
+                    User::destroy($user->id);
+
+                    return back();
+                }
+
+                session()->flash('error', 'Неизвестная роль');
+                return back();
+
+
+
+
     }
 }

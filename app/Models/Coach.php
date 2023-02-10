@@ -11,6 +11,11 @@ class Coach extends Model
 {
     use HasFactory;
 
+    public const FIRST_COACH = 1;
+    public const SECOND_COACH = 2;
+    public const THIRD_COACH = 3;
+    public const REAL_COACH = 4;
+
     public function user()
     {
         return $this->belongsTo(User::class)->with('organizations');
@@ -36,13 +41,19 @@ class Coach extends Model
 
     }
 
-    public function getAthletes($coach_id, $search_field)
+    public function getAthletes($coach_id, $userFilter, $athleteFilter)
     {
-        return Athlete::whereHas('user', function (Builder $query) use ($search_field) {
-            $query->where('secondname', 'like', '%'.$search_field.'%');
+        return Athlete::whereHas('user', function (Builder $query) use ($userFilter) {
+            $query->filter($userFilter);
             })->with('user', 'birthcertificate', 'passport', 'studyplace')
             ->whereRelation('coaches', 'coach_id', $coach_id)
+            ->filter($athleteFilter)
             ->paginate(10);
+    }
+
+    public function getCountAthletes($coach_id, $athleteFilter)
+    {
+        return Athlete::whereRelation('coaches', 'coach_id', $coach_id)->filter($athleteFilter)->count();
     }
 
 

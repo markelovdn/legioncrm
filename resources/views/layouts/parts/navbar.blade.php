@@ -25,5 +25,6 @@
 
     @if(\Illuminate\Support\Facades\Auth::user())
         @include('navbar-menu.right.search')
+        @include('navbar-menu.right.filter')
     @endif
 </ul>

@@ -20,7 +20,7 @@
                             <div class="col align-content-center">
 
                                 <a href="/loginAs?id={{$user->id}}" class="nav-link"><i class="fas fa-sign-in-alt"></i>
-                                    <span>{{$user->secondname}}</span>
+                                    <span>{{$user->secondname}} {{$user->firstname}}</span>
                                 </a>
                             </div>
                             @foreach($roles as $role)

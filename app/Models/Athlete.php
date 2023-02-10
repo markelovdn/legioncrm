@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Filters\QueryFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +15,7 @@ class Athlete extends Model
     public const GENDER_MALE = 1;
     public const GENDER_FEMALE = 2;
     public const ACTIVE = 1;
-    public const INACTIVE = 0;
+    public const INACTIVE = 2;
 
     protected $fillable = ['firstname', 'secondname', 'patronymic'];
 
@@ -153,16 +154,13 @@ class Athlete extends Model
         return Address::with('country', 'region', 'district')
                         ->whereRelation('users', 'user_id', $athlete_user_id)
                         ->get();
-
-//        return DB::table('addresses')
-//            ->select(['*', 'countries.title as country_title',
-//                           'regions.title as region_title'])
-//            ->join('address_user', 'address_user.address_id', '=', 'addresses.id')
-//            ->join('countries',  'countries.id', '=', 'addresses.country_id')
-//            ->join('regions', 'regions.id', '=', 'addresses.region_id')
-//            ->join('districts', 'districts.id', '=', 'addresses.district_id')
-//            ->where('address_user.user_id', '=', $athlete_user_id)
-//            ->get();
     }
+
+    public function getCoaches($athlete_id)
+    {
+        $a = Athlete::with('coaches')->find($athlete_id);
+        return Athlete::with('coaches')->find($athlete_id);
+    }
+
 
 }

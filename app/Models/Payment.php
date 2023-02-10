@@ -25,13 +25,16 @@ class Payment extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function isYearPayment(): bool
+    public function isCurrentYearPayment($user_id): bool
     {
-        return $this->paymenttitle_id == \App\Models\Payment::ID_YEAR_PAYMENT;
-    }
+        $payments = Payment::where('user_id', $user_id)->where('paymenttitle_id', self::ID_YEAR_PAYMENT)->get();
 
-    public function isCurrentYearPayment(): bool
-    {
-        return Carbon::parse($this->date)->year == Carbon::parse(date('Y'))->year;
+        $result = false;
+        foreach ($payments as $payment) {
+            if (Carbon::parse($payment->date)->year == Carbon::parse(date('Y'))->year) {
+                $result = true;
+            }
+        }
+        return $result;
     }
 }

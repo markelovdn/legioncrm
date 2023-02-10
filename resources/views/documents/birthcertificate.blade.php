@@ -21,7 +21,7 @@
         </dl>
         {{--modal edit parent-birthsertificate-data-scan--}}
         <div class="modal fade" id="modal-berthsertificate{{$athlete->user->id}}scan" style="display: none;" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -56,7 +56,7 @@
         </div>
             {{--modal edit parent-birthsertificate-data--}}
             <div class="modal fade" id="modal-berthsertificate{{$athlete->user->id}}" style="display: none;" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
+                <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                         <div class="modal-body">
                             <form method="POST" enctype="multipart/form-data" action="{{route('birthcertificate.update',[$athlete->birthcertificate->id])}}">
@@ -119,7 +119,7 @@
 
             {{--modal edit parent-birthsertificate-trash--}}
             <div class="modal fade" id="modal-berthsertificate{{$athlete->user->id}}trash" style="display: none;" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
+                <div class="modal-dialog modal-sm">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title">Для удаления данных введите код</h4>

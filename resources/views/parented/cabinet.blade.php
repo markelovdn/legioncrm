@@ -117,6 +117,10 @@
                     {{-- Ежегодный взнос --}}
                         @include('athletes.athlete-year-payment')
                     {{--/ Ежегодный взнос --}}
+
+                    {{-- Тренеры--}}
+                    @include('athletes.athlete-coaches')
+                    {{-- / Тренеры--}}
                 </div>
             </div>
             {{--/ Данные спортсмена--}}

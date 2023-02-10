@@ -3,6 +3,7 @@
 namespace App\BusinessProcess;
 
 use App\Models\Payment;
+use Illuminate\Support\Facades\DB;
 
 class GetPaymentInfo
 {

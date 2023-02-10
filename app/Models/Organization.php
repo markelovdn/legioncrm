@@ -51,14 +51,21 @@ class Organization extends Model
         return $oranization_id->organization_id;
     }
 
-    public function getAthletes($organization_id, $search_field)
+    public function getAthletes($organization_id, $userFilter, $athleteFilter)
     {
-        return Athlete::whereHas('user', function (Builder $query) use ($search_field) {
-            $query->where('secondname', 'like', '%'.$search_field.'%');
+        return Athlete::whereHas('user', function (Builder $query) use ($userFilter) {
+            $query->filter($userFilter);
         })->whereHas('user', function (Builder $query) use ($organization_id) {
             $query->whereRelation('organizations', 'organization_id', $organization_id);
-        })->with('user', 'birthcertificate', 'passport', 'studyplace')
-            ->where('status', Athlete::ACTIVE)->paginate(10);
+        })->filter($athleteFilter)->with('user', 'birthcertificate', 'passport', 'studyplace')->paginate(10);
 
+        //TODO: сделать сортировку по фамилии
+    }
+
+    public function getCountAthletes($organization_id, $athleteFilter)
+    {
+        return Athlete::whereHas('user', function (Builder $query) use ($organization_id) {
+            $query->whereRelation('organizations', 'organization_id', $organization_id);
+        })->filter($athleteFilter)->count();
     }
 }
