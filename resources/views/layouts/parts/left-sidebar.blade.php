@@ -43,6 +43,7 @@
     @include('left-menu.poomsae-competition')
     @case(\App\Models\Role::ROLE_PARENTED)
     @case(\App\Models\Role::ROLE_ATHLETE)
+    @include('left-menu.attestation')
     @include('left-menu.about-organizations')
 
 @endswitch

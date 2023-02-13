@@ -10,6 +10,7 @@
 
     <div class="card-body" style="display: none;">
         @foreach(\App\Models\Athlete::getAddress($athlete->user_id) as $athlete_address)
+{{--            TODO: делать запросы из вьюх это плохо--}}
         <dl class="row">
             <dt class="col-sm-4">Страна:</dt>
                 <dd class="col-sm-8">{{$athlete_address->country->title}}</dd>

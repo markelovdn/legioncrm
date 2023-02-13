@@ -56,5 +56,11 @@ class Coach extends Model
         return Athlete::whereRelation('coaches', 'coach_id', $coach_id)->filter($athleteFilter)->count();
     }
 
+    public function getAllCoaches()
+    {
+        return Coach::get();
+        //TODO: изменить запрос всех тренеров из организации с сортировкой по фио
+    }
+
 
 }

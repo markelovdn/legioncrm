@@ -96,6 +96,11 @@ class Athlete extends Model
         return $this->belongsToMany(Department::class);
     }
 
+    public function attestations()
+    {
+        return $this->belongsToMany(Attestation::class);
+    }
+
     //hasOne
     public function insurance()
     {
@@ -113,40 +118,25 @@ class Athlete extends Model
         return $filter->apply($builder);
     }
 
-    public function updateAthleteCoach ($request)
+    public function updateAthleteCoach ($athlete_id, $real_coach, $first_coach, $second_coach = null, $third_coach = null)
     {
-        if (!$request->input('coach2') && !$request->input('coach3')) {
-            $athlete = Athlete::with(['coaches'])->find($request->input('id'));
-            $athlete->coaches()->sync([
-                $request->input('coach1') => ['coach_type' => 1],
-                $request->input('coach4') => ['coach_type' => 4],
-            ]);
+        $athlete = Athlete::with(['coaches'])->find($athlete_id);
+        if (empty($second_coach)) {
+            $second_coach = $first_coach;
         }
-        elseif (!$request->input('coach2')) {
-            $athlete = Athlete::with(['coaches'])->find($request->input('id'));
-            $athlete->coaches()->sync([
-                $request->input('coach1') => ['coach_type' => 1],
-                $request->input('coach3') => ['coach_type' => 3],
-                $request->input('coach4') => ['coach_type' => 4],
-            ]);
+
+        if (empty($third_coach)) {
+            $third_coach = $first_coach;
         }
-        elseif (!$request->input('coach3')) {
-            $athlete = Athlete::with(['coaches'])->find($request->input('id'));
+
             $athlete->coaches()->sync([
-                $request->input('coach1') => ['coach_type' => 1],
-                $request->input('coach2') => ['coach_type' => 2],
-                $request->input('coach4') => ['coach_type' => 4],
+                $second_coach => ['coach_type' => Coach::SECOND_COACH],
+                $third_coach => ['coach_type' => Coach::THIRD_COACH],
+                $first_coach => ['coach_type' => Coach::FIRST_COACH],
+                $real_coach => ['coach_type' => Coach::REAL_COACH],
             ]);
-        }
-        else {
-            $athlete = Athlete::with(['coaches'])->find($request->input('id'));
-            $athlete->coaches()->sync([
-                $request->input('coach1') => ['coach_type' => 1],
-                $request->input('coach2') => ['coach_type' => 2],
-                $request->input('coach3') => ['coach_type' => 3],
-                $request->input('coach4') => ['coach_type' => 4],
-            ]);
-        }
+
+
     }
 
     public function getAddress($athlete_user_id)
@@ -156,10 +146,25 @@ class Athlete extends Model
                         ->get();
     }
 
-    public function getCoaches($athlete_id)
+    public function getCoachesAthlete($athlete_id)
     {
-        $a = Athlete::with('coaches')->find($athlete_id);
         return Athlete::with('coaches')->find($athlete_id);
+    }
+
+    public static function isCoachAthlete($athlete_id) {
+
+        $coach = Coach::where('user_id', \auth()->user()->id)->first();
+        $athletes = DB::table('athlete_coach')->where('athlete_id', $athlete_id)->get();
+
+        if($coach != null) {
+            foreach ($athletes as $athlete) {
+                if ($athlete->coach_id == $coach->id) {
+                    return true;
+                } else
+                    return false;
+            }
+        } else
+            return false;
     }
 
 

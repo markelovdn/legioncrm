@@ -7,6 +7,7 @@ use App\DomainService\AttachOrganization;
 use App\Filters\AthleteFilter;
 use App\Filters\UserFilter;
 use App\Http\Requests\StoreAthleteRequest;
+use App\Http\Requests\UpdateAthleteCoachesRequest;
 use App\Models\Athlete;
 use App\Models\Coach;
 use App\Models\Country;
@@ -118,7 +119,8 @@ class AthletesController extends Controller
             $athlete->status = Athlete::ACTIVE;
             $athlete->save();
 
-            $athlete->coaches()->attach($coaches, ['coach_type' => 1]);
+            $athlete->coaches()->attach($coaches, ['coach_type' => Coach::FIRST_COACH]);
+            $athlete->coaches()->attach($coaches, ['coach_type' => Coach::REAL_COACH]);
             $athlete->tehkval()->attach($tehKval->id);
             $athlete->sportkval()->attach($sportKval->id);
 
@@ -181,6 +183,14 @@ class AthletesController extends Controller
 
         if ($request->has('status')) {
             $athlete->status = $request->input('status');
+        }
+
+        if ($request->has('real_coach')) {
+            Athlete::updateAthleteCoach($athlete->id,
+                $request->input('real_coach'),
+                $request->input('first_coach'),
+                $request->input('second_coach'),
+                $request->input('third_coach'));
         }
 
         $athlete->save();

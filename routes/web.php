@@ -21,6 +21,8 @@ Route::resource('addresses', \App\Http\Controllers\AddressesController::class)->
 //Route::resource('competitors', \App\Http\Controllers\Api\V1\CompetitorsController::class);
 Route::resource('competitions', \App\Http\Controllers\CompetitionsController::class);
 Route::resource('competitions.competitors', \App\Http\Controllers\CompetitorsController::class)->shallow()->middleware(['auth']);
+Route::resource('attestation.athletes', \App\Http\Controllers\AttestationAthletesController::class)->shallow()->middleware(['auth']);
+Route::resource('attestations', \App\Http\Controllers\AttestationsController::class);
 Route::any('/competitions/{id}/competitors-new-user', [\App\Http\Controllers\CompetitorsController::class, 'store_as_new_user']);
 Route::resource('competitions.tehkvalgroups', \App\Http\Controllers\TehkvalGroupsController::class)->shallow()->middleware(['auth']);
 Route::get('/competitorsExport', [CompetitorsController::class, 'competitorsExport'])->middleware('auth')->name('competitorsExport');

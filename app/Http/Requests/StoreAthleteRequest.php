@@ -25,6 +25,7 @@ class StoreAthleteRequest extends FormRequest
     {
         return [
             'user_id' => ['numeric'],
+            'athlete_id' => ['numeric'],
             'photo' => ['required_without:user_id', 'image:jpg,jpeg,png,bmp', 'max:1000'],
             'gender' => ['required_without:user_id', 'integer', 'max:2'],
             'secondname' => ['required_without:user_id', 'string', 'max:255'],
@@ -33,6 +34,10 @@ class StoreAthleteRequest extends FormRequest
             'date_of_birth' => ['required_without:user_id', 'date'],
             'coach_id' => ['required_without:user_id'],
             'reg_code' => ['required_without:user_id'],
+            'real_coach' => ['required_with:athlete_id', 'numeric'],
+            'first_coach' => ['required_with:athlete_id', 'numeric'],
+            'second_coach' => ['nullable'],
+            'third_coach' => ['nullable']
         ];
     }
 }
