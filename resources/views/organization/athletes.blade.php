@@ -84,6 +84,10 @@
                     {{-- Тренеры--}}
                         @include('athletes.athlete-coaches')
                     {{-- / Тренеры--}}
+
+                    {{-- Техническая квалификация--}}
+                    @include('athletes.athlete-tehkvals')
+                    {{-- / Техническая квалификация--}}
                             <div class="row">
                                 @switch(\App\Models\User::getRoleCode())
                                     @case(\App\Models\Role::ROLE_SYSTEM_ADMIN)

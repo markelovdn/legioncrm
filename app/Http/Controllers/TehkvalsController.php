@@ -62,15 +62,17 @@ class TehkvalsController extends Controller
             ]);
 
 //        //TODO:Убрать эту хрень
-        $tehkvalgroup = TehkvalGroup::
-        whereRaw('agecategory_id = '.Competitor::getAgeCategory($athlete->user->date_of_birth).
-            ' and finishgyp_id >= '.$tehkval->id.' and competition_id = '.$request->competition_id)
-            ->first();
+        if ($request->competition_id) {
+            $tehkvalgroup = TehkvalGroup::
+            whereRaw('agecategory_id = '.Competitor::getAgeCategory($athlete->user->date_of_birth).
+                ' and finishgyp_id >= '.$tehkval->id.' and competition_id = '.$request->competition_id)
+                ->first();
 
-        $competitor = Competitor::find($request->competitor_id);
-        $competitor->tehkvalgroup_id = $tehkvalgroup->id;
+            $competitor = Competitor::find($request->competitor_id);
+            $competitor->tehkvalgroup_id = $tehkvalgroup->id;
 
-        $competitor->save();
+            $competitor->save();
+        }
 
         return back();
     }

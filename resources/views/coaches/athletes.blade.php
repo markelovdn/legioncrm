@@ -71,9 +71,9 @@
                         @include('athletes.athlete-coaches')
                         {{-- / Тренеры--}}
 
-                        {{-- Тренеры--}}
+                        {{-- Техническая квалификация--}}
                         @include('athletes.athlete-tehkvals')
-                        {{-- / Тренеры--}}
+                        {{-- / Техническая квалификация--}}
 
                         <div class="row">
                             @switch(\App\Models\User::getRoleCode())
