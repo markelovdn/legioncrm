@@ -109,6 +109,7 @@ class CompetitorsTest extends TestCase
             'coach_id' => $coach->id,
             'coach_code' => $coach->code,
             'competition_id' => $competition->id,
+            'organization_id' => $coach->user->organizations->first()->id,
         ]);
 
         $user = User::where('firstname', 'Иван')

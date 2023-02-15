@@ -428,7 +428,6 @@ class DatabaseSeeder extends Seeder
             ->hasAttached(Parented::factory(1))
             ->create();
 
-        AttestationResult::factory(1)->create();
         Competitor::factory(1)->create();
         Decree::factory(1)->create();
         License::factory(1)->create();
@@ -440,7 +439,7 @@ class DatabaseSeeder extends Seeder
         );
 
         DB::table('athlete_tehkval')->insert([
-                ['athlete_id' => 1, 'tehkval_id' => 1],
+                ['athlete_id' => 1, 'tehkval_id' => 1, 'organization_id' => 1],
             ]
         );
 

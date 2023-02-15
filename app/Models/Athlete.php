@@ -78,7 +78,7 @@ class Athlete extends Model
 
     public function tehkval()
     {
-        return $this->belongsToMany(Tehkval::class, 'athlete_tehkval');
+        return $this->belongsToMany(Tehkval::class, 'athlete_tehkval')->withPivot('created_at', 'sertificatenum', 'sertificate_link');
     }
 
     public function sportkval()

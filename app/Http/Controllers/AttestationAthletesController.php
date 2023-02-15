@@ -24,12 +24,8 @@ class AttestationAthletesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($attestation_id,
-                          Request $request,
-                          GetAttestationAthletes $attestationAthletes,
-                          UserFilter $userFilter)
+    public function index($attestation_id, Request $request, GetAttestationAthletes $attestationAthletes, UserFilter $userFilter)
     {
-
         $user = \auth()->user();
         $tehkvals = Tehkval::get();
 
@@ -45,7 +41,7 @@ class AttestationAthletesController extends Controller
 
         if($athletes!= null && $athletes->count() >= 1 && $user->isParented($user)) {
             foreach ($athletes as $athlete_parent) {
-                $ids[] = $athletes->id;
+                $ids[] = $athlete_parent->id;
             }
             $athletes = $attestation->athletes()
                 ->whereIn('athlete_id', $ids)
@@ -112,7 +108,7 @@ class AttestationAthletesController extends Controller
         }
 
         if (Attestation::hasAthlete($request->attestation_id, $athlete->id)) {
-            session()->flash('status', 'Данный спортсмен уже добавлен на аттестацию');
+            session()->flash('error', 'Данный спортсмен уже добавлен на аттестацию');
             return back();
         }
 

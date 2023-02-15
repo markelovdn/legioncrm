@@ -71,6 +71,10 @@
                         @include('athletes.athlete-coaches')
                         {{-- / Тренеры--}}
 
+                        {{-- Тренеры--}}
+                        @include('athletes.athlete-tehkvals')
+                        {{-- / Тренеры--}}
+
                         <div class="row">
                             @switch(\App\Models\User::getRoleCode())
                                 @case(\App\Models\Role::ROLE_COACH)

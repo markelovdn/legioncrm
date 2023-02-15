@@ -72,7 +72,6 @@
                 </div>
                 @endif
             </div>
-                @include('athletes.tehkval-history-modal')
         @endforeach
     </section>
 

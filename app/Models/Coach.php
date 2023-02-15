@@ -45,7 +45,7 @@ class Coach extends Model
     {
         return Athlete::whereHas('user', function (Builder $query) use ($userFilter) {
             $query->filter($userFilter);
-            })->with('user', 'birthcertificate', 'passport', 'studyplace')
+            })->with('user', 'birthcertificate', 'passport', 'studyplace', 'tehkval')
             ->whereRelation('coaches', 'coach_id', $coach_id)
             ->filter($athleteFilter)
             ->paginate(10);

@@ -202,17 +202,17 @@ class CompetitorsController extends Controller
             $athlete = new Athlete();
             $athlete->user_id = $user->id;
             $athlete->gender = $request->gender;
-            $athlete->status = 1;
+            $athlete->status = Athlete::ACTIVE;
             $athlete->save();
 
-            $athlete->coaches()->attach($coaches, ['coach_type' => 1]);
+            $athlete->coaches()->attach($coaches, ['coach_type' => Coach::REAL_COACH]);
         }
         else{
             $request->session()->flash('status', 'Не верный код тренера');
             return back()->withInput();
         }
 
-        $athlete->tehkval()->attach($request->tehkval_id);
+        $athlete->tehkval()->attach($request->tehkval_id, ['organization_id'=>$coaches->user->organizations->first()->id]);
         $athlete->sportkval()->attach($request->sportkval_id);
 
         if (!Competitor::checkUniqueCompetitorWeightCategory(

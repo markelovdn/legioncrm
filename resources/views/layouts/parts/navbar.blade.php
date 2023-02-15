@@ -12,6 +12,10 @@
         @include('navbar-menu.competitions')
     @endif
 
+    @if(Str::contains(url()->current(), 'attestation'))
+        @include('navbar-menu.attestations')
+    @endif
+
     @if(Str::contains(url()->current(), 'athlete'))
         @include('navbar-menu.athletes')
     @endif

@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\BusinessProcess\uploadFile;
 use App\Models\Athlete;
 use App\Models\Competitor;
+use App\Models\Organization;
 use App\Models\Tehkval;
 use App\Models\TehkvalGroup;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TehkvalsController extends Controller
@@ -40,10 +43,25 @@ class TehkvalsController extends Controller
     {
         $athlete = Athlete::with('user')->find($request->athlete_id);
         $tehkval = Tehkval::find($request->tehkval_id);
-//TODO:Сделать проверку на существующую запись
-        $athlete->tehkval()->attach($tehkval->id);
 
-        //TODO:Убрать эту хрень
+        if (Tehkval::hasAthlete($request->tehkval_id, $athlete->id)) {
+            session()->flash('error', 'Данная техническая квалификация уже присвоена спортсмену');
+            return back();
+        }
+
+        if ($request->hasFile('sertificate_link')) {
+            $path_scanlink = uploadFile::uploadFile($athlete->user->id,
+                $athlete->user->secondname, $athlete->user->firstname, 'belt_sertificate_'.$tehkval->belt_color, $request->file('sertificate_link'));
+        }
+
+        $athlete->tehkval()->attach($tehkval->id,
+            ['organization_id' => Organization::getOrganizationId(),
+             'created_at' => Carbon::now(),
+             'sertificatenum' => $request->input('sertificatenum'),
+             'sertificate_link' => $path_scanlink
+            ]);
+
+//        //TODO:Убрать эту хрень
         $tehkvalgroup = TehkvalGroup::
         whereRaw('agecategory_id = '.Competitor::getAgeCategory($athlete->user->date_of_birth).
             ' and finishgyp_id >= '.$tehkval->id.' and competition_id = '.$request->competition_id)
@@ -97,8 +115,13 @@ class TehkvalsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+//        TODO:сделать проверку на удаление посленего
+        $athlete = Athlete::where('id', $request->input('athlete_id'))->first();
+
+        $athlete->tehkval()->detach($id);
+
+        return back();
     }
 }

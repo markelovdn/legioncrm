@@ -7,7 +7,13 @@
 		<!-- /.card-header -->
 		<!-- form start -->
     </div>
-    <p class="text-success">{{ session('status') }}</p>
+    @if (session('status'))
+        <div class="alert alert-success">{{ session('status') }}</div>
+    @endif
+    @if (session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
+    @endif
+{{--    TODO:сделать всплывающие окна--}}
     @foreach($attestationAthletes as $attestationAthlete)
     <form class="form-horizontal" method="POST" action="{{route('attestation.athletes.store', [$attestation->id])}}">
         @csrf
@@ -19,14 +25,12 @@
                     <div class="col-4"><button id="submit" type="submit" onclick="blocked()" class="btn btn-info">Добавить</button>
                         <div class="spinner-border" id="loader" style="display: none" role="status">
                             <span class="sr-only">Loading...</span>
-                        </div></div>
+                        </div>
+                    </div>
 
                 <div class="col">
                     <input type="number" style="display: none" class="form-control" id="athlete_id" name="athlete_id" value="{{$attestationAthlete->id}}">
                     <input type="number" style="display: none" class="form-control" id="attestation_id" name="attestation_id" value="{{$attestation->id}}">
-                    <p class="text-danger">{{ session('error') }}</p>
-                    <p class="text-danger">{{ session('error_age') }}</p>
-                    <p class="text-danger">{{ session('error_unique_competitor') }}</p>
 
                 </div>
                 <div class="col">

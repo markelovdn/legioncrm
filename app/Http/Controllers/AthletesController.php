@@ -34,6 +34,7 @@ class AthletesController extends Controller
     public function index(AthleteFilter $athleteFilter, UserFilter $userFilter, Request $request)
     {
         $id = auth()->user()->id;
+        $tehkvals = Tehkval::get();
         $countries = Country::get();
         $districts = District::get();
         $regions = Region::get();
@@ -50,7 +51,7 @@ class AthletesController extends Controller
             return view('coaches.athletes',
                 compact(['count_coach_athletes', $count_coach_athletes]),
                 ['coach' => $coach, 'coach_athletes' => $coach_athletes,
-                 'countries' => $countries, 'districts' => $districts, 'regions' => $regions,]);
+                 'countries' => $countries, 'districts' => $districts, 'regions' => $regions, 'tehkvals' => $tehkvals]);
         }
 
         if (\App\Models\User::hasRole(Role::ROLE_ORGANIZATION_ADMIN, $id) ||
@@ -61,7 +62,7 @@ class AthletesController extends Controller
 
             return view('organization.athletes',
                 compact(['organization', $organization, 'organization_athlete', $organization_athlete, 'count_athletes', $count_athletes]),
-                        ['countries' => $countries, 'districts' => $districts, 'regions' => $regions,]);
+                        ['countries' => $countries, 'districts' => $districts, 'regions' => $regions, 'tehkvals' => $tehkvals]);
         }
 
         return back();

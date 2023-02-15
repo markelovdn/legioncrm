@@ -49,6 +49,7 @@
                     <div class="modal-body">
                         <form method="POST" action="{{route('athlete.update',[$athlete->id])}}">
                             <input type="text" name="athlete_id" style="display: none" value="{{$athlete->id}}">
+                            <input type="text" name="user_id" style="display: none" value="{{$athlete->user->id}}">
                             @method('PUT')
                             @csrf
                             <div class="row mb-3">
@@ -75,7 +76,7 @@
                                                 {{$coach->user->secondname}} {{mb_substr($coach->user->firstname, 0,1)}}.{{mb_substr($coach->user->patronymic, 0,1)}}.
                                             </option>
                                         @endforeach
-                                        {{--                                        TODO: делать запросы из втюх это плоо--}}
+                                        {{-- TODO: делать запросы из втюх это плоо--}}
                                     </select>
                                 </div>
                             </div>
@@ -89,7 +90,7 @@
                                                 {{$coach->user->secondname}} {{mb_substr($coach->user->firstname, 0,1)}}.{{mb_substr($coach->user->patronymic, 0,1)}}.
                                             </option>
                                         @endforeach
-                                        {{--                                        TODO: делать запросы из втюх это плоо--}}
+                                        {{-- TODO: делать запросы из втюх это плоо--}}
                                     </select>
                                 </div>
                             </div>

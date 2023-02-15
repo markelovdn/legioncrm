@@ -57,7 +57,7 @@ class Organization extends Model
             $query->filter($userFilter);
         })->whereHas('user', function (Builder $query) use ($organization_id) {
             $query->whereRelation('organizations', 'organization_id', $organization_id);
-        })->filter($athleteFilter)->with('user', 'birthcertificate', 'passport', 'studyplace')->paginate(10);
+        })->filter($athleteFilter)->with('user', 'birthcertificate', 'passport', 'studyplace', 'tehkval')->paginate(10);
 
         //TODO: сделать сортировку по фамилии
     }

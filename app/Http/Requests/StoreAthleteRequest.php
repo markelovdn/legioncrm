@@ -36,8 +36,6 @@ class StoreAthleteRequest extends FormRequest
             'reg_code' => ['required_without:user_id'],
             'real_coach' => ['required_with:athlete_id', 'numeric'],
             'first_coach' => ['required_with:athlete_id', 'numeric'],
-            'second_coach' => ['nullable'],
-            'third_coach' => ['nullable']
         ];
     }
 }
