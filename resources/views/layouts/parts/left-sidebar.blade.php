@@ -44,6 +44,7 @@
     @case(\App\Models\Role::ROLE_PARENTED)
     @case(\App\Models\Role::ROLE_ATHLETE)
     @include('left-menu.attestation')
+    @include('left-menu.events')
     @include('left-menu.about-organizations')
 
 @endswitch

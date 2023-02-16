@@ -45,11 +45,14 @@ class Coach extends Model
     {
         return Athlete::whereHas('user', function (Builder $query) use ($userFilter) {
             $query->filter($userFilter);
-            })->with('user', 'birthcertificate', 'passport', 'studyplace', 'tehkval')
-            ->whereRelation('coaches', 'coach_id', $coach_id)
-            ->filter($athleteFilter)
+        })->with('user', 'birthcertificate', 'passport', 'studyplace', 'tehkval')
+            ->whereHas('coaches', function (Builder $query) use ($coach_id) {
+                $query->where('coach_id', '=', $coach_id)
+                ->where('coach_type', '=', Coach::REAL_COACH);
+            })->filter($athleteFilter)
             ->paginate(10);
     }
+
 
     public function getCountAthletes($coach_id, $athleteFilter)
     {

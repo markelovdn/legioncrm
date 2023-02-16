@@ -29,6 +29,7 @@ Route::get('/competitorsExport', [CompetitorsController::class, 'competitorsExpo
 Route::resource('role-user', \App\Http\Controllers\RoleUserController::class)->middleware(['auth', 'system_admin']);
 Route::resource('grade', \App\Http\Controllers\GradesCntroller::class)->middleware(['auth']);
 Route::resource('payment', \App\Http\Controllers\PaymentsController::class)->middleware(['auth']);
+Route::resource('events', \App\Http\Controllers\EventsController::class)->middleware(['auth']);
 Route::post('setNamePoomsaeTablo', [\App\Http\Controllers\GradesCntroller::class, 'setName'])->middleware(['auth'])->name('setNamePoomsaeTablo');
 
 

@@ -18,6 +18,7 @@ use App\Models\Country;
 use App\Models\Decree;
 use App\Models\Department;
 use App\Models\District;
+use App\Models\Event;
 use App\Models\Group;
 use App\Models\Insurance;
 use App\Models\KindsOfSport;
@@ -432,6 +433,7 @@ class DatabaseSeeder extends Seeder
         Decree::factory(1)->create();
         License::factory(1)->create();
         MedicalInspection::factory(1)->create();
+        Event::factory(1)->create();
 
         DB::table('athlete_coach')->insert([
                 ['athlete_id' => 1, 'coach_id' => 1],
