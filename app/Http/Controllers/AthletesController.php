@@ -122,7 +122,7 @@ class AthletesController extends Controller
 
             $athlete->coaches()->attach($coaches, ['coach_type' => Coach::FIRST_COACH]);
             $athlete->coaches()->attach($coaches, ['coach_type' => Coach::REAL_COACH]);
-            $athlete->tehkval()->attach($tehKval->id);
+            $athlete->tehkval()->attach($tehKval->id, ['organization_id'=>$coaches->user->organizations->first()->id]);
             $athlete->sportkval()->attach($sportKval->id);
 
             AttachOrganization::attachOrganization(Role::ROLE_ATHLETE,  $user->id, $request->reg_code);
