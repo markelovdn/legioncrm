@@ -8,6 +8,12 @@
         </div>
         @if(!empty($organization_athlete))
         <div class="card-body">
+            @if (session('error'))
+                <div class="alert alert-success">
+                    {{ session('error') }}
+                </div>
+            @endif
+
             @foreach($organization_athlete as $athlete)
                 {{-- Данные спортсмена--}}
                 <div class="card collapsed-card">

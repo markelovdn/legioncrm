@@ -10,6 +10,7 @@ use App\Models\Tehkval;
 use App\Models\TehkvalGroup;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TehkvalsController extends Controller
 {
@@ -54,6 +55,23 @@ class TehkvalsController extends Controller
                 $athlete->user->secondname, $athlete->user->firstname, 'belt_sertificate_'.$tehkval->belt_color, $request->file('sertificate_link'));
         }
 
+        if (count(Athlete::getTehkval($athlete->id)) < 2 && Athlete::getTehkval($athlete->id)->min()->tehkval_id == Tehkval::NOT) {
+            DB::table('athlete_tehkval')
+                ->where('athlete_id', $athlete->id)
+                ->update([
+                    'tehkval_id' => $tehkval->id,
+                    'organization_id' => Organization::getOrganizationId(),
+                    'created_at' => Carbon::now(),
+                    'sertificatenum' => $request->input('sertificatenum'),
+                    'sertificate_link' => $path_scanlink
+                ]);
+            session()->flash('status',
+                'Спортсмену '.$athlete->user->secondname.' '.$athlete->user->firstname.' '.
+                'добавлена техническая квалификация '.$tehkval->title);
+
+            return back();
+        }
+
         $athlete->tehkval()->attach($tehkval->id,
             ['organization_id' => Organization::getOrganizationId(),
              'created_at' => Carbon::now(),
@@ -73,6 +91,9 @@ class TehkvalsController extends Controller
 
             $competitor->save();
         }
+        session()->flash('status',
+            'Спортсмену '.$athlete->user->secondname.' '.$athlete->user->firstname.' '.
+            'добавлена техническая квалификация '.$tehkval->title);
 
         return back();
     }
@@ -121,8 +142,18 @@ class TehkvalsController extends Controller
     {
 //        TODO:сделать проверку на удаление посленего
         $athlete = Athlete::where('id', $request->input('athlete_id'))->first();
+        $tehkval = Tehkval::where('id', $id)->first();
+
+        if (count(Athlete::getTehkval($athlete->id)) < 2) {
+            session()->flash('error', 'Невозможно удалить единственную запись по технической квалификации');
+            return back();
+        }
 
         $athlete->tehkval()->detach($id);
+
+        session()->flash('status',
+            'Спортсмену '.$athlete->user->secondname.' '.$athlete->user->firstname.' '.
+            'удалена техническая квалификация '.$tehkval->title);
 
         return back();
     }

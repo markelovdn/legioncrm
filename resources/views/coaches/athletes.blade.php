@@ -7,6 +7,18 @@
             Все спортсмены тренера: {{$coach->user->secondname}} {{$coach->user->firstname}} {{$coach->user->patronymic}} ({{$count_coach_athletes}})
         </div>
         <div class="card-body">
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            @if (session('status'))
+                <div class="alert alert-success">
+                    {{ session('status') }}
+                </div>
+            @endif
+
             @foreach($coach_athletes as $athlete)
                 {{-- Данные спортсмена--}}
                 <div class="card collapsed-card">

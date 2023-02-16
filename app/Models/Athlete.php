@@ -167,5 +167,10 @@ class Athlete extends Model
             return false;
     }
 
+    public function getTehkval($athlete_id)
+    {
+        return DB::table('athlete_tehkval')->where('athlete_id', $athlete_id)->get();
+    }
+
 
 }

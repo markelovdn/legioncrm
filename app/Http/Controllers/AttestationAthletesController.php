@@ -11,6 +11,7 @@ use App\Models\Athlete;
 use App\Models\Attestation;
 use App\Models\Coach;
 use App\Models\Organization;
+use App\Models\Payment;
 use App\Models\Role;
 use App\Models\Sportkval;
 use App\Models\Tehkval;
@@ -109,6 +110,11 @@ class AttestationAthletesController extends Controller
 
         if (Attestation::hasAthlete($request->attestation_id, $athlete->id)) {
             session()->flash('error', 'Данный спортсмен уже добавлен на аттестацию');
+            return back();
+        }
+
+        if (!Payment::isCurrentYearPaymentApproved($athlete->user->id)) {
+            session()->flash('error', 'Для прохождения аттестации необходима оплата ежегодного взноса');
             return back();
         }
 
