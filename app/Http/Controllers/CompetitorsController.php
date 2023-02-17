@@ -238,7 +238,7 @@ class CompetitorsController extends Controller
 
     public function show($id)
     {
-        //
+        return redirect('/');
     }
 
     public function edit($id)

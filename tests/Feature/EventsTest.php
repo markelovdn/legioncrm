@@ -108,9 +108,8 @@ class EventsTest extends TestCase
         Auth::login($user);
 
         $event = Event::find(1);
-        $this->delete('/competitions/'.$event->id);
+        $response = $this->followingRedirects()->delete('/events/'.$event->id);
 
-        $response = $this->followingRedirects()->get('events');
         $response->assertStatus(200);
     }
 

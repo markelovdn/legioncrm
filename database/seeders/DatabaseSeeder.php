@@ -435,8 +435,19 @@ class DatabaseSeeder extends Seeder
         MedicalInspection::factory(1)->create();
         Event::factory(1)->create();
 
+        DB::table('athletes')->insert([
+                ['user_id'=> User::where('id','>', '6')->first()->id,
+                    'gender' => 1,
+                    'photo' => 'images/no_photo.jpg',
+                    'status' => 1
+                    ],
+            ]
+        );
+
         DB::table('athlete_coach')->insert([
                 ['athlete_id' => 1, 'coach_id' => 1],
+                ['athlete_id' => 2, 'coach_id' => 1],
+                ['athlete_id' => 3, 'coach_id' => 1],
             ]
         );
 
@@ -447,6 +458,16 @@ class DatabaseSeeder extends Seeder
 
         DB::table('athlete_sportkval')->insert([
                 ['athlete_id' => 1, 'sportkval_id' => 1],
+            ]
+        );
+
+        DB::table('event_user')->insert([
+                ['user_id' => 6, 'event_id' => 1, 'approve' => 1, 'payment_id' => 1],
+            ]
+        );
+
+        DB::table('event_organization')->insert([
+                ['event_id' => 1, 'organization_id' => 1],
             ]
         );
 

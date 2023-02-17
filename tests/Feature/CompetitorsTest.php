@@ -81,6 +81,9 @@ class CompetitorsTest extends TestCase
 
     public function test_competitors_store_as_new_user()
     {
+        $user = User::first();
+        Auth::login($user);
+
         $coach = Coach::with('user')->has('user')->first();
 
         $competitor_date = Carbon::parse('2000-01-01')->year;
@@ -129,6 +132,9 @@ class CompetitorsTest extends TestCase
 
     public function test_competitors_store_as_new_user_error_agecategories()
     {
+        $user = User::first();
+        Auth::login($user);
+
         $coach = Coach::with('user')->has('user')->first();
 
         $competition = Competition::with('agecategories')->find(1);
@@ -155,6 +161,9 @@ class CompetitorsTest extends TestCase
 
     public function test_competitors_store_as_new_user_error_tehkval()
     {
+        $user = User::first();
+        Auth::login($user);
+
         $coach = Coach::with('user')->has('user')->first();
 
         $competitor_date = Carbon::parse('2000-01-01')->year;

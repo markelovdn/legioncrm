@@ -26,6 +26,9 @@ class CompetitionsTest extends TestCase
 
     public function test_competitions_list()
     {
+        $user = User::first();
+        Auth::login($user);
+
         $response = $this->get('/competitions');
         $response->assertStatus(200);
     }

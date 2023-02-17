@@ -67,7 +67,7 @@ class AttestationAthletesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($attestation_id, GetAttestationAthletes $attestationAthletes, RegistrationUserAs $userAs)
+    public function create($attestation_id, GetAttestationAthletes $attestationAthletes)
     {
         $tehkvals = Tehkval::all();
         $sportkvals = Sportkval::all();
@@ -133,7 +133,7 @@ class AttestationAthletesController extends Controller
      */
     public function show($id)
     {
-        //
+        return redirect('/');
     }
 
     /**
@@ -144,7 +144,7 @@ class AttestationAthletesController extends Controller
      */
     public function edit($id)
     {
-        //
+        return redirect('/');
     }
 
     /**
@@ -156,7 +156,7 @@ class AttestationAthletesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return redirect('/');
     }
 
     /**
@@ -167,6 +167,6 @@ class AttestationAthletesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return redirect('/');
     }
 }

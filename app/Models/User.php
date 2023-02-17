@@ -84,6 +84,11 @@ class User extends Authenticatable
         return $this->hasMany(Payment::class);
     }
 
+    public function events()
+    {
+        return $this->belongsToMany(Event::class);
+    }
+
     public static function getRole()
     {
         $user = User::with('role')->find(auth()->user()->id);

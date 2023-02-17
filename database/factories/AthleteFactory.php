@@ -20,7 +20,7 @@ class AthleteFactory extends Factory
     public function definition()
     {
         return [
-            'user_id'=> User::with('role')->has('role')->where('id','=', '6')->first(),
+            'user_id'=> User::with('role')->has('role')->where('id','>=', '6')->first(),
             'gender' => $this->faker->randomElement([1, 2]),
             'photo' => 'images/no_photo.jpg',
             'status' => $this->faker->randomElement(['1', '0']),

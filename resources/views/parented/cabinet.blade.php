@@ -18,6 +18,11 @@
                         {{ session('status') }}
                     </div>
                 @endif
+                @if (session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
                 {{-- Данные родителя--}}
             <div class="card collapsed-card">
                     <div class="card-header">

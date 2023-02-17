@@ -15,7 +15,7 @@
 {{--        <a class="nav-link" href="{{route('competitions.competitors.create', [$competition->id])}}" role="button">--}}
 {{--            Добавить спортсмена</a>--}}
     </li>
-    @if(\App\Models\Competition::getOwner($competition->id))
+    @if(\App\Models\Event::getOwner($event->id))
         <li class="nav-item">
 {{--            <a class="nav-link" href="{{route('competitorsExport')}}" role="button">--}}
 {{--                Скачать список</a>--}}

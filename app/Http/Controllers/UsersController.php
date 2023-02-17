@@ -24,7 +24,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        //
+        return redirect('/');
 
     }
 
@@ -107,7 +107,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        //
+        return redirect('/');
     }
 
     /**
@@ -118,7 +118,7 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        //
+        return redirect('/');
     }
 
     /**
@@ -130,6 +130,12 @@ class UsersController extends Controller
      */
     public function update(StoreUserRequest $request, $id)
     {
+        $user = User::find($id);
+
+        if (Auth::user()->id != $id){
+            return redirect('/');
+        }
+
         $request->validated();
 
         if ($request->role_code == Role::ROLE_PARENTED && Carbon::parse($request->date_of_birth)->diffInYears() < 18) {
@@ -140,8 +146,6 @@ class UsersController extends Controller
         if (!User::checkUserUnique($request->firstname, $request->secondname, $request->patronymic, $request->date_of_birth)) {
             return back()->withInput();
         }
-
-        $user = User::find($id);
 
         $user->firstname = $request->firstname;
         $user->secondname = $request->secondname;
