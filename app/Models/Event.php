@@ -17,7 +17,7 @@ class Event extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->with('athlete');
     }
 
     public static function getOwner($event_id)
@@ -52,15 +52,15 @@ class Event extends Model
 
     public function hasUsers ($event_id, $user_id)
     {
-        $event_users = DB::table('event_user')->where('event_id', $event_id)->get();
+        $event_users = DB::table('event_user')
+            ->orWhere(function($query) use ($event_id, $user_id) {$query->where('event_id', $event_id)
+            ->where('user_id', $user_id);})
+            ->first();
 
-        foreach ($event_users as $user) {
-            if ($user->id == $user_id)
+            if ($event_users)
             {
                 return true;
             }
-
-        }
 
         return false;
     }

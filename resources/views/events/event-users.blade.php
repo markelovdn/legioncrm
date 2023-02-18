@@ -26,7 +26,6 @@
         @foreach ($users as $user)
             <div class="card card-primary collapsed-card">
                 <div class="card-header">
-                    <span><img class="direct-chat-img" src="@if(!$user->photo){{asset('/storage/images/no_photo.jpg')}}@else{{$user->photo}}@endif" alt="message user image"></span>
                     <h3 class="card-title">{{$user->secondname}} {{$user->firstname}} {{$user->patronymic}}</h3><br>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -37,17 +36,18 @@
                 <div class="card-body" style="display: none;">
                     <b>Дата рождения: </b> {{ \Carbon\Carbon::parse($user->date_of_birth)->format('d.m.Y')}}<br>
                 </div>
-                @if(\App\Models\Athlete::isCoachAthlete($user->id))
+                @if(\App\Models\Athlete::isCoachAthlete($user->athlete->id))
                 <div class="card-footer">
                     <div class="row row-cols-2">
                         <div class="col text-left">
                             {{-- одобрить участие--}}
                         </div>
                         <div class="col text-right">
-                            <form method="POST" action="">
+                            <form method="POST" action="{{route('userEventDestroy', ['event_id', $event->id, 'user_id', $user->id])}}">
                                 @method('DELETE')
                                 @csrf
-                                <input type="number" style="display: none" class="form-control" id="event_id" name="event_id" value="{{$user->id}}">
+                                <input type="number" style="display: none" class="form-control" id="event_id" name="event_id" value="{{$event->id}}">
+                                <input type="number" style="display: none" class="form-control" id="user_id" name="user_id" value="{{$user->id}}">
                                 <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                             </form>
                         </div>

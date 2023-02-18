@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EventsController extends Controller
 {
@@ -120,8 +121,13 @@ class EventsController extends Controller
      */
     public function destroy($id)
     {
-        Event::destroy($id);
+        $users = DB::table('event_user')->where('event_id', $id)->get();
+        if (count($users) > 0) {
+            session()->flash('error', 'Мероприятие не может быть удалено пока в нем есть участники');
+            return back();
+        }
 
+        Event::destroy($id);
         session()->flash('status', 'Мероприятие удалено');
 
         return redirect('events');

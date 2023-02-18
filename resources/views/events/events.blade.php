@@ -29,10 +29,10 @@
                     <h3 class="card-title"><b>{{$event->title}}</b></h3><br>
                     <p>Начало: {{ \Carbon\Carbon::parse($event->date_start)->format('d.m.Y')}}</p>
                     Участники:
-{{--                    <a href="{{route('events.users.index',[$event->id])}}"><i class="nav-icon fas fa-users"></i></a>--}}
+                        <a href="{{route('events.users.index',[$event->id])}}"><i class="nav-icon fas fa-users"></i></a>
                     <br>
                     Регистрация:
-{{--                    <a href="{{route('events.users.create',[$event->id])}}"><i class="nav-icon fas fa-user-plus"></i></a><br>--}}
+                        <a href="{{route('events.users.create',[$event->id])}}"><i class="nav-icon fas fa-user-plus"></i></a><br>
 
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -49,6 +49,23 @@
                     <b>Зарегестированно всего:
 
                         <br>
+                </div>
+
+                <div class="card-footer">
+                    <div class="row row-cols-2">
+                        @if(\App\Models\Competition::getOwner($event->id))
+                            <div class="col text-left">
+                                <a class="btn btn-primary" href="{{route('events.edit',[$event->id])}}"><i class="fas fa-cog"></i></a>
+                            </div>
+                            <div class="col text-right">
+                                <form method="POST" action="{{route('events.destroy', [$event->id])}}">
+                                    @method('DELETE')
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                </form>
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
     @endforeach

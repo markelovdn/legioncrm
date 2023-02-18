@@ -28,13 +28,13 @@ class EventUserController extends Controller
         if ($users == null && $user->isParented($user) ||
             $users != null && $user->isParented($user) && $users->count() < 1) {
             session()->flash('status', 'Вы не добавляли спортсменов на данное мероприятие');
-            return view('attestations.attestation-athletes',
+            return view('events.event-users',
                 ['event'=>$event , 'users'=>$users]);
         }
 
         if($users!= null && $users->count() >= 1 && $user->isParented($user)) {
             foreach ($users as $athlete_parent) {
-                $ids[] = $athlete_parent->id;
+                $ids[] = $athlete_parent->user_id;
             }
             $users = $event->users()
                 ->whereIn('user_id', $ids)
@@ -154,8 +154,14 @@ class EventUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $event = Event::where('id', $request->input('event_id'))->first();
+
+        $event->users()->detach($request->input('user_id'));
+
+        session()->flash('status', 'Пользователь удален из участников мероприятия');
+
+        return redirect('/events/'.$request->input('event_id').'/users');
     }
 }

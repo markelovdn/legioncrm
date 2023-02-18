@@ -19,7 +19,7 @@
         @csrf
         <div class="container-fluid d-flex flex-column text-center">
             <div class="row mt-1 mb-1">
-                    <div class="col-5">{{$user->secondname}} {{$user->firstname}} {{$user->patronymic}}</div>
+                    <div class="col-5">{{$user->user->secondname}} {{$user->user->firstname}} {{$user->user->patronymic}}</div>
                     <div class="col-4"><button id="submit" type="submit" onclick="blocked()" class="btn btn-info">Добавить</button>
                         <div class="spinner-border" id="loader" style="display: none" role="status">
                             <span class="sr-only">Loading...</span>
@@ -27,7 +27,7 @@
                     </div>
 
                 <div class="col">
-                    <input type="number" style="display: none" class="form-control" id="user_id" name="user_id" value="{{$user->id}}">
+                    <input type="number" style="display: none" class="form-control" id="user_id" name="user_id" value="{{$user->user->id}}">
                     <input type="number" style="display: none" class="form-control" id="event_id" name="event_id" value="{{$event->id}}">
                 </div>
                 <div class="col">

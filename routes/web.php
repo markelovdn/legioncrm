@@ -21,7 +21,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('attestations', \App\Http\Controllers\AttestationsController::class);
     Route::resource('events', \App\Http\Controllers\EventsController::class);
     Route::resource('events.users', \App\Http\Controllers\EventUserController::class)->shallow();
-    Route::any('/event/{event_id}/user/{user_id}', [\App\Http\Controllers\EventUserController::class, 'update']);
+    Route::put('/event/{event_id}/user/{user_id}', [\App\Http\Controllers\EventUserController::class, 'update']);
+    Route::delete('/event/{event_id}/user/{user_id}', [\App\Http\Controllers\EventUserController::class, 'destroy'])->name('userEventDestroy');
     Route::get('/competitorsExport', [CompetitorsController::class, 'competitorsExport'])->middleware('auth')->name('competitorsExport');
     Route::resource('payment', \App\Http\Controllers\PaymentsController::class);
     Route::resource('competitions', \App\Http\Controllers\CompetitionsController::class);

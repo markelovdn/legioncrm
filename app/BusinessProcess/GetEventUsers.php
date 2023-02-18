@@ -18,7 +18,9 @@ class GetEventUsers
         $parented = Parented::where('user_id', $id)->first();
 
         if ($coach) {
-            $coach_athletes = DB::table('athlete_coach')->where('coach_id', $coach->id)->get();
+            $coach_athletes = DB::table('athlete_coach')
+                ->where('coach_type', Coach::REAL_COACH)
+                ->where('coach_id', $coach->id)->get();
 
             if($coach_athletes) {
                 $athletes = [];

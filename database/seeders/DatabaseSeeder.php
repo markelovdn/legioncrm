@@ -445,9 +445,9 @@ class DatabaseSeeder extends Seeder
         );
 
         DB::table('athlete_coach')->insert([
-                ['athlete_id' => 1, 'coach_id' => 1],
-                ['athlete_id' => 2, 'coach_id' => 1],
-                ['athlete_id' => 3, 'coach_id' => 1],
+                ['athlete_id' => 1, 'coach_id' => 1, 'coach_type' => Coach::REAL_COACH],
+                ['athlete_id' => 2, 'coach_id' => 1, 'coach_type' => Coach::REAL_COACH],
+                ['athlete_id' => 3, 'coach_id' => 1, 'coach_type' => Coach::REAL_COACH],
             ]
         );
 
