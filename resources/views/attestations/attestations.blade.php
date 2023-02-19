@@ -39,30 +39,30 @@
 
                 <div class="card-body" style="display: none;">
                     <b>Место проведения: </b>
-{{--                    {{$attestation->address}}--}}
+                    {{$attestation->address}}
                     <br>
                     <b>Дата проведения: </b>{{ \Carbon\Carbon::parse($attestation->date)->format('d.m.Y')}}<br>
                     <b>Зарегестированно всего:
-{{--                    </b>{{ \App\Models\Competition::competitorsCount($competition->id)}}--}}
+                    </b>{{ \App\Models\Attestation::athletesCount($attestation->id)}}
                     <br>
                 </div>
 
-{{--                <div class="card-footer">--}}
-{{--                    <div class="row row-cols-2">--}}
-{{--                        @if(\App\Models\Competition::getOwner($competition->id))--}}
-{{--                            <div class="col text-left">--}}
-{{--                                <a class="btn btn-primary" href="{{route('competitions.edit',[$competition->id])}}"><i class="fas fa-cog"></i></a>--}}
-{{--                            </div>--}}
-{{--                            <div class="col text-right">--}}
-{{--                                <form method="POST" action="{{route('competitions.destroy',$competition->id)}}">--}}
-{{--                                    @method('DELETE')--}}
-{{--                                    @csrf--}}
-{{--                                    <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>--}}
-{{--                                </form>--}}
-{{--                            </div>--}}
-{{--                        @endif--}}
-{{--                    </div>--}}
-{{--                </div>--}}
+                <div class="card-footer">
+                    <div class="row row-cols-2">
+                        @if(\App\Models\Attestation::getOwner($attestation->id))
+                            <div class="col text-left">
+                                <a class="btn btn-primary" href="{{route('attestations.edit',[$attestation->id])}}"><i class="fas fa-cog"></i></a>
+                            </div>
+                            <div class="col text-right">
+                                <form method="POST" action="{{route('attestations.destroy',$attestation->id)}}">
+                                    @method('DELETE')
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                </form>
+                            </div>
+                        @endif
+                    </div>
+                </div>
             </div>
     @endforeach
     <!-- /.card-body -->

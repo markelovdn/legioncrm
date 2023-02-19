@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAttestationRequest;
 use App\Models\Attestation;
-use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class AttestationsController extends Controller
 {
@@ -28,7 +30,9 @@ class AttestationsController extends Controller
      */
     public function create()
     {
-        return redirect('/');
+        $organizations = User::getUserOrganizations(auth()->user()->id);
+
+        return view('attestations.addattestation', compact(['organizations', $organizations]));
     }
 
     /**
@@ -37,9 +41,24 @@ class AttestationsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreAttestationRequest $request)
     {
-        return redirect('/');
+        $request->validated();
+
+        $attestation = new Attestation();
+
+        $attestation->title = $request->title;
+        $attestation->address = $request->address;
+        $attestation->date = $request->date;
+        $attestation->open = Attestation::STATUS_OPEN;
+        $attestation->archive = Attestation::ACTIVE;
+        $attestation->organization_id = $request->org_id;
+
+        $attestation->save();
+        session()->flash('status', 'Аттестация успешно добавлена');
+
+        return redirect('attestations');
+
     }
 
     /**
@@ -61,7 +80,10 @@ class AttestationsController extends Controller
      */
     public function edit($id)
     {
-        return redirect('/');
+        $organizations = User::getUserOrganizations(auth()->user()->id);
+        $attestation = Attestation::where('id', $id)->first();
+
+        return view('attestations.editattestation', compact(['organizations', $organizations, 'attestation', $attestation]));
     }
 
     /**
@@ -71,9 +93,24 @@ class AttestationsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreAttestationRequest $request, $id)
     {
-        return redirect('/');
+        $request->validated();
+
+        $event = Attestation::where('id', $id)->first();
+
+        $event->title = $request->title;
+        $event->address = $request->address;
+        $event->date = $request->date;
+        $event->organization_id = $request->org_id;
+        $event->open = $request->open ?? Attestation::STATUS_OPEN ;
+        $event->archive = $request->archive ?? Attestation::ACTIVE ;
+
+        $event->save();
+
+        session()->flash('status', 'Данные обновленны');
+
+        return redirect('attestations');
     }
 
     /**
@@ -84,6 +121,15 @@ class AttestationsController extends Controller
      */
     public function destroy($id)
     {
-        return redirect('/');
+        $athlete = DB::table('athlete_attestation')->where('attestation_id', $id)->get();
+        if (count($athlete) > 0) {
+            session()->flash('error', 'Мероприятие не может быть удалено пока в нем есть участники');
+            return back();
+        }
+
+        Attestation::destroy($id);
+        session()->flash('status', 'Аттестация удалена');
+
+        return redirect('attestations');
     }
 }
