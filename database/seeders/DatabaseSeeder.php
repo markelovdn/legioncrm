@@ -466,10 +466,5 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        DB::table('event_organization')->insert([
-                ['event_id' => 1, 'organization_id' => 1],
-            ]
-        );
-
     }
 }

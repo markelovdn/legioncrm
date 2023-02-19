@@ -18,7 +18,9 @@ class EventsController extends Controller
      */
     public function index()
     {
-        $events = Event::get();
+        $userOrganizationsId = User::with('organizations')->find(auth()->id())->organizations->pluck('id')->toArray();
+        $events = Event::with('users')->whereIn('organization_id', $userOrganizationsId)->orderBy('date_start', 'DESC')->get();
+
         return view('events.events', compact(['events', $events]));
     }
 
@@ -52,6 +54,7 @@ class EventsController extends Controller
         $event->date_end = $request->date_end;
         $event->info_link = $request->info_link;
         $event->organization_id = $request->org_id;
+        $event->users_limit = $request->users_limit;
 
         $event->save();
         session()->flash('status', 'Мероприятие успешно добавлено');
@@ -103,6 +106,7 @@ class EventsController extends Controller
         $event->date_end = $request->date_end;
         $event->info_link = $request->info_link;
         $event->organization_id = $request->org_id;
+        $event->users_limit = $request->users_limit;
         $event->open = $request->open ?? Event::OPEN_REGISTRATION ;
         $event->deleted_at = $request->deleted_at;
 

@@ -30,6 +30,7 @@ class StoreEventsRequest extends FormRequest
             'date_start' => ['required', 'date'],
             'date_end' => ['required', 'date'],
             'info_link' => ['required', 'string'],
+            'users_limit' => ['required', 'integer'],
         ];
     }
 }

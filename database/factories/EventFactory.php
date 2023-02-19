@@ -20,6 +20,7 @@ class EventFactory extends Factory
             'address' => $this->faker->address,
             'organization_id' => 1,
             'open' => 1,
+            'users_limit' => 100,
         ];
     }
 }

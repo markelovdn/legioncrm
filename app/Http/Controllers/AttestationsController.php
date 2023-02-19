@@ -16,7 +16,8 @@ class AttestationsController extends Controller
      */
     public function index()
     {
-        $attestations = Attestation::orderBy('date', 'DESC')->get();
+        $userOrganizationsId = User::with('organizations')->find(auth()->id())->organizations->pluck('id')->toArray();
+        $attestations = Attestation::whereIn('organization_id', $userOrganizationsId)->orderBy('date', 'DESC')->get();
 
         return view('attestations.attestations', [
                 'attestations'=>$attestations]

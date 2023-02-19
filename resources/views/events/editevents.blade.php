@@ -61,6 +61,13 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label for="users_limit" class="col-sm-2 col-form-label">Количество мест<span class="text-danger">*</span></label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="users_limit" name="users_limit" value="{{$event->users_limit}}">
+                        @error('users_limit')<p class="text-danger">{{$errors->first('users_limit')}}</p>@enderror
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label for="info_link" class="col-sm-2 col-form-label">Ссылка на подробную информацию<span class="text-danger">*</span></label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="info_link" name="info_link" value="{{$event->info_link}}">
@@ -85,7 +92,7 @@
             <!-- /.card-body -->
             <div class="card-footer">
                 <button type="submit" class="btn btn-info">Изменить</button>
-                <a href="/" type="submit" class="btn btn-default float-right">Отменить</a>
+                <a href="{{route('events.index')}}" type="submit" class="btn btn-default float-right">Отменить</a>
             </div>
             <!-- /.card-footer -->
         </form>

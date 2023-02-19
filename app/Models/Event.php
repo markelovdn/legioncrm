@@ -40,8 +40,8 @@ class Event extends Model
             $orgs_id[] = $org->id;
         }
 
-        $event = DB::table('event_organization')
-            ->where('event_id', $event_id)
+        $event = DB::table('events')
+            ->where('id', $event_id)
             ->whereIn('organization_id', $orgs_id)->get();
 
         if ($event->count() >= 1) {

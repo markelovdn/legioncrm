@@ -86,6 +86,7 @@ class EventUserController extends Controller
         $request->validated();
 
         $user = User::where('id', $request->user_id)->first();
+        $events = Event::with('users')->where('id', $request->event_id)->first();
 
         if (Event::find($request->event_id) == null)
         {
@@ -94,6 +95,11 @@ class EventUserController extends Controller
 
         if (Event::hasUsers($request->event_id, $user->id)) {
             session()->flash('error', 'Данный пользователь уже добавлен на мероприятие');
+            return back();
+        }
+
+        if ($events->users_limit - $events->users->count() <= 0) {
+            session()->flash('error', 'На данное мероприятие нет свободных мест');
             return back();
         }
 

@@ -32,7 +32,11 @@
                         <a href="{{route('events.users.index',[$event->id])}}"><i class="nav-icon fas fa-users"></i></a>
                     <br>
                     Регистрация:
-                        <a href="{{route('events.users.create',[$event->id])}}"><i class="nav-icon fas fa-user-plus"></i></a><br>
+                    @if($event->open == \App\Models\Event::CLOSE_REGISTRATION || $event->users_limit - $event->users->count() <=0)
+                        <span class="badge badge-danger">закрыта</span>
+                    @else
+                    <a href="{{route('events.users.create',[$event->id])}}"><i class="nav-icon fas fa-user-plus"></i></a><br>
+                    @endif
 
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -45,10 +49,10 @@
                 <div class="card-body" style="display: none;">
                     <b>Место проведения: </b>{{$event->address}}
                     <br>
-                    <b>Дата проведения: </b>{{ \Carbon\Carbon::parse($event->date_start)->format('d.m.Y')}}<br>
-                    <b>Зарегестированно всего:
-
-                        <br>
+                    <b>Даты проведения: </b>{{ \Carbon\Carbon::parse($event->date_start)->format('d.m.Y').'-'.\Carbon\Carbon::parse($event->date_end)->format('d.m.Y')}}<br>
+                    <b>Зарегестированно всего: </b>{{$event->users->count()}}<br>
+                    <b>Осталось свободных мест: </b>{{$event->users_limit - $event->users->count()}}<br>
+                    <b><a href="{{$event->info_link}}">Подробная информация</a></b><br>
                 </div>
 
                 <div class="card-footer">

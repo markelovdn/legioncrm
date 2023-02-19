@@ -27,7 +27,11 @@
                     <a href="{{route('attestation.athletes.index',[$attestation->id])}}"><i class="nav-icon fas fa-users"></i></a>
                     <br>
                     Регистрация:
+                    @if($attestation->open == \App\Models\Attestation::STATUS_CLOSE)
+                        <span class="badge badge-danger">закрыта</span>
+                    @else
                     <a href="{{route('attestation.athletes.create',[$attestation->id])}}"><i class="nav-icon fas fa-user-plus"></i></a><br>
+                    @endif
 
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
