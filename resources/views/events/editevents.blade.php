@@ -68,6 +68,18 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label for="access" class="col-sm-2 col-form-label">Доступ на регистрацию<span class="text-danger">*</span></label>
+                    <div class="col-sm-10">
+                        <select name="access" id="status" class="form-control">
+                            <option value="{{\App\Models\Event::ACCESS_ALL}}" @if($event->access == \App\Models\Event::ACCESS_ALL) selected @endif>
+                                Доступно всем</option>
+                            <option value="{{\App\Models\Event::ACCESS_ORGANIZATION_USER}}" @if($event->access == \App\Models\Event::ACCESS_ORGANIZATION_USER) selected @endif>
+                                Доступно только в моей организации</option>
+                        </select>
+                        @error('access')<p class="text-danger">{{$errors->first('access')}}</p>@enderror
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label for="info_link" class="col-sm-2 col-form-label">Ссылка на подробную информацию<span class="text-danger">*</span></label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="info_link" name="info_link" value="{{$event->info_link}}">

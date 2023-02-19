@@ -137,6 +137,7 @@ class EventsUsersTest extends TestCase
             'date_start' => '2000-10-10',
             'date_end' => '2000-10-10',
             'users_limit' => 0,
+            'access' => Event::ACCESS_ALL,
             'info_link' => 'http://tesst',
             'open' => Event::CLOSE_REGISTRATION,
             'deleted_at' => Carbon::now(),

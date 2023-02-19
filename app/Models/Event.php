@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Doctrine\DBAL\Events;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +15,8 @@ class Event extends Model
     public const CLOSE_REGISTRATION = 2;
     public const APPROVE = 1;
     public const DECLINE = 2;
+    public const ACCESS_ALL = 1;
+    public const ACCESS_ORGANIZATION_USER = 2;
 
     public function users()
     {
@@ -63,5 +66,17 @@ class Event extends Model
             }
 
         return false;
+    }
+
+    public function getEvents ()
+    {
+        $userOrganizationsId = User::with('organizations')->find(auth()->id())->organizations->pluck('id')->toArray();
+        $events_organization = Event::with('users')
+            ->whereIn('organization_id', $userOrganizationsId)->orderBy('date_start', 'ASC')->get();
+
+        if ($events_organization->count() == 0) {
+            return Event::where('access', Event::ACCESS_ALL)->get();
+        }
+            return $events_organization;
     }
 }

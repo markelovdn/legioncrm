@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Event;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class EventFactory extends Factory
@@ -21,6 +22,7 @@ class EventFactory extends Factory
             'organization_id' => 1,
             'open' => 1,
             'users_limit' => 100,
+            'access' => Event::ACCESS_ALL,
         ];
     }
 }
