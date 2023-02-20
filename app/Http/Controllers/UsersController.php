@@ -132,7 +132,7 @@ class UsersController extends Controller
     {
         $user = User::find($id);
 
-        if (Auth::user()->id != $id){
+        if (Auth::user()->id != $id && $request->role_code != Role::ROLE_ATHLETE){
             return redirect('/');
         }
 
