@@ -56,13 +56,22 @@ class EventsTest extends TestCase
             'date_end' => '2000-10-10',
             'info_link' => 'http://tesst',
             'users_limit' => 100,
-            'access' => Event::ACCESS_ALL
+            'access' => Event::ACCESS_ALL,
+            'early_cost' => 14000,
+            'early_cost_before' => '2023-03-01',
+            'regular_cost' => 15000,
+            'minimum_prepayment_percent' => 30,
+            'booking_without_payment_before' => '2023-02-28',
         ]);
 
         $event = Event::where('title', 'Тестовое мероприятие')->first();
 
         $this->assertDatabaseHas('events', [
             'title' => $event->title
+        ]);
+
+        $this->assertDatabaseHas('payments_titles', [
+            'title' => 'Платеж за '.$event->title
         ]);
 
         $response = $this->followingRedirects()->get('/events');
@@ -98,9 +107,22 @@ class EventsTest extends TestCase
             'info_link' => 'http://tesst',
             'open' => Event::CLOSE_REGISTRATION,
             'deleted_at' => Carbon::now(),
+            'early_cost' => 14000,
+            'early_cost_before' => '2023-03-01',
+            'regular_cost' => 15000,
+            'minimum_prepayment_percent' => 30,
+            'booking_without_payment_before' => '2023-02-28',
         ]);
 
         $event = Event::where('title', 'Тестовое мероприятие2')->first();
+
+        $this->assertDatabaseHas('events', [
+            'title' => $event->title
+        ]);
+
+        $this->assertDatabaseHas('payments_titles', [
+            'title' => 'Платеж за '.$event->title
+        ]);
 
         $response = $this->followingRedirects()->get('events');
         $response->assertStatus(200);

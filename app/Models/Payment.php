@@ -12,6 +12,7 @@ class Payment extends Model
 
     public const DECLINED = 0;
     public const APPROVED = 1;
+    public const PREPAYMENT = 2;
     public const TYPE_YEAR_PAYMENT = 'year_payment';
     public const ID_YEAR_PAYMENT = 1;
 

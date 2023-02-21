@@ -86,6 +86,7 @@ class EventsUsersTest extends TestCase
             'approve' => Event::DECLINE,
             'payment_id' => 0
         ]);
+
 //        TODO: переделать передачу user_id
 
         $this->assertDatabaseHas('event_user', [
@@ -141,6 +142,11 @@ class EventsUsersTest extends TestCase
             'info_link' => 'http://tesst',
             'open' => Event::CLOSE_REGISTRATION,
             'deleted_at' => Carbon::now(),
+            'early_cost' => 14000,
+            'early_cost_before' => '2023-03-01',
+            'regular_cost' => 15000,
+            'minimum_prepayment_percent' => 30,
+            'booking_without_payment_before' => '2023-02-28',
         ]);
 
         $response = $this->followingRedirects()->post('/events/'.$event->id.'/users', [

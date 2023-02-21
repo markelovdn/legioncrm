@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class EventsController extends Controller
 {
@@ -56,8 +57,19 @@ class EventsController extends Controller
         $event->users_limit = $request->users_limit;
         $event->users_limit = $request->users_limit;
         $event->access = $request->access;
+        $event->early_cost = $request->early_cost;
+        $event->early_cost_before = $request->early_cost_before;
+        $event->regular_cost = $request->regular_cost;
+        $event->regular_cost = $request->regular_cost;
+        $event->minimum_prepayment_percent = $request->minimum_prepayment_percent;
+        $event->booking_without_payment_before = $request->booking_without_payment_before;
 
         $event->save();
+
+        DB::table('payments_titles')
+            ->insert(['title' => 'Платеж за '.$request->title,
+                 'code' => Str::slug('Платеж за '.$request->title)]);
+
         session()->flash('status', 'Мероприятие успешно добавлено');
 
         return redirect('events');
@@ -111,8 +123,18 @@ class EventsController extends Controller
         $event->access = $request->access;
         $event->open = $request->open ?? Event::OPEN_REGISTRATION ;
         $event->deleted_at = $request->deleted_at;
+        $event->early_cost = $request->early_cost;
+        $event->early_cost_before = $request->early_cost_before;
+        $event->regular_cost = $request->regular_cost;
+        $event->regular_cost = $request->regular_cost;
+        $event->minimum_prepayment_percent = $request->minimum_prepayment_percent;
+        $event->booking_without_payment_before = $request->booking_without_payment_before;
 
         $event->save();
+
+        DB::table('payments_titles')
+            ->insert(['title' => 'Платеж за '.$request->title,
+                'code' => Str::slug('Платеж за '.$request->title)]);
 
         session()->flash('status', 'Данные обновленны');
 

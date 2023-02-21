@@ -31,6 +31,11 @@ class StoreEventsRequest extends FormRequest
             'date_end' => ['required', 'date'],
             'info_link' => ['required', 'string'],
             'users_limit' => ['required', 'integer'],
+            'early_cost' => ['required_with:early_cost_before', 'integer'],
+            'early_cost_before' => ['required_with:early_cost', 'date'],
+            'regular_cost' => ['required', 'integer'],
+            'minimum_prepayment_percent' => ['integer'],
+            'booking_without_payment_before' => ['date'],
         ];
     }
 }
