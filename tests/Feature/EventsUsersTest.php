@@ -55,7 +55,7 @@ class EventsUsersTest extends TestCase
             'user_id' => 7,
             'event_id' => $event->id,
             'approve' => Event::APPROVE,
-            'payment_id' => 1
+            'payment_id' => 1,
         ]);
 //        TODO: переделать передачу user_id
 
@@ -77,14 +77,16 @@ class EventsUsersTest extends TestCase
             'user_id' => 7,
             'event_id' => $event->id,
             'approve' => Event::APPROVE,
-            'payment_id' => 1
+            'payment_id' => 1,
+            'list' => Event::MAIN_LIST,
         ]);
 
         $response = $this->followingRedirects()->put('/event/'.$event->id.'/user/7', [
             'user_id' => 7,
             'event_id' => $event->id,
             'approve' => Event::DECLINE,
-            'payment_id' => 0
+            'payment_id' => 0,
+            'list' => Event::MAIN_LIST,
         ]);
 
 //        TODO: переделать передачу user_id
@@ -146,25 +148,24 @@ class EventsUsersTest extends TestCase
             'early_cost_before' => '2023-03-01',
             'regular_cost' => 15000,
             'minimum_prepayment_percent' => 30,
-            'booking_without_payment_before' => '2023-02-28',
+            'booking_without_payment_before' => 14,
         ]);
 
         $response = $this->followingRedirects()->post('/events/'.$event->id.'/users', [
             'user_id' => 7,
             'event_id' => $event->id,
             'approve' => Event::APPROVE,
-            'payment_id' => 1
+            'payment_id' => 1,
+            'list'=> Event::WAITING_LIST
         ]);
 //        TODO: переделать передачу user_id
 
-        $this->assertDatabaseMissing('event_user', [
+        $this->assertDatabaseHas('event_user', [
             'user_id' => 7,
             'event_id' => $event->id,
+            'list' => Event::WAITING_LIST,
         ]);
 
         $response->assertStatus(200);
-
-
-
     }
 }

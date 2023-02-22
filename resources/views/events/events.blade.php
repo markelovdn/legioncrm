@@ -33,7 +33,7 @@
                     <br>
                     Регистрация:
                     @if($event->open == \App\Models\Event::CLOSE_REGISTRATION || $event->users_limit - $event->users->count() <=0)
-                        <span class="badge badge-danger">закрыта</span>
+                        <a href="{{route('events.users.create',[$event->id])}}"><span class="badge badge-warning">регистрация в очередь</span></a><br>
                     @else
                     <a href="{{route('events.users.create',[$event->id])}}"><i class="nav-icon fas fa-user-plus"></i></a><br>
                     @endif
@@ -57,7 +57,7 @@
 
                 <div class="card-footer">
                     <div class="row row-cols-2">
-                        @if(\App\Models\Competition::getOwner($event->id))
+                        @if(\App\Models\Event::getOwner($event->id))
                             <div class="col text-left">
                                 <a class="btn btn-primary" href="{{route('events.edit',[$event->id])}}"><i class="fas fa-cog"></i></a>
                             </div>

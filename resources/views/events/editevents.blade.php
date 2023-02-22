@@ -87,15 +87,59 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="open" class="col-sm-2 col-form-label">Закрыть регистрацию<span class="text-danger">*</span></label>
+                    <label for="early_cost" class="col-sm-2 col-form-label">Предзаказ<span class="text-danger">*</span></label>
+                    <label for="early_cost" class="col-sm-1 col-form-label">Цена:<span class="text-danger">*</span></label>
+                    <div class="col-sm-4">
+                        <input type="number" class="form-control" id="early_cost" name="early_cost" value="{{$event->early_cost}}">
+                        @error('early_cost')<p class="text-danger">{{$errors->first('early_cost')}}</p>@enderror
+                    </div>
+                    <label for="early_cost_before" class="col-sm-1 col-form-label">До даты:<span class="text-danger">*</span></label>
+                    <div class="col-sm-4">
+                        <input type="date" class="form-control" id="early_cost_before" name="early_cost_before" value="{{$event->early_cost_before}}">
+                        @error('early_cost_before')<p class="text-danger">{{$errors->first('early_cost_before')}}</p>@enderror
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="regular_cost" class="col-sm-2 col-form-label">Обычная цена<span class="text-danger">*</span></label>
                     <div class="col-sm-10">
+                        <input type="number" class="form-control" id="regular_cost" name="regular_cost" value="{{$event->regular_cost}}">
+                        @error('regular_cost')<p class="text-danger">{{$errors->first('regular_cost')}}</p>@enderror
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="minimum_prepayment_percent" class="col-sm-2 col-form-label">Минимальный процент предоплаты<span class="text-danger">*</span></label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control" id="minimum_prepayment_percent" name="minimum_prepayment_percent" value="{{$event->minimum_prepayment_percent}}">
+                        @error('minimum_prepayment_percent')<p class="text-danger">{{$errors->first('minimum_prepayment_percent')}}</p>@enderror
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="booking_without_payment_before" class="col-sm-2 col-form-label">Бронирование без предоплаты, количество дней:<span class="text-danger">*</span></label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control" id="booking_without_payment_before" name="booking_without_payment_before" value="{{$event->booking_without_payment_before}}">
+                        @error('booking_without_payment_before')<p class="text-danger">{{$errors->first('booking_without_payment_before')}}</p>@enderror
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="payment_control" class="col-sm-2 col-form-label">Контроль оплаты<span class="text-danger">*</span></label>
+                    <div class="col-sm-10">
+                        <select name="payment_control" id="payment_control" class="form-control">
+                            <option value="{{\App\Models\Event::PAYMENT_CONTROL_COACH}}" @if($event->payment_control == \App\Models\Event::PAYMENT_CONTROL_COACH) selected @endif>Тренер</option>
+                            <option value="{{\App\Models\Event::PAYMENT_CONTROL_ORGANIZATION}}" @if($event->payment_control == \App\Models\Event::PAYMENT_CONTROL_ORGANIZATION) selected @endif>Организация</option>
+                        </select>
+                        @error('payment_control')<p class="text-danger">{{$errors->first('payment_control')}}</p>@enderror
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="open" class="col-sm-2 col-form-label">Закрыть регистрацию<span class="text-danger">*</span></label>
+                    <div class="col-sm-1">
                         <input type="checkbox" class="form-control" id="close" name="open" @if($event->open == \App\Models\Event::CLOSE_REGISTRATION) checked @endif value="{{\App\Models\Event::CLOSE_REGISTRATION}}">
                         @error('open')<p class="text-danger">{{$errors->first('open')}}</p>@enderror
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="deleted_at" class="col-sm-2 col-form-label">В архив<span class="text-danger">*</span></label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-1">
                         <input type="checkbox" class="form-control" id="deleted_at" name="deleted_at" @if($event->deleted_at) checked @endif value="{{\Carbon\Carbon::now()}}">
                         @error('deleted_at')<p class="text-danger">{{$errors->first('deleted_at')}}</p>@enderror
                     </div>

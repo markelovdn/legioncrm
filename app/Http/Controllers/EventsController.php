@@ -63,6 +63,7 @@ class EventsController extends Controller
         $event->regular_cost = $request->regular_cost;
         $event->minimum_prepayment_percent = $request->minimum_prepayment_percent;
         $event->booking_without_payment_before = $request->booking_without_payment_before;
+        $event->payment_control = $request->payment_control;
 
         $event->save();
 
@@ -129,6 +130,7 @@ class EventsController extends Controller
         $event->regular_cost = $request->regular_cost;
         $event->minimum_prepayment_percent = $request->minimum_prepayment_percent;
         $event->booking_without_payment_before = $request->booking_without_payment_before;
+        $event->payment_control = $request->payment_control;
 
         $event->save();
 

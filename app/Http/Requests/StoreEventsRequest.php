@@ -35,7 +35,7 @@ class StoreEventsRequest extends FormRequest
             'early_cost_before' => ['required_with:early_cost', 'date'],
             'regular_cost' => ['required', 'integer'],
             'minimum_prepayment_percent' => ['integer'],
-            'booking_without_payment_before' => ['date'],
+            'booking_without_payment_before' => ['integer'],
         ];
     }
 }

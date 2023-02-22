@@ -61,7 +61,8 @@ class EventsTest extends TestCase
             'early_cost_before' => '2023-03-01',
             'regular_cost' => 15000,
             'minimum_prepayment_percent' => 30,
-            'booking_without_payment_before' => '2023-02-28',
+            'booking_without_payment_before' => 14,
+            'payment_control' => Event::PAYMENT_CONTROL_COACH,
         ]);
 
         $event = Event::where('title', 'Тестовое мероприятие')->first();
@@ -111,7 +112,8 @@ class EventsTest extends TestCase
             'early_cost_before' => '2023-03-01',
             'regular_cost' => 15000,
             'minimum_prepayment_percent' => 30,
-            'booking_without_payment_before' => '2023-02-28',
+            'booking_without_payment_before' => 14,
+            'payment_control' => Event::PAYMENT_CONTROL_COACH,
         ]);
 
         $event = Event::where('title', 'Тестовое мероприятие2')->first();

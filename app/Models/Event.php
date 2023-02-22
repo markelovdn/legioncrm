@@ -17,6 +17,10 @@ class Event extends Model
     public const DECLINE = 2;
     public const ACCESS_ALL = 1;
     public const ACCESS_ORGANIZATION_USER = 2;
+    public const PAYMENT_CONTROL_ORGANIZATION = 1;
+    public const PAYMENT_CONTROL_COACH = 2;
+    public const MAIN_LIST = 1;
+    public const WAITING_LIST = 2;
 
     public function users()
     {

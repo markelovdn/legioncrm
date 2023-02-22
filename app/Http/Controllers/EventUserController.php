@@ -98,12 +98,19 @@ class EventUserController extends Controller
             return back();
         }
 
-        if ($events->users_limit - $events->users->count() <= 0) {
-            session()->flash('error', 'На данное мероприятие нет свободных мест');
+        if ($events->users_limit - $events->users->where('list', Event::MAIN_LIST)->count() <= 0) {
+            $waiting_number = $events->users->where('list', Event::WAITING_LIST)->count() + 1;
+
+            session()->flash('error', 'На данное мероприятие нет свободных мест, мы вынуждены добавить участника в очередь под номером ' . $waiting_number);
+
+            $user->events()->attach($request->event_id,
+                ['approve'=> Event::APPROVE, 'payment_id' => 0, 'list' => Event::WAITING_LIST]);
+
             return back();
         }
 
-        $user->events()->attach($request->event_id, ['approve'=> Event::APPROVE, 'payment_id' => 0]);
+        $user->events()->attach($request->event_id,
+            ['approve'=> Event::APPROVE, 'payment_id' => 0, 'list' => Event::MAIN_LIST]);
 
         session()->flash('status', 'Пользователь успешно добавлен на мероприятие');
 
