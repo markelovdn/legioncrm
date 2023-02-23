@@ -167,6 +167,36 @@ class Athlete extends Model
             return false;
     }
 
+    public static function isParentedAthlete($athlete_id) {
+
+        $parented = Parented::where('user_id', \auth()->user()->id)->first();
+        $athletes = DB::table('athlete_parented')->where('athlete_id', $athlete_id)->get();
+
+        if($parented != null) {
+            foreach ($athletes as $athlete) {
+                if ($athlete->parented_id == $parented->id) {
+                    return true;
+                } else
+                    return false;
+            }
+        } else
+            return false;
+    }
+
+    public static function isOrganizationAthlete($athlete_id) {
+
+        $athlete = Athlete::where('id', $athlete_id)->first();
+        $organization = Organization::where('id', Organization::getOrganizationId())->first();
+        $athlete_organizathion = DB::table('organization_user')
+            ->where('organization_id', $organization->id)
+            ->where('user_id', $athlete->user_id)->first();
+
+        if($athlete_organizathion) {
+           return true;
+        } else
+           return false;
+    }
+
     public function getTehkval($athlete_id)
     {
         return DB::table('athlete_tehkval')->where('athlete_id', $athlete_id)->get();

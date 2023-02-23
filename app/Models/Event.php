@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Doctrine\DBAL\Events;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -24,7 +25,7 @@ class Event extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class)->with('athlete');
+        return $this->belongsToMany(User::class)->with('athlete')->withPivot('list', 'approve', 'payment_id')->withTimestamps();
     }
 
     public static function getOwner($event_id)
@@ -82,5 +83,30 @@ class Event extends Model
             return Event::where('access', Event::ACCESS_ALL)->get();
         }
             return $events_organization;
+    }
+
+    public function getCountMainList () {
+        return DB::table('event_user')->where('list', Event::MAIN_LIST)->count();
+    }
+
+    public function getCountWaitingList () {
+        return DB::table('event_user')->where('list', Event::WAITING_LIST)->count();
+    }
+
+    public function getCost($event_id)
+    {
+        $event = Event::where('id', $event_id)->first();
+
+        $a = $event->date_start > Carbon::now()->addDay($event->booking_without_payment_before);
+
+        if ($event->booking_without_payment_before && $event->booking_without_payment_before + Carbon::now())
+
+        if ($event->early_cost_before && $event->early_cost_before < Carbon::now()){
+            return $event->early_cost;
+        } else {
+            return $event->regular_cost;
+        }
+
+
     }
 }

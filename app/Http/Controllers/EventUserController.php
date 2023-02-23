@@ -8,6 +8,7 @@ use App\Http\Requests\StoreEventsRequest;
 use App\Http\Requests\StoreEventUsersRequest;
 use App\Models\Event;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -24,34 +25,32 @@ class EventUserController extends Controller
 
         $event = Event::where('id', $event_id)->first();
         $users = $eventUsers->getUsers(auth()->user()->id);
+        $users_main_list = Event::getCountMainList();
+        $users_waiting_list = Event::getCountWaitingList();
+        $event_cost = Event::getCost($event->id);
 
-        if ($users == null && $user->isParented($user) ||
-            $users != null && $user->isParented($user) && $users->count() < 1) {
+        if ($users == null && $user->isParented($user) || $users != null && $user->isParented($user) && $users->count() < 1) {
             session()->flash('status', 'Вы не добавляли спортсменов на данное мероприятие');
-            return view('events.event-users',
-                ['event'=>$event , 'users'=>$users]);
+            return back();
         }
 
-        if($users!= null && $users->count() >= 1 && $user->isParented($user)) {
+        if($users != null && $users->count() >= 1 && $user->isParented($user)) {
             foreach ($users as $athlete_parent) {
                 $ids[] = $athlete_parent->user_id;
             }
-            $users = $event->users()
-                ->whereIn('user_id', $ids)
-                ->get();
+            $users = $event->users()->whereIn('user_id', $ids)->get();
 
-            if($users->count() < 1) {
-                session()->flash('status', 'Вы не добавляли спортсменов на данное мероприятие');
-                return view('events.event-users', ['event'=>$event, 'users'=>$users]);
-            }
-            return view('events.event-users', ['event'=>$event, 'users'=>$users]);
+            return view('events.event-users', ['event'=>$event, 'users'=>$users, 'users_main_list' => $users_main_list, 'users_waiting_list' => $users_waiting_list]);
         }
 
-        $users = $event->users()
-            ->orderBy('id', 'DESC')
-            ->get();
+        if (!$eventUsers->changeUserList($event, $users)) {
+            $users = $event->users()->orderBy('id', 'DESC')->get();
+        } else {
+            $users = $eventUsers->changeUserList($event, $users);
+        }
+//        TODO:надо добавить автообновление счетчика
 
-        return view('events.event-users', ['event'=>$event, 'users'=>$users]);
+        return view('events.event-users', ['event'=>$event, 'users'=>$users, 'users_main_list' => $users_main_list, 'users_waiting_list' => $users_waiting_list]);
     }
 
     /**
@@ -98,19 +97,29 @@ class EventUserController extends Controller
             return back();
         }
 
-        if ($events->users_limit - $events->users->where('list', Event::MAIN_LIST)->count() <= 0) {
-            $waiting_number = $events->users->where('list', Event::WAITING_LIST)->count() + 1;
+        if ($events->users_limit - Event::getCountMainList() <= 0) {
+            $waiting_number = Event::getCountWaitingList() + 1;
 
-            session()->flash('error', 'На данное мероприятие нет свободных мест, мы вынуждены добавить участника в очередь под номером ' . $waiting_number);
+            session()->flash('warning', 'На данное мероприятие нет свободных мест, мы вынуждены добавить участника в очередь под номером ' . $waiting_number);
 
             $user->events()->attach($request->event_id,
-                ['approve'=> Event::APPROVE, 'payment_id' => 0, 'list' => Event::WAITING_LIST]);
+                [
+                    'approve'=> Event::APPROVE,
+                    'payment_id' => 0,
+                    'list' => Event::WAITING_LIST,
+                    'created_at' => Carbon::now()
+                ]);
 
             return back();
         }
 
         $user->events()->attach($request->event_id,
-            ['approve'=> Event::APPROVE, 'payment_id' => 0, 'list' => Event::MAIN_LIST]);
+            [
+                'approve'=> Event::APPROVE,
+                'payment_id' => 0,
+                'list' => Event::MAIN_LIST,
+                'created_at' => Carbon::now()
+            ]);
 
         session()->flash('status', 'Пользователь успешно добавлен на мероприятие');
 
