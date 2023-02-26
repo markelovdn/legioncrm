@@ -101,9 +101,14 @@
                 </div>
                 <div class="form-group row">
                     <label for="regular_cost" class="col-sm-2 col-form-label">Обычная цена<span class="text-danger">*</span></label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-4">
                         <input type="number" class="form-control" id="regular_cost" name="regular_cost" value="{{$event->regular_cost}}">
                         @error('regular_cost')<p class="text-danger">{{$errors->first('regular_cost')}}</p>@enderror
+                    </div>
+                    <label for="last_date_payment" class="col-sm-1 col-form-label">До даты:<span class="text-danger">*</span></label>
+                    <div class="col-sm-4">
+                        <input type="date" class="form-control" id="last_date_payment" name="last_date_payment" value="{{$event->last_date_payment}}">
+                        @error('last_date_payment')<p class="text-danger">{{$errors->first('last_date_payment')}}</p>@enderror
                     </div>
                 </div>
                 <div class="form-group row">

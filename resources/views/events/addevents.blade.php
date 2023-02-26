@@ -92,6 +92,11 @@
                         <input type="number" class="form-control" id="regular_cost" name="regular_cost" value="{{old('regular_cost')}}">
                         @error('regular_cost')<p class="text-danger">{{$errors->first('regular_cost')}}</p>@enderror
                     </div>
+                    <label for="last_date_payment" class="col-sm-1 col-form-label">До даты:<span class="text-danger">*</span></label>
+                    <div class="col-sm-4">
+                        <input type="date" class="form-control" id="last_date_payment" name="last_date_payment" value="{{old('last_date_payment')}}">
+                        @error('last_date_payment')<p class="text-danger">{{$errors->first('last_date_payment')}}</p>@enderror
+                    </div>
                 </div>
                 <div class="form-group row">
                     <label for="minimum_prepayment_percent" class="col-sm-2 col-form-label">Минимальный процент предоплаты<span class="text-danger">*</span></label>

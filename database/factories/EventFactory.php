@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Event;
+use App\Models\Payment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class EventFactory extends Factory
@@ -23,6 +24,14 @@ class EventFactory extends Factory
             'open' => 1,
             'users_limit' => 100,
             'access' => Event::ACCESS_ALL,
+            'early_cost' => 1000,
+            'early_cost_before' => $this->faker->date(),
+            'regular_cost' => 2000,
+            'minimum_prepayment_percent' => 30,
+            'booking_without_payment_before' => 7,
+            'payment_control' => Event::PAYMENT_CONTROL_ORGANIZATION,
+            'last_date_payment' => $this->faker->date(),
+
         ];
     }
 }

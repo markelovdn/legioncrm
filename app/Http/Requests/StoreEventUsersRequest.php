@@ -26,8 +26,8 @@ class StoreEventUsersRequest extends FormRequest
         return [
             'user_id' => ['numeric'],
             'event_id' => ['numeric'],
-            'approve' => ['numeric'],
-            'payment_id' => ['numeric']
+            'approve' => ['numeric', 'nullable'],
+            'payment_id' => ['numeric', 'nullable']
         ];
     }
 }

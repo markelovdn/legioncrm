@@ -63,6 +63,7 @@ class EventsTest extends TestCase
             'minimum_prepayment_percent' => 30,
             'booking_without_payment_before' => 14,
             'payment_control' => Event::PAYMENT_CONTROL_COACH,
+            'last_date_payment' => '2000-10-10'
         ]);
 
         $event = Event::where('title', 'Тестовое мероприятие')->first();
@@ -72,7 +73,7 @@ class EventsTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('payments_titles', [
-            'title' => 'Платеж за '.$event->title
+            'title' => $event->title.'-'.$event->date_start
         ]);
 
         $response = $this->followingRedirects()->get('/events');
@@ -114,6 +115,7 @@ class EventsTest extends TestCase
             'minimum_prepayment_percent' => 30,
             'booking_without_payment_before' => 14,
             'payment_control' => Event::PAYMENT_CONTROL_COACH,
+            'last_date_payment' => '2000-10-10'
         ]);
 
         $event = Event::where('title', 'Тестовое мероприятие2')->first();
@@ -123,7 +125,7 @@ class EventsTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('payments_titles', [
-            'title' => 'Платеж за '.$event->title
+            'title' => $event->title.'-'.$event->date_start
         ]);
 
         $response = $this->followingRedirects()->get('events');

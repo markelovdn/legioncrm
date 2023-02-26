@@ -64,12 +64,14 @@ class EventsController extends Controller
         $event->minimum_prepayment_percent = $request->minimum_prepayment_percent;
         $event->booking_without_payment_before = $request->booking_without_payment_before;
         $event->payment_control = $request->payment_control;
+        $event->last_date_payment = $request->last_date_payment;
 
         $event->save();
 
         DB::table('payments_titles')
-            ->insert(['title' => 'Платеж за '.$request->title,
-                 'code' => Str::slug('Платеж за '.$request->title)]);
+            ->insert(['title' => $request->title.'-'.$request->date_start,
+                 'code' => Str::slug($request->title.'-'.$request->date_start)
+            ]);
 
         session()->flash('status', 'Мероприятие успешно добавлено');
 
@@ -131,12 +133,13 @@ class EventsController extends Controller
         $event->minimum_prepayment_percent = $request->minimum_prepayment_percent;
         $event->booking_without_payment_before = $request->booking_without_payment_before;
         $event->payment_control = $request->payment_control;
+        $event->last_date_payment = $request->last_date_payment;
 
         $event->save();
 
         DB::table('payments_titles')
-            ->insert(['title' => 'Платеж за '.$request->title,
-                'code' => Str::slug('Платеж за '.$request->title)]);
+            ->insert(['title' => $event->title.'-'.$event->date_start,
+                'code' => Str::slug($event->title.'-'.$event->date_start)]);
 
         session()->flash('status', 'Данные обновленны');
 

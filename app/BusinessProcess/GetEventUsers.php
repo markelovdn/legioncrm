@@ -10,6 +10,7 @@ use App\Models\Event;
 use App\Models\Parented;
 use App\Models\Tehkval;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class GetEventUsers
@@ -63,7 +64,7 @@ class GetEventUsers
         $main_list = User::whereRelation('events', 'list', Event::MAIN_LIST)->count();
         $waiting_list = User::whereRelation('events', 'list', Event::WAITING_LIST)->count();
 
-        if ($users_limit - $main_list == 0) {
+        if ($users_limit - $main_list <= 0) {
             return false;
         }
         $first_in_waiting = DB::table('event_user')
@@ -73,6 +74,6 @@ class GetEventUsers
         DB::table('event_user')
             ->where('list', Event::WAITING_LIST)
             ->where('created_at', $first_in_waiting)
-            ->update(['list'=>Event::MAIN_LIST]);
+            ->update(['list'=>Event::MAIN_LIST, 'created_at' => Carbon::now()]);
     }
 }

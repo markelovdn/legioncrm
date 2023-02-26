@@ -85,28 +85,46 @@ class Event extends Model
             return $events_organization;
     }
 
-    public function getCountMainList () {
-        return DB::table('event_user')->where('list', Event::MAIN_LIST)->count();
+    public function getCountMainList ($event_id) {
+        return DB::table('event_user')->where('event_id', $event_id)
+            ->where('list', Event::MAIN_LIST)->count();
     }
 
-    public function getCountWaitingList () {
-        return DB::table('event_user')->where('list', Event::WAITING_LIST)->count();
+    public function getCountWaitingList ($event_id) {
+        return DB::table('event_user')->where('event_id', $event_id)
+            ->where('list', Event::WAITING_LIST)->count();
     }
 
-    public function getCost($event_id)
+    public function getCost(int $event_id) :int
     {
         $event = Event::where('id', $event_id)->first();
 
-        $a = $event->date_start > Carbon::now()->addDay($event->booking_without_payment_before);
-
-        if ($event->booking_without_payment_before && $event->booking_without_payment_before + Carbon::now())
-
-        if ($event->early_cost_before && $event->early_cost_before < Carbon::now()){
+        if ($event->early_cost_before && $event->early_cost_before < Carbon::now()) {
             return $event->early_cost;
-        } else {
-            return $event->regular_cost;
         }
+        return $event->regular_cost;
+    }
+
+//    public function getMinCost(int $event_id) :int
+//    {
+//        $event = Event::where('id', $event_id)->first();
+//        return Event::getFullCost($event_id) * ($event->minimum_prepayment_percent / 100);
+////        $event = Event::where('id', $event_id)->first();
+////
+////        if ($event->early_cost_before && $event->early_cost_before < Carbon::now()) {
+////            return $event->early_cost * ($event->minimum_prepayment_percent / 100);
+////        }
+////            return $event->regular_cost * ($event->minimum_prepayment_percent / 100);
+//    }
 
 
+    public function isBookingWithoutPay(int $event_id) : bool
+    {
+        $event = Event::where('id', $event_id)->first();
+
+        if ($event->booking_without_payment_before && !$event->date_start < Carbon::now()->addRealDays($event->booking_without_payment_before)->toDateString()) {
+            return true;
+        }
+        return false;
     }
 }

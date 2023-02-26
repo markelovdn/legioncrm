@@ -149,6 +149,7 @@ class EventsUsersTest extends TestCase
             'regular_cost' => 15000,
             'minimum_prepayment_percent' => 30,
             'booking_without_payment_before' => 14,
+            'last_date_payment' => '2023-03-05',
         ]);
 
         $response = $this->followingRedirects()->post('/events/'.$event->id.'/users', [

@@ -34,60 +34,86 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Оплата за {{$event->title}}</h4>
+                        <h4 class="modal-title">{{$event->title}}</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form method="POST" action="{{route('events.users.store', [$event->id])}}" enctype="multipart/form-data">
+                        @if ($bookingWithoutPay && $free_place > 0)
+                        <form method="POST" action="{{route('events.users.store', [$event->id])}}">
                             @csrf
                             <div class="row mb-3">
                                 <input type="text" style="display: none" name="user_id" value="{{$user->user->id}}">
                                 <input type="text" style="display: none" name="event_id" value="{{$event->id}}">
-                                <input type="text" style="display: none" name="paymenttitle_id" value="">
                             </div>
-                            <div class="row mb-3">
-                                <label for="sum_payment" class="col-md-4 col-form-label text-md-end">Сумма платежа<span
-                                        class="text-danger">*</span></label>
-                                <div class="col-md-6">
-                                    <input id="sum_payment" type="number"
-                                           class="form-control @error('sum_payment') is-invalid @enderror" name="sum_payment"
-                                           value="{{ old('sum_payment') }}">
-                                    <span class="description font-italic">Необходимо оплатить</span>
+                                <div class="row mb-0">
+                                    <button id="submit" type="submit" class="btn btn-default">
+                                        Оплатить позже
+                                    </button>
                                 </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="scan_payment_document" class="col-md-4 col-form-label text-md-end">Чек об оплате<span
-                                        class="text-danger">*</span></label>
-                                <div class="col-md-6">
-                                    <div class="input-group">
-                                        <div class="custom-file">
-                                            <input type="file"
-                                                   class="custom-file-input @error('scan_payment_document') is-invalid @enderror"
-                                                   name="scan_payment_document" id="scan_payment_document" value="file">
-                                            <label class="custom-file-label" for="scan_payment_document"></label>
+                        </form>
+                        @endif
+
+                        @if($free_place > 0)
+                           <form method="POST" action="{{route('events.users.store', [$event->id])}}" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="row mb-3">
+                                        <input type="text" style="display: none" name="user_id" value="{{$user->user->id}}">
+                                        <input type="text" style="display: none" name="event_id" value="{{$event->id}}">
+                                        <input type="text" style="display: none" name="paymenttitle_id" value="{{$payment->id}}">
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label for="sum_payment" class="col-md-4 col-form-label text-md-end">Сумма платежа<span
+                                                class="text-danger">*</span></label>
+                                        <div class="col-md-6">
+                                            <input id="sum_payment" type="number"
+                                                   class="form-control @error('sum_payment') is-invalid @enderror" name="sum_payment"
+                                                   value="{{ old('sum_payment') }}">
+                                            <span class="description font-italic">Минимальная предоплата {{$event_cost * ($event->minimum_prepayment_percent / 100)}} р.</span><br>
+                                            <span class="description font-italic">Полная стоимость {{$event_cost}} р.</span>
                                         </div>
                                     </div>
-                                    <span class="description font-italic">Принимаются файлы только изображений (jpg,jpeg,png,bmp) размер файла должен быть менее 1 мб</span>
-                                </div>
-                            </div>
-                            <div class="row mb-0">
-                                <div class="col-md-6 offset-md-4 mb-4">
-                                    <button id="submit" type="submit" onclick="blocked()" class="btn btn-primary">
-                                        Отправить
-                                    </button>
-                                    <div class="spinner-border" id="loader" style="display: none" role="status">
-                                        <span class="sr-only">Loading...</span>
+                                    <div class="row mb-3">
+                                        <label for="scan_payment_document" class="col-md-4 col-form-label text-md-end">Чек об оплате<span
+                                                class="text-danger">*</span></label>
+                                        <div class="col-md-6">
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="file"
+                                                           class="custom-file-input @error('scan_payment_document') is-invalid @enderror"
+                                                           name="scan_payment_document" id="scan_payment_document" value="file">
+                                                    <label class="custom-file-label" for="scan_payment_document"></label>
+                                                </div>
+                                            </div>
+                                            <span class="description font-italic">Принимаются файлы только изображений (jpg,jpeg,png,bmp) размер файла должен быть менее 1 мб</span>
+                                        </div>
                                     </div>
+                                    <div class="modal-footer">
+                                        <div class="row mb-0">
+                                            <button id="submit" type="submit" class="btn btn-primary">
+                                                Отправить чек
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                        @else
+                            <form method="POST" action="{{route('events.users.store', [$event->id])}}">
+                                @csrf
+                                <div class="row mb-3">
+                                    <input type="text" style="display: none" name="user_id" value="{{$user->user->id}}">
+                                    <input type="text" style="display: none" name="event_id" value="{{$event->id}}">
                                 </div>
-                            </div>
-                        </form>
+                                <div class="row mb-0">
+                                    <button id="submit" type="submit" class="btn btn-primary">
+                                        Подтвердить
+                                    </button>
+                                </div>
+                            </form>
+                        @endif
                     </div>
                 </div>
-
             </div>
-
         </div>
     @endforeach
     <!-- /.card-footer -->

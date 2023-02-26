@@ -8,6 +8,7 @@ use App\Models\Athlete;
 use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PaymentsController extends Controller
 {
@@ -47,6 +48,10 @@ class PaymentsController extends Controller
             $path_scanlink = uploadFile::uploadFile($request->user_id, $user->secondname,$user->firstname, 'scan_year_payment_document', $request->file('scan_payment_document'));
         }
 
+        if ($request->hasFile('scan_payment_document') && $request->event_id) {
+            $path_scanlink = uploadFile::uploadFile($request->user_id, $user->secondname, $user->firstname, 'scan_event'.$request->event_id.'_payment_document', $request->file('scan_payment_document'));
+        }
+
         $payment = new Payment();
         $payment->user_id = $user->id;
         $payment->sum = $request->sum_payment;
@@ -55,6 +60,11 @@ class PaymentsController extends Controller
         $payment->scan_payment_document =  $path_scanlink;
         $payment->approve = Payment::DECLINED;
         $payment->save();
+
+        if ($request->event_id && $request->user_id) {
+            DB::table('event_user')->where('event_id', $request->event_id)
+                ->where('user_id', $request->user_id)->update(['payment_id'=>$payment->id]);
+        }
 
         $request->session()->flash('status', 'Данные отправлены');
 
@@ -96,7 +106,27 @@ class PaymentsController extends Controller
     {
         $payment = Payment::where('id', $id)->first();
 
+        if ($request->approve == Payment::PREPAYMENT) {
+            $payment->approve = $request->approve;
+            $payment->save();
+            return back();
+        }
+
+        if ($request->approve == Payment::APPROVED) {
+            $payment->approve = Payment::PAYMENT_AWAIT_APPROVE;
+            $payment->sum = $request->sum_payment + $payment->sum;
+            $payment->save();
+            return back();
+        }
+
+        if ($request->approve == 'full_payment') {
+            $payment->approve = Payment::APPROVED;
+            $payment->save();
+            return back();
+        }
+
         $payment->approve = Payment::APPROVED;
+
         $payment->save();
 
         return back();

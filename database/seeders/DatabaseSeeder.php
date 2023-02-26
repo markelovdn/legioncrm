@@ -466,5 +466,10 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+        DB::table('payments_titles')->insert([
+                ['title' => Event::first()->title.'-'.Event::first()->date_start],
+            ]
+        );
+
     }
 }
