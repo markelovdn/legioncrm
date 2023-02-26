@@ -32,7 +32,9 @@
                         <a href="{{route('events.users.index',[$event->id])}}"><i class="nav-icon fas fa-users"></i></a>
                     <br>
                     Регистрация:
-                    @if($event->open == \App\Models\Event::CLOSE_REGISTRATION || $event->users_limit - $event->users->count() <=0)
+                    @if($event->open == \App\Models\Event::CLOSE_REGISTRATION )
+                        <span class="badge badge-danger">закрыта</span><br>
+                    @elseif($event->users_limit - $event->users->count() <= 0)
                         <a href="{{route('events.users.create',[$event->id])}}"><span class="badge badge-warning">регистрация в очередь</span></a><br>
                     @else
                     <a href="{{route('events.users.create',[$event->id])}}"><i class="nav-icon fas fa-user-plus"></i></a><br>
