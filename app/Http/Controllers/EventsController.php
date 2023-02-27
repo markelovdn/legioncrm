@@ -137,8 +137,8 @@ class EventsController extends Controller
 
         $event->save();
 
-        DB::table('payments_titles')
-            ->insert(['title' => $event->title.'-'.$event->date_start,
+        DB::table('payments_titles')->where('title', $event->title.'-'.$event->date_start)
+            ->updateOrInsert(['title' => $event->title.'-'.$event->date_start,
                 'code' => Str::slug($event->title.'-'.$event->date_start)]);
 
         session()->flash('status', 'Данные обновленны');

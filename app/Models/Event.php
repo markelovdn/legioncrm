@@ -99,7 +99,7 @@ class Event extends Model
     {
         $event = Event::where('id', $event_id)->first();
 
-        if ($event->early_cost_before && $event->early_cost_before < Carbon::now()) {
+        if ($event->early_cost_before && $event->early_cost_before > Carbon::now()) {
             return $event->early_cost;
         }
         return $event->regular_cost;
