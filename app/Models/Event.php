@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Doctrine\DBAL\Events;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -75,13 +76,22 @@ class Event extends Model
 
     public function getEvents ()
     {
-        $userOrganizationsId = User::with('organizations')->find(auth()->id())->organizations->pluck('id')->toArray();
-        $events_organization = Event::with('users')
-            ->whereIn('organization_id', $userOrganizationsId)->orderBy('date_start', 'ASC')->get();
+        $userOrganizationsId = User::with('organizations')->find(auth()->id())->organizations->min('id');
+//        $userOrganizationsId = User::with('organizations')->find(auth()->id())->organizations->pluck('id')->toArray();
 
-        if ($events_organization->count() == 0) {
-            return Event::where('access', Event::ACCESS_ALL)->get();
-        }
+        $events_organization = Event::with('users')
+            ->where('organization_id', $userOrganizationsId)
+            ->orWhere('access', Event::ACCESS_ALL)->orderBy('date_start', 'ASC')->get();
+
+        //        $events_organization = Event::with('users')
+//            ->whereIn('organization_id', $userOrganizationsId)
+//            ->orWhereDoesntHave('organizations', function (Builder $query) {
+//                $query->where('content', 'like', 'code%');
+//            })->orderBy('date_start', 'ASC')->get();
+
+//        if ($events_organization->count() >= 0) {
+//            return Event::get();
+//        }
             return $events_organization;
     }
 
