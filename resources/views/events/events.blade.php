@@ -29,8 +29,12 @@
                     <h3 class="card-title"><b>{{$event->title}}</b></h3><br>
                     <p>Начало: {{ \Carbon\Carbon::parse($event->date_start)->format('d.m.Y')}}</p>
                     Участники:
+                    @if($event->open == \App\Models\Event::CLOSE_REGISTRATION )
+                        <span class="badge badge-danger">не доступно</span><br>
+                    @else
                         <a href="{{route('events.users.index',[$event->id])}}"><i class="nav-icon fas fa-users"></i></a>
-                    <br>
+                    @endif
+                        <br>
                     Регистрация:
                     @if($event->open == \App\Models\Event::CLOSE_REGISTRATION )
                         <span class="badge badge-danger">закрыта</span><br>
