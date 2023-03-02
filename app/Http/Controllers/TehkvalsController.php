@@ -53,6 +53,8 @@ class TehkvalsController extends Controller
         if ($request->hasFile('sertificate_link')) {
             $path_scanlink = uploadFile::uploadFile($athlete->user->id,
                 $athlete->user->secondname, $athlete->user->firstname, 'belt_sertificate_'.$tehkval->belt_color, $request->file('sertificate_link'));
+        } else {
+            $path_scanlink = '';
         }
 
         if (count(Athlete::getTehkval($athlete->id)) < 2 && Athlete::getTehkval($athlete->id)->min()->tehkval_id == Tehkval::NOT) {
@@ -69,7 +71,7 @@ class TehkvalsController extends Controller
                 'Спортсмену '.$athlete->user->secondname.' '.$athlete->user->firstname.' '.
                 'добавлена техническая квалификация '.$tehkval->title);
 
-            return back();
+            return redirect();
         }
 
         $athlete->tehkval()->attach($tehkval->id,

@@ -19,6 +19,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('tehkval', \App\Http\Controllers\TehkvalsController::class);
     Route::resource('attestation.athletes', \App\Http\Controllers\AttestationAthletesController::class)->shallow();
     Route::resource('attestations', \App\Http\Controllers\AttestationsController::class);
+    Route::any('printSertificate', [\App\BusinessProcess\PrintAttestationSertificate::class, 'printSertificate'])->name('printSertificate')->middleware('auth');
     Route::resource('events', \App\Http\Controllers\EventsController::class);
     Route::resource('events.users', \App\Http\Controllers\EventUserController::class)->shallow();
     Route::put('/event/{event_id}/user/{user_id}', [\App\Http\Controllers\EventUserController::class, 'update'])->name('eventUserUpdate');
