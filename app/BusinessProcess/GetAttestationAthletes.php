@@ -18,7 +18,10 @@ class GetAttestationAthletes
         $parented = Parented::where('user_id', $id)->first();
 
         if ($coach) {
-            $coach_athletes = DB::table('athlete_coach')->where('coach_id', $coach->id)->get();
+            $coach_athletes = DB::table('athlete_coach')
+                ->where('coach_id', $coach->id)
+                ->where('coach_type', Coach::REAL_COACH)
+                ->get();
 
             if($coach_athletes) {
                 $athletes = [];
@@ -52,5 +55,14 @@ class GetAttestationAthletes
         $nextTehkval = Tehkval::where('id',$athlete->tehkval->last()->id+1)->first();
 
         return $nextTehkval->title;
+    }
+
+    public function getCountTehkvals($attestation_id) {
+        $athletes_attestation = DB::table('athlete_attestation')->where('attestation_id', $attestation_id)->get();
+
+        foreach ($athletes_attestation as $item) {
+
+            $athlete = Athlete::with('tehkval')->where('id', $item->id)->first();
+        }
     }
 }

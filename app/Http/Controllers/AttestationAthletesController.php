@@ -32,9 +32,32 @@ class AttestationAthletesController extends Controller
 
         $attestation = Attestation::where('id', $attestation_id)->first();
         $athletes = $attestationAthletes->getAthletes(auth()->user()->id);
+//        $countTehkvals = $attestationAthletes->getCountTehkvals($attestation->id);
 
-        if ($athletes == null && $user->isParented($user) ||
-            $athletes != null && $user->isParented($user) && $athletes->count() < 1) {
+        if ($athletes == null && $user->isCoach($user) ||
+            $athletes != null && $user->isCoach($user) && $athletes->count() < 1) {
+            session()->flash('status', 'Вы не добавляли спортсменов на данное мероприятие');
+            return view('attestations.attestation-athletes',
+                ['attestation '=>$attestation , 'athletes'=>$athletes, 'tehkvals'=>$tehkvals]);
+        }
+
+        if($athletes!= null && $athletes->count() >= 1 && $user->isCoach($user)) {
+            foreach ($athletes as $athlete_parent) {
+                $ids[] = $athlete_parent->id;
+            }
+            $athletes = $attestation->athletes()
+                ->whereIn('athlete_id', $ids)
+                ->get();
+
+            if($athletes->count() < 1) {
+                session()->flash('status', 'Вы не добавляли спортсменов на данное мероприятие');
+                return view('attestations.attestation-athletes', ['attestation'=>$attestation, 'athletes'=>$athletes]);
+            }
+            return view('attestations.attestation-athletes', ['attestation'=>$attestation, 'athletes'=>$athletes, 'tehkvals'=>$tehkvals]);
+        }
+
+        if ($athletes == null && $user->isCoach($user) ||
+            $athletes != null && $user->isCoach($user) && $athletes->count() < 1) {
             session()->flash('status', 'Вы не добавляли спортсменов на данное мероприятие');
             return view('attestations.attestation-athletes',
                 ['attestation '=>$attestation , 'athletes'=>$athletes, 'tehkvals'=>$tehkvals]);
