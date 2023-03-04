@@ -15,6 +15,12 @@
         <a class="nav-link" href="{{route('attestation.athletes.create', [$attestation->id])}}" role="button">
             Добавить спортсмена</a>
     </li>
+    @if(\App\Models\Attestation::getOwner($attestation->id))
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('attestationAthletesExport')}}" role="button">
+                Скачать список</a>
+        </li>
+    @endif
 {{--    @if(\App\Models\Competition::getOwner($competition->id))--}}
 {{--        <li class="nav-item">--}}
 {{--            <a class="nav-link" href="{{route('competitorsExport')}}" role="button">--}}

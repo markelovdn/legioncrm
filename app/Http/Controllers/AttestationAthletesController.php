@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\BusinessProcess\GetAttestationAthletes;
 use App\BusinessProcess\GetCompetitors;
 use App\DomainService\RegistrationUserAs;
+use App\Exports\AttestationAthletesExport;
 use App\Filters\UserFilter;
 use App\Http\Requests\AttestationAthletesRequest;
 use App\Models\Athlete;
@@ -17,6 +18,7 @@ use App\Models\Sportkval;
 use App\Models\Tehkval;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AttestationAthletesController extends Controller
 {
@@ -191,5 +193,10 @@ class AttestationAthletesController extends Controller
     public function destroy($id)
     {
         return redirect('/');
+    }
+
+    public function attestationAthleteExport()
+    {
+        return Excel::download(new AttestationAthletesExport(), 'attestation-athletes.xlsx');
     }
 }
