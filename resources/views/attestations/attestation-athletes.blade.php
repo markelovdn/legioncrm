@@ -29,7 +29,7 @@
                 <div class="card-header">
                     <span><img class="direct-chat-img" src="@if(!$athlete->photo){{asset('/storage/images/no_photo.jpg')}}@else{{$athlete->photo}}@endif" alt="message user image"></span>
                     <h3 class="card-title">{{$athlete->user->secondname}} {{$athlete->user->firstname}} {{$athlete->user->patronymic}}</h3><br>
-                    @if(\Carbon\Carbon::parse($athlete->tehkval->last()->pivot->created_at)->format('d.m.Y') != \Carbon\Carbon::now()->format('d.m.Y'))
+{{--                    @if(\Carbon\Carbon::parse($athlete->tehkval->last()->pivot->created_at)->format('d.m.Y') != \Carbon\Carbon::now()->format('d.m.Y'))--}}
                     <h3 class="card-title">{{$athlete->tehkval->last()->title}} <i class="fas fa-arrow-right">
                         </i> {{\App\BusinessProcess\GetAttestationAthletes::getNextTehkval($athlete->id)}}
                     </h3>
@@ -57,7 +57,7 @@
                                 </div>
                             </div>
                         </div>
-                    @endif
+{{--                    @endif--}}
 
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
