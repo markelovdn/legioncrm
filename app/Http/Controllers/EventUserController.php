@@ -32,6 +32,7 @@ class EventUserController extends Controller
         $users_waiting_list = Event::getCountWaitingList($event->id);
         $paymenttitle_id = DB::table('payments_titles')->where('title', $event->title.'-'.$event->date_start)->first()->id;
         $event_cost = Event::getCost($event->id);
+        $payments = Payment::where('paymenttitle_id', $paymenttitle_id)->get();
 
         if ($users == null && $user->isParented($user) || $users != null && $user->isParented($user) && $users->count() < 1) {
             session()->flash('status', 'Вы не добавляли спортсменов на данное мероприятие');
@@ -51,6 +52,24 @@ class EventUserController extends Controller
                 'users_waiting_list' => $users_waiting_list,
                 'paymenttitle_id' => $paymenttitle_id,
                 'event_cost' => $event_cost,
+                'payments' => $payments
+            ]);
+        }
+
+        if($users != null && $users->count() >= 1 && $user->isCoach($user)) {
+            foreach ($users as $athlete_coach) {
+                $ids[] = $athlete_coach->user_id;
+            }
+            $users = $event->users()->whereIn('user_id', $ids)->get();
+
+            return view('events.event-users', [
+                'event'=>$event,
+                'users'=>$users,
+                'users_main_list' => $users_main_list,
+                'users_waiting_list' => $users_waiting_list,
+                'paymenttitle_id' => $paymenttitle_id,
+                'event_cost' => $event_cost,
+                'payments' => $payments
             ]);
         }
 
@@ -68,6 +87,7 @@ class EventUserController extends Controller
             'users_waiting_list' => $users_waiting_list,
             'paymenttitle_id' => $paymenttitle_id,
             'event_cost' => $event_cost,
+            'payments' => $payments
         ]);
     }
 

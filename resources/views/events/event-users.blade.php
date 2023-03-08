@@ -13,6 +13,13 @@
                 </div>
             </div>
             <div class="card-body" style="display: none;">
+                @if(\App\Models\User::getRoleCode() == \App\Models\Role::ROLE_ORGANIZATION_ADMIN || \App\Models\User::getRoleCode() == \App\Models\Role::ROLE_SYSTEM_ADMIN)
+                <p><strong>по 6500: </strong>{{$payments->where('sum', 6500)->sum('sum')}}</p>
+                <p><strong>по 12000: </strong>{{$payments->where('sum', 12000)->sum('sum')}}</p>
+                <p><strong>по 18500: </strong>{{$payments->where('sum', 18500)->sum('sum')}}</p>
+                <hr>
+                <p><strong>ИТОГО: </strong>{{$payments->sum('sum')}}</p>
+                    @endif
             </div>
         </div>
 
