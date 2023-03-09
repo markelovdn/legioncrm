@@ -21,10 +21,13 @@
                 <hr>
                 <p><strong>ИТОГО: </strong>{{$payments->sum('sum')}}</p>
 
+                @if (isset($coachAthleteCount))
                     @foreach($coachAthleteCount as $coach => $athlete)
                         <p><strong>{{$coach}}</strong> - {{$athlete}} человек</p>
                     @endforeach
                     @endif
+                @endif
+
             </div>
         </div>
 
