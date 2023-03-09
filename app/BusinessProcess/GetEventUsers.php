@@ -76,4 +76,30 @@ class GetEventUsers
             ->where('created_at', $first_in_waiting)
             ->update(['list'=>Event::MAIN_LIST, 'created_at' => Carbon::now()]);
     }
+
+    public function getCoachAthleteCount($event_id)
+    {
+        $event = Event::where('id', $event_id)->with('users')->first();
+        $coachIds = [];
+        foreach ($event->users as $user)
+        {
+            foreach ($user->athlete->coaches as $coach)
+            {
+                if ($coach->pivot->coach_type == Coach::REAL_COACH) {
+                    $coachIds[] = $coach->id;
+                }
+            }
+
+        }
+
+        $coaches = [];
+        $athletes = [];
+        foreach (array_count_values($coachIds) as $key => $value) {
+            $coach = Coach::with('user')->where('id', $key)->first();
+            $coaches[] = $coach->user->secondname.' '.mb_substr($coach->user->firstname, 0, 1).'.'.mb_substr($coach->user->patronymic, 0, 1).'.';
+            $athletes[] = $value;
+        }
+
+        return array_combine($coaches, $athletes);
+    }
 }

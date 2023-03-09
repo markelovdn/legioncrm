@@ -14,11 +14,16 @@
             </div>
             <div class="card-body" style="display: none;">
                 @if(\App\Models\User::getRoleCode() == \App\Models\Role::ROLE_ORGANIZATION_ADMIN || \App\Models\User::getRoleCode() == \App\Models\Role::ROLE_SYSTEM_ADMIN)
-                <p><strong>по 6500: </strong>{{$payments->where('sum', 6500)->sum('sum')}}</p>
-                <p><strong>по 12000: </strong>{{$payments->where('sum', 12000)->sum('sum')}}</p>
-                <p><strong>по 18500: </strong>{{$payments->where('sum', 18500)->sum('sum')}}</p>
+                <p><strong>по 6500: </strong>{{$payments->where('sum', 6500)->sum('sum')}}/{{$payments->where('sum', 6500)->sum('sum')/6500}}</p>
+                <p><strong>по 6475: </strong>{{$payments->where('sum', 6475)->sum('sum')}}/{{$payments->where('sum', 6475)->sum('sum')/6475}}</p>
+                <p><strong>по 12000: </strong>{{$payments->where('sum', 12000)->sum('sum')}}/{{$payments->where('sum', 12000)->sum('sum')/12000}}</p>
+                <p><strong>по 18500: </strong>{{$payments->where('sum', 18500)->sum('sum')}}/{{$payments->where('sum', 18500)->sum('sum')/18500}}</p>
                 <hr>
                 <p><strong>ИТОГО: </strong>{{$payments->sum('sum')}}</p>
+
+                    @foreach($coachAthleteCount as $coach => $athlete)
+                        <p><strong>{{$coach}}</strong> - {{$athlete}} человек</p>
+                    @endforeach
                     @endif
             </div>
         </div>
@@ -120,11 +125,11 @@
 
                         @elseif($payment->approve == \App\Models\Payment::PREPAYMENT)
                             <span class="badge badge-primary"
-                                  data-toggle="modal" data-target="#modal-payment_event{{$user->id}}">Оплатить полностью до: {{Carbon\Carbon::parse($event->last_date_payment)->format('d.m.Y')}} </span>
+                                  data-toggle="modal" data-target="#modal-payment_event{{$user->id}}">Оплатить полностью до: {{Carbon\Carbon::parse($event->last_date_payment)->format('d.m.Y')}} загрузить чек</span>
                         @endif
                     @elseif($user->pivot->list == \App\Models\Event::MAIN_LIST)
                         <span class="badge badge-danger"
-                              data-toggle="modal" data-target="#modal-payment_event{{$user->id}}">Необходимо оплатить до: {{Carbon\Carbon::parse($user->pivot->created_at)->addRealDays($event->booking_without_payment_before)->format('d.m.Y')}}</span>
+                              data-toggle="modal" data-target="#modal-payment_event{{$user->id}}">Необходимо оплатить до: {{Carbon\Carbon::parse($user->pivot->created_at)->addRealDays($event->booking_without_payment_before)->format('d.m.Y')}} загрузить чек</span>
                     @endif
 
                     <div class="card-tools">

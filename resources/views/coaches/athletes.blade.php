@@ -87,6 +87,10 @@
                         @include('athletes.athlete-tehkvals')
                         {{-- / Техническая квалификация--}}
 
+                        {{-- Ежегодный взнос--}}
+                        @include('athletes.athlete-year-payment')
+                        {{-- / Ежегодный взнос--}}
+
                         <div class="row">
                             @switch(\App\Models\User::getRoleCode())
                                 @case(\App\Models\Role::ROLE_COACH)
