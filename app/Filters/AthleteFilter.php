@@ -3,6 +3,7 @@
 namespace App\Filters;
 
 use App\Models\Athlete;
+use App\Models\Coach;
 use Illuminate\Http\Request;
 
 class AthleteFilter extends QueryFilter {

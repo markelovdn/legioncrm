@@ -49,9 +49,9 @@
 
         </footer>
 
-        <!-- Control Sidebar -->
-        @include('layouts.parts.control-sidebar')
-        <!-- /.control-sidebar -->
+{{--        <!-- Control Sidebar -->--}}
+{{--        @include('layouts.parts.control-sidebar')--}}
+{{--        <!-- /.control-sidebar -->--}}
     </div>
     <!-- ./wrapper -->
 @include('layouts.parts.scripts')

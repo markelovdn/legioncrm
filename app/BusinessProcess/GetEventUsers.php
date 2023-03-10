@@ -15,26 +15,27 @@ use Illuminate\Support\Facades\DB;
 
 class GetEventUsers
 {
-    public function getUsers (int $id)
+    public function getUsers (int $id, $athleteFilter)
     {
         $coach = Coach::where('user_id', $id)->first();
         $parented = Parented::where('user_id', $id)->first();
 
         if ($coach) {
-            $coach_athletes = DB::table('athlete_coach')
-                ->where('coach_type', Coach::REAL_COACH)
-                ->where('coach_id', $coach->id)->get();
-
-            if($coach_athletes) {
-                $athletes = [];
-                foreach ($coach_athletes as $item) {
-                    $athletes[] = $item->athlete_id;
-                }
-
-                return Athlete::with('coaches', 'user', 'tehkval', 'sportkval')
-                    ->whereIn('id', $athletes)->get();
-            } else
-                return false;
+            return Athlete::with('coaches', 'user', 'tehkval', 'sportkval')
+                ->filter($athleteFilter)->get();
+//            $coach_athletes = DB::table('athlete_coach')
+//                ->where('coach_type', Coach::REAL_COACH)
+//                ->where('coach_id', $coach->id)->get();
+//
+//            if($coach_athletes) {
+//                $athletes = [];
+//                foreach ($coach_athletes as $item) {
+//                    $athletes[] = $item->athlete_id;
+//                }
+//
+//                return Athlete::with('coaches', 'user', 'tehkval', 'sportkval')
+//                    ->whereIn('id', $athletes)->filter($athleteFilter)->get();
+//            } else
         }
 
         if ($parented) {
@@ -50,6 +51,9 @@ class GetEventUsers
             } else
                 return false;
         }
+
+        return Athlete::with('coaches', 'user', 'tehkval', 'sportkval')
+            ->filter($athleteFilter)->get();
     }
 
     public function getNextTehkval (int $athlete_id) {

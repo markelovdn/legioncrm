@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\BusinessProcess\GetEventUsers;
 use App\BusinessProcess\uploadFile;
+use App\Filters\AthleteFilter;
 use App\Filters\UserFilter;
 use App\Http\Requests\StoreEventsRequest;
 use App\Http\Requests\StoreEventUsersRequest;
+use App\Models\Coach;
 use App\Models\Event;
 use App\Models\Payment;
 use App\Models\User;
@@ -14,6 +16,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use function PHPUnit\Framework\isEmpty;
 
 class EventUserController extends Controller
 {
@@ -22,12 +25,14 @@ class EventUserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($event_id, Request $request, GetEventUsers $eventUsers, UserFilter $userFilter)
+    public function index($event_id, Request $request, GetEventUsers $eventUsers, AthleteFilter $athleteFilter)
     {
         $user = \auth()->user();
 
         $event = Event::where('id', $event_id)->first();
-        $users = $eventUsers->getUsers(auth()->user()->id);
+        $users = $eventUsers->getUsers(auth()->user()->id, $athleteFilter);
+        $coaches = Coach::with('user')->get();
+        $coach = Coach::with('user')->where('user_id', $user->id)->first();
         $users_main_list = Event::getCountMainList($event->id);
         $users_waiting_list = Event::getCountWaitingList($event->id);
         $paymenttitle_id = DB::table('payments_titles')->where('title', $event->title.'-'.$event->date_start)->first()->id;
@@ -71,12 +76,21 @@ class EventUserController extends Controller
                 'users_waiting_list' => $users_waiting_list,
                 'paymenttitle_id' => $paymenttitle_id,
                 'event_cost' => $event_cost,
-                'payments' => $payments
+                'payments' => $payments,
+                'coaches' => $coaches,
+                'coach' => $coach,
             ]);
         }
 
         if (!$eventUsers->changeUserList($event, $users)) {
+            foreach ($users as $athlete_coach) {
+                $ids[] = $athlete_coach->user_id;
+            }
+            if (isset($ids)) {
+                $users = $event->users()->whereIn('user_id', $ids)->get();
+            } else {
             $users = $event->users()->orderBy('id', 'DESC')->get();
+            }
         } else {
             $users = $eventUsers->changeUserList($event, $users);
         }
@@ -90,7 +104,9 @@ class EventUserController extends Controller
             'paymenttitle_id' => $paymenttitle_id,
             'event_cost' => $event_cost,
             'payments' => $payments,
-            'coachAthleteCount' => $coachAthleteCount
+            'coachAthleteCount' => $coachAthleteCount,
+            'coaches' => $coaches,
+            'coach' => $coach,
         ]);
     }
 
@@ -99,10 +115,10 @@ class EventUserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($event_id, GetEventUsers $eventUsers)
+    public function create($event_id, GetEventUsers $eventUsers, AthleteFilter $athleteFilter)
     {
         $event = Event::find($event_id);
-        $eventUsers = $eventUsers->getUsers(auth()->user()->id);
+        $eventUsers = $eventUsers->getUsers(auth()->user()->id, $athleteFilter);
         $bookingWithoutPay = Event::isBookingWithoutPay($event->id);
         $free_place = $event->users_limit - Event::getCountMainList($event->id);
         $event_cost = Event::getCost($event->id);
