@@ -24,13 +24,13 @@
                     <div class="col-5">{{$user->user->secondname}} {{$user->user->firstname}} {{$user->user->patronymic}}</div>
                     <div class="col-4"><button
                             id="submit" type="submit" class="btn btn-info"
-                            data-toggle="modal" data-target="#modal-payment_event{{$user->id}}">Добавить</button>
+                            data-toggle="modal" data-target="#modal-payment_event{{$user->user->id}}">Добавить</button>
                     </div>
             </div>
         </div>
 
     {{--modal photo--}}
-        <div class="modal fade" id="modal-payment_event{{$user->id}}" style="display: none;" aria-hidden="true">
+        <div class="modal fade" id="modal-payment_event{{$user->user->id}}" style="display: none;" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">

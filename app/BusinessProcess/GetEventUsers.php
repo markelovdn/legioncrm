@@ -11,31 +11,40 @@ use App\Models\Parented;
 use App\Models\Tehkval;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class GetEventUsers
 {
-    public function getUsers (int $id, $athleteFilter)
+    public function getUsers (int $id, $event_id, $athleteFilter)
     {
+        $event = Event::where('id', $event_id)->first();
         $coach = Coach::where('user_id', $id)->first();
         $parented = Parented::where('user_id', $id)->first();
 
         if ($coach) {
-            return Athlete::with('coaches', 'user', 'tehkval', 'sportkval')
+            if(Str::contains(url()->current(), 'create')) {
+                $users = Athlete::with('coaches', 'user', 'tehkval', 'sportkval')
+                    ->whereHas('coaches', function (Builder $query) use ($coach) {
+                        $query->where('coach_id', '=', $coach->id)
+                            ->where('coach_type', '=', Coach::REAL_COACH);
+                    })->get();
+
+                return $users;
+            }
+
+            $users = Athlete::with('coaches', 'user', 'tehkval', 'sportkval')
                 ->filter($athleteFilter)->get();
-//            $coach_athletes = DB::table('athlete_coach')
-//                ->where('coach_type', Coach::REAL_COACH)
-//                ->where('coach_id', $coach->id)->get();
-//
-//            if($coach_athletes) {
-//                $athletes = [];
-//                foreach ($coach_athletes as $item) {
-//                    $athletes[] = $item->athlete_id;
-//                }
-//
-//                return Athlete::with('coaches', 'user', 'tehkval', 'sportkval')
-//                    ->whereIn('id', $athletes)->filter($athleteFilter)->get();
-//            } else
+
+            if($users != null && $users->count() >= 1) {
+                foreach ($users as $athlete_coach) {
+                    $ids[] = $athlete_coach->user_id;
+                }
+                $users = $event->users()->whereIn('user_id', $ids)->orderBy('secondname', 'ASC')->get();
+            }
+
+            return $users;
         }
 
         if ($parented) {
@@ -46,8 +55,23 @@ class GetEventUsers
                     $athletes[] = $item->athlete_id;
                 }
 
-                return Athlete::with('coaches', 'user', 'tehkval', 'sportkval')
+                $athletes_parent = Athlete::with('coaches', 'user', 'tehkval', 'sportkval')
                     ->whereIn('id', $athletes)->get();
+
+                if($athletes_parent != null && $athletes_parent->count() >= 1) {
+                    foreach ($athletes_parent as $athlete_parent) {
+                        $ids[] = $athlete_parent->user_id;
+                    }
+
+                    $users = $event->users()->whereIn('user_id', $ids)->get();
+
+                    if ($ids != null) {
+                        return $athletes_parent;
+                    }
+
+                    return $users;
+                }
+
             } else
                 return false;
         }

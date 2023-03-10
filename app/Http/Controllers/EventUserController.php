@@ -30,7 +30,7 @@ class EventUserController extends Controller
         $user = \auth()->user();
 
         $event = Event::where('id', $event_id)->first();
-        $users = $eventUsers->getUsers(auth()->user()->id, $athleteFilter);
+        $users = $eventUsers->getUsers(auth()->user()->id, $event->id, $athleteFilter);
         $coaches = Coach::with('user')->get();
         $coach = Coach::with('user')->where('user_id', $user->id)->first();
         $users_main_list = Event::getCountMainList($event->id);
@@ -41,55 +41,14 @@ class EventUserController extends Controller
         $coachAthleteCount = $eventUsers->getCoachAthleteCount($event->id);
         arsort($coachAthleteCount);
 
-        if ($users == null && $user->isParented($user) || $users != null && $user->isParented($user) && $users->count() < 1) {
-            session()->flash('status', 'Вы не добавляли спортсменов на данное мероприятие');
-            return back();
-        }
-
-        if($users != null && $users->count() >= 1 && $user->isParented($user)) {
-            foreach ($users as $athlete_parent) {
-                $ids[] = $athlete_parent->user_id;
-            }
-            $users = $event->users()->whereIn('user_id', $ids)->get();
-
-            return view('events.event-users', [
-                'event'=>$event,
-                'users'=>$users,
-                'users_main_list' => $users_main_list,
-                'users_waiting_list' => $users_waiting_list,
-                'paymenttitle_id' => $paymenttitle_id,
-                'event_cost' => $event_cost,
-                'payments' => $payments
-            ]);
-        }
-
-        if($users != null && $users->count() >= 1 && $user->isCoach($user)) {
-            foreach ($users as $athlete_coach) {
-                $ids[] = $athlete_coach->user_id;
-            }
-            $users = $event->users()->whereIn('user_id', $ids)->get();
-
-            return view('events.event-users', [
-                'event'=>$event,
-                'users'=>$users,
-                'users_main_list' => $users_main_list,
-                'users_waiting_list' => $users_waiting_list,
-                'paymenttitle_id' => $paymenttitle_id,
-                'event_cost' => $event_cost,
-                'payments' => $payments,
-                'coaches' => $coaches,
-                'coach' => $coach,
-            ]);
-        }
-
         if (!$eventUsers->changeUserList($event, $users)) {
-            foreach ($users as $athlete_coach) {
-                $ids[] = $athlete_coach->user_id;
+            foreach ($users as $user) {
+                $ids[] = $user->id;
             }
             if (isset($ids)) {
-                $users = $event->users()->whereIn('user_id', $ids)->get();
+                $users = $event->users()->whereIn('user_id', $ids)->orderBy('secondname', 'ASC')->get();
             } else {
-            $users = $event->users()->orderBy('id', 'DESC')->get();
+            $users = $event->users()->orderBy('secondname', 'ASC')->get();
             }
         } else {
             $users = $eventUsers->changeUserList($event, $users);
@@ -118,7 +77,7 @@ class EventUserController extends Controller
     public function create($event_id, GetEventUsers $eventUsers, AthleteFilter $athleteFilter)
     {
         $event = Event::find($event_id);
-        $eventUsers = $eventUsers->getUsers(auth()->user()->id, $athleteFilter);
+        $eventUsers = $eventUsers->getUsers(auth()->user()->id, $event->id, $athleteFilter);
         $bookingWithoutPay = Event::isBookingWithoutPay($event->id);
         $free_place = $event->users_limit - Event::getCountMainList($event->id);
         $event_cost = Event::getCost($event->id);
