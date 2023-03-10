@@ -41,8 +41,7 @@ class EventUserController extends Controller
         $coachAthleteCount = $eventUsers->getCoachAthleteCount($event->id);
         arsort($coachAthleteCount);
 
-        if (!$eventUsers->changeUserList($event, $users)) {
-            foreach ($users as $user) {
+        foreach ($users as $user) {
                 $ids[] = $user->id;
             }
             if (isset($ids)) {
@@ -50,9 +49,9 @@ class EventUserController extends Controller
             } else {
             $users = $event->users()->orderBy('secondname', 'ASC')->get();
             }
-        } else {
-            $users = $eventUsers->changeUserList($event, $users);
-        }
+
+        $eventUsers->changeUserList($event, $users);
+
 //        TODO:надо добавить автообновление счетчика
 
         return view('events.event-users', [

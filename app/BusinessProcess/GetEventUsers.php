@@ -89,8 +89,8 @@ class GetEventUsers
 
     public function changeUserList($event, $users) {
         $users_limit = $event->users_limit;
-        $main_list = User::whereRelation('events', 'list', Event::MAIN_LIST)->count();
-        $waiting_list = User::whereRelation('events', 'list', Event::WAITING_LIST)->count();
+        $main_list = User::whereRelation('events', 'event_id', $event->id)->whereRelation('events', 'list', Event::MAIN_LIST)->count();
+        $waiting_list = User::whereRelation('events', 'event_id', $event->id)->whereRelation('events', 'list', Event::WAITING_LIST)->count();
 
         if ($users_limit - $main_list <= 0) {
             return false;
@@ -99,10 +99,10 @@ class GetEventUsers
             ->where('list', Event::WAITING_LIST)
             ->min('created_at');
 
-        DB::table('event_user')
+        return DB::table('event_user')
             ->where('list', Event::WAITING_LIST)
             ->where('created_at', $first_in_waiting)
-            ->update(['list'=>Event::MAIN_LIST, 'created_at' => Carbon::now()]);
+            ->update(['list' => Event::MAIN_LIST, 'created_at' => Carbon::now()]);
     }
 
     public function getCoachAthleteCount($event_id)
