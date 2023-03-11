@@ -169,7 +169,7 @@
                 <div class="card-body" style="display: none;">
                     <b>Дата рождения: </b> {{ \Carbon\Carbon::parse($user->date_of_birth)->format('d.m.Y')}}<br>
                 </div>
-                @if(\App\Models\Event::getOwner($event->id) || \App\Models\Athlete::isParentedAthlete($user->athlete->id))
+                @if(\App\Models\Event::getOwner($event->id))
                 <div class="card-footer">
                     <div class="row row-cols-2">
                         <div class="col text-left">

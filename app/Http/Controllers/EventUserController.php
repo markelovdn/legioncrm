@@ -50,8 +50,7 @@ class EventUserController extends Controller
             $users = $event->users()->orderBy('secondname', 'ASC')->get();
             }
 
-        $eventUsers->changeUserList($event, $users);
-
+//        $eventUsers->changeUserList($event, $users);
 //        TODO:надо добавить автообновление счетчика
 
         return view('events.event-users', [
