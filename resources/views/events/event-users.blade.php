@@ -173,7 +173,7 @@
                 <div class="card-footer">
                     <div class="row row-cols-2">
                         <div class="col text-left">
-                            {{-- одобрить участие--}}
+                            {{-- \одобрить участие--}}
                         </div>
                         <div class="col text-right">
                             <form method="POST" action="{{route('userEventDestroy', ['event_id', $event->id, 'user_id', $user->id])}}">
