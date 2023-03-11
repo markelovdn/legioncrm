@@ -42,7 +42,7 @@ class EventUserController extends Controller
         arsort($coachAthleteCount);
 
         foreach ($users as $user) {
-                $ids[] = $user->id;
+                $ids[] = $user->user_id ?? $user->id;
             }
             if (isset($ids)) {
                 $users = $event->users()->whereIn('user_id', $ids)->orderBy('secondname', 'ASC')->get();
