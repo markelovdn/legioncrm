@@ -34,7 +34,7 @@
                             <h6>Тренер</h6>
                             <div class="d-flex">
                                 <select class="custom-select mb-3 text-light border-0 bg-white" name="coach_id">
-                                        <option>Все</option>
+                                        <option value="">Все</option>
                                     @if(isset($coaches) && \App\Models\User::getRoleCode() != \App\Models\Role::ROLE_COACH)
                                     @foreach($coaches as $coach)
                                             <option value="{{$coach->id}}">{{$coach->user->secondname}} {{mb_substr($coach->user->firstname, 0, 1)}}.{{mb_substr($coach->user->patronymic, 0, 1)}}.</option>

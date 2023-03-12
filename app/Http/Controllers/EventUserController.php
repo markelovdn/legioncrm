@@ -28,9 +28,8 @@ class EventUserController extends Controller
     public function index($event_id, Request $request, GetEventUsers $eventUsers, AthleteFilter $athleteFilter)
     {
         $user = \auth()->user();
-
         $event = Event::where('id', $event_id)->first();
-        $users = $eventUsers->getUsers(auth()->user()->id, $event->id, $athleteFilter);
+        $users = $eventUsers->getUsers($user->id, $event->id, $athleteFilter);
         $coaches = Coach::with('user')->get();
         $coach = Coach::with('user')->where('user_id', $user->id)->first();
         $users_main_list = Event::getCountMainList($event->id);
@@ -41,17 +40,11 @@ class EventUserController extends Controller
         $coachAthleteCount = $eventUsers->getCoachAthleteCount($event->id);
         arsort($coachAthleteCount);
 
-        foreach ($users as $user) {
-                $ids[] = $user->user_id ?? $user->id;
-            }
-            if (isset($ids)) {
-                $users = $event->users()->whereIn('user_id', $ids)->orderBy('secondname', 'ASC')->get();
-            } else {
-            $users = $event->users()->orderBy('secondname', 'ASC')->get();
-            }
+        if (!$users) {
+            session()->flash('status', 'У вас нет участников на данном мероприятии');
+            return redirect(route('events.index'));
+        }
 
-//        $eventUsers->changeUserList($event, $users);
-//        TODO:надо добавить автообновление счетчика
 
         return view('events.event-users', [
             'event'=>$event,
@@ -94,6 +87,7 @@ class EventUserController extends Controller
 
         }
 
+        session()->flash('error', 'У вас нет прав для добавления участников');
         return back();
     }
 
@@ -250,13 +244,17 @@ class EventUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy(Request $request, GetEventUsers $eventUsers, AthleteFilter $athleteFilter)
     {
+        $user = \auth()->user();
         $event = Event::where('id', $request->input('event_id'))->first();
+        $users = $eventUsers->getUsers($user->id, $event->id, $athleteFilter);
 
         $event->users()->detach($request->input('user_id'));
 
         session()->flash('status', 'Пользователь удален из участников мероприятия');
+
+        $eventUsers->changeUserList($event, $users);
 
         return redirect('/events/'.$request->input('event_id').'/users');
     }

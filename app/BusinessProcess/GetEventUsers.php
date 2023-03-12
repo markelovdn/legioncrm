@@ -8,6 +8,7 @@ use App\Models\Athlete;
 use App\Models\Coach;
 use App\Models\Event;
 use App\Models\Parented;
+use App\Models\Role;
 use App\Models\Tehkval;
 use App\Models\User;
 use Carbon\Carbon;
@@ -22,6 +23,35 @@ class GetEventUsers
         $event = Event::where('id', $event_id)->first();
         $coach = Coach::where('user_id', $id)->first();
         $parented = Parented::where('user_id', $id)->first();
+
+        if ($parented) {
+            $parented_athletes = DB::table('athlete_parented')->where('parented_id', $parented->id)->get();
+            if($parented_athletes) {
+                $athletes = [];
+                foreach ($parented_athletes as $item) {
+                    $athletes[] = $item->athlete_id;
+                }
+
+                $athletes_parent = Athlete::with('coaches', 'user', 'tehkval', 'sportkval')
+                    ->whereIn('id', $athletes)->get();
+
+                if($athletes_parent != null && $athletes_parent->count() >= 1) {
+                    foreach ($athletes_parent as $athlete_parent) {
+                        $ids[] = $athlete_parent->user_id;
+                    }
+
+                    $users = $event->users()->whereIn('user_id', $ids)->get();
+
+                    if ($users->count() == 0) {
+                        return false;
+                    }
+
+                    return $users;
+                }
+
+            } else
+                return false;
+        }
 
         if ($coach) {
             if(Str::contains(url()->current(), 'create')) {
@@ -47,37 +77,24 @@ class GetEventUsers
             return $users;
         }
 
-        if ($parented) {
-            $parented_athletes = DB::table('athlete_parented')->where('parented_id', $parented->id)->get();
-            if($parented_athletes) {
-                $athletes = [];
-                foreach ($parented_athletes as $item) {
-                    $athletes[] = $item->athlete_id;
-                }
-
-                $athletes_parent = Athlete::with('coaches', 'user', 'tehkval', 'sportkval')
-                    ->whereIn('id', $athletes)->get();
-
-                if($athletes_parent != null && $athletes_parent->count() >= 1) {
-                    foreach ($athletes_parent as $athlete_parent) {
-                        $ids[] = $athlete_parent->user_id;
-                    }
-
-                    $users = $event->users()->whereIn('user_id', $ids)->get();
-
-                    if ($ids != null) {
-                        return $athletes_parent;
-                    }
-
-                    return $users;
-                }
-
-            } else
+        if (Event::getOwner($event_id)) {
+            if(Str::contains(url()->current(), 'create')) {
                 return false;
+            }
+
+            $users = Athlete::with('coaches', 'user', 'tehkval', 'sportkval')
+                ->filter($athleteFilter)->get();
+
+            if($users != null && $users->count() >= 1) {
+                foreach ($users as $athlete) {
+                    $ids[] = $athlete->user_id;
+                }
+                $users = $event->users()->whereIn('user_id', $ids)->orderBy('secondname', 'ASC')->get();
+            }
+
+            return $users;
         }
 
-        return Athlete::with('coaches', 'user', 'tehkval', 'sportkval')
-            ->filter($athleteFilter)->get();
     }
 
     public function getNextTehkval (int $athlete_id) {
@@ -89,20 +106,28 @@ class GetEventUsers
 
     public function changeUserList($event, $users) {
         $users_limit = $event->users_limit;
-        $main_list = User::whereRelation('events', 'event_id', $event->id)->whereRelation('events', 'list', Event::MAIN_LIST)->count();
+        $main_list = DB::table('event_user')
+            ->where('event_id', $event->id)
+            ->where('list', Event::MAIN_LIST)
+            ->count();
         $waiting_list = User::whereRelation('events', 'event_id', $event->id)->whereRelation('events', 'list', Event::WAITING_LIST)->count();
 
         if ($users_limit - $main_list <= 0) {
             return false;
-        }
-        $first_in_waiting = DB::table('event_user')
-            ->where('list', Event::WAITING_LIST)
-            ->min('created_at');
+        } else {
+            $first_in_waiting = DB::table('event_user')
+                ->where('event_id', $event->id)
+                ->where('list', Event::WAITING_LIST)
+                ->min('created_at');
 
-        return DB::table('event_user')
-            ->where('list', Event::WAITING_LIST)
-            ->where('created_at', $first_in_waiting)
-            ->update(['list' => Event::MAIN_LIST, 'created_at' => Carbon::now()]);
+            DB::table('event_user')
+                ->where('event_id', $event->id)
+                ->where('list', Event::WAITING_LIST)
+                ->where('created_at', $first_in_waiting)
+                ->update(['list' => Event::MAIN_LIST, 'created_at' => Carbon::now()]);
+            return true;
+        }
+
     }
 
     public function getCoachAthleteCount($event_id)
