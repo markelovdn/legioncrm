@@ -25,6 +25,15 @@ class GetEventUsers
         $parented = Parented::where('user_id', $id)->first();
 
         if ($parented) {
+            if(Str::contains(url()->current(), 'create')) {
+                $users = Athlete::with('coaches', 'user', 'tehkval', 'sportkval')
+                    ->whereHas('parenteds', function (Builder $query) use ($parented) {
+                        $query->where('parented_id', '=', $parented->id);
+                    })->get();
+
+                return $users;
+            }
+
             $parented_athletes = DB::table('athlete_parented')->where('parented_id', $parented->id)->get();
             if($parented_athletes) {
                 $athletes = [];
