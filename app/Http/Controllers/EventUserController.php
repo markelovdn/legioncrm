@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\BusinessProcess\GetEventUsers;
-use App\BusinessProcess\uploadFile;
+use App\BusinessProcess\UploadFile;
 use App\Filters\AthleteFilter;
 use App\Filters\UserFilter;
 use App\Http\Requests\StoreEventsRequest;
@@ -131,7 +131,7 @@ class EventUserController extends Controller
         }
 
         if ($request->paymenttitle_id && $request->hasFile('scan_payment_document')) {
-            $path_scanlink = uploadFile::uploadFile($request->user_id, $user->secondname, $user->firstname,
+            $path_scanlink = UploadFile::uploadFile($request->user_id, $user->secondname, $user->firstname,
                 'scan_payment_document_'.$event->title, $request->file('scan_payment_document'));
 
             $payment = new Payment();
@@ -205,7 +205,7 @@ class EventUserController extends Controller
         $event = Event::with('users')->where('id', $request->event_id)->first();
 
         if ($request->paymenttitle_id && $request->hasFile('scan_payment_document') && Event::getCost($event->id) > $request->sum_payment) {
-            $path_scanlink = uploadFile::uploadFile($request->user_id, $user->secondname, $user->firstname,
+            $path_scanlink = UploadFile::uploadFile($request->user_id, $user->secondname, $user->firstname,
                 'scan_prepayment_document_'.$event->title, $request->file('scan_payment_document'));
 
             $payment = new Payment();

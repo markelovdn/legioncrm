@@ -57,7 +57,8 @@
                     <br>
                     <b>Даты проведения: </b>{{ \Carbon\Carbon::parse($event->date_start)->format('d.m.Y').'-'.\Carbon\Carbon::parse($event->date_end)->format('d.m.Y')}}<br>
                     <b>Зарегестированно всего: </b>{{$event->users->count()}}<br>
-                    <b>Осталось свободных мест: </b>{{$event->users_limit - $event->users->count()}}<br>
+                    <b>Осталось свободных мест: </b>@if($event->users_limit - $event->users->count() < 0) 0 @else {{$event->users_limit - $event->users->count()}} @endif<br>
+                    <b>В очереди: </b>@if($event->users->count() - $event->users_limit < 0) 0 @else {{$event->users->count() - $event->users_limit}} @endif<br>
                     <b><a href="{{$event->info_link}}">Подробная информация</a></b><br>
                 </div>
 

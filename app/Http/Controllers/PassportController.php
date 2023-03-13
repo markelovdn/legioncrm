@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\BusinessProcess\uploadFile;
+use App\BusinessProcess\UploadFile;
 use App\Http\Requests\StorePassportRequest;
 use App\Models\Athlete;
 use App\Models\Coach;
@@ -49,7 +49,7 @@ class PassportController extends Controller
 //        $path_scanlink = 'athlete/'.$user->id.'_'.$user->secondname.'_'.$user->firstname.'/'.'passport_'.$user->secondname.'_'.$user->firstname.'_'.$user->patronymic.'.jpg';
 
             if ($request->hasFile('passport_scan')) {
-                $path_scanlink = uploadFile::uploadFile($user->id, $user->secondname,$user->firstname, 'passport_scan', $request->file('passport_scan'));
+                $path_scanlink = UploadFile::uploadFile($user->id, $user->secondname,$user->firstname, 'passport_scan', $request->file('passport_scan'));
             }
             $passport = Passport::updateOrCreate(
                 ['series' => $request->passport_series, 'number' => $request->passport_number],

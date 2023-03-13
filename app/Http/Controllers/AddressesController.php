@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\BusinessProcess\uploadFile;
+use App\BusinessProcess\UploadFile;
 use App\Http\Requests\StoreAddressRequest;
 use App\Models\Address;
 use App\Models\Organization;
@@ -45,7 +45,7 @@ class AddressesController extends Controller
         $user = User::where('id', $request->user_id)->first();
 
         if ($request->hasFile('registration_scan')) {
-            $path_scanlink = uploadFile::uploadFile($user->id, $user->secondname,$user->firstname, 'registration_scan', $request->file('registration_scan'));
+            $path_scanlink = UploadFile::uploadFile($user->id, $user->secondname,$user->firstname, 'registration_scan', $request->file('registration_scan'));
         }
 
         $address = new Address();
@@ -98,7 +98,7 @@ class AddressesController extends Controller
         $address = Address::where('id', $id)->first();
 
         if ($request->hasFile('registration_scan')) {
-            $path_scanlink = uploadFile::uploadFile($user->id, $user->secondname,$user->firstname, 'registration_scan', $request->file('registration_scan'));
+            $path_scanlink = UploadFile::uploadFile($user->id, $user->secondname,$user->firstname, 'registration_scan', $request->file('registration_scan'));
             $address->scanlink =  $path_scanlink;
         }
 

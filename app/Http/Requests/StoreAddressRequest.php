@@ -29,7 +29,7 @@ class StoreAddressRequest extends FormRequest
             'region_id' => ['required', 'numeric'],
             'address' => ['required', 'string'],
             'user_id' => ['numeric'],
-            'registration_scan' => ['required_without:user_id', 'image:jpg,jpeg,png,bmp'],
+            'registration_scan' => ['required_without:user_id', 'image:jpg,jpeg,png'],
         ];
     }
 }

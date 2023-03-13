@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\BusinessProcess\uploadFile;
+use App\BusinessProcess\UploadFile;
 use App\DomainService\AttachOrganization;
 use App\Filters\AthleteFilter;
 use App\Filters\UserFilter;
@@ -110,7 +110,7 @@ class AthletesController extends Controller
         $user->role()->attach($role);
 
             if ($request->hasFile('photo')) {
-                $path_scanlink = uploadFile::uploadFile($user->id, $user->secondname,$user->firstname, 'photo', $request->file('photo'));
+                $path_scanlink = UploadFile::uploadFile($user->id, $user->secondname,$user->firstname, 'photo', $request->file('photo'));
             }
 
             $athlete = new Athlete();
@@ -174,7 +174,7 @@ class AthletesController extends Controller
         $athlete = Athlete::where('id', $id)->first();
 
         if ($request->hasFile('photo')) {
-            $path_scanlink = uploadFile::uploadFile($user->id, $user->secondname,$user->firstname, 'photo', $request->file('photo'));
+            $path_scanlink = UploadFile::uploadFile($user->id, $user->secondname,$user->firstname, 'photo', $request->file('photo'));
             $athlete->photo =  $path_scanlink;
         }
 

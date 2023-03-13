@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\BusinessProcess\uploadFile;
+use App\BusinessProcess\UploadFile;
 use App\Http\Requests\StorePaymentRequest;
 use App\Models\Athlete;
 use App\Models\Payment;
@@ -45,11 +45,15 @@ class PaymentsController extends Controller
         $user = User::where('id', $request->user_id)->first();
 
         if ($request->hasFile('scan_payment_document') && $request->paymenttitle_id == Payment::ID_YEAR_PAYMENT) {
-            $path_scanlink = uploadFile::uploadFile($request->user_id, $user->secondname,$user->firstname, 'scan_year_payment_document', $request->file('scan_payment_document'));
+            $path_scanlink = UploadFile::uploadFile($request->user_id, $user->secondname,$user->firstname, 'scan_year_payment_document', $request->file('scan_payment_document'));
         }
 
         if ($request->hasFile('scan_payment_document') && $request->event_id) {
-            $path_scanlink = uploadFile::uploadFile($request->user_id, $user->secondname, $user->firstname, 'scan_event'.$request->event_id.'_payment_document', $request->file('scan_payment_document'));
+            $path_scanlink = UploadFile::uploadFile($request->user_id, $user->secondname, $user->firstname, 'scan_event'.$request->event_id.'_payment_document', $request->file('scan_payment_document'));
+                if (!$path_scanlink) {
+                    session()->flash('error', 'Формат файла не подходит');
+                    return back();
+                }
         }
 
         $payment = new Payment();

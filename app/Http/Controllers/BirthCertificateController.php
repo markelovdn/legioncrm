@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\BusinessProcess\uploadFile;
+use App\BusinessProcess\UploadFile;
 use App\Http\Requests\StoreBirthCertificateRequest;
 use App\Models\Athlete;
 use App\Models\BirthCertificate;
@@ -47,7 +47,7 @@ class BirthCertificateController extends Controller
         $user = User::where('id', $request->user_id)->first();
 
         if ($request->hasFile('birthcertificate_scan')) {
-            $path_scanlink = uploadFile::uploadFile($user->id, $user->secondname,$user->firstname, 'birthcertificate', $request->file('birthcertificate_scan'));
+            $path_scanlink = UploadFile::uploadFile($user->id, $user->secondname,$user->firstname, 'birthcertificate', $request->file('birthcertificate_scan'));
         }
 
         $birthcertificate = new BirthCertificate();
@@ -100,7 +100,7 @@ class BirthCertificateController extends Controller
         $birthcertificate = BirthCertificate::find($id);
 
         if ($request->hasFile('birthcertificate_scan')) {
-            $path_scanlink = uploadFile::uploadFile($user->id, $user->secondname, $user->firstname, 'birthcertificate', $request->file('birthcertificate_scan'));
+            $path_scanlink = UploadFile::uploadFile($user->id, $user->secondname, $user->firstname, 'birthcertificate', $request->file('birthcertificate_scan'));
             $birthcertificate->scanlink = $path_scanlink;
         }
 

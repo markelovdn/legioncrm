@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\BusinessProcess\uploadFile;
+use App\BusinessProcess\UploadFile;
 use App\Models\Athlete;
 use App\Models\Competitor;
 use App\Models\Organization;
@@ -51,7 +51,7 @@ class TehkvalsController extends Controller
         }
 
         if ($request->hasFile('sertificate_link')) {
-            $path_scanlink = uploadFile::uploadFile($athlete->user->id,
+            $path_scanlink = UploadFile::uploadFile($athlete->user->id,
                 $athlete->user->secondname, $athlete->user->firstname, 'belt_sertificate_'.$tehkval->belt_color, $request->file('sertificate_link'));
         } else {
             $path_scanlink = '';

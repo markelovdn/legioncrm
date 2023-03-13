@@ -28,7 +28,7 @@ class StorePaymentRequest extends FormRequest
             'sum_payment' => ['required', 'numeric', 'max:9999999'],
             'date_payment' => ['required', 'date'],
             'paymenttitle_id' => ['required', 'numeric'],
-            'scan_payment_document' => ['required', 'image:jpg,jpeg,png,bmp', 'max:1000'],
+            'scan_payment_document' => ['required'],
         ];
     }
 }

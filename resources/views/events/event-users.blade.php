@@ -108,7 +108,11 @@
                                                     <div class="modal-body">
                                                         <input type="text" style="display: none" class="form-control" id="approve" name="approve"
                                                                value="@if($payment->sum == $event_cost) full_payment @else {{\App\Models\Payment::PREPAYMENT}} @endif">
-                                                        <img class="img-fluid" src="{{$payment->scan_payment_document}}" alt="message user image">
+                                                        @if(\Illuminate\Support\Str::contains($payment->scan_payment_document, 'pdf') == true)
+                                                            <a type="button" class="btn-primary" href="{{$payment->scan_payment_document}}"><i class="far fa-eye"></i></a>
+                                                        @else
+                                                            <img class="img-fluid" src="{{$payment->scan_payment_document}}" alt="message user image">
+                                                        @endif
                                                     </div>
                                                     <button type="submit" class="btn btn-success">Проверено<i class="fas fa-check"></i></button>
                                                 </div>

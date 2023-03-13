@@ -26,7 +26,7 @@ class StoreAthleteRequest extends FormRequest
         return [
             'user_id' => ['numeric'],
             'athlete_id' => ['numeric'],
-            'photo' => ['required_without:user_id', 'image:jpg,jpeg,png,bmp', 'max:1000'],
+            'photo' => ['required_without:user_id', 'image:jpg,jpeg,png'],
             'gender' => ['required_without:user_id', 'integer', 'max:2'],
             'secondname' => ['required_without:user_id', 'string', 'max:255'],
             'firstname' => ['required_without:user_id', 'string', 'max:255'],
