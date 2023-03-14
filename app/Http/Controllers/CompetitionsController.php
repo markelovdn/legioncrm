@@ -26,7 +26,7 @@ class CompetitionsController extends Controller
 
     public function index()
     {
-        $competitions = Competition::with('agecategories')->orderBy('date_start', 'DESC')->get();
+        $competitions = Competition::with('agecategories')->where('deleted_at', '=',null)->orderBy('date_start', 'DESC')->get();
 
         return view('competitions.competitions', [
             'competitions'=>$competitions,]

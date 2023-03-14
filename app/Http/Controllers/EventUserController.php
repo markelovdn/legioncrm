@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\BusinessProcess\GetEventUsers;
 use App\BusinessProcess\UploadFile;
+use App\Exports\EventUsersExport;
 use App\Filters\AthleteFilter;
 use App\Filters\UserFilter;
 use App\Http\Requests\StoreEventsRequest;
@@ -16,6 +17,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 use function PHPUnit\Framework\isEmpty;
 
 class EventUserController extends Controller
@@ -257,5 +259,10 @@ class EventUserController extends Controller
         $eventUsers->changeUserList($event, $users);
 
         return redirect('/events/'.$request->input('event_id').'/users');
+    }
+
+    public function eventUsersExport()
+    {
+        return Excel::download(new EventUsersExport(), 'eventusers.xlsx');
     }
 }

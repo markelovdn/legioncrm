@@ -23,10 +23,7 @@
 				<div class="card-header">
 					<h3 class="card-title"><b>{{$competition->title}}</b></h3><br>
 					<p>Начало: {{ \Carbon\Carbon::parse($competition->date_start)->format('d.m.Y')}}</p>
-					Участники: <a href="{{route('competitions.competitors.index',[$competition->id])}}"><i class="nav-icon fas fa-users"></i>
-					</a><br>
-					Добавить: <a href="{{route('competitions.competitors.create',[$competition->id])}}"><i class="nav-icon fas fa-user-plus"></i></a><br>
-
+					<a href="{{route('competitions.competitors.index',[$competition->id])}}"><span class="badge badge-primary">Список участников</span></a><br>
 					<div class="card-tools">
 						<button type="button" class="btn btn-tool" data-card-widget="collapse">
 							<i class="fas fa-plus"></i>
@@ -39,7 +36,7 @@
 					<b>Место проведения: </b>{{$competition->address}}<br>
 					<b>Дата начала: </b>{{ \Carbon\Carbon::parse($competition->date_start)->format('d.m.Y')}}<br>
 					<b>Дата окончания: </b>{{ \Carbon\Carbon::parse($competition->date_end)->format('d.m.Y')}}<br>
-                    <b>Зарегестированно всего: </b>{{ \App\Models\Competition::competitorsCount($competition->id)}}<br>
+                    <b>Зарегестированно всего: </b>{{ \App\Models\Competition::competitorsCount($competition->id)}} <a href="{{route('competitions.competitors.create',[$competition->id])}}"><span class="badge badge-success">Добавить участников</span></a><br>
 					<b>Возрастные категории: </b><br>@foreach($competition->agecategories as $agecategories) {{$agecategories->title}} <br> @endforeach
 				</div>
 

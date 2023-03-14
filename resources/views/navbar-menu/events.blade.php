@@ -17,8 +17,8 @@
     </li>
     @if(\App\Models\Event::getOwner($event->id))
         <li class="nav-item">
-{{--            <a class="nav-link" href="{{route('competitorsExport')}}" role="button">--}}
-{{--                Скачать список</a>--}}
+            <a class="nav-link" href="{{route('eventUsersExport', [$event->id])}}" role="button">
+                Скачать список</a>
         </li>
         @endif
 @endif
