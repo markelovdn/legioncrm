@@ -110,7 +110,7 @@ class Athlete extends Model
     //hasMany
     public function parenteds()
     {
-        return $this->belongsToMany(Parented::class, 'athlete_parented', 'athlete_id', 'parented_id');
+        return $this->belongsToMany(Parented::class, 'athlete_parented', 'athlete_id', 'parented_id')->with('user');
     }
 
 

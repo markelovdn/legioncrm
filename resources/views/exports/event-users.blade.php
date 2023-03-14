@@ -7,6 +7,8 @@
         <th>Сумма оплаты</th>
         <th>Дата оплаты</th>
         <th>Тренер</th>
+        <th>ФИО родителя</th>
+        <th>Телефон</th>
         <th>Св-во о рождении</th>
         <th>Адрес</th>
     </tr>
@@ -34,13 +36,23 @@
                     @endif
                 @endforeach
             </td>
+
+                @foreach ($user->athlete->parenteds as $parented)
+                <td>
+                    {{$parented->user->secondname}} {{$parented->user->firstname}} {{$parented->user->patronymic}}
+                </td>
+                <td>
+                {{$parented->user->phone}}
+                </td>
+                @endforeach
+
             <td>@if ($user->athlete->birthcertificate)
                 {{$user->athlete->birthcertificate->series}} №{{$user->athlete->birthcertificate->number}}
                     @endif
             </td>
             <td>@if ($user->address)
                     @foreach($user->address as $address)
-                    {{$address->address}}
+                        {{$address->address}}
                     @endforeach
                 @endif
             </td>
