@@ -1,1 +1,1 @@
-LEGIONCRM 2.0 websocket
+LEGIONCRM 2.0 vue
