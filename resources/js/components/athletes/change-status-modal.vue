@@ -3,6 +3,7 @@
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-body">
+                        подсчет очков
                             <button type="submit" class="btn btn-success" @click="count++">{{ count }}<i class="fas fa-plus"></i></button>
                             <button type="submit" class="btn btn-danger" @click="count--">{{ count }}<i class="fas fa-minus"></i></button>
                     </div>
