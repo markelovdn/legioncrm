@@ -133,6 +133,9 @@
                                 </div>
                             @endswitch
                         </div>
+                        <div class="row">
+                            <a target="_blank" href="{{route('printCscaCard',['id' => $athlete->id])}}"><i class="fas fa-file-contract"></i></a>
+                        </div>
 
                     </div>
                 </div>
