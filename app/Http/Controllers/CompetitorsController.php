@@ -35,7 +35,7 @@ class CompetitorsController extends Controller
 
         if (!$competitors) {
             session()->flash('status', 'У вас нет участников на данном соревновании');
-            return redirect(route('competition.index'));
+            return redirect(route('competitions.index'));
         }
 
         return view('competitions.competitors', ['competition'=>$competition,
