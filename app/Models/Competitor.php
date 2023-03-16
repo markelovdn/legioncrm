@@ -76,8 +76,7 @@ class Competitor extends Model
             }
         }
 
-    public static function checkUniqueCompetitorWeightCategory(
-        $athlete_id, $agecategory_id, $weightcategory_id, $tehkvalgroup_id, $competition_id) {
+    public static function checkUniqueCompetitorWeightCategory($athlete_id, $agecategory_id, $weightcategory_id, $tehkvalgroup_id, $competition_id) {
 
         $competitor = Competitor::where('athlete_id', $athlete_id)
                                 ->where('agecategory_id', $agecategory_id)
@@ -91,7 +90,6 @@ class Competitor extends Model
                 ->where('competitor_id', $competitor->id)
                 ->first();
                 if ($competition){
-                    session()->flash('error_unique_competitor', 'Данный спорстмен уже заявлен в весовой категории');
                     return false;
                     }
                 else {

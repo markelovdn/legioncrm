@@ -15,4 +15,6 @@
 //    return $request->user();
 //});
 
-//Route::resource('users', UsersController::class);
+use Illuminate\Support\Facades\Route;
+
+Route::resource('athletes-api', \App\Http\Controllers\Api\AthletesController::class)->middleware('auth');
