@@ -19,7 +19,9 @@ use App\Models\Role;
 use App\Models\Sportkval;
 use App\Models\Tehkval;
 use App\Models\User;
+use App\Models\WeightCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CompetitorsController extends Controller
@@ -30,6 +32,8 @@ class CompetitorsController extends Controller
     {
         $user = \auth()->user()->id;
         $tehkvals = Tehkval::get();
+        $coaches = Coach::with('user')->get();
+        $coach = Coach::with('user')->where('user_id', $user)->first();
         $competition = Competition::where('id', $competition_id)->first();
         $competitors = $competitors->getCompetitors($user, $competition->id, $CompetitorFilter, $weightFilter, $athleteFilter);
 
@@ -39,7 +43,10 @@ class CompetitorsController extends Controller
         }
 
         return view('competitions.competitors', ['competition'=>$competition,
-            'competitors'=>$competitors, 'tehkvals'=>$tehkvals]);
+            'competitors' => $competitors, 'tehkvals' => $tehkvals,
+            'coaches' => $coaches,
+            'coach' => $coach
+            ]);
     }
 
 
@@ -52,13 +59,14 @@ class CompetitorsController extends Controller
         $sportkvals = Sportkval::all();
         $organization = Organization::all();
         $coaches = Coach::with('user')->get();
+        $weightCategories = WeightCategory::get();
 
         if (\auth()->user()->isParented(\auth()->user()) && $competitors->count() < 1) {
             return redirect($userAs->registrationUserAs(Role::ROLE_PARENTED, \auth()->user()->id));
         }
 
         if ($competitors && $competitors->count() >= 1) {
-                return view('competitors.addcompetitor_as_coach',
+                return view('competitors.addcompetitor',
                     [
                         'tehkvals'=>$tehkvals,
                         'sportkvals'=>$sportkvals,
@@ -66,17 +74,18 @@ class CompetitorsController extends Controller
                         'coaches'=>$coaches,
                         'competition'=>$competition,
                         'competitors'=>$competitors,
+                        'weightCategories'=>$weightCategories
                     ]);
         }
 
-        return view('competitors.addcompetitor',
-            [
-                'tehkvals'=>$tehkvals,
-                'sportkvals'=>$sportkvals,
-                'organization'=>$organization,
-                'coaches'=>$coaches,
-                'competition'=>$competition,
-            ]);
+//        return view('competitors.addcompetitor',
+//            [
+//                'tehkvals'=>$tehkvals,
+//                'sportkvals'=>$sportkvals,
+//                'organization'=>$organization,
+//                'coaches'=>$coaches,
+//                'competition'=>$competition,
+//            ]);
     }
 
     public function store(StoreCompetitorRequest $request)

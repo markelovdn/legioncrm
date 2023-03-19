@@ -91,49 +91,49 @@
                         @include('athletes.athlete-year-payment')
                         {{-- / Ежегодный взнос--}}
 
-                        <div class="row">
-                            @switch(\App\Models\User::getRoleCode())
-                                @case(\App\Models\Role::ROLE_COACH)
-                                @case(\App\Models\Role::ROLE_SYSTEM_ADMIN)
-                                <div class="col-auto mr-auto">
-                                    @if($athlete->status == \App\Models\Athlete::ACTIVE)
-                                        <span class="badge badge-danger" data-toggle="modal" style="cursor: pointer" data-target="#modal-inactive-athlete{{$athlete->user->id}}"><i class="far fa-clock"></i>деактивировать</span>
-                                    @else
-                                        <span class="badge badge-success" data-toggle="modal" style="cursor: pointer" data-target="#modal-inactive-athlete{{$athlete->user->id}}"><i class="far fa-clock"></i>ативировать</span>
-                                    @endif
-                                    {{--modal edit active-athlete--}}
-                                    <div class="modal fade" id="modal-inactive-athlete{{$athlete->user->id}}" style="display: none;" aria-hidden="true">
-                                        <div class="modal-dialog modal-sm">
-                                            <div class="modal-content">
-                                                <div class="modal-body">
-                                                    @if($athlete->status == \App\Models\Athlete::ACTIVE)
-                                                        <form method="POST" action="{{route('athlete.update', [$athlete->id])}}">
-                                                            @method('PUT')
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-danger">Подтвердить<i class="fas fa-check"></i></button>
-                                                            <input type="text" style="display:none" name="athlete_id" value="{{$athlete->id}}">
-                                                            <input type="text" style="display:none" name="user_id" value="{{$athlete->user->id}}">
-                                                            <input type="text" style="display:none" name="status" value="{{\App\Models\Athlete::INACTIVE}}">
-                                                        </form>
-                                                    @else
-                                                        <form method="POST" action="{{route('athlete.update', [$athlete->id])}}">
-                                                            @method('PUT')
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-success">Подтвердить<i class="fas fa-check"></i></button>
-                                                            <input type="text" style="display:none" name="athlete_id" value="{{$athlete->id}}">
-                                                            <input type="text" style="display:none" name="user_id" value="{{$athlete->user->id}}">
-                                                            <input type="text" style="display:none" name="status" value="{{\App\Models\Athlete::ACTIVE}}">
-                                                        </form>
-                                                    @endif
+{{--                        <div class="row">--}}
+{{--                            @switch(\App\Models\User::getRoleCode())--}}
+{{--                                @case(\App\Models\Role::ROLE_COACH)--}}
+{{--                                @case(\App\Models\Role::ROLE_SYSTEM_ADMIN)--}}
+{{--                                <div class="col-auto mr-auto">--}}
+{{--                                    @if($athlete->status == \App\Models\Athlete::ACTIVE)--}}
+{{--                                        <span class="badge badge-danger" data-toggle="modal" style="cursor: pointer" data-target="#modal-inactive-athlete{{$athlete->user->id}}"><i class="far fa-clock"></i>деактивировать</span>--}}
+{{--                                    @else--}}
+{{--                                        <span class="badge badge-success" data-toggle="modal" style="cursor: pointer" data-target="#modal-inactive-athlete{{$athlete->user->id}}"><i class="far fa-clock"></i>ативировать</span>--}}
+{{--                                    @endif--}}
+{{--                                    --}}{{--modal edit active-athlete--}}
+{{--                                    <div class="modal fade" id="modal-inactive-athlete{{$athlete->user->id}}" style="display: none;" aria-hidden="true">--}}
+{{--                                        <div class="modal-dialog modal-sm">--}}
+{{--                                            <div class="modal-content">--}}
+{{--                                                <div class="modal-body">--}}
+{{--                                                    @if($athlete->status == \App\Models\Athlete::ACTIVE)--}}
+{{--                                                        <form method="POST" action="{{route('athlete.update', [$athlete->id])}}">--}}
+{{--                                                            @method('PUT')--}}
+{{--                                                            @csrf--}}
+{{--                                                            <button type="submit" class="btn btn-danger">Подтвердить<i class="fas fa-check"></i></button>--}}
+{{--                                                            <input type="text" style="display:none" name="athlete_id" value="{{$athlete->id}}">--}}
+{{--                                                            <input type="text" style="display:none" name="user_id" value="{{$athlete->user->id}}">--}}
+{{--                                                            <input type="text" style="display:none" name="status" value="{{\App\Models\Athlete::INACTIVE}}">--}}
+{{--                                                        </form>--}}
+{{--                                                    @else--}}
+{{--                                                        <form method="POST" action="{{route('athlete.update', [$athlete->id])}}">--}}
+{{--                                                            @method('PUT')--}}
+{{--                                                            @csrf--}}
+{{--                                                            <button type="submit" class="btn btn-success">Подтвердить<i class="fas fa-check"></i></button>--}}
+{{--                                                            <input type="text" style="display:none" name="athlete_id" value="{{$athlete->id}}">--}}
+{{--                                                            <input type="text" style="display:none" name="user_id" value="{{$athlete->user->id}}">--}}
+{{--                                                            <input type="text" style="display:none" name="status" value="{{\App\Models\Athlete::ACTIVE}}">--}}
+{{--                                                        </form>--}}
+{{--                                                    @endif--}}
 
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endswitch
-                        </div>
-                        <change-status-button></change-status-button>
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            @endswitch--}}
+{{--                        </div>--}}
+                        <change-status-button :athlete_id="{{$athlete->id}}"></change-status-button>
                         <div class="row">
                             <a target="_blank" href="{{route('printCscaCard',['id' => $athlete->id])}}"><i class="fas fa-file-contract"></i></a>
                         </div>

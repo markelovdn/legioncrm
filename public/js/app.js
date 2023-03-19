@@ -3261,32 +3261,39 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  mounted: function mounted() {
-    console.log('Component mounted.');
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/athletes/change-status-modal.vue?vue&type=script&lang=js&":
-/*!***********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/athletes/change-status-modal.vue?vue&type=script&lang=js& ***!
-  \***********************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      count: 0
+      status: 0,
+      athlete: []
     };
   },
+  props: ['athlete_id'],
+  methods: {
+    getAthlete: function getAthlete() {
+      var _this = this;
+      axios.get("/api/athletes-api/" + this.athlete_id).then(function (response) {
+        _this.athlete = response.data;
+      });
+    },
+    changeStatus: function changeStatus() {
+      var _this2 = this;
+      if (this.athlete.status === 1) {
+        this.status = 2;
+      } else {
+        this.status = 1;
+      }
+      var params = {
+        id: this.athlete.id,
+        status: this.status
+      };
+      axios.put("/api/athletes-api/{id}", params).then(function (response) {
+        _this2.athlete = response.data;
+        _this2.getAthlete();
+      });
+    }
+  },
   mounted: function mounted() {
-    console.log('Component mounted.');
+    this.getAthlete();
   }
 });
 
@@ -3311,75 +3318,23 @@ var render = function render() {
     staticClass: "row"
   }, [_c("div", {
     staticClass: "col-auto mr-auto"
-  }, [_c("button", {
-    staticClass: "btn btn-primary",
-    attrs: {
-      "data-toggle": "modal",
-      "data-target": "#modal-vue"
-    }
-  }), _vm._v(" "), _c("change-status-modal")], 1)]);
-};
-var staticRenderFns = [];
-render._withStripped = true;
-
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/athletes/change-status-modal.vue?vue&type=template&id=414d27df&":
-/*!**********************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/athletes/change-status-modal.vue?vue&type=template&id=414d27df& ***!
-  \**********************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* binding */ render),
-/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
-/* harmony export */ });
-var render = function render() {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("div", {
-    staticClass: "modal fade",
+  }, [_vm.athlete.status === 1 ? _c("span", {
+    staticClass: "badge badge-danger",
     staticStyle: {
-      display: "none"
-    },
-    attrs: {
-      id: "modal-vue",
-      "aria-hidden": "true"
-    }
-  }, [_c("div", {
-    staticClass: "modal-dialog modal-sm"
-  }, [_c("div", {
-    staticClass: "modal-content"
-  }, [_c("div", {
-    staticClass: "modal-body"
-  }, [_vm._v("\n                подсчет очков +\n                    "), _c("button", {
-    staticClass: "btn btn-success",
-    attrs: {
-      type: "submit"
+      cursor: "pointer"
     },
     on: {
-      click: function click($event) {
-        _vm.count++;
-      }
+      click: _vm.changeStatus
     }
-  }, [_vm._v(_vm._s(_vm.count)), _c("i", {
-    staticClass: "fas fa-plus"
-  })]), _vm._v(" "), _c("button", {
-    staticClass: "btn btn-danger",
-    attrs: {
-      type: "submit"
+  }, [_vm._v("деактивировать")]) : _c("span", {
+    staticClass: "badge badge-success",
+    staticStyle: {
+      cursor: "pointer"
     },
     on: {
-      click: function click($event) {
-        _vm.count--;
-      }
+      click: _vm.changeStatus
     }
-  }, [_vm._v(_vm._s(_vm.count)), _c("i", {
-    staticClass: "fas fa-minus"
-  })])])])])]);
+  }, [_vm._v("активировать")])])]);
 };
 var staticRenderFns = [];
 render._withStripped = true;
@@ -3414,7 +3369,6 @@ window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('change-status-button', (__webpack_require__(/*! ./components/athletes/change-status-button */ "./resources/js/components/athletes/change-status-button.vue")["default"]));
-Vue.component('change-status-modal', (__webpack_require__(/*! ./components/athletes/change-status-modal */ "./resources/js/components/athletes/change-status-modal.vue")["default"]));
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -28032,45 +27986,6 @@ component.options.__file = "resources/js/components/athletes/change-status-butto
 
 /***/ }),
 
-/***/ "./resources/js/components/athletes/change-status-modal.vue":
-/*!******************************************************************!*\
-  !*** ./resources/js/components/athletes/change-status-modal.vue ***!
-  \******************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _change_status_modal_vue_vue_type_template_id_414d27df___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./change-status-modal.vue?vue&type=template&id=414d27df& */ "./resources/js/components/athletes/change-status-modal.vue?vue&type=template&id=414d27df&");
-/* harmony import */ var _change_status_modal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./change-status-modal.vue?vue&type=script&lang=js& */ "./resources/js/components/athletes/change-status-modal.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _change_status_modal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _change_status_modal_vue_vue_type_template_id_414d27df___WEBPACK_IMPORTED_MODULE_0__.render,
-  _change_status_modal_vue_vue_type_template_id_414d27df___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/athletes/change-status-modal.vue"
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
-
-/***/ }),
-
 /***/ "./resources/js/components/athletes/change-status-button.vue?vue&type=script&lang=js&":
 /*!********************************************************************************************!*\
   !*** ./resources/js/components/athletes/change-status-button.vue?vue&type=script&lang=js& ***!
@@ -28087,22 +28002,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/athletes/change-status-modal.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************************!*\
-  !*** ./resources/js/components/athletes/change-status-modal.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_change_status_modal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./change-status-modal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/athletes/change-status-modal.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_change_status_modal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
 /***/ "./resources/js/components/athletes/change-status-button.vue?vue&type=template&id=56777af0&":
 /*!**************************************************************************************************!*\
   !*** ./resources/js/components/athletes/change-status-button.vue?vue&type=template&id=56777af0& ***!
@@ -28116,23 +28015,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_change_status_button_vue_vue_type_template_id_56777af0___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_change_status_button_vue_vue_type_template_id_56777af0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./change-status-button.vue?vue&type=template&id=56777af0& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/athletes/change-status-button.vue?vue&type=template&id=56777af0&");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/athletes/change-status-modal.vue?vue&type=template&id=414d27df&":
-/*!*************************************************************************************************!*\
-  !*** ./resources/js/components/athletes/change-status-modal.vue?vue&type=template&id=414d27df& ***!
-  \*************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_change_status_modal_vue_vue_type_template_id_414d27df___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_change_status_modal_vue_vue_type_template_id_414d27df___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_change_status_modal_vue_vue_type_template_id_414d27df___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./change-status-modal.vue?vue&type=template&id=414d27df& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/athletes/change-status-modal.vue?vue&type=template&id=414d27df&");
 
 
 /***/ }),

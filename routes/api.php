@@ -17,4 +17,4 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::resource('athletes-api', \App\Http\Controllers\Api\AthletesController::class)->middleware('auth');
+Route::resource('athletes-api', \App\Http\Controllers\Api\AthletesController::class)->middleware('auth:sanctum');

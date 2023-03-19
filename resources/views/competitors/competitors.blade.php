@@ -13,7 +13,6 @@
 			</div>
 			<div class="card-body" style="display: none;">
 				@foreach($competition as $item)Дата начала:{{ \Carbon\Carbon::parse($item->date_start)->format('d.m.Y')}}@endforeach
-
 			</div>
 		</div>
 

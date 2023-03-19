@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Athlete;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AthletesController extends Controller
 {
@@ -36,7 +37,7 @@ class AthletesController extends Controller
      */
     public function store(Request $request)
     {
-            return $request;
+        return 111;
     }
 
     /**
@@ -47,7 +48,7 @@ class AthletesController extends Controller
      */
     public function show($id)
     {
-        //
+        return Athlete::find($id);
     }
 
     /**
@@ -70,7 +71,8 @@ class AthletesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DB::table('athletes')->where('id', '=', $request->id)->update(['status'=>$request->status]);
+        return true;
     }
 
     /**
