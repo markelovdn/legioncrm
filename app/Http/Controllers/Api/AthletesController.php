@@ -26,7 +26,7 @@ class AthletesController extends Controller
      */
     public function create()
     {
-        //
+        return false;
     }
 
     /**
@@ -37,7 +37,7 @@ class AthletesController extends Controller
      */
     public function store(Request $request)
     {
-        return 111;
+        return false;
     }
 
     /**
@@ -59,7 +59,7 @@ class AthletesController extends Controller
      */
     public function edit($id)
     {
-        //
+        return false;
     }
 
     /**
@@ -83,6 +83,6 @@ class AthletesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return false;
     }
 }

@@ -19,9 +19,13 @@
                     <input type="number" step="0.01" class="form-control" id="weight" name="weight" value="{{old('weight')}}">
                     <input type="number" style="display: none" class="form-control" id="athlete_id" name="athlete_id" value="{{$competitor->id}}">
                     <input type="number" style="display: none" class="form-control" id="competition_id" name="competition_id" value="{{$competition->id}}">
+                    <input type="text" style="display: none"  class="form-control" id="sportkval_id" name="sportkval_id" value="{{$competitor->sportkval->max('id') ?? 1}}">
+                    <input type="text" style="display: none"  class="form-control" id="tehkval_id" name="tehkval_id" value="{{$competitor->tehkval->max('id') ?? 1}}">
                     @error('weight')<p class="text-danger">{{$errors->first('weight')}}</p>@enderror
                     <p class="text-danger">{{ session('error') }}</p>
                     <p class="text-danger">{{ session('error_age') }}</p>
+                    <p class="text-danger">{{ session('error_weight') }}</p>
+                    <p class="text-danger">{{ session('error_tehkval') }}</p>
                     <p class="text-danger">{{ session('error_unique_competitor') }}</p>
                     <p class="text-danger">{{ session('status') }}</p>
                 </div>

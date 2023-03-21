@@ -68,6 +68,8 @@ class CompetitorsTest extends TestCase
         $response = $this->followingRedirects()->post('/competitions/'.$competition->id.'/competitors', [
             'weight' => 55,
             'athlete_id' => $competitor->id,
+            'sportkval_id' => 1,
+            'tehkval_id' => 1,
             'competition_id' => $competition->id
         ]);
 

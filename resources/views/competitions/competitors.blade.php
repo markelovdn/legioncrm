@@ -84,7 +84,11 @@
                 <div class="card-footer">
                     <div class="row row-cols-2">
                         <div class="col text-left">
-                            <a class="btn btn-primary" href="{{route('competitors.edit',[$competitor->id])}}"><i class="fas fa-cog"></i></a>
+                            <form method="GET" action="{{route('competitors.edit',[$competitor->id])}}">
+                                @csrf
+                                <input type="number" style="display: none" class="form-control" id="competition_id" name="competition_id" value="{{$competition->id}}">
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-cog"></i></button>
+                            </form>
                         </div>
                         <div class="col text-right">
                             <form method="POST" action="{{route('competitors.destroy',$competitor->id)}}">

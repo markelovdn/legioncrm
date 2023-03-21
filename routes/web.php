@@ -25,7 +25,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('events.users', \App\Http\Controllers\EventUserController::class)->shallow();
     Route::put('/event/{event_id}/user/{user_id}', [\App\Http\Controllers\EventUserController::class, 'update'])->name('eventUserUpdate');
     Route::delete('/event/{event_id}/user/{user_id}', [\App\Http\Controllers\EventUserController::class, 'destroy'])->name('userEventDestroy');
-    Route::get('/competitorsExport', [CompetitorsController::class, 'competitorsExport'])->middleware('auth')->name('competitorsExport');
+    Route::get('/competitorsExport/competition_id={competition_id}/agecategory_id={agecategory_id?}/tehkvalgroup_id={tehkvalgroup_id?}', [CompetitorsController::class, 'competitorsExport'])->middleware('auth')->name('competitorsExport');
     Route::get('/eventUsersExport/event_id={id}', [\App\Http\Controllers\EventUserController::class, 'eventUsersExport'])->middleware('auth')->name('eventUsersExport');
     Route::get('/attestationAthletesExport', [\App\Http\Controllers\AttestationAthletesController::class, 'attestationAthleteExport'])->middleware('auth')->name('attestationAthletesExport');
     Route::resource('payment', \App\Http\Controllers\PaymentsController::class);

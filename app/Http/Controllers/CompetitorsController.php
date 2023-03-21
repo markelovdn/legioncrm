@@ -10,6 +10,7 @@ use App\Filters\CompetitorFilter;
 use App\Filters\UserFilter;
 use App\Filters\WeightcategoryFilter;
 use App\Http\Requests\StoreCompetitorRequest;
+use App\Models\AgeCategory;
 use App\Models\Athlete;
 use App\Models\Coach;
 use App\Models\Competition;
@@ -18,6 +19,7 @@ use App\Models\Organization;
 use App\Models\Role;
 use App\Models\Sportkval;
 use App\Models\Tehkval;
+use App\Models\TehkvalGroup;
 use App\Models\User;
 use App\Models\WeightCategory;
 use Illuminate\Http\Request;
@@ -100,11 +102,20 @@ class CompetitorsController extends Controller
         }
 
         $agecategory_id = Competitor::getAgeCategory($athlete->user->date_of_birth);
-        if(!$agecategory_id) {return back();}
+        if(!$agecategory_id) {
+            session()->flash('error_age', 'Нет подходящего возраста для данных соревнований');
+            return back();
+        }
         $weightcategory_id = Competitor::getWeightCategory($request->input('weight'), $athlete->gender, $athlete->user->date_of_birth);
-        if(!$weightcategory_id) {return back();}
-        $tehkvalgroup_id = Competitor::getTehKvalGroup($athlete->tehkval->max('id'), $athlete->user->date_of_birth);
-        if(!$tehkvalgroup_id) {return back();}
+        if(!$weightcategory_id) {
+            session()->flash('error_weight', 'Нет подходящей весовой категории для данных соревнований');
+            return back();
+        }
+        $tehkvalgroup_id = Competitor::getTehKvalGroup($athlete->tehkval->max('id'), $athlete->user->date_of_birth, $request->competition_id);
+        if(!$tehkvalgroup_id) {
+            session()->flash('error_tehkval', 'Нет подходящей группы по технической квалификации для данных соревнований');
+            return back();
+        }
 
         if (!Competitor::checkUniqueCompetitorWeightCategory(
             $athlete->id, $agecategory_id, $weightcategory_id, $tehkvalgroup_id, $request->competition_id
@@ -126,7 +137,7 @@ class CompetitorsController extends Controller
 
         session()->flash('status', 'Спортсмен успешно добавлен на соревнования');
 
-        return back();
+        return redirect(route('competitions.competitors.index',[$request->competition_id]));
 
     }
 
@@ -239,16 +250,14 @@ class CompetitorsController extends Controller
             throw new \Exception('Вы не можете редактировать данного спортсмена');
         }
 
-        $competitor = Competitor::with('athlete')->where('athlete_id', $id)->first();
-        $user = User::find($competitor->athlete->user->id);
-
-        $competition = Competitor::with('competitions')->has('competitions')->first();
+        $competition = Competition::where('id', $request->competition_id)->first();
+        $competitor = $competition->competitors()->where('athlete_id', $id)->first();
 
         $agecategory_id = Competitor::getAgeCategory($request->date_of_birth);
         if(!$agecategory_id) {return back();}
         $weightcategory_id = Competitor::getWeightCategory($request->input('weight'), $request->gender, $request->date_of_birth);
         if(!$weightcategory_id) {return back();}
-        $tehkvalgroup_id = Competitor::getTehKvalGroup($competitor->athlete->tehkval->max('id'), $request->date_of_birth);
+        $tehkvalgroup_id = Competitor::getTehKvalGroup($request->tehkval_id, $request->date_of_birth, $request->competition_id);
         if(!$tehkvalgroup_id) {return back();}
 
         if ($request->weight != $competitor->weight) {
@@ -269,19 +278,12 @@ class CompetitorsController extends Controller
         $competitor->tehkvalgroup_id = $tehkvalgroup_id;
         $competitor->save();
 
-        $user->firstname = $request->firstname;
-        $user->secondname = $request->secondname;
-        $user->patronymic = $request->patronymic;
-        $user->date_of_birth = $request->date_of_birth;
-        $user->save();
-
         return redirect('competitions/' . $request->input('competition_id') . '/competitors/');
 
     }
 
     public function destroy($id, Request $request)
     {
-
         //TODO:Добавить всплвающее окно с подтверждением
         $competitor = Competitor::with('athlete')->find($id);
 
@@ -298,9 +300,26 @@ class CompetitorsController extends Controller
         return redirect('/competitions/'.$request->input('competition_id').'/competitors')->withInput();
     }
 
-    public function competitorsExport()
+    public function competitorsExport(Request $request)
     {
-        return Excel::download(new CompetitorsExport, 'competitors.xlsx');
+        $competition_id = $request->competition_id;
+        $agecategory_id = $request->agecategory_id;
+        $tehkvalgroup_id = $request->tehkvalgroup_id;
+
+        if ($agecategory_id && !$tehkvalgroup_id) {
+            $agecategory = AgeCategory::where('id', $agecategory_id)->first();
+            return Excel::download(new CompetitorsExport, $agecategory->title.'.xlsx');
+        }
+
+        if ($tehkvalgroup_id) {
+            $group = TehkvalGroup::with('agecategory')->where('id', $tehkvalgroup_id)
+                ->where('agecategory_id', $agecategory_id)
+                ->first();
+
+            return Excel::download(new CompetitorsExport, $group->agecategory->title.'-'.$group->title.'.xlsx');
+        }
+
+        return Excel::download(new CompetitorsExport, 'Все участники.xlsx');
     }
 
     public function addCompetitorsToPoomsaeTablo() {

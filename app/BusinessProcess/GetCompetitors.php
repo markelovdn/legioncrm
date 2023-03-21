@@ -75,11 +75,11 @@ class GetCompetitors
                 return $competitors;
             }
 
-            $competitors = Athlete::with('coaches', 'user', 'tehkval', 'sportkval')
+            $athletes = Athlete::with('coaches', 'user', 'tehkval', 'sportkval')
                 ->filter($athleteFilter)->get();
 
-            if($competitors != null && $competitors->count() >= 1) {
-                foreach ($competitors as $athlete_coach) {
+            if($athletes != null && $athletes->count() >= 1) {
+                foreach ($athletes as $athlete_coach) {
                     $ids[] = $athlete_coach->id;
                 }
                 $competitors = $competition->competitors()

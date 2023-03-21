@@ -20,6 +20,7 @@ window.Vue = require('vue').default;
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('change-status-button', require('./components/athletes/change-status-button').default);
+Vue.component('get-route-competitors-export', require('./components/athletes/get-route-competitors-export').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

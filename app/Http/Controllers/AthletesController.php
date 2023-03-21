@@ -147,7 +147,7 @@ class AthletesController extends Controller
      */
     public function show($id)
     {
-        //
+        return back();
     }
 
     /**
@@ -158,7 +158,7 @@ class AthletesController extends Controller
      */
     public function edit($id)
     {
-        //
+        return back();
     }
 
     /**
