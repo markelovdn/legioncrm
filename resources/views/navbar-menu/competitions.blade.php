@@ -17,6 +17,6 @@
     </li>
     @if(\App\Models\Competition::getOwner($competition->id))
         <get-route-competitors-export :competition_id="{{$competition->id}}"
-                                      :url="{{json_encode(route('competitorsExport', [$competition->id]))}}"></get-route-competitors-export>
+                                      :url="{{json_encode(asset('competitorsExport/competition_id='.$competition->id))}}"></get-route-competitors-export>
         @endif
 @endif
