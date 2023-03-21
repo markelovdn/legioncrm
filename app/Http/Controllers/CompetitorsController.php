@@ -254,11 +254,20 @@ class CompetitorsController extends Controller
         $competitor = $competition->competitors()->where('athlete_id', $id)->first();
 
         $agecategory_id = Competitor::getAgeCategory($request->date_of_birth);
-        if(!$agecategory_id) {return back();}
+        if(!$agecategory_id) {
+            session()->flash('error_age', 'Нет подходящего возраста для данных соревнований');
+            return back();
+        }
         $weightcategory_id = Competitor::getWeightCategory($request->input('weight'), $request->gender, $request->date_of_birth);
-        if(!$weightcategory_id) {return back();}
+        if(!$weightcategory_id) {
+            session()->flash('error_weight', 'Нет подходящей весовой категории для данных соревнований');
+            return back();
+        }
         $tehkvalgroup_id = Competitor::getTehKvalGroup($request->tehkval_id, $request->date_of_birth, $request->competition_id);
-        if(!$tehkvalgroup_id) {return back();}
+        if(!$tehkvalgroup_id) {
+            session()->flash('error_tehkval', 'Нет подходящей группы по технической квалификации для данных соревнований');
+            return back();
+        }
 
         if ($request->weight != $competitor->weight) {
             if (Competitor::checkUniqueCompetitorWeightCategory($competitor->athlete->id,
@@ -279,7 +288,6 @@ class CompetitorsController extends Controller
         $competitor->save();
 
         return redirect('competitions/' . $request->input('competition_id') . '/competitors/');
-
     }
 
     public function destroy($id, Request $request)

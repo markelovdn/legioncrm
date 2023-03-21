@@ -4,14 +4,25 @@
             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Скачать список</a>
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
-                <li><a href="#" class="dropdown-item">Все </a></li>
+                <li><a :href="getUrl()+'competition_id='+competition_id+'/agecategory_id=0/tehkvalgroup_id=0'" class="dropdown-item">Все </a></li>
                 <li class="dropdown-divider"></li>
 
-                <li class="dropdown-submenu dropdown-hover">
-                    <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Дети 10-11 лет</a>
+                <li class="dropdown-submenu dropdown-hover" v-for="route in routes">
+                    <a id="dropdownSubMenu2" :href="getUrl()+'competition_id='+competition_id+
+                                                             '/agecategory_id='+route.pivot.agecategory_id+
+                                                             '/tehkvalgroup_id=0'"
+                       role="button" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false" class="dropdown-item dropdown-toggle">{{ route.title }}</a>
                     <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
-                        <li>
-                            <a tabindex="-1" href="#" class="dropdown-item">Группа С</a>
+                        <a tabindex="-1" :href="getUrl()+'competition_id='+competition_id+
+                                                             '/agecategory_id='+route.pivot.agecategory_id+
+                                                             '/tehkvalgroup_id=0'"
+                           class="dropdown-item">Все</a>
+                        <li v-for="tehkvalgroup in route.tehkvalgroup" v-if="tehkvalgroup.competition_id === route.pivot.competition_id">
+                            <a tabindex="-1" :href="getUrl()+'competition_id='+competition_id+
+                                                             '/agecategory_id='+route.pivot.agecategory_id+
+                                                             '/tehkvalgroup_id='+tehkvalgroup.id"
+                               class="dropdown-item">{{ tehkvalgroup.title }}</a>
                         </li>
                     </ul>
                 </li>
@@ -29,15 +40,21 @@ export default {
         }
     },
     props: [
-        'competition_id'
+        'competition_id',
+        'url'
     ],
 
     methods: {
         getRoutes() {
             axios.get(`/api/competitors-export/`+this.competition_id)
                 .then((response) => {
+                    console.log(response.data)
                     this.routes = response.data
                 })
+        },
+
+        getUrl() {
+            return this.url.slice(0, 38)
         }
     },
     mounted() {

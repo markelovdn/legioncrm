@@ -67,6 +67,13 @@
                         @error('sportkval_id')<p class="text-danger">{{$errors->first('sportkval_id')}}</p>@enderror
 					</div>
 				</div>
+
+                <p class="text-danger">{{ session('error') }}</p>
+                <p class="text-danger">{{ session('error_age') }}</p>
+                <p class="text-danger">{{ session('error_weight') }}</p>
+                <p class="text-danger">{{ session('error_tehkval') }}</p>
+                <p class="text-danger">{{ session('error_unique_competitor') }}</p>
+                <p class="text-danger">{{ session('status') }}</p>
 			</div>
 			<!-- /.card-body -->
 			<div class="card-footer">

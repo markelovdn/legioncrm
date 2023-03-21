@@ -16,7 +16,7 @@
             Добавить спортсмена</a>
     </li>
     @if(\App\Models\Competition::getOwner($competition->id))
-        <get-route-competitors-export :competition_id="{{$competition->id}}"></get-route-competitors-export>
+        <get-route-competitors-export :competition_id="{{$competition->id}}" :url="{{json_encode(route('competitorsExport', [$competition->id]))}}"></get-route-competitors-export>
 
         <li class="nav-item">
             <a class="nav-link" href="{{route('competitorsExport', [$competition->id, 2, 4])}}" role="button">
