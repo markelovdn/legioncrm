@@ -21,21 +21,17 @@ class CompetitorFilter extends QueryFilter {
             });
     }
 
+    public function tehkvalgroup_id($tehkvalgroup_id = null){
+
+        return $this->builder
+            ->when($tehkvalgroup_id, function($query) use ($tehkvalgroup_id){
+                $query->where('tehkvalgroup_id', $tehkvalgroup_id);
+            });
+    }
+
     public function competition_id($id = null){
         return $this->builder->when($id, function($query) use($id){
             $query->where('competition_id', $id);
         });
-    }
-
-    public function coach_id($id = null){
-        return $this->builder->when($id, function($query) use($id){
-            $query->where('coach_id', $id);
-        });
-    }
-
-    public function search_field($search_string = ''){
-        return $this->builder
-            ->when($search_string, function($query) use($search_string){
-            $query->where('secondname', 'LIKE', '%'.$search_string.'%');});
     }
 }

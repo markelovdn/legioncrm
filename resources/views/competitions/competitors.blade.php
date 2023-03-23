@@ -12,30 +12,95 @@
                 </div>
             </div>
             <div class="card-body" style="display: none;">
-                Дата начала:{{ \Carbon\Carbon::parse($competition->date_start)->format('d.m.Y')}}
-                <p>Фильтр</p>
-                <hr>
+                <a class="btn btn-default" href="{{$competition->linkreport}}">Положение и отчеты</a>
+
                 <div class="p-3 control-sidebar-content">
                     <form method="GET" action="{{url()->current()}}">
-                        <h6>Тренер</h6>
-                        <div class="d-flex">
-                            <select class="custom-select mb-3 text-light border-0 bg-white" name="coach_id">
-                                <option value="">Все</option>
-                                @if(isset($coaches) && \App\Models\User::getRoleCode() != \App\Models\Role::ROLE_COACH)
-                                    @foreach($coaches as $coach)
-                                        <option value="{{$coach->id}}">{{$coach->user->secondname}} {{mb_substr($coach->user->firstname, 0, 1)}}.{{mb_substr($coach->user->patronymic, 0, 1)}}.</option>
-                                    @endforeach
-                                @elseif(\App\Models\User::getRoleCode() == \App\Models\Role::ROLE_COACH)
-                                    <option value="{{$coach->id}}">
-                                        {{$coach->user->secondname}} {{mb_substr($coach->user->firstname, 0, 1)}}.{{mb_substr($coach->user->patronymic, 0, 1)}}.
-                                    </option>
-                                @endif
 
-                            </select>
+                    </form>
+                    <form method="GET" action="{{url()->current()}}">
+                        <h6>Тренер</h6>
+                        <div class="row">
+                            <div class="col-9">
+                                <select class="custom-select mb-3 text-light border-0 bg-white" name="coach_id">
+                                    <option value="">Все</option>
+                                    @if(isset($coaches) && \App\Models\User::getRoleCode() != \App\Models\Role::ROLE_COACH)
+                                        @foreach($coaches as $coach)
+                                            <option value="{{$coach->id}}">{{$coach->user->secondname}} {{mb_substr($coach->user->firstname, 0, 1)}}.{{mb_substr($coach->user->patronymic, 0, 1)}}.</option>
+                                        @endforeach
+                                    @elseif(\App\Models\User::getRoleCode() == \App\Models\Role::ROLE_COACH)
+                                        <option value="{{$coach->id}}">
+                                            {{$coach->user->secondname}} {{mb_substr($coach->user->firstname, 0, 1)}}.{{mb_substr($coach->user->patronymic, 0, 1)}}.
+                                        </option>
+                                    @endif
+
+                                </select>
+                            </div>
+                            <div class="col">
+                                <button type="submit" class="btn btn-info"><i class="fas fa-check"></i></button>
+                            </div>
                         </div>
-                        {{--TODO: падает тест competition_index--}}
-                        <div class="d-flex">
-                            <button type="submit" class="btn btn-info">Выбрать</button>
+                        <h6>Возраст</h6>
+                        <div class="row">
+                            <div class="col-9">
+                                <select class="custom-select mb-3 text-light border-0 bg-white" name="agecategory_id">
+                                    <option value="">Все</option>
+                                    @if(\App\Models\User::getRoleCode() == \App\Models\Role::ROLE_COACH || \App\Models\Competition::getOwner($competition->id))
+                                        @foreach($agecategories as $agecategory)
+                                        <option value="{{$agecategory->id}}" @if(\Illuminate\Support\Facades\Request::input('agecategory_id') == $agecategory->id) selected @endif>
+                                            {{$agecategory->title}}
+                                        </option>
+                                        @endforeach
+                                    @endif
+
+                                </select>
+                            </div>
+                            <div class="col">
+                                <button type="submit" class="btn btn-info"><i class="fas fa-check"></i></button>
+                            </div>
+                        </div>
+                        <h6>Весовая категория</h6>
+                        <div class="row">
+                            <div class="col-9">
+                                <select class="custom-select mb-3 text-light border-0 bg-white" name="weightcategory_id">
+                                    <option value="">Все</option>
+                                    @if(\App\Models\User::getRoleCode() == \App\Models\Role::ROLE_COACH || \App\Models\Competition::getOwner($competition->id))
+                                        @foreach($weightcategories as $weightcategory)
+                                            <option value="{{$weightcategory->id}}" @if(\Illuminate\Support\Facades\Request::input('weightcategory_id') == $weightcategory->id) selected @endif>
+                                                {{$weightcategory->title}}
+                                                @if($weightcategory->gender == \App\Models\Athlete::GENDER_MALE)
+                                                    м.
+                                                @else
+                                                    ж.
+                                                    @endif
+                                            </option>
+                                        @endforeach
+                                    @endif
+
+                                </select>
+                            </div>
+                            <div class="col">
+                                <button type="submit" class="btn btn-info"><i class="fas fa-check"></i></button>
+                            </div>
+                        </div>
+                        <h6>Группа</h6>
+                        <div class="row">
+                            <div class="col-9">
+                                <select class="custom-select mb-3 text-light border-0 bg-white" name="tehkvalgroup_id">
+                                    <option value="">Все</option>
+                                    @if(\App\Models\User::getRoleCode() == \App\Models\Role::ROLE_COACH || \App\Models\Competition::getOwner($competition->id))
+                                        @foreach($tehkvalgroups as $tehkvalgroup)
+                                            <option value="{{$tehkvalgroup->id}}" @if(\Illuminate\Support\Facades\Request::input('tehkvalgroup_id') == $tehkvalgroup->id) selected @endif>
+                                                {{$tehkvalgroup->title}}
+                                            </option>
+                                        @endforeach
+                                    @endif
+
+                                </select>
+                            </div>
+                            <div class="col">
+                                <button type="submit" class="btn btn-info"><i class="fas fa-check"></i></button>
+                            </div>
                         </div>
                     </form>
                 </div>

@@ -11,10 +11,10 @@ class WeightCategory extends Model
 {
     use HasFactory;
 
-    public function age()
-    {
-        return $this->hasOne(Age::class);
-    }
+//    public function age()
+//    {
+//        return $this->hasOne(Age::class);
+//    }
 
     public function scopeFilter(Builder $builder, QueryFilter $filter){
         return $filter->apply($builder);

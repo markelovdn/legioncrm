@@ -24,6 +24,7 @@ use App\Models\User;
 use App\Models\WeightCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CompetitorsController extends Controller
@@ -37,6 +38,12 @@ class CompetitorsController extends Controller
         $coaches = Coach::with('user')->get();
         $coach = Coach::with('user')->where('user_id', $user)->first();
         $competition = Competition::where('id', $competition_id)->first();
+        $agecategories = $competition->agecategories()->get();
+        $weightcategories = DB::table('weight_categories')->where('agecategory_id', $request->agecategory_id)->get();
+        $tehkvalgroups = DB::table('tehkvals_groups')
+            ->where('agecategory_id', $request->agecategory_id)
+            ->where('competition_id', $competition_id)
+            ->get();
         $competitors = $competitors->getCompetitors($user, $competition->id, $CompetitorFilter, $weightFilter, $athleteFilter);
 
         if (!$competitors) {
@@ -47,7 +54,10 @@ class CompetitorsController extends Controller
         return view('competitions.competitors', ['competition'=>$competition,
             'competitors' => $competitors, 'tehkvals' => $tehkvals,
             'coaches' => $coaches,
-            'coach' => $coach
+            'coach' => $coach,
+            'agecategories' => $agecategories,
+            'weightcategories'=>$weightcategories,
+            'tehkvalgroups' => $tehkvalgroups
             ]);
     }
 

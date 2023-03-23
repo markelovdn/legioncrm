@@ -84,7 +84,8 @@ class GetCompetitors
                 }
                 $competitors = $competition->competitors()
                     ->with('athlete', 'agecategory', 'weightcategory', 'tehkvalgroup')
-                    ->whereIn('athlete_id', $ids)->get();
+                    ->whereIn('athlete_id', $ids)
+                    ->filter($CompetitorFilter)->get();
             }
 
             return $competitors;
