@@ -11,13 +11,10 @@
                     </button>
                 </div>
             </div>
-            <div class="card-body" style="display: none;">
+            <div class="card-body" style="display: block;">
                 <a class="btn btn-default" href="{{$competition->linkreport}}">Положение и отчеты</a>
 
                 <div class="p-3 control-sidebar-content">
-                    <form method="GET" action="{{url()->current()}}">
-
-                    </form>
                     <form method="GET" action="{{url()->current()}}">
                         <h6>Тренер</h6>
                         <div class="row">
@@ -26,10 +23,11 @@
                                     <option value="">Все</option>
                                     @if(isset($coaches) && \App\Models\User::getRoleCode() != \App\Models\Role::ROLE_COACH)
                                         @foreach($coaches as $coach)
-                                            <option value="{{$coach->id}}">{{$coach->user->secondname}} {{mb_substr($coach->user->firstname, 0, 1)}}.{{mb_substr($coach->user->patronymic, 0, 1)}}.</option>
+                                            <option value="{{$coach->id}}" @if(\Illuminate\Support\Facades\Request::input('coach_id') == $coach->id) selected @endif>
+                                                {{$coach->user->secondname}} {{mb_substr($coach->user->firstname, 0, 1)}}.{{mb_substr($coach->user->patronymic, 0, 1)}}.</option>
                                         @endforeach
                                     @elseif(\App\Models\User::getRoleCode() == \App\Models\Role::ROLE_COACH)
-                                        <option value="{{$coach->id}}">
+                                        <option value="{{$coach->id}}" @if(\Illuminate\Support\Facades\Request::input('coach_id') == $coach->id) selected @endif>
                                             {{$coach->user->secondname}} {{mb_substr($coach->user->firstname, 0, 1)}}.{{mb_substr($coach->user->patronymic, 0, 1)}}.
                                         </option>
                                     @endif
