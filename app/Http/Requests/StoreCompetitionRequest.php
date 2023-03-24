@@ -26,6 +26,7 @@ class StoreCompetitionRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:250'],
             'org_id' => ['required', 'integer'],
+            'open_registration' => ['required', 'integer'],
             'status' => ['required', 'integer'],
             'country_id' => ['required', 'integer', 'exists:countries,id'],
             'district_id' => ['required', 'integer', 'exists:districts,id'],

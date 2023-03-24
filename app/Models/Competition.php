@@ -13,6 +13,9 @@ class Competition extends Model
 {
     use HasFactory;
 
+    public const REGISTRATION_OPEN = 1;
+    public const REGISTRATION_CLOSE = 2;
+
     public function country()
     {
         return $this->belongsTo(Country::class);
@@ -135,5 +138,19 @@ class Competition extends Model
             ->where('tehkvalgroup_id', $tehkvalgroup_id)
             ->get());
     }
+
+//    public function competitorsCountCoach(int $competition_id, int $coach_id) :int
+//    {
+//        if (!$competition_id) {
+//            session()->flash('error', 'Нет соревнований с данным id');
+//        }
+//
+//        $competition = Competition::where('id', $competition_id)->first();
+//
+//        return count($competition->competitors()
+//            ->with('coaches')
+//            ->where('weightcategory_id', $weightcategory_id)
+//            ->get());
+//    }
 
 }

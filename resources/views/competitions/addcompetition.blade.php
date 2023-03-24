@@ -93,6 +93,16 @@
                         @error('address')<p class="text-danger">{{$errors->first('address')}}</p>@enderror
                     </div>
                 </div>
+                <div class="form-group row">
+                    <label for="open_registration" class="col-sm-2 col-form-label">Закрыть регистрацию<span
+                            class="text-danger">*</span></label>
+                    <div class="col-sm-10">
+                        <select name="open_registration" id="open_registration" class="form-control">
+                            <option value="{{\App\Models\Competition::REGISTRATION_OPEN}}">Нет</option>
+                            <option value="{{\App\Models\Competition::REGISTRATION_CLOSE}}">Да</option>
+                        </select>
+                    </div>
+                </div>
 				<div class="form-group row">
 					<label for="date_end" class="col-sm-2 col-form-label">Возрастные категории<span class="text-danger">*</span></label>
 					<div class="col-sm-10">

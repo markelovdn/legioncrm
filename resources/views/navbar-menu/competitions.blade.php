@@ -10,13 +10,13 @@
 
 @endif
 
-@if(Str::contains(url()->current(), 'competitors'))
+@if(Str::contains(url()->current(), 'competitors') && $competition->open_registration != \App\Models\Competition::REGISTRATION_CLOSE)
     <li class="nav-item">
         <a class="nav-link" href="{{route('competitions.competitors.create', [$competition->id])}}" role="button">
             Добавить спортсмена</a>
     </li>
-    @if(\App\Models\Competition::getOwner($competition->id))
+@elseif(Str::contains(url()->current(), 'competitors') && \App\Models\Competition::getOwner($competition->id))
         <get-route-competitors-export :competition_id="{{$competition->id}}"
                                       :url="{{json_encode(asset('competitorsExport/competition_id='.$competition->id))}}"></get-route-competitors-export>
-        @endif
 @endif
+

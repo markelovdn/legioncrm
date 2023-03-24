@@ -36,7 +36,13 @@
 					<b>Место проведения: </b>{{$competition->address}}<br>
 					<b>Дата начала: </b>{{ \Carbon\Carbon::parse($competition->date_start)->format('d.m.Y')}}<br>
 					<b>Дата окончания: </b>{{ \Carbon\Carbon::parse($competition->date_end)->format('d.m.Y')}}<br>
-                    <b>Зарегестированно всего: </b>{{ \App\Models\Competition::competitorsCount($competition->id)}} <a href="{{route('competitions.competitors.create',[$competition->id])}}"><span class="badge badge-success">Добавить участников</span></a><br>
+                    <b>Зарегестированно всего: </b>{{ \App\Models\Competition::competitorsCount($competition->id)}}
+                    @if($competition->open_registration != \App\Models\Competition::REGISTRATION_CLOSE)
+                        <a href="{{route('competitions.competitors.create',[$competition->id])}}"><span class="badge badge-success">Добавить участников</span></a>
+                    @else
+                        <span class="badge badge-warning">Регистрация закрыта</span>
+                    @endif
+                        <br>
 					<b>Возрастные категории: </b><br>@foreach($competition->agecategories as $agecategories) {{$agecategories->title}} <br> @endforeach
 				</div>
 

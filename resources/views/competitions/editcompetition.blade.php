@@ -117,6 +117,20 @@
                         @error('linkreport')<p class="text-danger">{{$errors->first('linkreport')}}</p>@enderror
                     </div>
                 </div>
+                <div class="form-group row">
+                    <label for="open_registration" class="col-sm-2 col-form-label">Закрыть регистрацию<span
+                            class="text-danger">*</span></label>
+                    <div class="col-sm-10">
+                        <select name="open_registration" id="open_registration" class="form-control">
+                                <option value="{{\App\Models\Competition::REGISTRATION_OPEN}}"
+                                    @if($competition->open_registration == \App\Models\Competition::REGISTRATION_OPEN) selected @endif>
+                                    Нет</option>
+                                <option value="{{\App\Models\Competition::REGISTRATION_CLOSE}}"
+                                    @if($competition->open_registration == \App\Models\Competition::REGISTRATION_CLOSE) selected @endif>
+                                    Да</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="card collapsed-card">
                     <div class="card-header">
                         <label for="linkreport" class="col-sm-2 col-form-label">Возрастные категории<span

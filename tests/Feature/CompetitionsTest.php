@@ -75,6 +75,7 @@ class CompetitionsTest extends TestCase
             'date_start' => '2000-10-10',
             'date_end' => '2000-10-10',
             'linkreport' => 'http://tesst',
+            'open_registration' => Competition::REGISTRATION_OPEN,
             ]);
 
         $comp = Competition::where('title', 'Тестовые соревнованя')->first();

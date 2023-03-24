@@ -69,6 +69,7 @@ class CompetitionsController extends Controller
         $competition->district_id = $request->district_id;
         $competition->region_id = $request->region_id;
         $competition->linkreport = $request->linkreport;
+        $competition->open_registration = $request->open_registration;
 
         $competition->save();
 
@@ -144,6 +145,7 @@ class CompetitionsController extends Controller
         $competition->district_id = $request->district_id;
         $competition->region_id = $request->region_id;
         $competition->linkreport = $request->linkreport;
+        $competition->open_registration = $request->open_registration;
 
         $competition->save();
 
