@@ -46,7 +46,7 @@
                                     @if(\App\Models\User::getRoleCode() == \App\Models\Role::ROLE_COACH || \App\Models\Competition::getOwner($competition->id))
                                         @foreach($agecategories as $agecategory)
                                         <option value="{{$agecategory->id}}" @if(\Illuminate\Support\Facades\Request::input('agecategory_id') == $agecategory->id) selected @endif>
-                                            {{$agecategory->title}}
+                                            {{$agecategory->title}} ({{ \App\Models\Competition::competitorsCountAgecategory($competition->id, $agecategory->id)}} человек)
                                         </option>
                                         @endforeach
                                     @endif
@@ -65,7 +65,7 @@
                                     @if(\App\Models\User::getRoleCode() == \App\Models\Role::ROLE_COACH || \App\Models\Competition::getOwner($competition->id))
                                         @foreach($weightcategories as $weightcategory)
                                             <option value="{{$weightcategory->id}}" @if(\Illuminate\Support\Facades\Request::input('weightcategory_id') == $weightcategory->id) selected @endif>
-                                                {{$weightcategory->title}}
+                                                {{$weightcategory->title}} ({{ \App\Models\Competition::competitorsCountWeightcategory($competition->id, $weightcategory->id)}} человек)
                                                 @if($weightcategory->gender == \App\Models\Athlete::GENDER_MALE)
                                                     м.
                                                 @else
@@ -89,7 +89,7 @@
                                     @if(\App\Models\User::getRoleCode() == \App\Models\Role::ROLE_COACH || \App\Models\Competition::getOwner($competition->id))
                                         @foreach($tehkvalgroups as $tehkvalgroup)
                                             <option value="{{$tehkvalgroup->id}}" @if(\Illuminate\Support\Facades\Request::input('tehkvalgroup_id') == $tehkvalgroup->id) selected @endif>
-                                                {{$tehkvalgroup->title}}
+                                                {{$tehkvalgroup->title}} ({{ \App\Models\Competition::competitorsCountTehkvalgroup($competition->id, \Illuminate\Support\Facades\Request::input('weightcategory_id'), $tehkvalgroup->id)}} человек)
                                             </option>
                                         @endforeach
                                     @endif
