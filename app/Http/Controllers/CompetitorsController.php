@@ -306,7 +306,7 @@ class CompetitorsController extends Controller
         //TODO:Добавить всплвающее окно с подтверждением
         $competitor = Competitor::with('athlete')->find($id);
 
-        if (!Competitor::isCoachAthlete($competitor->athlete_id)){
+        if (!Competitor::isCoachAthlete($competitor->athlete_id) && !Competition::getOwner($request->competition_id)){
             throw new \Exception('Вы не можете редактировать данного спортсмена');
         }
 

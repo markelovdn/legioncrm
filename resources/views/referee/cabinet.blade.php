@@ -15,7 +15,7 @@
                 <div class="row g-3">
                     <div class="col-sm-12">
                         <label for="grade" class="form-label">Оценка</label>
-                        <input type="number" class="form-control" name="grade" id="grade" step="0.1">
+                        <input type="number" class="form-control" name="grade" id="grade" step="any">
                     </div>
                 </div>
                 <hr class="my-4">

@@ -9,6 +9,7 @@ use App\Models\Athlete;
 use App\Models\Coach;
 use App\Models\Competition;
 use App\Models\Parented;
+use App\Models\Referee;
 use App\Models\Role;
 use App\Models\RoleUser;
 use App\Models\User;
@@ -23,6 +24,7 @@ class GetCompetitors
         $competition = Competition::where('id', $competition_id)->first();
         $coach = Coach::where('user_id', $id)->first();
         $parented = Parented::where('user_id', $id)->first();
+        $referee = Referee::where('user_id', $id)->first();
 
         if ($parented) {
             if(Str::contains(url()->current(), 'create')) {
@@ -91,7 +93,7 @@ class GetCompetitors
             return $competitors;
         }
 
-        if (Competition::getOwner($competition_id)) {
+        if (Competition::getOwner($competition_id) || $referee) {
             if(Str::contains(url()->current(), 'create')) {
                 return false;
             }
@@ -105,7 +107,8 @@ class GetCompetitors
                 }
                 $competitors = $competition->competitors()
                     ->with('athlete', 'agecategory', 'weightcategory', 'tehkvalgroup')
-                    ->whereIn('athlete_id', $ids)->get();
+                    ->whereIn('athlete_id', $ids)
+                    ->filter($CompetitorFilter)->get();
             }
 
             return $competitors;

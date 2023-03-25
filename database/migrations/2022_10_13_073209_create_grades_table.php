@@ -15,7 +15,7 @@ class CreateGradesTable extends Migration
     {
         Schema::create('grades', function (Blueprint $table) {
             $table->id();
-            $table->integer('grade')->nullable();
+            $table->float('grade')->nullable();
             $table->integer('competitor_id')->nullable();
             $table->timestamps();
         });

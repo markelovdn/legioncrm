@@ -23,7 +23,7 @@ class GradesCntroller extends Controller
         $grades = Grade::where('grade', '!=', null)->get();
         $grade_avg = '0';
         if (count($grades) == 3) {
-            $grade_avg = round($grades->avg('grade'), 1);
+            $grade_avg = round($grades->avg('grade'), 2);
         } elseif (count($grades) > 3) {
             $grade_avg = 'Ожидание оценок';
         }

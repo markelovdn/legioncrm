@@ -38,9 +38,7 @@
     @case(\App\Models\Role::ROLE_COACH)
     @include('left-menu.athletes')
     @include('left-menu.parented')
-    @case(\App\Models\Role::ROLE_REFEREE)
-    @include('left-menu.poomsae-tablo')
-    @include('left-menu.poomsae-competition')
+
     @case(\App\Models\Role::ROLE_PARENTED)
     @case(\App\Models\Role::ROLE_ATHLETE)
     @include('left-menu.attestation')

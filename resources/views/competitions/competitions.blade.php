@@ -62,6 +62,18 @@
                         @endif
                     </div>
 				</div>
+
+                @if(\App\Models\User::getRoleCode() == \App\Models\Role::ROLE_REFEREE)
+                <div class="card-footer">
+                    <div class="row row-cols-2">
+                            <div class="col text-left">
+                                <a href="{{route('grade.index')}}" class="btn btn-primary nav-link">
+                                    <i class="fas fa-tv"></i>
+                                </a>
+                            </div>
+                    </div>
+                </div>
+                @endif
 			</div>
 	@endforeach
 	<!-- /.card-body -->

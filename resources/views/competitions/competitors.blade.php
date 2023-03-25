@@ -14,6 +14,7 @@
             <div class="card-body" style="display: block;">
                 @if(!\App\Models\User::getRoleCode() == \App\Models\Role::ROLE_PARENTED
                     || \App\Models\User::getRoleCode() == \App\Models\Role::ROLE_COACH
+                    || \App\Models\User::getRoleCode() == \App\Models\Role::ROLE_REFEREE
                     || \App\Models\Competition::getOwner($competition->id))
                 <a class="btn btn-default" href="{{$competition->linkreport}}">Положение и отчеты</a>
                 <div class="p-3 control-sidebar-content">
@@ -146,6 +147,13 @@
                                 <input type="number" style="display: none" class="form-control" id="competition_id" name="competition_id" value="{{$competition->id}}">
                                 <button type="submit" class="btn btn-primary"><i class="fas fa-cog"></i></button>
                             </form>
+                            @if(\App\Models\User::getRoleCode() == \App\Models\Role::ROLE_REFEREE)
+                            <form method="POST" action="{{route('setNamePoomsaeTablo')}}">
+                                @csrf
+                                <input type="number" style="display: none" class="form-control" id="competition_id" name="competition_id" value="{{$competition->id}}">
+                                <button type="submit" class="btn btn-danger"><i class="fas fa-tv"></i></button>
+                            </form>
+                                @endif
                         </div>
                         <div class="col text-right">
                             <form method="POST" action="{{route('competitors.destroy',$competitor->id)}}">
@@ -154,6 +162,19 @@
                                 <input type="number" style="display: none" class="form-control" id="competition_id" name="competition_id" value="{{$competition->id}}">
                                 <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                             </form>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                @if(\App\Models\User::getRoleCode() == \App\Models\Role::ROLE_REFEREE)
+                <div class="card-footer">
+                    <div class="row row-cols-2">
+                        <div class="col text-left">
+                            <form method="POST" action="{{route('setNamePoomsaeTablo')}}">
+                                    @csrf
+                                    <input type="number" style="display: none" class="form-control" id="competitor_id" name="competitor_id" value="{{$competitor->id}}">
+                                    <button type="submit" class="btn btn-danger"><i class="fas fa-tv"></i></button>
+                                </form>
                         </div>
                     </div>
                 </div>
