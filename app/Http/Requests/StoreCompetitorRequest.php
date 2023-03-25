@@ -24,10 +24,12 @@ class StoreCompetitorRequest extends FormRequest
     public function rules()
     {
         return [
-            'weight' => ['required', 'numeric', 'max:150', 'min:15'],
-            'sportkval_id' => ['required', 'numeric'],
-            'tehkval_id' => ['required', 'numeric'],
-            'competition_id' => ['required', 'numeric'],
+            'weight' => ['required_without:place', 'numeric', 'max:150', 'min:15'],
+            'sportkval_id' => ['required_without:place', 'numeric'],
+            'tehkval_id' => ['required_without:place', 'numeric'],
+            'competition_id' => ['required_without:place', 'numeric'],
+            'count_winner' => ['numeric'],
+            'place' => ['numeric'],
         ];
     }
 }

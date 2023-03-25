@@ -110,7 +110,38 @@
             <div @if($competitor->athlete->gender == \App\Models\Athlete::GENDER_MALE)class="card card-primary collapsed-card" @else class="card card-danger collapsed-card" @endif>
                 <div class="card-header">
                     <span><img class="direct-chat-img" src="@if(!$competitor->athlete->photo){{asset('/storage/images/no_photo.jpg')}}@else{{$competitor->athlete->photo}}@endif" alt="message user image"></span>
-                    <h3 class="card-title">{{$competitor->athlete->user->secondname}} {{$competitor->athlete->user->firstname}} {{$competitor->athlete->user->patronymic}}</h3><br>
+                    <h3 class="card-title">{{$competitor->athlete->user->secondname}} {{$competitor->athlete->user->firstname}} {{$competitor->athlete->user->patronymic}}</h3>
+
+                    @if(\App\Models\User::getRoleCode() == \App\Models\Role::ROLE_ORGANIZATION_ADMIN)
+                        <span class="badge badge-success" data-toggle="modal" style="cursor: pointer" data-target="#modal-competitior-result{{$competitor->id}}">
+                                внести результаты</span>
+
+                        {{--modal edit active-athlete--}}
+                        <div class="modal fade" id="modal-competitior-result{{$competitor->id}}" style="display: none;" aria-hidden="true">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <form method="POST" action="{{route('competitors.update', [$competitor->athlete->id])}}">
+                                            <input type="number" style="display: none" class="form-control" name="competition_id" value="{{$competition->id}}">
+                                            <input type="number" class="form-control" name="count_winner" placeholder="Количество побед">
+                                            <input type="number" class="form-control" name="place" placeholder="Занятое место">
+                                            @csrf
+                                            @method('PUT')
+
+                                            <div class="modal-footer justify-content-between">
+
+                                                <button type="reset" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                                                <button type="submit" class="btn btn-primary">Сохранить</button>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    <br>
+
                     @if($competitor->athlete->gender == \App\Models\Athlete::GENDER_MALE)
                         <i class="fas fa-male"></i>
                     @else
@@ -147,13 +178,16 @@
                                 <input type="number" style="display: none" class="form-control" id="competition_id" name="competition_id" value="{{$competition->id}}">
                                 <button type="submit" class="btn btn-primary"><i class="fas fa-cog"></i></button>
                             </form>
+                            <div class="col text-left">
+                                <a target="_blank" href="{{route('printCompetitorsСertificate', ['competitor_id' => $competitor->id, 'competition_id' => $competition->id])}}"><i class="fas fa-file-contract"></i></a>
+                            </div>
                             @if(\App\Models\User::getRoleCode() == \App\Models\Role::ROLE_REFEREE)
-                            <form method="POST" action="{{route('setNamePoomsaeTablo')}}">
+                                <form method="POST" action="{{route('setNamePoomsaeTablo')}}">
                                 @csrf
                                 <input type="number" style="display: none" class="form-control" id="competition_id" name="competition_id" value="{{$competition->id}}">
                                 <button type="submit" class="btn btn-danger"><i class="fas fa-tv"></i></button>
                             </form>
-                                @endif
+                            @endif
                         </div>
                         <div class="col text-right">
                             <form method="POST" action="{{route('competitors.destroy',$competitor->id)}}">

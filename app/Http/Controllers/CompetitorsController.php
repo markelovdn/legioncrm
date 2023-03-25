@@ -264,6 +264,13 @@ class CompetitorsController extends Controller
 
         $competitor = $competition->competitors()->where('athlete_id', $id)->first();
 
+        if ($request->place) {
+            $competitor->count_winner = $request->count_winner;
+            $competitor->place = $request->place;
+            $competitor->save();
+            return back();
+        }
+
         $agecategory_id = Competitor::getAgeCategory($request->date_of_birth);
         if(!$agecategory_id) {
             session()->flash('error_age', 'Нет подходящего возраста для данных соревнований');
@@ -296,6 +303,8 @@ class CompetitorsController extends Controller
         $competitor->agecategory_id = $agecategory_id;
         $competitor->weightcategory_id = $weightcategory_id;
         $competitor->tehkvalgroup_id = $tehkvalgroup_id;
+        $competitor->count_winner = $request->count_winner;
+        $competitor->place = $request->place;
         $competitor->save();
 
         return redirect('competitions/' . $request->input('competition_id') . '/competitors/');

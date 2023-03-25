@@ -20,6 +20,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('attestation.athletes', \App\Http\Controllers\AttestationAthletesController::class)->shallow();
     Route::resource('attestations', \App\Http\Controllers\AttestationsController::class);
     Route::any('printSertificate', [\App\BusinessProcess\PrintAttestationSertificate::class, 'printSertificate'])->name('printSertificate')->middleware('auth');
+    Route::any('printCompetitorsСertificate', [\App\BusinessProcess\PrintCompetitorsCertificate::class, 'printCompetitorsCertificate'])->name('printCompetitorsСertificate')->middleware('auth');
     Route::any('printCscaCard', [\App\BusinessProcess\PrintAthleteDocument::class, 'printCscaCard'])->name('printCscaCard')->middleware('auth');
     Route::resource('events', \App\Http\Controllers\EventsController::class);
     Route::resource('events.users', \App\Http\Controllers\EventUserController::class)->shallow();
