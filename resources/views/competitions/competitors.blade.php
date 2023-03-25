@@ -135,7 +135,9 @@
                     >{{$competitor->athlete->tehkval->last()->title}}</span><br>
                         <b>Спортивная квалификация: </b>{{$competitor->athlete->sportkval->min('short_title')}}<br>
                 </div>
-                @if(\App\Models\Competitor::isCoachAthlete($competitor->athlete->id) && $competition->open_registration != \App\Models\Competition::REGISTRATION_CLOSE)
+                @if(\App\Models\Competitor::isCoachAthlete($competitor->athlete->id)
+                    && $competition->open_registration != \App\Models\Competition::REGISTRATION_CLOSE)
+                    @elseif(\App\Models\Competition::getOwner($competition->id))
                     <div class="card-footer">
                     <div class="row row-cols-2">
                         <div class="col text-left">

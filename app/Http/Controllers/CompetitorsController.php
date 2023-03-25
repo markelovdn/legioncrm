@@ -256,11 +256,12 @@ class CompetitorsController extends Controller
     {
         $request->validated();
 
-        if (!Competitor::isCoachAthlete($id)){
+        $competition = Competition::where('id', $request->competition_id)->first();
+
+        if (!Competitor::isCoachAthlete($id) && !Competition::getOwner($competition->id)){
             throw new \Exception('Вы не можете редактировать данного спортсмена');
         }
 
-        $competition = Competition::where('id', $request->competition_id)->first();
         $competitor = $competition->competitors()->where('athlete_id', $id)->first();
 
         $agecategory_id = Competitor::getAgeCategory($request->date_of_birth);
