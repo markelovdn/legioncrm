@@ -72,4 +72,5 @@
         </div>
     </div>
 </div>
+    <login-form></login-form>
 @endsection

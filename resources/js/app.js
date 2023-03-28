@@ -21,6 +21,7 @@ window.Vue = require('vue').default;
 
 Vue.component('change-status-button', require('./components/athletes/change-status-button').default);
 Vue.component('get-route-competitors-export', require('./components/athletes/get-route-competitors-export').default);
+Vue.component('input-date', require('./components/input-date').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
