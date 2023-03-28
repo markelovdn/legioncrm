@@ -45,7 +45,6 @@ export default {
         getRoutes() {
             axios.get(`/api/competitors-export/`+this.competition_id)
                 .then((response) => {
-                    console.log(response.data)
                     this.routes = response.data
                 })
         },

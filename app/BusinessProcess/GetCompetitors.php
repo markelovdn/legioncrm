@@ -116,6 +116,96 @@ class GetCompetitors
 
     }
 
+    public function getCompetitorsApi ($competition_id)
+    {
+        $competition = Competition::where('id', $competition_id)->first();
+        $athletes = Athlete::with('coaches', 'user', 'tehkval', 'sportkval')->get();
+        $coach = Coach::where('user_id', \auth()->user()->id)->first();
+        $parented = Parented::where('user_id', \auth()->user()->id)->first();
+        $referee = Referee::where('user_id', \auth()->user()->id)->first();
+
+        if ($parented) {
+            if(Str::contains(url()->current(), 'create')) {
+                $competitors = Athlete::with('coaches', 'user', 'tehkval', 'sportkval')
+                    ->whereHas('parenteds', function (Builder $query) use ($parented) {
+                        $query->where('parented_id', '=', $parented->id);
+                    })->get();
+
+                return $competitors;
+            }
+
+            $parented_athletes = DB::table('athlete_parented')->where('parented_id', $parented->id)->get();
+            if($parented_athletes) {
+                $athletes = [];
+                foreach ($parented_athletes as $item) {
+                    $athletes[] = $item->athlete_id;
+                }
+
+                $athletes_parent = Athlete::with('coaches', 'user', 'tehkval', 'sportkval')
+                    ->whereIn('id', $athletes)->get();
+
+                if($athletes_parent != null && $athletes_parent->count() >= 1) {
+                    foreach ($athletes_parent as $athlete_parent) {
+                        $ids[] = $athlete_parent->id;
+                    }
+
+                    $competitors = $competition->competitors()
+                        ->with('athlete', 'agecategory', 'weightcategory', 'tehkvalgroup')
+                        ->whereIn('athlete_id', $ids)->get();
+
+                    if ($competitors->count() == 0) {
+                        return false;
+                    }
+
+                    return $competitors;
+                }
+
+            } else
+                return false;
+        }
+
+        if ($coach) {
+            if(Str::contains(url()->current(), 'create')) {
+                $competitors = Athlete::with('coaches', 'user', 'tehkval', 'sportkval')
+                    ->whereHas('coaches', function (Builder $query) use ($coach) {
+                        $query->where('coach_id', '=', $coach->id)
+                            ->where('coach_type', '=', Coach::REAL_COACH);
+                    })->get();
+
+                return $competitors;
+            }
+
+            if($athletes != null && $athletes->count() >= 1) {
+                foreach ($athletes as $athlete_coach) {
+                    $ids[] = $athlete_coach->id;
+                }
+                $competitors = $competition->competitors()
+                    ->with('athlete', 'agecategory', 'weightcategory', 'tehkvalgroup')
+                    ->whereIn('athlete_id', $ids)->get();
+            }
+
+            return $competitors;
+        }
+
+        if (Competition::getOwner($competition_id) || $referee) {
+            if(Str::contains(url()->current(), 'create')) {
+                return false;
+            }
+
+            if($athletes != null && $athletes->count() >= 1) {
+                foreach ($athletes as $athlete) {
+                    $ids[] = $athlete->id;
+                }
+                $competitors = $competition->competitors()
+                    ->with('athlete', 'agecategory', 'weightcategory', 'tehkvalgroup')
+                    ->whereIn('athlete_id', $ids)->get();
+            }
+
+            return $competitors;
+        }
+
+    }
+
     public function allCompetitors ($user) {
 
         return User::filter($user)->orderBy('secondname')->paginate(10);
