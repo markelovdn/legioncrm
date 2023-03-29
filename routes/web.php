@@ -9,6 +9,7 @@ Auth::routes();
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource('user', \App\Http\Controllers\UsersController::class);
 
+
 Route::middleware(['auth'])->group(function () {
     Route::resource('athlete', \App\Http\Controllers\AthletesController::class);
     Route::resource('organization', \App\Http\Controllers\OrganizationController::class);

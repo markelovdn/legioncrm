@@ -29,11 +29,15 @@
                                 <span class="badge badge-danger"><i class="far fa-clock"></i>не активный</span>
                             @endif
                             <br>
-                            @if(Carbon\Carbon::parse($athlete->user->date_of_birth)->diffInYears() >= 14 and !$athlete->passport)
+                            {{--@if(Carbon\Carbon::parse($athlete->user->date_of_birth)->diffInYears() >= 14 and !$athlete->passport)
+                                <span class="description font-italic ml-3">(Необходимо заполнить паспортные данные)</span>
+                                <br>
+                            @endif--}}
+                            @if($athlete->user->getDateOfBirthYear() >= 14 and !$athlete->passport)
                                 <span class="description font-italic ml-3">(Необходимо заполнить паспортные данные)</span>
                                 <br>
                             @endif
-                            @if(Carbon\Carbon::parse($athlete->user->date_of_birth)->diffInYears() < 14 and !$athlete->birthcertificate_id)
+                            @if($athlete->user->getDateOfBirthYear() < 14 and !$athlete->birthcertificate_id)
                                 <span class="description font-italic ml-3">(Необходимо заполнить данные свидетельства о рождении)</span>
                                 <br>
                             @endif
@@ -56,7 +60,7 @@
                         @include('athletes.athlete-maindata')
                         {{--/ Общие данные--}}
                         {{-- Свидетельство о рождении/паспорт--}}
-                        @if(Carbon\Carbon::parse($athlete->date_of_birth)->diffInYears() >= 14)
+                        @if($athlete->user->getDateOfBirth()->diffInYears() >= 14)
                             @if($athlete->passport_id)
                                 @include('documents.passport-athlete')
                             @endif

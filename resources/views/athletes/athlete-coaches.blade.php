@@ -57,7 +57,7 @@
                                 <div class="col-md-6">
                                     <select type="text" class="form-control @error('first_coach') is-invalid @enderror"  name="first_coach" id="first_coach">
                                         <option></option>
-                                        @foreach(\App\Models\Coach::getAllCoaches() as $coach)
+                                        @foreach($coaches as $coach)
                                         <option value="{{$coach->id}}">
                                             {{$coach->user->secondname}} {{mb_substr($coach->user->firstname, 0,1)}}.{{mb_substr($coach->user->patronymic, 0,1)}}.
                                         </option>

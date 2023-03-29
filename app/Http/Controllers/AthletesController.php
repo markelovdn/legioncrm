@@ -33,15 +33,22 @@ class AthletesController extends Controller
      */
     public function index(AthleteFilter $athleteFilter, UserFilter $userFilter, Request $request)
     {
-        $id = auth()->user()->id;
+//        $id = auth()->user()->id;
+        /** @var User|null $user */
+        $user = auth()->user();
         $tehkvals = Tehkval::get();
         $countries = Country::get();
         $districts = District::get();
         $regions = Region::get();
 
-        if (\App\Models\User::hasRole(Role::ROLE_PARENTED, $id)) {
+
+        /*if (\App\Models\User::hasRole(Role::ROLE_PARENTED, $id)) {
             return redirect('/parented/'.$id);
+        }*/
+        if ($user->isParented()) {
+            return redirect("/parented/{$user->id}");
         }
+
 
         if (\App\Models\User::hasRole(Role::ROLE_COACH, $id)) {
             $coach = Coach::where('user_id', $id)->first();
