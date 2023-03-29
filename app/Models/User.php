@@ -179,6 +179,16 @@ class User extends Authenticatable
         return true;
     }
 
+    public function getDateOfBirthYear(): int
+    {
+        return Carbon\Carbon::parse($this->date_of_birth)->diffInYears();
+    }
+
+    public function getDateOfBirth(): Carbon
+    {
+        return Carbon\Carbon::parse($this->date_of_birth);
+    }
+
     public function isSystemAdmin($user)
     {
         return \App\Models\User::hasRole(\App\Models\Role::ROLE_SYSTEM_ADMIN, $user->id);
@@ -210,13 +220,18 @@ class User extends Authenticatable
         return \App\Models\User::hasRole(\App\Models\Role::ROLE_COACH, $user->id);
     }
 
-    public function isParented(object $user)
+   /* public function isParented(object $user)
     {
         if (!$user) {
             return false;
         }
 
         return \App\Models\User::hasRole(\App\Models\Role::ROLE_PARENTED, $user->id);
+    }*/
+
+    public function isParented(): bool
+    {
+        return \App\Models\User::hasRole(\App\Models\Role::ROLE_PARENTED, $this->id);
     }
 
     public function isAthlete(object $user)
@@ -240,9 +255,6 @@ class User extends Authenticatable
     public function scopeFilter(Builder $builder, QueryFilter $filter){
         return $filter->apply($builder);
     }
-
-
-
 
 
 }
