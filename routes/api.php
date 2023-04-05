@@ -15,8 +15,11 @@
 //    return $request->user();
 //});
 
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::resource('athletes-api', \App\Http\Controllers\Api\AthletesController::class)->middleware('auth:sanctum');
-Route::any('competitors-api/{competition_id}', [\App\Http\Controllers\Api\CompetitorsController::class, 'index'])->middleware('auth:sanctum');
+Route::any('competitors-api/{competition_id}/{coach_id?}/{age_category?}', [\App\Http\Controllers\Api\CompetitorsController::class, 'index'])->middleware('auth:sanctum');
 Route::get('competitors-export/{competition_id}', [\App\Http\Controllers\Api\CompetitorsExport::class, 'competitorsExport'])->middleware('auth:sanctum');
+
+

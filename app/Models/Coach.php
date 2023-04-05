@@ -16,6 +16,13 @@ class Coach extends Model
     public const THIRD_COACH = 3;
     public const REAL_COACH = 4;
 
+    public const TYPE = [
+        self::FIRST_COACH,
+        self::SECOND_COACH,
+        self::THIRD_COACH,
+        self::REAL_COACH
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class)->with('organizations');
@@ -51,6 +58,7 @@ class Coach extends Model
                 ->where('coach_type', '=', Coach::REAL_COACH);
             })->filter($athleteFilter)
             ->paginate(10);
+
     }
 
 

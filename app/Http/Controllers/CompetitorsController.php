@@ -33,31 +33,31 @@ class CompetitorsController extends Controller
     public function index($competition_id, Request $request, CompetitorFilter $CompetitorFilter, WeightcategoryFilter $weightFilter,
                           GetCompetitors $competitors, UserFilter $userFilter, AthleteFilter $athleteFilter)
     {
-        $user = \auth()->user()->id;
-        $tehkvals = Tehkval::get();
-        $coaches = Coach::with('user')->get();
-        $coach = Coach::with('user')->where('user_id', $user)->first();
+//        $user = \auth()->user()->id;
+//        $tehkvals = Tehkval::get();
+//        $coaches = Coach::with('user')->get();
+//        $coach = Coach::with('user')->where('user_id', $user)->first();
         $competition = Competition::where('id', $competition_id)->first();
-        $agecategories = $competition->agecategories()->get();
-        $weightcategories = DB::table('weight_categories')->where('agecategory_id', $request->agecategory_id)->get();
-        $tehkvalgroups = DB::table('tehkvals_groups')
-            ->where('agecategory_id', $request->agecategory_id)
-            ->where('competition_id', $competition_id)
-            ->get();
-        $competitors = $competitors->getCompetitors($user, $competition->id, $CompetitorFilter, $weightFilter, $athleteFilter);
-
-        if (!$competitors) {
-            session()->flash('status', 'У вас нет участников на данном соревновании');
-            return redirect(route('competitions.index'));
-        }
+//        $agecategories = $competition->agecategories()->get();
+//        $weightcategories = DB::table('weight_categories')->where('agecategory_id', $request->agecategory_id)->get();
+//        $tehkvalgroups = DB::table('tehkvals_groups')
+//            ->where('agecategory_id', $request->agecategory_id)
+//            ->where('competition_id', $competition_id)
+//            ->get();
+//        $competitors = $competitors->getCompetitors($user, $competition->id, $CompetitorFilter, $weightFilter, $athleteFilter);
+//
+//        if (!$competitors) {
+//            session()->flash('status', 'У вас нет участников на данном соревновании');
+//            return redirect(route('competitions.index'));
+//        }
 
         return view('competitions.competitors', ['competition'=>$competition,
-            'competitors' => $competitors, 'tehkvals' => $tehkvals,
-            'coaches' => $coaches,
-            'coach' => $coach,
-            'agecategories' => $agecategories,
-            'weightcategories'=>$weightcategories,
-            'tehkvalgroups' => $tehkvalgroups
+//            'competitors' => $competitors, 'tehkvals' => $tehkvals,
+//            'coaches' => $coaches,
+//            'coach' => $coach,
+//            'agecategories' => $agecategories,
+//            'weightcategories'=>$weightcategories,
+//            'tehkvalgroups' => $tehkvalgroups
             ]);
     }
 

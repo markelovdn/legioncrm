@@ -1,17 +1,21 @@
 @extends('layouts.main')
 @section('content')
     <!-- Content Header (Page header) -->
-    <div class="content-header">
-        <div class="card collapsed-card">
-            <div class="card-header">
-                <h1 class="card-title">{{$competition->title}} ({{ \App\Models\Competition::competitorsCount($competition->id)}} человек)</h1>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="card-body" style="display: block;">
+    <competitors-index
+        :competition_id="{{$competition->id}}"
+        :coach_constant="{{json_encode(\App\Models\Coach::TYPE)}}"></competitors-index>
+{{--        :coach_constant="{{json_encode((new ReflectionClass(\App\Models\Coach::class))->getConstants())}}"></competitors-index>--}}
+{{--    <div class="content-header">--}}
+{{--        <div class="card collapsed-card">--}}
+{{--            <div class="card-header">--}}
+{{--                <h1 class="card-title">{{$competition->title}} ({{ \App\Models\Competition::competitorsCount($competition->id)}} человек)</h1>--}}
+{{--                <div class="card-tools">--}}
+{{--                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">--}}
+{{--                        <i class="fas fa-plus"></i>--}}
+{{--                    </button>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            <div class="card-body" style="display: block;">--}}
 {{--                @if(!\App\Models\User::getRoleCode() == \App\Models\Role::ROLE_PARENTED--}}
 {{--                    || \App\Models\User::getRoleCode() == \App\Models\Role::ROLE_COACH--}}
 {{--                    || \App\Models\User::getRoleCode() == \App\Models\Role::ROLE_REFEREE--}}
@@ -95,18 +99,18 @@
 {{--                    </form>--}}
 {{--                </div>--}}
 {{--                @endif--}}
-            </div>
-        </div>
+{{--            </div>--}}
+{{--        </div>--}}
 
-    </div>
-    <!-- /.content-header -->
-    <section class="content">
-        @if (session('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
-            </div>
-        @endif
-            <competitors-list :competition_id="{{$competition->id}}"></competitors-list>
+{{--    </div>--}}
+{{--    <!-- /.content-header -->--}}
+{{--    <section class="content">--}}
+{{--        @if (session('status'))--}}
+{{--            <div class="alert alert-success">--}}
+{{--                {{ session('status') }}--}}
+{{--            </div>--}}
+{{--        @endif--}}
+{{--            <competitors-list :competition_id="{{$competition->id}}"></competitors-list>--}}
 {{--        @foreach ($competitors as $competitor)--}}
 {{--            <div @if($competitor->athlete->gender == \App\Models\Athlete::GENDER_MALE)class="card card-primary collapsed-card" @else class="card card-danger collapsed-card" @endif>--}}
 {{--                <div class="card-header">--}}
@@ -117,7 +121,7 @@
 {{--                        <span class="badge badge-success" data-toggle="modal" style="cursor: pointer" data-target="#modal-competitior-result{{$competitor->id}}">--}}
 {{--                                внести результаты</span>--}}
 
-{{--                        --}}{{--modal edit active-athlete--}}
+{{--                        modal edit active-athlete--}}
 {{--                        <div class="modal fade" id="modal-competitior-result{{$competitor->id}}" style="display: none;" aria-hidden="true">--}}
 {{--                            <div class="modal-dialog modal-sm">--}}
 {{--                                <div class="modal-content">--}}
@@ -216,7 +220,6 @@
 {{--                @endif--}}
 {{--            </div>--}}
 {{--        @endforeach--}}
-    </section>
+{{--    </section>--}}
 
 @endsection
-

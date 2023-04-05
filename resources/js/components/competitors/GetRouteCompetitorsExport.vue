@@ -31,6 +31,7 @@
 
 <script>
 export default {
+    name: 'get-competitors-export-route',
     data() {
         return {
             routes: []

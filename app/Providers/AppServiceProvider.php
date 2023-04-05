@@ -53,5 +53,6 @@ class AppServiceProvider extends ServiceProvider
             return $user != null;
         });
 
+
     }
 }

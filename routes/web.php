@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\CompetitorsController;
+use App\Models\Athlete;
+use App\Models\Coach;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -59,3 +62,6 @@ Route::get('/logout', function () {
     Auth::logout();
     return redirect('/login');
 }); //Сделал отдельный метод потомучто не удавалось войти в систему повторно после использования стандартного метода logout щаблон не видел переменную тренера или родителя при повторном входе.
+
+Route::get('get-coaches-competition/{competition_id}', '\App\DomainService\GetCoachesCompetition')->middleware('auth:sanctum');
+Route::get('get-age-categories-competition/{competition_id}', '\App\DomainService\GetAgeCategoriesCompetition')->middleware('auth:sanctum');

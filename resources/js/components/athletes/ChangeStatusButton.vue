@@ -15,6 +15,7 @@
 
 <script>
     export default {
+        name: "change-status-button",
         data() {
             return {
                 status: 0,

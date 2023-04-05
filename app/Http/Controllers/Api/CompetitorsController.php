@@ -12,6 +12,7 @@ use App\Models\Coach;
 use App\Models\Competition;
 use App\Models\Tehkval;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\DB;
 
 class CompetitorsController extends Controller
@@ -21,10 +22,11 @@ class CompetitorsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($competition_id, GetCompetitors $competitors)
+    public function index($competition_id, $coach_id, $age_category_id, GetCompetitors $competitors)
     {
+
         $competition = Competition::where('id', $competition_id)->first();
-        $competitors = $competitors->getCompetitorsApi($competition->id);
+        $competitors = $competitors->getCompetitorsApi($competition->id, $coach_id, $age_category_id);
 
         if (!$competitors) {
             session()->flash('status', 'У вас нет участников на данном соревновании');

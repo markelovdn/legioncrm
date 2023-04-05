@@ -116,7 +116,7 @@ class GetCompetitors
 
     }
 
-    public function getCompetitorsApi ($competition_id)
+    public function getCompetitorsApi ($competition_id, $coach_id, $age_category_id)
     {
         $competition = Competition::where('id', $competition_id)->first();
         $athletes = Athlete::with('coaches', 'user', 'tehkval', 'sportkval')->get();
@@ -179,9 +179,28 @@ class GetCompetitors
                 foreach ($athletes as $athlete_coach) {
                     $ids[] = $athlete_coach->id;
                 }
+
+                if ($coach_id > 0) {
+                    $competitors = $competition->competitors()
+                        ->with('athlete', 'agecategory', 'weightcategory', 'tehkvalgroup')
+                        ->when($coach_id, function ($query) use ($coach_id) {
+                            $query->whereHas('athlete', function (Builder $query) use($coach_id) {
+                                $query->whereRelation('coaches', 'coach_id', $coach_id);
+                            });
+                        })->when($age_category_id, function ($query) use ($age_category_id) {
+                            $query->where('agecategory_id', $age_category_id);
+                        })->whereIn('athlete_id', $ids)->get();
+
+                    return $competitors;
+                }
+
                 $competitors = $competition->competitors()
                     ->with('athlete', 'agecategory', 'weightcategory', 'tehkvalgroup')
+                    ->when($age_category_id, function ($query) use ($age_category_id) {
+                        $query->where('agecategory_id', $age_category_id);
+                    })
                     ->whereIn('athlete_id', $ids)->get();
+
             }
 
             return $competitors;
@@ -211,64 +230,3 @@ class GetCompetitors
         return User::filter($user)->orderBy('secondname')->paginate(10);
     }
 }
-
-//
-//if ($coach) {
-//    $coach_athletes = DB::table('athlete_coach')->where('coach_id', $coach->id)->where('coach_type', Coach::REAL_COACH)->get();
-//
-//    if($coach_athletes) {
-//        $athletes = [];
-//        foreach ($coach_athletes as $item) {
-//            $athletes[] = $item->athlete_id;
-//        }
-//
-//        $a = Athlete::with('coaches', 'user', 'tehkval', 'sportkval')
-//            ->whereIn('id', $athletes)->get();
-//
-//        return Athlete::with('coaches', 'user', 'tehkval', 'sportkval')
-//            ->whereIn('id', $athletes)->get();
-//    } else
-//        return false;
-//}
-//
-//if ($parented) {
-//    $parented_athletes = DB::table('athlete_parented')->where('parented_id', $parented->id)->get();
-//    if($parented_athletes) {
-//        $athletes = [];
-//        foreach ($parented_athletes as $item) {
-//            $athletes[] = $item->athlete_id;
-//        }
-//
-//        return Athlete::with('coaches', 'user', 'tehkval', 'sportkval')
-//            ->whereIn('id', $athletes)->get();
-//    } else
-//        return false;
-//}
-//
-//if ($athletes_parent == null && $user->isParented($user) ||
-//    $athletes_parent != null && $user->isParented($user) && $athletes_parent->count() < 1) {
-//    session()->flash('status', 'Вы не добавляли спортсменов на данное мероприятие');
-//    return view('competitions.competitors',
-//        ['competition'=>$competition, 'competitors'=>$competitors, 'tehkvals'=>$tehkvals]);
-//}
-//
-//if($athletes_parent != null && $athletes_parent->count() >= 1 && $user->isParented($user)) {
-//    foreach ($athletes_parent as $athlete_parent) {
-//        $ids[] = $athlete_parent->id;
-//    }
-//    $competitors = $competition->competitors()
-//        ->with('athlete', 'agecategory', 'weightcategory', 'tehkvalgroup')
-//        ->whereIn('athlete_id', $ids)
-//        ->get();
-//
-//    if($competitors->count() < 1) {
-//        session()->flash('status', 'Вы не добавляли спортсменов на данное мероприятие');
-//        return view('competitions.competitors', ['competition'=>$competition, 'competitors'=>$competitors]);
-//    }
-//    return view('competitions.competitors', ['competition'=>$competition, 'competitors'=>$competitors, 'tehkvals'=>$tehkvals]);
-//}
-//
-//$competitors = $competition->competitors()
-//    ->with('athlete', 'agecategory', 'weightcategory', 'tehkvalgroup')
-//    ->orderBy('id', 'DESC')
-//    ->get();
