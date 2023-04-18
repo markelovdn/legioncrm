@@ -38,6 +38,13 @@ class CompetitorsController extends Controller
 //        $coaches = Coach::with('user')->get();
 //        $coach = Coach::with('user')->where('user_id', $user)->first();
         $competition = Competition::where('id', $competition_id)->first();
+        $isOwner = Competition::getOwner($competition->id);
+
+        if (!$isOwner) {
+            $isOwner = 'false';
+        }
+
+        $user = User::with('coach', 'parented', 'referee')->where('id', \auth()->user()->id)->first();
 //        $agecategories = $competition->agecategories()->get();
 //        $weightcategories = DB::table('weight_categories')->where('agecategory_id', $request->agecategory_id)->get();
 //        $tehkvalgroups = DB::table('tehkvals_groups')
@@ -52,6 +59,8 @@ class CompetitorsController extends Controller
 //        }
 
         return view('competitions.competitors', ['competition'=>$competition,
+                'isOwner'=> $isOwner,
+                'user'=> $user,
 //            'competitors' => $competitors, 'tehkvals' => $tehkvals,
 //            'coaches' => $coaches,
 //            'coach' => $coach,

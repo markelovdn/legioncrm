@@ -14,7 +14,7 @@ class GetCoachesCompetition
 {
     public function __invoke()
     {
-        $competition_id = Request::route()->parameter('competition_id');
+        $competition_id = Request::query('competition_id');
 
         $competition = Competition::where('id', $competition_id)->first();
         $competitors = $competition->competitors()->get();

@@ -21,7 +21,7 @@ class TehkvalsController extends Controller
      */
     public function index()
     {
-        return redirect('/');
+        return json_encode(Tehkval::get());
     }
 
     /**

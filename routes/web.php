@@ -3,6 +3,7 @@
 use App\Http\Controllers\CompetitorsController;
 use App\Models\Athlete;
 use App\Models\Coach;
+use App\Models\Competitor;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -63,5 +64,9 @@ Route::get('/logout', function () {
     return redirect('/login');
 }); //Сделал отдельный метод потомучто не удавалось войти в систему повторно после использования стандартного метода logout щаблон не видел переменную тренера или родителя при повторном входе.
 
-Route::get('get-coaches-competition/{competition_id}', '\App\DomainService\GetCoachesCompetition')->middleware('auth:sanctum');
-Route::get('get-age-categories-competition/{competition_id}', '\App\DomainService\GetAgeCategoriesCompetition')->middleware('auth:sanctum');
+Route::get('get-coaches-competition', '\App\DomainService\GetCoachesCompetition')->middleware('auth:sanctum');
+Route::get('get-age-categories-competition', '\App\DomainService\GetAgeCategoriesCompetition')->middleware('auth:sanctum');
+Route::get('get-weight-categories-competition', '\App\DomainService\GetWeightCategoriesCompetition')->middleware('auth:sanctum');
+Route::get('get-tehkval-groups', '\App\DomainService\GetTehKvalGroupsCompetition')->middleware('auth:sanctum');
+Route::get('get-sportkvals', '\App\DomainService\GetSportkvals')->middleware('auth:sanctum');
+

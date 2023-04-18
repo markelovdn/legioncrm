@@ -3,27 +3,28 @@
         <div class="content-header">
             <div class="card collapsed-card">
                 <div class="card-header">
-                    <h1 class="card-title">Соревнования</h1>
+                    <h1 class="card-title">{{ competition.title }}</h1>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-plus"></i>
                         </button>
                     </div>
                 </div>
-                <div class="card-body" style="display: none;">
-                    <coach-select
-                        :competition_id="competition_id"
-                        @coach_id="onChange"></coach-select>
-                    <age-categories-select
-                        :competition_id="competition_id"></age-categories-select>
-
+                <div class="card-body" style="display: none;" v-if="!user.parented">
+                    <coach-select :competition_id="competition.id"
+                                  :is_owner="is_owner"
+                                  :user="user"></coach-select>
+                    <age-categories-select :competition_id="competition.id"></age-categories-select>
+                    <weight-categories-select></weight-categories-select>
+                    <teh-kval-group-select :competition_id="competition.id"></teh-kval-group-select>
                 </div>
             </div>
         </div>
 
-        <competitors-list :competition_id="competition_id"
-                          :coach_id="coach_id"
-                          :key="competition_id"></competitors-list>
+        <competitors-list :competition_id="competition.id"
+                          :key="competition.id"
+                          :is_owner="is_owner"
+                          :user="user"></competitors-list>
 
     </div>
 
@@ -33,30 +34,34 @@
 import CompetitorsList from './CompetitorsList'
 import CoachSelect from './filters/CoachSelect'
 import AgeCategoriesSelect from "./filters/AgeCategoriesSelect";
+import WeightCategoriesSelect from "./filters/WeightCategoriesSelect";
+import TehKvalGroupSelect from "./filters/TehKvalGroupSelect";
 
 export default {
     name: "competitors-index",
     data() {
         return {
-            coach_id: null
+
         }
     },
     props: [
-      'competition_id',
-        'coach_constant'
+      'competition',
+      'coach_constant',
+      'is_owner',
+      'user'
     ],
     components: {
+        TehKvalGroupSelect,
         CompetitorsList,
         CoachSelect,
-        AgeCategoriesSelect
+        AgeCategoriesSelect,
+        WeightCategoriesSelect
     },
     created() {
-        console.log(this.coach_constant)
+
     },
     methods: {
-        onChange(data) {
-            this.coach_id = data.coach_id
-        }
+
     },
     mounted() {
 

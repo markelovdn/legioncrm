@@ -2,7 +2,6 @@
     <div class="navbar-search-block">
             <div class="input-group input-group-sm">
                 <input :search="search"
-                       ref="search"
                        v-model="search"
                        @input="getSearchString"
                        class="form-control form-control-navbar"

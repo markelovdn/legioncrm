@@ -99,7 +99,7 @@ class Competitor extends Model
         }
     }
 
-    public static function isCoachAthlete($athlete_id, Coach $coach) {
+    public static function isCoachAthlete($athlete_id) {
 
         $coach = Coach::where('user_id', \auth()->user()->id)->first();
         $athletes = DB::table('athlete_coach')->where('athlete_id', $athlete_id)->get();
@@ -156,5 +156,10 @@ class Competitor extends Model
             ->with('coaches')
             ->with('tehkval')
             ->with('sportkval');
+    }
+
+    public function athletes()
+    {
+        return $this->hasMany(Athlete::class, 'id', 'athlete_id');
     }
 }

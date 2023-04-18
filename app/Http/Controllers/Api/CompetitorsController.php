@@ -10,6 +10,7 @@ use App\Filters\WeightcategoryFilter;
 use App\Http\Controllers\Controller;
 use App\Models\Coach;
 use App\Models\Competition;
+use App\Models\Competitor;
 use App\Models\Tehkval;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
@@ -22,15 +23,13 @@ class CompetitorsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($competition_id, $coach_id, $age_category_id, GetCompetitors $competitors)
+    public function index(GetCompetitors $competitors, CompetitorFilter $CompetitorFilter, AthleteFilter $athleteFilter)
     {
-
-        $competition = Competition::where('id', $competition_id)->first();
-        $competitors = $competitors->getCompetitorsApi($competition->id, $coach_id, $age_category_id);
+        $competitors = $competitors->getCompetitorsApi($CompetitorFilter, $athleteFilter);
 
         if (!$competitors) {
             session()->flash('status', 'У вас нет участников на данном соревновании');
-            return redirect(route('competitions.index'));
+            return false;
         }
 
         return json_encode($competitors);
@@ -86,9 +85,63 @@ class CompetitorsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updateResult(Request $request, $id)
     {
-        //
+        $request = $request->request->all();
+        $competitor = Competitor::find($id);
+
+        $competitor->count_winner = $request['params']['count_winner'];
+        $competitor->place = $request['params']['place'];
+
+        $competitor->save();
+
+        return $competitor;
+    }
+
+    public function updateData(Request $request, $id)
+    {
+        $request = $request->request->all();
+        $competition = Competition::where('id', $request['params']['competition_id'])->first();
+
+        if (!Competitor::isCoachAthlete($id) && !Competition::getOwner($competition->id)){
+            throw new \Exception('Вы не можете редактировать данного спортсмена');
+        }
+
+        $competitor = Competitor::find($id);
+
+        $agecategory_id = Competitor::getAgeCategory($request['params']['date_of_birth']);
+        if(!$agecategory_id) {
+            return json_encode('Нет подходящего возраста для данных соревнований');
+        }
+        $weightcategory_id = Competitor::getWeightCategory($request['params']['weight'], $request['params']['gender'], $request['params']['date_of_birth']);
+        if(!$weightcategory_id) {
+            return json_encode('Нет подходящей весовой категории для данных соревнований');
+        }
+        $tehkvalgroup_id = Competitor::getTehKvalGroup($request['params']['tehkval_id'], $request['params']['date_of_birth'], $request['params']['competition_id']);
+        if(!$tehkvalgroup_id) {
+            return json_encode('Нет подходящей группы по технической квалификации для данных соревнований');
+        }
+
+        if ($request['params']['weight'] != $competitor->weight) {
+            if (Competitor::checkUniqueCompetitorWeightCategory($competitor->athlete->id,
+                $agecategory_id, $weightcategory_id, $tehkvalgroup_id, $competition->id)) {
+
+                $competitor->weight = $request['params']['weight'];
+                $competitor->save();
+
+            } else {
+                return json_encode('Данный спорстмен уже заявлен в весовой категории');
+            }
+        }
+
+        $competitor->agecategory_id = $agecategory_id;
+        $competitor->weightcategory_id = $weightcategory_id;
+        $competitor->tehkvalgroup_id = $tehkvalgroup_id;
+        $competitor->save();
+
+        $competitor = Competitor::with('athlete','agecategory', 'weightcategory', 'tehkvalgroup')->find($id);
+
+        return $competitor;
     }
 
     /**
@@ -99,6 +152,8 @@ class CompetitorsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Competitor::destroy($id);
+
+        return true;
     }
 }

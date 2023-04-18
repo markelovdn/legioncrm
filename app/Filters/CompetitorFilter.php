@@ -29,9 +29,18 @@ class CompetitorFilter extends QueryFilter {
             });
     }
 
-    public function competition_id($id = null){
-        return $this->builder->when($id, function($query) use($id){
-            $query->where('competition_id', $id);
-        });
+    public function coach_id($coach_id = null)
+    {
+        return $this->builder->when($coach_id, function ($query) use ($coach_id) {
+            $query->whereHas('athlete', function ($query) use ($coach_id) {
+                $query->whereRelation('coaches', 'coach_id', $coach_id);
+            });});
+
     }
+
+//    public function competition_id($competition_id = null){
+//        return $this->builder->when($competition_id, function($query) use($competition_id){
+//            $query->where('competition_id', $competition_id);
+//        });
+//    }
 }

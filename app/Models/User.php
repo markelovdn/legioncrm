@@ -65,6 +65,11 @@ class User extends Authenticatable
         return $this->hasOne(Parented::class);
     }
 
+    public function referee()
+    {
+        return $this->hasOne(Referee::class);
+    }
+
     public function role()
     {
         return $this->belongsToMany(Role::class);

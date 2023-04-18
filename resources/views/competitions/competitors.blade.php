@@ -2,8 +2,10 @@
 @section('content')
     <!-- Content Header (Page header) -->
     <competitors-index
-        :competition_id="{{$competition->id}}"
-        :coach_constant="{{json_encode(\App\Models\Coach::TYPE)}}"></competitors-index>
+        :competition="{{$competition}}"
+        :coach_constant="{{json_encode(\App\Models\Coach::TYPE)}}"
+        :is_owner="{{$isOwner}}"
+        :user="{{$user}}"></competitors-index>
 {{--        :coach_constant="{{json_encode((new ReflectionClass(\App\Models\Coach::class))->getConstants())}}"></competitors-index>--}}
 {{--    <div class="content-header">--}}
 {{--        <div class="card collapsed-card">--}}

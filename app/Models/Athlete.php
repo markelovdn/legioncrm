@@ -113,6 +113,11 @@ class Athlete extends Model
         return $this->belongsToMany(Parented::class, 'athlete_parented', 'athlete_id', 'parented_id')->with('user');
     }
 
+    public function competitors()
+    {
+        return $this->hasMany(Competitor::class);
+    }
+
 
     public function scopeFilter(Builder $builder, QueryFilter $filter){
         return $filter->apply($builder);
