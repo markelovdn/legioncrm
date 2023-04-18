@@ -25,7 +25,8 @@ class AthletesTest extends TestCase
     {
         $coach = Coach::get()->first();
         $user = User::with('parented')->has('parented')->first();
-        Auth::login($user);
+
+        $this->actingAs($user);
 
         $this->post('/athlete', [
             'photo'=> UploadedFile::fake()->image('photo.jpg'),

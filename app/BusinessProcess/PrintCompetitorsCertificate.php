@@ -21,15 +21,15 @@ class PrintCompetitorsCertificate
 
         $competition_title = NounDeclension::getCase(Str::of($competition->title)->before(' '), 'предложный');
 
-        $competitors = $competition->competitors()->get();
+//        $competitors = $competition->competitors()->get();
 
-        foreach ($competitors as $competitor) {
-            if($competitor->id == $request->competitor_id) {
-                $competitor_id = $competitor->id;
-            }
-        }
+//        foreach ($competitors as $competitor) {
+//            if($competitor->id == $request->competitor_id) {
+//                $competitor_id = $competitor->id;
+//            }
+//        }
 
-        $competitor = Competitor::with('athlete', 'weightcategory', 'agecategory')->find($competitor_id);
+        $competitor = Competitor::with('athlete', 'weightcategory', 'agecategory')->find($request->competitor_id);
         $pdf = Pdf::loadView('competitors.print.competitor-certificate', ['competition_title' => $competition_title],
             compact(['competitor', $competitor,
                      'competition', $competition

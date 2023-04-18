@@ -254,6 +254,7 @@ class EventUserController extends Controller
 
         $event->users()->detach($request->input('user_id'));
 
+//        TODO: удалить платеж
         session()->flash('status', 'Пользователь удален из участников мероприятия');
 
         $eventUsers->changeUserList($event, $users);

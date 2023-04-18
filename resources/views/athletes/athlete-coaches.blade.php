@@ -32,15 +32,15 @@
 
                 </dl>
             </div>
-        @switch(\App\Models\User::getRoleCode())
-            @case(\App\Models\Role::ROLE_SYSTEM_ADMIN)
-            @case(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN)
-            @case(\App\Models\Role::ROLE_ORGANIZATION_ADMIN)
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default{{$athlete->id}}">
-                    <i class="far fa-edit"></i>
-                </button>
+{{--        @switch(\App\Models\User::getRoleCode())--}}
+{{--            @case(\App\Models\Role::ROLE_SYSTEM_ADMIN)--}}
+{{--            @case(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN)--}}
+{{--            @case(\App\Models\Role::ROLE_ORGANIZATION_ADMIN)--}}
+{{--                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default{{$athlete->id}}">--}}
+{{--                    <i class="far fa-edit"></i>--}}
+{{--                </button>--}}
 
-        @endswitch
+{{--        @endswitch--}}
 
         {{--modal edit coaches-data--}}
         <div class="modal fade" id="modal-default{{$athlete->id}}" style="display: none;" aria-hidden="true">
@@ -62,7 +62,7 @@
                                             {{$coach->user->secondname}} {{mb_substr($coach->user->firstname, 0,1)}}.{{mb_substr($coach->user->patronymic, 0,1)}}.
                                         </option>
                                         @endforeach
-                                            {{-- TODO: делать запросы из вьюх это плоо--}}
+                                             TODO: делать запросы из вьюх это плоо
                                     </select>
                                 </div>
                             </div>
@@ -76,7 +76,7 @@
                                                 {{$coach->user->secondname}} {{mb_substr($coach->user->firstname, 0,1)}}.{{mb_substr($coach->user->patronymic, 0,1)}}.
                                             </option>
                                         @endforeach
-                                        {{-- TODO: делать запросы из втюх это плоо--}}
+                                         TODO: делать запросы из втюх это плоо
                                     </select>
                                 </div>
                             </div>
@@ -90,7 +90,7 @@
                                                 {{$coach->user->secondname}} {{mb_substr($coach->user->firstname, 0,1)}}.{{mb_substr($coach->user->patronymic, 0,1)}}.
                                             </option>
                                         @endforeach
-                                        {{-- TODO: делать запросы из втюх это плоо--}}
+                                         TODO: делать запросы из втюх это плоо
                                     </select>
                                 </div>
                             </div>
@@ -104,7 +104,7 @@
                                                 {{$coach->user->secondname}} {{mb_substr($coach->user->firstname, 0,1)}}.{{mb_substr($coach->user->patronymic, 0,1)}}.
                                             </option>
                                         @endforeach
-                                        {{-- TODO: делать запросы из втюх это плоо--}}
+                                         TODO: делать запросы из втюх это плоо
                                     </select>
                                 </div>
                             </div>

@@ -157,4 +157,9 @@ class Competitor extends Model
             ->with('tehkval')
             ->with('sportkval');
     }
+
+    public function athletes()
+    {
+        return $this->hasMany(Athlete::class, 'id', 'athlete_id');
+    }
 }

@@ -92,7 +92,6 @@ class AthletesController extends Controller
         $tehKval = Tehkval::find(1);
         $sportKval = Sportkval::find(1);
 
-
         if (!User::checkUserUnique($request->firstname, $request->secondname, $request->patronymic, $request->date_of_birth)) {
             return back()->withInput();
         }

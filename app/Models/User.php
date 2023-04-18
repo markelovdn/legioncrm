@@ -65,6 +65,11 @@ class User extends Authenticatable
         return $this->hasOne(Parented::class);
     }
 
+    public function referee()
+    {
+        return $this->hasOne(Referee::class);
+    }
+
     public function role()
     {
         return $this->belongsToMany(Role::class);
@@ -90,9 +95,9 @@ class User extends Authenticatable
         return $this->belongsToMany(Event::class);
     }
 
-    public static function getRole()
+    public function getRole()
     {
-        $user = User::with('role')->find(auth()->user()->id);
+        $user = User::with('role')->find(\auth()->user()->id);
 
         foreach ($user->role as $item) {
             return $item->name;
@@ -164,7 +169,7 @@ class User extends Authenticatable
                 return false;
     }
 
-    public static function checkUserUnique($firstname, $secondname, $patronymic, $dateOfBirth) :bool
+    public function checkUserUnique($firstname, $secondname, $patronymic, $dateOfBirth) :bool
     {
         $user = User::where('firstname', $firstname)
             ->where('secondname', $secondname)
@@ -240,9 +245,5 @@ class User extends Authenticatable
     public function scopeFilter(Builder $builder, QueryFilter $filter){
         return $filter->apply($builder);
     }
-
-
-
-
 
 }

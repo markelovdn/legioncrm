@@ -14,6 +14,7 @@ if (Str::contains(url()->current(), 'athlete')){
     <a class="nav-link" data-widget="navbar-search" href="#" role="button">
         <i class="fas fa-search"></i>
     </a>
+    <search-header-input></search-header-input>
     <div class="navbar-search-block">
         <form class="form-inline" method="GET" action="{{$action}}">
             <input class="form-control" style="display: none"  name="competition_id" type="text" value="">
