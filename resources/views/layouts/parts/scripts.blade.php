@@ -1,5 +1,5 @@
 {{--vue--}}
-<script src={{asset("./js/app.js")}}></script>
+<script src={{mix("/js/app.js")}}></script>
 <!-- jQuery -->
 <script src={{asset("plugins/jquery/jquery.min.js")}}></script>
 <!-- jQuery UI 1.11.4 -->
@@ -32,7 +32,7 @@
 <!-- AdminLTE App -->
 <script src={{asset("dist/js/adminlte.js")}}></script>
 
-<script src={{asset("dist/js/pages/dashboard.js")}}></script>
+{{--<script src={{asset("dist/js/pages/~~~dashboard.js")}}></script>--}}
 
 <script src={{asset("plugins/bs-custom-file-input/bs-custom-file-input.min.js")}}></script>
 <script src={{asset("plugins/phonemask/phonemask.js")}}></script>

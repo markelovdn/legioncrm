@@ -14,14 +14,17 @@
         </ul>
         </p>
 
-        <div v-if="!loading" class="card card-primary collapsed-card" v-for = "competitor in filteredList" :key="competitor.id">
+        <div v-if="!loading" v-for = "competitor in filteredList" :key="competitor.id" class="card card-primary collapsed-card">
             <div class="card-header">
                 <span><img class="direct-chat-img" :src="competitor.athlete.photo" alt="message user image"></span>
-                <div class="card-title ml-2 mt-2">{{ competitor.athlete.user.secondname }} {{ competitor.athlete.user.firstname }} {{ competitor.athlete.user.patronymic }}
-                    (<span v-for="coach in competitor.athlete.coaches" v-if="coach.pivot.coach_type === 4">
-                    <!-- TODO: как избавиться от магической 4-->
-                    {{coach.user.secondname}} {{coach.user.firstname | formatName}} {{coach.user.patronymic | formatName}}
-                </span>)
+                <div class="card-title ml-2 mt-2">{{ competitor.athlete.user.secondname }} {{ competitor.athlete.user.firstname }}
+<!--                    <div>-->
+<!--                        (<span v-for="coach in competitor.athlete.coaches" v-if="coach.pivot.coach_type === 4">-->
+<!--                    &lt;!&ndash; TODO: как избавиться от магической 4&ndash;&gt;-->
+<!--                    {{coach.user.secondname}} {{coach.user.firstname | formatName}} {{coach.user.patronymic | formatName}}-->
+<!--                </span>)-->
+
+<!--                    </div>-->
                 </div>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -83,6 +86,11 @@
             <div class="modal fade" :id="`modal-competitor-edit${competitor_id}`" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog modal-md">
                     <div class="modal-content">
+                        <div class="modal-header" v-if="competitor.length > 0">
+                            <strong>
+                                {{ competitor[0].athlete.user.secondname }} {{ competitor[0].athlete.user.firstname }} {{ competitor[0].athlete.user.patronymic }}
+                            </strong>
+                        </div>
                         <div class="modal-body">
                             <div class="form-group row">
                                 <label for="date_of_birth" class="col-sm-4 col-form-label">Дата рождения<span class="text-danger">*</span></label>
@@ -120,10 +128,11 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="modal-footer justify-content-between">
-                                <button type="reset" class="btn btn-default" data-dismiss="modal">Отмена</button>
-                                <button data-dismiss="modal" @click="updateDataCompetitor" class="btn btn-primary">Отправить</button>
-                            </div>
+
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="reset" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                            <button data-dismiss="modal" @click="updateDataCompetitor" class="btn btn-primary">Отправить</button>
                         </div>
                     </div>
                 </div>
@@ -252,7 +261,11 @@ export default {
             this.date_of_birth = this.competitor[0].athlete.user.date_of_birth
             this.weight = this.competitor[0].weight
             this.tehkval_id = this.competitor[0].athlete.tehkval.reduce((acc, curr) => acc.id > curr.id ? acc : curr).id
-            this.sportkval_id = this.competitor[0].athlete.sportkval.reduce((acc, curr) => acc.id > curr.id ? acc : curr).id
+            if (this.competitor[0].athlete.sportkval.length > 0) {
+                this.sportkval_id = this.competitor[0].athlete.sportkval.reduce((acc, curr) => acc.id > curr.id ? acc : curr).id
+            } else {
+                this.sportkval_id = 1
+            }
         },
 
         updateDataCompetitor () {
