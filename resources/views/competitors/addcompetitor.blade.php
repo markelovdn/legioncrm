@@ -111,7 +111,9 @@
                         <label for="tehkval_id" class="col-md-4 col-form-label">Пояс<span class="text-danger">*</span></label>
                         <div class="col-md-6">
                             <select type="text" class="form-control" name="tehkval_id" id="tehkval_id">
-                                <option value="1">Нет</option>
+                                @foreach($tehkvals as $tehkval)
+                                <option value="{{$tehkval->id}}">{{$tehkval->title}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -119,7 +121,9 @@
                         <label for="sportkval_id" class="col-md-4 col-form-label">Разряд<span class="text-danger">*</span></label>
                         <div class="col-md-6">
                             <select type="text" class="form-control" name="sportkval_id" id="sportkval_id">
-                                <option value="1">Нет</option>
+                                @foreach($sportkvals as $sportkval)
+                                    <option value="{{$sportkval->id}}">{{$sportkval->short_title}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
