@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\BusinessProcess\UploadFile;
 use App\Http\Requests\StoreOrganizationRequest;
 use App\Models\Organization;
+use App\Models\Role;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class OrganizationController extends Controller
@@ -52,11 +54,24 @@ class OrganizationController extends Controller
         $org = Organization::with('users')->find($id);
         $user = Organization::getChairman();
 
+        if (!$user) {
+            $user = Organization::getOrganizationAdmin();
+        }
+
+        $orgs_chairmans = User::with('organizations')->whereRelation('role', 'code', Role::ROLE_ORGANIZATION_CHAIRMAN)->get();
+
+        foreach ($orgs_chairmans as $org_chairman) {
+            foreach ($org_chairman->organizations as $organization)
+            if ($organization->id == $id) {
+                $chairman_name = $org_chairman->secondname.' '.$org_chairman->firstname.' '.$org_chairman->patronymic;
+            }
+        }
+
         if (!$org and !$user) {
             return redirect('/');
         }
 
-        return view('organization.cabinet', ['org' => $org, 'user' => $user]);
+        return view('organization.cabinet', ['org' => $org, 'user' => $user, 'chairman_name' => $chairman_name]);
     }
 
     /**

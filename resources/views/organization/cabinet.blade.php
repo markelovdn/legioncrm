@@ -17,7 +17,7 @@
                 @csrf
                 <dl class="row">
                     <dt class="col-sm-4">ФИО руководителя</dt>
-                    <dd class="col-sm-8">{{$user->secondname}} {{$user->firstname}} {{$user->patronymic}}</dd>
+                    <dd class="col-sm-8">{{$chairman_name}}</dd>
                 </dl>
                 <div class="row mb-3">
                     <label for="fulltitle" class="col-md-4 col-form-label text-md-end">Полное наименование организации<span class="text-danger">*</span></label>

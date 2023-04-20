@@ -9,7 +9,7 @@
                 {{\Illuminate\Support\Facades\Auth::user()->secondname}}
             </a>
         </span>
-        @if(\App\Models\User::getRoleCode() === 'organization_chairman')
+        @if(\App\Models\User::getRoleCode() === 'organization_chairman' || \App\Models\User::getRoleCode() === 'organization_admin')
             <a href="/organization/{{\App\Models\Organization::getOrganizationId()}}" class="d-block">{{\App\Models\User::getRole()}}
                 (кабинет)</a>
 

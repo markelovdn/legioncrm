@@ -34,7 +34,26 @@ class Organization extends Model
 
     public static function getChairman()
     {
-        $user = User::with('organizations')->where('id', auth()->user()->id)->whereRelation('role', 'code', Role::ROLE_ORGANIZATION_CHAIRMAN)->first();
+        $user = User::with('organizations')->where('id', auth()->user()->id)
+            ->whereRelation('role', 'code', Role::ROLE_ORGANIZATION_CHAIRMAN)
+            ->first();
+
+        if (!$user) {
+            return false;
+        }
+
+        $org_count = $user->organizations->count();
+
+        if ($org_count >= 1) {
+            return $user;
+        } return false;
+    }
+
+    public static function getOrganizationAdmin()
+    {
+        $user = User::with('organizations')->where('id', auth()->user()->id)
+            ->whereRelation('role', 'code', Role::ROLE_ORGANIZATION_ADMIN)
+            ->first();
 
         $org_count = $user->organizations->count();
 
