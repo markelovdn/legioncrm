@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('content')
-	<div class="card card-info">
+    	<div class="card card-info">
 		<div class="card-header">
 			<h3 class="card-title">Внесите данные участника соревнований {{$competition->title}}</h3>
 		</div>
@@ -39,6 +39,100 @@
     </form>
     @endforeach
     <!-- /.card-footer -->
+
+    <!--modal-new-athlete-user-->
+    <div class="modal fade" id="modal-athlete-user-add" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <strong>
+                        Новый спортсмен
+                    </strong>
+                </div>
+                <form method="POST" action="{{route('competitors-new-user', [$competition->id])}}" enctype="multipart/form-data">
+                    @csrf
+                    <input type="text" name="competition_id" value="{{$competition->id}}" style="display: none">
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label for="photo" class="col-md-4 col-form-label text-md-end">Фото<span class="text-danger">*</span></label>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input  @error('photo') is-invalid @enderror" name="photo" id="photo" value="{{ old('photo') }}">
+                                    <label class="custom-file-label" for="photo"></label>
+                                </div>
+                            </div>
+                            <span class="description font-italic">Принимаются файлы только изображений (jpg,jpeg,png,bmp) размер файла должен быть менее 1 мб</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="gender" class="col-md-4 col-form-label text-md-end">Пол<span class="text-danger">*</span></label>
+                        <div class="col-md-6">
+                            <select type="text" class="form-control @error('gender') is-invalid @enderror"  name="gender" id="gender" value="{{ old('gender') }}">
+                                <option></option>
+                                <option value="{{\App\Models\Athlete::GENDER_MALE}}" @if(old('gender') == \App\Models\Athlete::GENDER_MALE) selected @endif>Мужской</option>
+                                <option value="{{\App\Models\Athlete::GENDER_FEMALE}}" @if(old('gender') == \App\Models\Athlete::GENDER_FEMALE) selected @endif>Женский</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="secondname" class="col-md-4 col-form-label text-md-end">Фамилия<span class="text-danger">*</span></label>
+
+                        <div class="col-md-6">
+                            <input id="secondname" type="text" class="form-control @error('secondname') is-invalid @enderror" name="secondname" value="{{ old('secondname') }}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="firstname" class="col-md-4 col-form-label text-md-end">Имя<span class="text-danger">*</span></label>
+
+                        <div class="col-md-6">
+                            <input id="firstname" type="text" class="form-control @error('firstname') is-invalid @enderror" name="firstname" value="{{ old('firstname') }}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="patronymic" class="col-md-4 col-form-label text-md-end">Отчество<span class="text-danger">*</span></label>
+                        <div class="col-md-6">
+                            <input id="patronymic" type="text" class="form-control @error('patronymic') is-invalid @enderror" name="patronymic" value="{{ old('patronymic') }}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="date_of_birth" class="col-md-4 col-form-label text-md-end">Дата рождения<span class="text-danger">*</span></label>
+                        <div class="col-md-6">
+                            <input id="date_of_birth" type="date" class="form-control @error('date_of_birth') is-invalid @enderror" name="date_of_birth" value="{{ old('date_of_birth') }}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="weight" class="col-md-4 col-form-label">Вес<span class="text-danger">*</span></label>
+                        <div class="col-md-6">
+                            <input type="number" name="weight" step="0.01" class="form-control" id="weight">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="tehkval_id" class="col-md-4 col-form-label">Пояс<span class="text-danger">*</span></label>
+                        <div class="col-md-6">
+                            <select type="text" class="form-control" name="tehkval_id" id="tehkval_id">
+                                <option value="1">Нет</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="sportkval_id" class="col-md-4 col-form-label">Разряд<span class="text-danger">*</span></label>
+                        <div class="col-md-6">
+                            <select type="text" class="form-control" name="sportkval_id" id="sportkval_id">
+                                <option value="1">Нет</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="reset" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Отправить</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 @endsection
 

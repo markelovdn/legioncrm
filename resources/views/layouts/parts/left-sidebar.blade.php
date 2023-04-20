@@ -9,8 +9,14 @@
                 {{\Illuminate\Support\Facades\Auth::user()->secondname}}
             </a>
         </span>
+        @if(\App\Models\User::getRoleCode() === 'organization_chairman')
+            <a href="/organization/{{\App\Models\Organization::getOrganizationId()}}" class="d-block">{{\App\Models\User::getRole()}}
+                (кабинет)</a>
+
+        @else
         <a href="{{asset(\App\Models\User::getRoleCode())}}" class="d-block">{{\App\Models\User::getRole()}}
             (кабинет)</a>
+        @endif
         @if(\Illuminate\Support\Facades\Auth::user())
             <a href="/logout" type="submit"><i class="fas fa-sign-out-alt"></i></a>
         @endif

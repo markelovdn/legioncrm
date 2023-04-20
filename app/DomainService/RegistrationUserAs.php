@@ -47,6 +47,9 @@ class RegistrationUserAs
                 return $user_type = '/athlete/'.$athlete->id;
             case (Role::ROLE_ORGANIZATION_CHAIRMAN):
                 $org = new Organization();
+                $org->fulltitle = "";
+                $org->shorttitle = "";
+                $org->address = "";
                 $org->code = rand(1000, 9999);
                 $org->save();
 

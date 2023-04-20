@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
+//use Sabberworm\CSS\Rule\Rule;
 
 class StoreOrganizationRequest extends FormRequest
 {
@@ -24,10 +27,16 @@ class StoreOrganizationRequest extends FormRequest
     public function rules()
     {
         return [
-            'fulltitle' => 'string',
-            'shorttitle' => 'string',
-            'address' => 'string',
-            'code' => 'integer',
+            'fulltitle' => ['required', 'string', Rule::unique('organizations', 'fulltitle')->ignore($this->organization)],
+            'shorttitle' => ['required', 'string', Rule::unique('organizations', 'shorttitle')->ignore($this->organization)],
+            'address' => ['string', Rule::unique('organizations', 'address')->ignore($this->organization)],
+            'email' => ['string', Rule::unique('organizations', 'email')->ignore($this->organization)],
+            'phone' => ['string', Rule::unique('organizations', 'phone')->ignore($this->organization)],
+            'inn' => ['numeric', Rule::unique('organizations', 'inn')->ignore($this->organization)],
+            'ogrn' => ['numeric', Rule::unique('organizations', 'ogrn')->ignore($this->organization)],
+            'primary_activity' => ['string'],
+            'logo' => ['image:jpg,jpeg,png'],
+            'code' => ['numeric', Rule::unique('organizations', 'code')->ignore($this->organization)],
         ];
     }
 }

@@ -16,7 +16,10 @@
 
         <div v-if="!loading" v-for = "competitor in filteredList" :key="competitor.id" class="card card-primary collapsed-card">
             <div class="card-header">
-                <span><img class="direct-chat-img" :src="competitor.athlete.photo" alt="message user image"></span>
+                <span>
+                    <img class="direct-chat-img" src="/storage/images/no_photo.jpg" v-if="!competitor.athlete.photo">
+                    <img class="direct-chat-img" :src="competitor.athlete.photo" alt="message user image" v-else>
+                </span>
                 <div class="card-title ml-2 mt-2">{{ competitor.athlete.user.secondname }} {{ competitor.athlete.user.firstname }}
 <!--                    <div>-->
 <!--                        (<span v-for="coach in competitor.athlete.coaches" v-if="coach.pivot.coach_type === 4">-->

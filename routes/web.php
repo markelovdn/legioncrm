@@ -37,7 +37,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('competitions', \App\Http\Controllers\CompetitionsController::class);
     Route::resource('competitions.competitors', \App\Http\Controllers\CompetitorsController::class)->shallow();
     Route::resource('competitions.tehkvalgroups', \App\Http\Controllers\TehkvalGroupsController::class)->shallow();
-    Route::any('/competitions/{id}/competitors-new-user', [\App\Http\Controllers\CompetitorsController::class, 'store_as_new_user']);
+    Route::any('/competitions/{id}/competitors-new-user', [\App\Http\Controllers\CompetitorsController::class, 'store_as_new_user'])->name('competitors-new-user');
     Route::resource('grade', \App\Http\Controllers\GradesCntroller::class);
     Route::post('setNamePoomsaeTablo', [\App\Http\Controllers\GradesCntroller::class, 'setName'])->name('setNamePoomsaeTablo');
     Route::get('/poomsae-competitors', [\App\Http\Controllers\CompetitorsController::class, 'addCompetitorsToPoomsaeTablo'])->name('poomsae-competitors');

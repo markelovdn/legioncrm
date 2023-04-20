@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\BusinessProcess\GetCompetitors;
+use App\BusinessProcess\UploadFile;
+use App\DomainService\AttachOrganization;
 use App\DomainService\RegistrationUserAs;
 use App\Exports\CompetitorsExport;
 use App\Filters\AthleteFilter;
@@ -160,83 +162,86 @@ class CompetitorsController extends Controller
 
     }
 
-//    public function store_as_new_user(StoreCompetitorRequest $request)
-//    {
-//        $request->validated();
-//
-//        if (Competition::find($request->competition_id) == null)
-//        {
-//            throw new \Exception('Не найдено соревнования');
-//        }
-//
-//        if (!\App\Models\User::checkUserUnique($request->firstname, $request->secondname, $request->patronymic, $request->date_of_birth)) {
-//            return back()->withInput();
-//        }
-//
-//        $agecategory_id = Competitor::getAgeCategory($request->date_of_birth);
-//        if(!$agecategory_id) {
-//            return back()->withInput();
-//        }
-//
-//        $weightcategory_id = Competitor::getWeightCategory($request->input('weight'), $request->gender, $request->date_of_birth);
-//        if(!$weightcategory_id) {
-//            return back()->withInput();
-//        }
-//
-//        $tehkvalgroup_id = Competitor::getTehKvalGroup($request->tehkval_id, $request->date_of_birth);
-//        if(!$tehkvalgroup_id) {
-//            return back()->withInput();
-//        }
-//
-//        $user = new User();
-//        $user->firstname = $request->firstname;
-//        $user->secondname = $request->secondname;
-//        $user->patronymic = $request->patronymic;
-//        $user->date_of_birth = $request->date_of_birth;
-//        $user->save();
-//        $role = Role::where('code', 'athlete')->get();
-//
-//        $user->role()->attach($role);
-//
-//        $coaches = Coach::find($request->coach_id);
-//
-//        if($coaches->code == $request->coach_code) {
-//            $athlete = new Athlete();
-//            $athlete->user_id = $user->id;
-//            $athlete->gender = $request->gender;
-//            $athlete->status = Athlete::ACTIVE;
-//            $athlete->save();
-//
-//            $athlete->coaches()->attach($coaches, ['coach_type' => Coach::REAL_COACH]);
-//        }
-//        else{
-//            $request->session()->flash('status', 'Не верный код тренера');
-//            return back()->withInput();
-//        }
-//
-//        $athlete->tehkval()->attach($request->tehkval_id, ['organization_id'=>$coaches->user->organizations->first()->id]);
-//        $athlete->sportkval()->attach($request->sportkval_id);
-//
-//        if (!Competitor::checkUniqueCompetitorWeightCategory(
-//            $athlete->id, $agecategory_id, $weightcategory_id, $tehkvalgroup_id, $request->competition_id
-//        )) {
-//            return back()->withInput();
-//        }
-//
-//        $competitor = new Competitor();
-//        $competitor->athlete_id = $athlete->id;
-//        $competitor->weight = $request->input('weight');
-//        $competitor->agecategory_id = $agecategory_id;
-//        $competitor->weightcategory_id = $weightcategory_id;
-//        $competitor->tehkvalgroup_id = $tehkvalgroup_id;
-//        $competitor->save();
-//
-//        $competitor->competitions()->attach($request->competition_id);
-//
-//
-//        return redirect('competitions/'.\Illuminate\Support\Facades\Request::input('competition_id').'/competitors/');
-//
-//    }
+    public function store_as_new_user(StoreCompetitorRequest $request)
+    {
+        $request->validated();
+
+        if (Competition::find($request->competition_id) == null)
+        {
+            throw new \Exception('Не найдено соревнования');
+        }
+
+        if (!\App\Models\User::checkUserUnique($request->firstname, $request->secondname, $request->patronymic, $request->date_of_birth)) {
+            return back()->withInput();
+        }
+
+        $agecategory_id = Competitor::getAgeCategory($request->date_of_birth);
+        if(!$agecategory_id) {
+            session()->flash('error_age', 'Спортсмен данного возраста пока не может принимать участи в соревнованиях по спаррингу');
+            return back()->withInput();
+        }
+
+        $weightcategory_id = Competitor::getWeightCategory($request->input('weight'), $request->gender, $request->date_of_birth);
+        if(!$weightcategory_id) {
+            return back()->withInput();
+        }
+
+        $tehkvalgroup_id = Competitor::getTehKvalGroup($request->tehkval_id, $request->date_of_birth, $request->competition_id);
+        if(!$tehkvalgroup_id) {
+            session()->flash('error_tehkval', 'Нет подходящей группы по технической квалификации для данных соревнований');
+            return back()->withInput();
+        }
+
+        $user = new User();
+        $user->firstname = $request->firstname;
+        $user->secondname = $request->secondname;
+        $user->patronymic = $request->patronymic;
+        $user->date_of_birth = $request->date_of_birth;
+        $user->save();
+        $role = Role::where('code', 'athlete')->get();
+
+        $user->role()->attach($role);
+
+        if ($request->hasFile('photo')) {
+            $path_scanlink = UploadFile::uploadFile($user->id, $user->secondname,$user->firstname, 'photo', $request->file('photo'));
+        }
+
+        $user_coach = User::where('id', \auth()->user()->id)->with('coach', 'organizations')->first();
+
+            $athlete = new Athlete();
+            $athlete->user_id = $user->id;
+            $athlete->gender = $request->gender;
+            $athlete->photo =  $path_scanlink ?? null;
+            $athlete->status = Athlete::ACTIVE;
+            $athlete->save();
+
+            $athlete->coaches()->attach($user_coach->coach, ['coach_type' => Coach::REAL_COACH]);
+
+        $athlete->tehkval()->attach($request->tehkval_id, ['organization_id' => $user_coach->organizations->first()->id]);
+        $athlete->sportkval()->attach($request->sportkval_id);
+
+        AttachOrganization::attachOrganization(Role::ROLE_ATHLETE,  $user->id, $user_coach->coach->code);
+
+        if (!Competitor::checkUniqueCompetitorWeightCategory(
+            $athlete->id, $agecategory_id, $weightcategory_id, $tehkvalgroup_id, $request->competition_id
+        )) {
+            return back()->withInput();
+        }
+
+        $competitor = new Competitor();
+        $competitor->athlete_id = $athlete->id;
+        $competitor->weight = $request->input('weight');
+        $competitor->agecategory_id = $agecategory_id;
+        $competitor->weightcategory_id = $weightcategory_id;
+        $competitor->tehkvalgroup_id = $tehkvalgroup_id;
+        $competitor->save();
+
+        $competitor->competitions()->attach($request->competition_id);
+
+
+        return redirect('competitions/'.\Illuminate\Support\Facades\Request::input('competition_id').'/competitors/');
+
+    }
 
     public function show($id)
     {

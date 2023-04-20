@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\BusinessProcess\UploadFile;
 use App\Http\Requests\StoreOrganizationRequest;
 use App\Models\Organization;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class OrganizationController extends Controller
@@ -79,14 +81,28 @@ class OrganizationController extends Controller
     {
         $request->validated();
 
+        $user = User::where('id', auth()->user()->id)->first();
+
+        if ($request->hasFile('logo')) {
+            $path_scanlink = UploadFile::uploadFile($user->id, $user->secondname, $user->firstname, 'logo', $request->file('logo'));
+        }
+
         $org = Organization::find($id);
 
         $org->fulltitle = $request->fulltitle;
         $org->shorttitle = $request->shorttitle;
         $org->address = $request->address;
+        $org->email = $request->email;
+        $org->phone = $request->phone;
+        $org->inn = $request->inn;
+        $org->ogrn = $request->ogrn;
+        $org->primary_activity = $request->primary_activity;
+        $org->logo = $path_scanlink ?? null;
         $org->code = $request->code;
 
         $org->save();
+
+        session()->flash('status', 'Данные обновлены');
 
         return back();
     }
