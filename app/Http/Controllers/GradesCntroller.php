@@ -20,7 +20,15 @@ class GradesCntroller extends Controller
         $id = $competitor_id->competitor_id;
         $competitor  = Competitor::with('athlete')->where('id', $id)->first();
 
+        $competitor_logo = '';
+
+        foreach ($competitor->athlete->user->organizations as $organization) {
+            $competitor_logo = $organization->logo;
+            break;
+        }
+
         $grades = Grade::where('grade', '!=', null)->get();
+
         $grade_avg = '0';
         if (count($grades) == 3) {
             $grade_avg = round($grades->avg('grade'), 2);
@@ -32,6 +40,7 @@ class GradesCntroller extends Controller
         return view('competitions.poomsae.poomsae-tablo', [
             'competitor' => $competitor,
             'grade' => $grade_avg,
+            'competitor_logo'=>$competitor_logo
         ]);
     }
 
@@ -68,7 +77,7 @@ class GradesCntroller extends Controller
         DB::table('grades')->truncate();
         $grade = new Grade();
 
-        $grade->competitor_id = $request->competitor_id;
+        $grade->competitor_id = $request['params']['competitor_id'];
         $grade->save();
 
         $request->session()->flash('status', 'Данные отправлены');

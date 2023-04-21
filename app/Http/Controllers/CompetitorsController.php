@@ -88,27 +88,20 @@ class CompetitorsController extends Controller
             return redirect($userAs->registrationUserAs(Role::ROLE_PARENTED, \auth()->user()->id));
         }
 
-        if ($competitors && $competitors->count() >= 1) {
-                return view('competitors.addcompetitor',
-                    [
-                        'tehkvals'=>$tehkvals,
-                        'sportkvals'=>$sportkvals,
-                        'organization'=>$organization,
-                        'coaches'=>$coaches,
-                        'competition'=>$competition,
-                        'competitors'=>$competitors,
-                        'weightCategories'=>$weightCategories
-                    ]);
+        if (!$competitors) {
+            $competitors = [];
         }
 
-//        return view('competitors.addcompetitor',
-//            [
-//                'tehkvals'=>$tehkvals,
-//                'sportkvals'=>$sportkvals,
-//                'organization'=>$organization,
-//                'coaches'=>$coaches,
-//                'competition'=>$competition,
-//            ]);
+        return view('competitors.addcompetitor',
+            [
+                'tehkvals'=>$tehkvals,
+                'sportkvals'=>$sportkvals,
+                'organization'=>$organization,
+                'coaches'=>$coaches,
+                'competition'=>$competition,
+                'competitors'=>$competitors,
+                'weightCategories'=>$weightCategories
+            ]);
     }
 
     public function store(StoreCompetitorRequest $request)

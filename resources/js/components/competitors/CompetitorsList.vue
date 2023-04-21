@@ -71,7 +71,7 @@
                                     data-toggle="modal"
                                     v-if="coach_id"><i class="fas fa-edit"></i></button>
 
-                            <button type="submit" class="btn btn-danger" v-if="user.referee != null"><i class="fas fa-tv"></i></button>
+                            <button @click="setNamePoomsaeTablo(competitor.id)" class="btn btn-danger" v-if="user.referee != null"><i class="fas fa-tv"></i></button>
                     </div>
                     <div class="col text-right">
                             <button @click="deleteCompetitor(competitor.id)" class="btn btn-danger" v-if="coach_id"><i class="fas fa-trash"></i></button>
@@ -247,6 +247,7 @@ export default {
                     this.competitors = response.data
                     this.loading = false
                     this.getCompetitorsCount()
+                    console.log(this.competitors)
                 })
                 .catch(function (error) {
                     // handle error
@@ -330,6 +331,14 @@ export default {
                         return competitor.id !== id
                     })
                 })
+        },
+
+        setNamePoomsaeTablo(id) {
+            axios.post(`/setNamePoomsaeTablo`, {
+                params: {
+                    competitor_id: id
+                }
+            })
         }
 
     },

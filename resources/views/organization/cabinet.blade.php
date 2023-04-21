@@ -103,8 +103,8 @@
                     @if(!$org->logo)
                     <label for="logo" class="col-md-4 col-form-label text-md-end">Логотип<span class="text-danger">нет логотипа</span></label>
                     @else
-                        <span class="col-md-4">
-                        <img class="direct-chat-img" src="{{$org->logo}}" alt="message user image">
+                        <span class="col-md-4 users-list clearfix">
+                        <img src="{{$org->logo}}">
                         </span>
                     @endif
                     <div class="col-md-6">

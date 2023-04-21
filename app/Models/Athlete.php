@@ -62,7 +62,7 @@ class Athlete extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class)->with('address', 'payments');
+        return $this->belongsTo(User::class)->with('address', 'payments', 'organizations');
     }
 
     //beelongsToMany

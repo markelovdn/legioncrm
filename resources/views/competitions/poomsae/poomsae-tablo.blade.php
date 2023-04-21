@@ -40,29 +40,6 @@
             color: #0c0c0d;
         }
 
-        .judges {
-        //white-space:nowrap;
-        //height: 3vh;
-        //background: #0a53be;
-        //text-align: center;
-        //text-decoration: white;
-        //position: absolute;
-        //width: 100vh;
-        //bottom: 0px;
-        //color: white;
-        //font-family: "Helvetica Neue", sans-serif ;
-        //font-size: 40px;
-        //> div {
-          //    width:90px;display:inline-block;border:1px solid black
-            //}
-        height: 15vh;
-        text-align: center;
-        background: #0a53be;
-        color: white;
-        font-family: "Helvetica Neue", sans-serif ;
-        font-size: 40px;
-        }
-
     </style>
 </head>
 <body>
@@ -73,14 +50,16 @@
             <span>Нет данных</span>
         </div>
         @elseif($grade != '0' || $grade == 'Ожидание оценок')
-        <div class="grade">
-            <span>{{$grade}}</span>
+        <div class="competitor">
+            <span class="grade">{{$grade}}</span><br>
+            <span>{{$competitor->athlete->user->secondname}} {{$competitor->athlete->user->firstname}}</span>
+
         </div>
 
         @else
         <div class="competitor">
+            <img src="{{$competitor_logo}}" height="300px"><br>
             <span>{{$competitor->athlete->user->secondname}} {{$competitor->athlete->user->firstname}}</span>
-            <img src="{{asset('storage/images/logo.png')}}" height="300px" alt="">
         </div>
         @endif
 
