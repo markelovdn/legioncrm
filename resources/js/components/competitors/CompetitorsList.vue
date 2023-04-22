@@ -247,10 +247,9 @@ export default {
                     this.competitors = response.data
                     this.loading = false
                     this.getCompetitorsCount()
-                    console.log(this.competitors)
+
                 })
                 .catch(function (error) {
-                    // handle error
                     console.log(error);
                 })
         },

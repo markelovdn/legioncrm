@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SetInfoPoomsaeTablo;
 use App\Models\Competitor;
 use App\Models\Grade;
 use Illuminate\Http\Request;
@@ -80,6 +81,7 @@ class GradesCntroller extends Controller
         $grade->competitor_id = $request['params']['competitor_id'];
         $grade->save();
 
+        broadcast(new SetInfoPoomsaeTablo());
         $request->session()->flash('status', 'Данные отправлены');
         return back();
 

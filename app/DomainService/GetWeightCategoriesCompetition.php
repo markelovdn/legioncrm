@@ -18,7 +18,7 @@ class GetWeightCategoriesCompetition
         $agecategory_id = Request::query('agecategory_id');
 
         if ($agecategory_id) {
-            return WeightCategory::where('agecategory_id', $agecategory_id)->get();
+            return WeightCategory::where('agecategory_id', $agecategory_id)->orderBy('gender')->orderBy('title')->get();
         } else {
             return null;
         }
