@@ -69,12 +69,12 @@
                                     @click="getCompetitor(competitor.id)"
                                     :data-target="'#modal-competitor-edit'+competitor.id"
                                     data-toggle="modal"
-                                    v-if="coach_id"><i class="fas fa-edit"></i></button>
+                                    v-if="coach_id & competition_open_registration === 1 || is_owner"><i class="fas fa-edit"></i></button>
 
                             <button @click="setNamePoomsaeTablo(competitor.id)" class="btn btn-danger" v-if="user.referee != null"><i class="fas fa-tv"></i></button>
                     </div>
                     <div class="col text-right">
-                            <button @click="deleteCompetitor(competitor.id)" class="btn btn-danger" v-if="coach_id"><i class="fas fa-trash"></i></button>
+                            <button @click="deleteCompetitor(competitor.id)" class="btn btn-danger" v-if="coach_id & competition_open_registration === 1 || is_owner"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
             </div>
@@ -177,6 +177,7 @@ export default {
     },
     props: [
         'competition_id',
+        'competition_open_registration',
         'is_owner',
         'user'
     ],
@@ -202,6 +203,7 @@ export default {
             })
 
         this.checkForm()
+
     },
     computed: {
       filteredList () {

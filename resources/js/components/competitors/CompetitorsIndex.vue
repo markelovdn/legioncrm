@@ -22,6 +22,7 @@
         </div>
 
         <competitors-list :competition_id="competition.id"
+                          :competition_open_registration="competition.open_registration"
                           :key="competition.id"
                           :is_owner="is_owner"
                           :user="user"></competitors-list>
