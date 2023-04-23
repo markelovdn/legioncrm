@@ -55,10 +55,12 @@
             <div class="p-3" style="font-size: x-large; text-align: center">в весовой категории {{$competitor->weightcategory->title}}</div>
         </div>
         <div class="col-3">
-            <div class="p-6" style="font-size: medium; margin-top: 100; margin-left: 70">Руководитель СК "Легион"</div>
+            <div class="p-6" style="font-size: medium; margin-top: 100; margin-left: 70">Председатель комитета</div>
+            <div class="p-6" style="font-size: medium; margin-top: 0; margin-left: 70">по физической культуре и спорту</div>
+            <div class="p-6" style="font-size: medium; margin-top: 0; margin-left: 70">администрации Волгограда</div>
         </div>
         <div class="col-2">
-            <div class="p-3" style="font-size: medium; margin-top: -19; margin-left: 370">Маркелов Д.Н.</div>
+            <div class="p-3" style="font-size: medium; margin-top: -19; margin-left: 370">С.П. Куренков</div>
         </div>
         <div class="col-2">
             <div style="font-size: medium; margin-top: 30; padding-bottom: -100px; text-align: center">Волгоград, {{ \Carbon\Carbon::parse($competition->date_start)->format('d.m.Y')}}</div>
