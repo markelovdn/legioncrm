@@ -94,6 +94,9 @@
                         <change-status-button :athlete_id="{{$athlete->id}}"></change-status-button>
                         <div class="row">
                             <a target="_blank" href="{{route('printCscaCard',['id' => $athlete->id])}}"><i class="fas fa-file-contract"></i></a>
+                            <a target="_blank" href="{{route('printCskaStatementSOG',['id' => $athlete->id])}}"><i class="fas fa-file-contract"></i></a>
+                            <a target="_blank" href="{{route('printCskaStatement',['id' => $athlete->id])}}"><i class="fas fa-file-contract"></i></a>
+                            <a target="_blank" href="{{route('printAgreementParented',['id' => $athlete->id])}}"><i class="fas fa-file-contract"></i></a>
                         </div>
 
                     </div>

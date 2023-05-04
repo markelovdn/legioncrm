@@ -213,7 +213,6 @@
 
                 </div>
                 {{-- / modal photo--}}
-
             @endforeach
         </div>
         @else
@@ -221,5 +220,88 @@
         @endif
         {{$organization_athlete->links()}}
     </div>
+
+    <!--modal-new-athlete-user-->
+{{--    <div class="modal fade" id="modal-athlete-user-add" style="display: none;" aria-hidden="true">--}}
+{{--        <div class="modal-dialog modal-md">--}}
+{{--            <div class="modal-content">--}}
+{{--                <div class="modal-header">--}}
+{{--                    <strong>--}}
+{{--                        Новый спортсмен--}}
+{{--                    </strong>--}}
+{{--                </div>--}}
+{{--                <form method="POST" action="{{route('athlete.store')}}" enctype="multipart/form-data">--}}
+{{--                    @csrf--}}
+{{--                    <div class="modal-body">--}}
+{{--                        <div class="form-group row">--}}
+{{--                            <label for="photo" class="col-md-4 col-form-label text-md-end">Фото<span class="text-danger"></span></label>--}}
+{{--                            <div class="col-md-6">--}}
+{{--                                <div class="input-group">--}}
+{{--                                    <div class="custom-file">--}}
+{{--                                        <input type="file" class="custom-file-input  @error('photo') is-invalid @enderror" name="photo" id="photo" value="{{ old('photo') }}">--}}
+{{--                                        <label class="custom-file-label" for="photo"></label>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                                <span class="description font-italic">Принимаются файлы только изображений (jpg,jpeg,png,bmp) размер файла должен быть менее 1 мб</span>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="form-group row">--}}
+{{--                            <label for="gender" class="col-md-4 col-form-label text-md-end">Пол<span class="text-danger">*</span></label>--}}
+{{--                            <div class="col-md-6">--}}
+{{--                                <select type="text" class="form-control @error('gender') is-invalid @enderror"  name="gender" id="gender" value="{{ old('gender') }}">--}}
+{{--                                    <option></option>--}}
+{{--                                    <option value="{{\App\Models\Athlete::GENDER_MALE}}" @if(old('gender') == \App\Models\Athlete::GENDER_MALE) selected @endif>Мужской</option>--}}
+{{--                                    <option value="{{\App\Models\Athlete::GENDER_FEMALE}}" @if(old('gender') == \App\Models\Athlete::GENDER_FEMALE) selected @endif>Женский</option>--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="form-group row">--}}
+{{--                            <label for="secondname" class="col-md-4 col-form-label text-md-end">Фамилия<span class="text-danger">*</span></label>--}}
+
+{{--                            <div class="col-md-6">--}}
+{{--                                <input id="secondname" type="text" class="form-control @error('secondname') is-invalid @enderror" name="secondname" value="{{ old('secondname') }}">--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="form-group row">--}}
+{{--                            <label for="firstname" class="col-md-4 col-form-label text-md-end">Имя<span class="text-danger">*</span></label>--}}
+
+{{--                            <div class="col-md-6">--}}
+{{--                                <input id="firstname" type="text" class="form-control @error('firstname') is-invalid @enderror" name="firstname" value="{{ old('firstname') }}">--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="form-group row">--}}
+{{--                            <label for="patronymic" class="col-md-4 col-form-label text-md-end">Отчество<span class="text-danger">*</span></label>--}}
+{{--                            <div class="col-md-6">--}}
+{{--                                <input id="patronymic" type="text" class="form-control @error('patronymic') is-invalid @enderror" name="patronymic" value="{{ old('patronymic') }}">--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="form-group row">--}}
+{{--                            <label for="date_of_birth" class="col-md-4 col-form-label text-md-end">Дата рождения<span class="text-danger">*</span></label>--}}
+{{--                            <div class="col-md-6">--}}
+{{--                                <input id="date_of_birth" type="date" class="form-control @error('date_of_birth') is-invalid @enderror" name="date_of_birth" value="{{ old('date_of_birth') }}">--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="form-group row">--}}
+{{--                            <label for="gender" class="col-md-4 col-form-label text-md-end">Тренер<span class="text-danger">*</span></label>--}}
+{{--                            <div class="col-md-6">--}}
+{{--                                <select type="text" class="form-control" name="coach_id" id="coach_id">--}}
+{{--                                    <option></option>--}}
+{{--                                    @foreach($coaches as $coach)--}}
+{{--                                    <option value="{{$coach->id}}">{{$coach->user->secondname}} {{$coach->user->firstname}} {{$coach->user->patronymic}}</option>--}}
+{{--                                    @endforeach--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+
+
+{{--                    </div>--}}
+{{--                    <div class="modal-footer justify-content-between">--}}
+{{--                        <button type="reset" class="btn btn-default" data-dismiss="modal">Отмена</button>--}}
+{{--                        <button type="submit" class="btn btn-primary">Отправить</button>--}}
+{{--                    </div>--}}
+{{--                </form>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 @endsection
 

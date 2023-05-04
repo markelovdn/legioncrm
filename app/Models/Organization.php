@@ -81,6 +81,13 @@ class Organization extends Model
         //TODO: сделать сортировку по фамилии
     }
 
+    public function getCoaches($organization_id)
+    {
+        return Coach::whereHas('user', function (Builder $query) use ($organization_id) {
+            $query->whereRelation('organizations', 'organization_id', $organization_id);
+        })->with('user')->get();
+    }
+
     public function getCountAthletes($organization_id, $athleteFilter)
     {
         return Athlete::whereHas('user', function (Builder $query) use ($organization_id) {

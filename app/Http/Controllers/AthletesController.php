@@ -33,36 +33,45 @@ class AthletesController extends Controller
      */
     public function index(AthleteFilter $athleteFilter, UserFilter $userFilter, Request $request)
     {
-        $id = auth()->user()->id;
         $tehkvals = Tehkval::get();
         $countries = Country::get();
         $districts = District::get();
         $regions = Region::get();
+        $user = auth()->user();
+        $organization = Organization::with('users')->where('id', Organization::getOrganizationId())->first();
+        $coaches = Organization::getCoaches($organization->id);
 
-        if (\App\Models\User::hasRole(Role::ROLE_PARENTED, $id)) {
-            return redirect('/parented/'.$id);
+        if (\App\Models\User::hasRole(Role::ROLE_PARENTED, $user->id)) {
+            return redirect('/parented/'.$user->id);
         }
 
-        if (\App\Models\User::hasRole(Role::ROLE_COACH, $id)) {
-            $coach = Coach::where('user_id', $id)->first();
+        if (\App\Models\User::hasRole(Role::ROLE_COACH, $user->id)) {
+            $coach = Coach::where('user_id', $user->id)->first();
             $coach_athletes = Coach::getAthletes($coach->id, $userFilter, $athleteFilter);
             $count_coach_athletes = Coach::getCountAthletes($coach->id, $athleteFilter);
 
             return view('coaches.athletes',
-                compact(['count_coach_athletes', $count_coach_athletes]),
+                compact(['count_coach_athletes', $count_coach_athletes, 'user', $user]),
                 ['coach' => $coach, 'coach_athletes' => $coach_athletes,
                  'countries' => $countries, 'districts' => $districts, 'regions' => $regions, 'tehkvals' => $tehkvals]);
         }
 
-        if (\App\Models\User::hasRole(Role::ROLE_ORGANIZATION_ADMIN, $id) ||
-            \App\Models\User::hasRole(Role::ROLE_ORGANIZATION_CHAIRMAN, $id)) {
-            $organization = Organization::with('users')->where('id', Organization::getOrganizationId())->first();
+        if (\App\Models\User::hasRole(Role::ROLE_ORGANIZATION_ADMIN, $user->id) ||
+            \App\Models\User::hasRole(Role::ROLE_ORGANIZATION_CHAIRMAN, $user->id)) {
+
             $organization_athlete = Organization::getAthletes($organization->id, $userFilter, $athleteFilter);
             $count_athletes = Organization::getCountAthletes($organization->id, $athleteFilter);
 
             return view('organization.athletes',
-                compact(['organization', $organization, 'organization_athlete', $organization_athlete, 'count_athletes', $count_athletes]),
-                        ['countries' => $countries, 'districts' => $districts, 'regions' => $regions, 'tehkvals' => $tehkvals]);
+                compact(['organization', $organization,
+                    'organization_athlete', $organization_athlete,
+                    'count_athletes', $count_athletes,
+                    'user', $user,
+                    'coaches', $coaches]),
+                    ['countries' => $countries,
+                        'districts' => $districts,
+                        'regions' => $regions,
+                        'tehkvals' => $tehkvals]);
         }
 
         return back();

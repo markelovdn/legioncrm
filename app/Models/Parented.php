@@ -10,9 +10,12 @@ class Parented extends Model
 {
     use HasFactory;
 
+    public const FIRST_PARENTED = 1;
+    public const SECOND_PARENTED = 2;
+
     public function athletes()
     {
-        return $this->belongsToMany(Athlete::class)->with('birthcertificate', 'passport', 'studyplace');
+        return $this->belongsToMany(Athlete::class)->with('birthcertificate', 'passport', 'studyplace')->withPivot('parented_type');
     }
 
     public function passport()

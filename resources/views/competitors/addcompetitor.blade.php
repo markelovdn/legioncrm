@@ -41,7 +41,7 @@
     <!-- /.card-footer -->
 
     <!--modal-new-athlete-user-->
-    <div class="modal fade" id="modal-athlete-user-add" style="display: none;" aria-hidden="true">
+    <div class="modal fade" id="modal-competitor-user-add" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header">

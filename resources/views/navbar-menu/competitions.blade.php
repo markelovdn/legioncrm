@@ -17,7 +17,7 @@
     </li>
     @if(Str::contains(url()->current(), 'competitors/create') && $competition->open_registration != \App\Models\Competition::REGISTRATION_CLOSE)
     <li>
-        <a class="nav-link" href="#" data-target="#modal-athlete-user-add"
+        <a class="nav-link" href="#" data-target="#modal-competitor-user-add"
            data-toggle="modal">Новый</a>
     </li>
     @endif

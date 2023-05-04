@@ -26,6 +26,9 @@ Route::middleware(['auth'])->group(function () {
     Route::any('printSertificate', [\App\BusinessProcess\PrintAttestationSertificate::class, 'printSertificate'])->name('printSertificate')->middleware('auth');
     Route::any('printCompetitorsСertificate', [\App\BusinessProcess\PrintCompetitorsCertificate::class, 'printCompetitorsCertificate'])->name('printCompetitorsСertificate')->middleware('auth');
     Route::any('printCscaCard', [\App\BusinessProcess\PrintAthleteDocument::class, 'printCscaCard'])->name('printCscaCard')->middleware('auth');
+    Route::any('printCskaStatementSOG', [\App\BusinessProcess\PrintAthleteDocument::class, 'printCskaStatementSOG'])->name('printCskaStatementSOG')->middleware('auth');
+    Route::any('printCskaStatement', [\App\BusinessProcess\PrintAthleteDocument::class, 'printCskaStatement'])->name('printCskaStatement')->middleware('auth');
+    Route::any('printAgreementParented', [\App\BusinessProcess\PrintAthleteDocument::class, 'printAgreementParented'])->name('printAgreementParented')->middleware('auth');
     Route::resource('events', \App\Http\Controllers\EventsController::class);
     Route::resource('events.users', \App\Http\Controllers\EventUserController::class)->shallow();
     Route::put('/event/{event_id}/user/{user_id}', [\App\Http\Controllers\EventUserController::class, 'update'])->name('eventUserUpdate');
@@ -69,4 +72,6 @@ Route::get('get-age-categories-competition', '\App\DomainService\GetAgeCategorie
 Route::get('get-weight-categories-competition', '\App\DomainService\GetWeightCategoriesCompetition')->middleware('auth:sanctum');
 Route::get('get-tehkval-groups', '\App\DomainService\GetTehKvalGroupsCompetition')->middleware('auth:sanctum');
 Route::get('get-sportkvals', '\App\DomainService\GetSportkvals')->middleware('auth:sanctum');
+
+Route::any('print-test', [\App\BusinessProcess\PrintAthleteDocument::class, 'test']);
 
