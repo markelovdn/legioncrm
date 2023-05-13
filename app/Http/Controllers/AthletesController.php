@@ -33,42 +33,47 @@ class AthletesController extends Controller
      */
     public function index(AthleteFilter $athleteFilter, UserFilter $userFilter, Request $request)
     {
+        $organization = new Organization();
         $tehkvals = Tehkval::get();
         $countries = Country::get();
         $districts = District::get();
         $regions = Region::get();
         $user = auth()->user();
-        $organization = Organization::with('users')->where('id', Organization::getOrganizationId())->first();
-        $coaches = Organization::getCoaches($organization->id);
+        $organization = Organization::with('users')->where('id', $organization->getOrganizationId())->first();
+        $coaches = $organization->getCoaches($organization->id);
 
-        if (\App\Models\User::hasRole(Role::ROLE_PARENTED, $user->id)) {
+        if (Auth::user()->hasRole(Role::ROLE_PARENTED, $user->id)) {
             return redirect('/parented/'.$user->id);
         }
 
-        if (\App\Models\User::hasRole(Role::ROLE_COACH, $user->id)) {
+        if (Auth::user()->hasRole(Role::ROLE_COACH, $user->id)) {
             $coach = Coach::where('user_id', $user->id)->first();
-            $coach_athletes = Coach::getAthletes($coach->id, $userFilter, $athleteFilter);
-            $count_coach_athletes = Coach::getCountAthletes($coach->id, $athleteFilter);
+            $coach_athletes = $coach->getAthletes($coach->id, $userFilter, $athleteFilter);
+            $count_coach_athletes = $coach->getCountAthletes($coach->id, $athleteFilter);
 
             return view('coaches.athletes',
-                compact(['count_coach_athletes', $count_coach_athletes, 'user', $user]),
-                ['coach' => $coach, 'coach_athletes' => $coach_athletes,
+                ['count_coach_athletes' => $count_coach_athletes,
+                 'user' => $user,
+                    'coach' => $coach,
+                    'athletes' => $coach_athletes,
+                    'coach_athletes' => $coach_athletes,
+                 'coaches' => $coaches,
                  'countries' => $countries, 'districts' => $districts, 'regions' => $regions, 'tehkvals' => $tehkvals]);
         }
 
-        if (\App\Models\User::hasRole(Role::ROLE_ORGANIZATION_ADMIN, $user->id) ||
-            \App\Models\User::hasRole(Role::ROLE_ORGANIZATION_CHAIRMAN, $user->id)) {
+        if (Auth::user()->hasRole(Role::ROLE_ORGANIZATION_ADMIN, $user->id) ||
+            Auth::user()->hasRole(Role::ROLE_ORGANIZATION_CHAIRMAN, $user->id)) {
 
-            $organization_athlete = Organization::getAthletes($organization->id, $userFilter, $athleteFilter);
-            $count_athletes = Organization::getCountAthletes($organization->id, $athleteFilter);
+            $organization_athlete = $organization->getAthletes($organization->id, $userFilter, $athleteFilter);
+            $count_athletes = $organization->getCountAthletes($organization->id, $athleteFilter);
 
             return view('organization.athletes',
-                compact(['organization', $organization,
-                    'organization_athlete', $organization_athlete,
-                    'count_athletes', $count_athletes,
-                    'user', $user,
-                    'coaches', $coaches]),
-                    ['countries' => $countries,
+                ['organization' => $organization,
+                    'organization_athlete' => $organization_athlete,
+                    'count_athletes' => $count_athletes,
+                    'user' => $user,
+                    'coaches' => $coaches,
+                    'countries' => $countries,
                         'districts' => $districts,
                         'regions' => $regions,
                         'tehkvals' => $tehkvals]);
@@ -223,7 +228,7 @@ class AthletesController extends Controller
         $athlete = Athlete::where('id', $id)->first();
         $system_code = DB::table('system_codes')->where('code', $request->input('code'))->first();
 
-                if ($system_code && \App\Models\User::getRoleCode() == Role::ROLE_SYSTEM_ADMIN) {
+                if ($system_code && Auth::user()->getRoleCode() == Role::ROLE_SYSTEM_ADMIN) {
                     DB::table('athlete_coach')->where('athlete_id', $id)->delete();
                     DB::table('athlete_parented')->where('athlete_id', $id)->delete();
                     DB::table('organization_user')->where('user_id', $user->id)->delete();

@@ -9,15 +9,16 @@
     </div>
 
     <div class="card-body" style="display: none;">
-        @if(!\App\BusinessProcess\GetPaymentInfo::getPaymentInfo($athlete->user->id))
-            @if(\App\Models\User::getRoleCode() != \App\Models\Role::ROLE_COACH)
+        <?php $GetPaymentInfo = new \App\BusinessProcess\GetPaymentInfo();?>
+        @if(!$GetPaymentInfo->getPaymentInfo($athlete->user->id))
+            @if(\Illuminate\Support\Facades\Auth::user()->getRoleCode() != \App\Models\Role::ROLE_COACH)
             @include('finance.forms.form-year-payment')
                 @endif
         @else
-            @foreach(\App\BusinessProcess\GetPaymentInfo::getPaymentInfo($athlete->user->id) as $payment)
+            @foreach($GetPaymentInfo->getPaymentInfo($athlete->user->id) as $payment)
 {{--                TODO:Делать запросы из вьюх это плохо--}}
-                @if(!\App\Models\Payment::isCurrentYearPayment($athlete->user->id))
-                    @if(\App\Models\User::getRoleCode() != \App\Models\Role::ROLE_COACH)
+                @if(!$payment->isCurrentYearPayment($athlete->user->id))
+                    @if(\Illuminate\Support\Facades\Auth::user()->getRoleCode() != \App\Models\Role::ROLE_COACH)
                     @include('finance.forms.form-year-payment')
                         @endif
                 @elseif ($payment->sum > 0

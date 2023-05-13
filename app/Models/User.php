@@ -190,7 +190,7 @@ class User extends Authenticatable
 
     public function isSystemAdmin($user)
     {
-        return \App\Models\User::hasRole(\App\Models\Role::ROLE_SYSTEM_ADMIN, $user->id);
+        return Auth::user()->hasRole(\App\Models\Role::ROLE_SYSTEM_ADMIN, $user->id);
     }
 
     public function isOrganizationChairman(object $user) :bool
@@ -199,7 +199,7 @@ class User extends Authenticatable
             return false;
         }
 
-        return \App\Models\User::hasRole(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN, $user->id);
+        return Auth::user()->hasRole(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN, $user->id);
     }
 
     public function isOrganizationAdmin(object $user) :bool
@@ -207,7 +207,7 @@ class User extends Authenticatable
         if (!$user) {
             return false;
         }
-        return \App\Models\User::hasRole(\App\Models\Role::ROLE_ORGANIZATION_ADMIN, $user->id);
+        return Auth::user()->hasRole(\App\Models\Role::ROLE_ORGANIZATION_ADMIN, $user->id);
     }
 
     public function isCoach(object $user)
@@ -216,7 +216,7 @@ class User extends Authenticatable
             return false;
         }
 
-        return \App\Models\User::hasRole(\App\Models\Role::ROLE_COACH, $user->id);
+        return Auth::user()->hasRole(\App\Models\Role::ROLE_COACH, $user->id);
     }
 
     public function isParented(object $user)
@@ -225,7 +225,7 @@ class User extends Authenticatable
             return false;
         }
 
-        return \App\Models\User::hasRole(\App\Models\Role::ROLE_PARENTED, $user->id);
+        return Auth::user()->hasRole(\App\Models\Role::ROLE_PARENTED, $user->id);
     }
 
     public function isAthlete(object $user)
@@ -234,7 +234,7 @@ class User extends Authenticatable
             return false;
         }
 
-        return \App\Models\User::hasRole(\App\Models\Role::ROLE_ATHLETE, $user->id);
+        return Auth::user()->hasRole(\App\Models\Role::ROLE_ATHLETE, $user->id);
     }
 
     public function isReferee(object $user)
@@ -243,7 +243,7 @@ class User extends Authenticatable
             return false;
         }
 
-        return \App\Models\User::hasRole(\App\Models\Role::ROLE_REFEREE, $user->id);
+        return Auth::user()->hasRole(\App\Models\Role::ROLE_REFEREE, $user->id);
     }
 
     public function scopeFilter(Builder $builder, QueryFilter $filter){

@@ -27,7 +27,7 @@
                                 <input type="text" style="display:none" name="user_id" value="{{$user->id}}">
                                 <div class="col align-content-center">
                                     <input type="checkbox"
-                                           @if(\App\Models\User::hasRole($role->code, $user->id)) checked @endif
+                                           @if(Auth::user()->hasRole($role->code, $user->id)) checked @endif
                                            name="role_id[]" value="{{$role->id}}" class="form-check-input"
                                            @if($role->code == \App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN)
                                            data-toggle="modal" data-target="#organizations_chairmain"

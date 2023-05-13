@@ -10,8 +10,9 @@
             </a>
         </span>
         @if(\Illuminate\Support\Facades\Auth::user()->isOrganizationChairman(auth()->user()) || \Illuminate\Support\Facades\Auth::user()->isOrganizationAdmin(auth()->user()))
-{{--            <a href="/organization/{{\App\Models\Organization::getOrganizationId()}}" class="d-block">{{\App\Models\User::getRole()}}--}}
-{{--                (кабинет)</a>--}}
+            <?php $Organization = new \App\Models\Organization();?>
+            <a href="/organization/{{$Organization->getOrganizationId()}}" class="d-block">{{\Illuminate\Support\Facades\Auth::user()->getRole()}}
+                (кабинет)</a>
 
         @else
         <a href="{{asset(\Illuminate\Support\Facades\Auth::user()->getRoleCode())}}" class="d-block">{{\Illuminate\Support\Facades\Auth::user()->getRole()}}

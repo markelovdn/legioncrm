@@ -11,7 +11,7 @@
             @csrf
             <div class="card-body">
                 <dl class="row">
-                    @foreach(\App\Models\Athlete::getCoachesAthlete($athlete->id)->coaches as $coach)
+                    @foreach($athlete->getCoachesAthlete($athlete->id)->coaches as $coach)
                         @if($coach->pivot->coach_type == \App\Models\Coach::FIRST_COACH)
                         <dt class="col-sm-4">Первый тренер</dt>
                         <dd class="col-sm-8">{{$coach->user->secondname}} {{mb_substr($coach->user->firstname, 0,1)}}.{{mb_substr($coach->user->patronymic, 0,1)}}.</dd>
@@ -57,7 +57,7 @@
                                 <div class="col-md-6">
                                     <select type="text" class="form-control @error('first_coach') is-invalid @enderror"  name="first_coach" id="first_coach">
                                         <option></option>
-                                        @foreach(\App\Models\Coach::getAllCoaches() as $coach)
+                                        @foreach($coaches as $coach)
                                         <option value="{{$coach->id}}">
                                             {{$coach->user->secondname}} {{mb_substr($coach->user->firstname, 0,1)}}.{{mb_substr($coach->user->patronymic, 0,1)}}.
                                         </option>
@@ -71,7 +71,7 @@
                                 <div class="col-md-6">
                                     <select type="text" class="form-control @error('second_coach') is-invalid @enderror"  name="second_coach" id="second_coach">
                                         <option></option>
-                                        @foreach(\App\Models\Coach::getAllCoaches() as $coach)
+                                        @foreach($coaches as $coach)
                                             <option value="{{$coach->id}}">
                                                 {{$coach->user->secondname}} {{mb_substr($coach->user->firstname, 0,1)}}.{{mb_substr($coach->user->patronymic, 0,1)}}.
                                             </option>
@@ -85,7 +85,7 @@
                                 <div class="col-md-6">
                                     <select type="text" class="form-control @error('third_coach') is-invalid @enderror"  name="third_coach" id="third_coach">
                                         <option></option>
-                                        @foreach(\App\Models\Coach::getAllCoaches() as $coach)
+                                        @foreach($coaches as $coach)
                                             <option value="{{$coach->id}}">
                                                 {{$coach->user->secondname}} {{mb_substr($coach->user->firstname, 0,1)}}.{{mb_substr($coach->user->patronymic, 0,1)}}.
                                             </option>
@@ -99,7 +99,7 @@
                                 <div class="col-md-6">
                                     <select type="text" class="form-control @error('real_coach') is-invalid @enderror"  name="real_coach" id="real_coach">
                                         <option></option>
-                                        @foreach(\App\Models\Coach::getAllCoaches() as $coach)
+                                        @foreach($coaches as $coach)
                                             <option value="{{$coach->id}}">
                                                 {{$coach->user->secondname}} {{mb_substr($coach->user->firstname, 0,1)}}.{{mb_substr($coach->user->patronymic, 0,1)}}.
                                             </option>

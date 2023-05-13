@@ -9,6 +9,7 @@ use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AddressesController extends Controller
 {
@@ -127,7 +128,7 @@ class AddressesController extends Controller
         $organization = Organization::where('id', $organization_id)->first();
         $user = User::where('id', $request->user_id)->first();
 
-        switch(\App\Models\User::getRoleCode()) :
+        switch(Auth::user()->getRoleCode()) :
             case(\App\Models\Role::ROLE_SYSTEM_ADMIN) :
             case(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN) :
             case(\App\Models\Role::ROLE_ORGANIZATION_ADMIN) :

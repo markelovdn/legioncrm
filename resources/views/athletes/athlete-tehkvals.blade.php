@@ -1,6 +1,6 @@
 <div class="card collapsed-card">
     <div class="card-header">
-        <h3 class="card-title">Техническая квалификация ({{$athlete->tehkval->last()->title}})</h3>
+        <h3 class="card-title">Техническая квалификация ({{$athlete->tehkval->last()->title ?? ''}})</h3>
         <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                 <i class="fas fa-plus"></i>
@@ -11,11 +11,11 @@
         @csrf
         <div class="card-body">
             <dl class="row">
-                    <dt class="col-sm-4">Пояс: {{$athlete->tehkval->last()->belt_color}} ({{$athlete->tehkval->last()->title}})</dt>
+                    <dt class="col-sm-4">Пояс: {{$athlete->tehkval->last()->belt_color ?? ''}} ({{$athlete->tehkval->last()->title ?? ''}})</dt>
                     <dd class="col-sm-8"></dd>
             </dl>
         </div>
-        @switch(\App\Models\User::getRoleCode())
+        @switch(\Illuminate\Support\Facades\Auth::user()->getRoleCode())
             @case(\App\Models\Role::ROLE_SYSTEM_ADMIN)
             @case(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN)
             @case(\App\Models\Role::ROLE_ORGANIZATION_ADMIN)

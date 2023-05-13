@@ -10,6 +10,7 @@ use App\Models\StudyPlace;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StudyPlaceController extends Controller
 {
@@ -111,7 +112,7 @@ class StudyPlaceController extends Controller
         $organization_id = Organization::getOrganizationId();
         $organization = Organization::where('id', $organization_id)->first();
 
-        switch(\App\Models\User::getRoleCode()) :
+        switch(Auth::user()->getRoleCode()) :
             case(\App\Models\Role::ROLE_SYSTEM_ADMIN) :
             case(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN) :
             case(\App\Models\Role::ROLE_ORGANIZATION_ADMIN) :

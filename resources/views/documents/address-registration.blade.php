@@ -9,7 +9,7 @@
     </div>
 
     <div class="card-body" style="display: none;">
-        @foreach(\App\Models\Athlete::getAddress($athlete->user_id) as $athlete_address)
+        @foreach($athlete->getAddress($athlete->user_id) as $athlete_address)
 {{--            TODO: делать запросы из вьюх это плохо--}}
         <dl class="row">
             <dt class="col-sm-4">Страна:</dt>
@@ -43,7 +43,7 @@
                     </div>
                 </div>
 
-                @switch(\App\Models\User::getRoleCode())
+                @switch(\Illuminate\Support\Facades\Auth::user()->getRoleCode())
                     @case(\App\Models\Role::ROLE_SYSTEM_ADMIN)
                     @case(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN)
                     @case(\App\Models\Role::ROLE_ORGANIZATION_ADMIN)

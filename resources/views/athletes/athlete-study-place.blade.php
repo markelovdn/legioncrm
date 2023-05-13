@@ -16,7 +16,7 @@
             <dd class="col-sm-8">{{$athlete->studyplace->classnum}} {{$athlete->studyplace->letter}}</dd>
         </dl>
 
-        @switch(\App\Models\User::getRoleCode())
+        @switch(\Illuminate\Support\Facades\Auth::user()->getRoleCode())
             @case(\App\Models\Role::ROLE_SYSTEM_ADMIN)
             @case(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN)
             @case(\App\Models\Role::ROLE_ORGANIZATION_ADMIN)

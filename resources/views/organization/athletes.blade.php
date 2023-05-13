@@ -101,7 +101,7 @@
                     @include('athletes.athlete-tehkvals')
                     {{-- / Техническая квалификация--}}
                             <div class="row">
-                                @switch(\App\Models\User::getRoleCode())
+                                @switch(\Illuminate\Support\Facades\Auth::user()->getRoleCode())
                                     @case(\App\Models\Role::ROLE_SYSTEM_ADMIN)
                                     @case(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN)
                                     @case(\App\Models\Role::ROLE_ORGANIZATION_ADMIN)
@@ -142,7 +142,7 @@
                                         </div>
                                     </div>
                                 @endswitch
-                                @if(\App\Models\User::getRoleCode() == 'system_admin')
+                                @if(Auth::user()->getRoleCode() == 'system_admin')
                                 <div class="col-auto">
                                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-destoy-athlete{{$athlete->user->id}}">
                                         <i class="far fa-trash-alt"></i>

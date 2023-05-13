@@ -38,7 +38,7 @@
             </div>
         </div>
 
-    @switch(\App\Models\User::getRoleCode())
+    @switch(\Illuminate\Support\Facades\Auth::user()->getRoleCode())
             @case(\App\Models\Role::ROLE_SYSTEM_ADMIN)
             @case(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN)
             @case(\App\Models\Role::ROLE_ORGANIZATION_ADMIN)

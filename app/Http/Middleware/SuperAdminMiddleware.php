@@ -18,6 +18,7 @@ class SuperAdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
+//        $a = Auth::user()->getRoleCode();
         if(Auth::user()->getRoleCode() == 'system_admin') {
             return $next($request);
         }

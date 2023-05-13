@@ -21,6 +21,16 @@ class AthletesTest extends TestCase
      *
      * @return void
      */
+
+    public function test_index()
+    {
+        $user = User::find(4);
+        Auth::login($user);
+
+        $response = $this->followingRedirects()->get('/athlete');
+        $response->assertStatus(200);
+    }
+
     public function test_store_athlete()
     {
         $coach = Coach::get()->first();

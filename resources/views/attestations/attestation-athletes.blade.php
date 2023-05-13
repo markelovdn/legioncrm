@@ -32,7 +32,7 @@
                     <h3 class="card-title">{{$athlete->tehkval->last()->title}} <i class="fas fa-arrow-right">
                         </i> {{\App\BusinessProcess\GetAttestationAthletes::getNextTehkval($athlete->id)}}
                     </h3>
-                        @if(\App\Models\User::getRoleCode() == \App\Models\Role::ROLE_ORGANIZATION_ADMIN)
+                        @if(Auth::user()->getRoleCode() == \App\Models\Role::ROLE_ORGANIZATION_ADMIN)
                     <span class="badge badge-danger" data-toggle="modal" style="cursor: pointer" data-target="#modal-attestation-athlete{{$athlete->user->id}}">
                                 <i class="far fa-clock"></i>присвоить</span>
 
@@ -74,7 +74,7 @@
                 </div>
                 <div class="card-footer">
                     <div class="row row-cols-2">
-                        @if(\App\Models\User::getRoleCode() == \App\Models\Role::ROLE_ORGANIZATION_ADMIN)
+                        @if(Auth::user()->getRoleCode() == \App\Models\Role::ROLE_ORGANIZATION_ADMIN)
                         <div class="col text-left">
                                 <a target="_blank" href="{{route('printSertificate',['id' => $athlete->id])}}"><i class="fas fa-file-contract"></i></a>
                         </div>
