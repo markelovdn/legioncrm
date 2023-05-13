@@ -106,20 +106,25 @@ class EventsUsersTest extends TestCase
         Auth::login($user);
 
         $event = Event::find(1);
-        $this->followingRedirects()->delete('/event/'.$event->id.'/user/7');
+        $this->followingRedirects()->delete('/event/'.$event->id.'/user/7', [
+            'user_id' => 7,
+            'event_id' => $event->id,
+            'approve' => Event::DECLINE,
+            'payment_id' => 1
+        ]);
 
         $response = $this->followingRedirects()->put('/event/'.$event->id.'/user/7', [
             'user_id' => 7,
             'event_id' => $event->id,
             'approve' => Event::DECLINE,
-            'payment_id' => 0
+            'payment_id' => 1
         ]);
 
         $this->assertDatabaseMissing('event_user', [
             'user_id' => 7,
             'event_id' => $event->id,
             'approve' => Event::DECLINE,
-            'payment_id' => 0
+            'payment_id' => 1
         ]);
 
         $response->assertStatus(200);

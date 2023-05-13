@@ -13,6 +13,7 @@ use App\Models\Tehkval;
 use App\Models\TehkvalGroup;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CompetitionsController extends Controller
@@ -41,7 +42,7 @@ class CompetitionsController extends Controller
         $districts = District::get();
         $regions = Region::get();
         $statuses = CompetitionsRanksTitle::get();
-        $organizations = User::getUserOrganizations(auth()->user()->id);
+        $organizations = Auth::user()->getUserOrganizations(auth()->user()->id);
 
         return view('competitions.addcompetition', [
             'agecategories' => $agecategories,
@@ -114,7 +115,7 @@ class CompetitionsController extends Controller
         $districts = District::get();
         $regions = Region::get();
         $statuses = CompetitionsRanksTitle::get();
-        $organizations = User::getUserOrganizations(auth()->user()->id);
+        $organizations = Auth::user()->getUserOrganizations(auth()->user()->id);
 
         return view('competitions.editcompetition', [
             'competition' => $competition,

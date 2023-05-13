@@ -47,7 +47,7 @@
                     <br>
                     <b>Дата проведения: </b>{{ \Carbon\Carbon::parse($attestation->date)->format('d.m.Y')}}<br>
                     <b>Зарегестированно всего:
-                    </b>{{ \App\Models\Attestation::athletesCount($attestation->id)}}
+                    </b>{{ $attestation->athletesCount($attestation->id)}}
                     <br>
                 </div>
 

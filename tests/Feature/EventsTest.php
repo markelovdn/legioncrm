@@ -37,7 +37,7 @@ class EventsTest extends TestCase
         Auth::login($user);
 
         $response = $this->get('/events/create');
-        $response->assertSee(User::getUserOrganizations($user->id)->first()->title, $escaped = true);
+        $response->assertSee($user->getUserOrganizations($user->id)->first()->title, $escaped = true);
         $response->assertStatus(200);
     }
 

@@ -57,7 +57,7 @@ class Attestation extends Model
             return false;
         }
 
-        $orgs = User::getUserOrganizations(\auth()->user()->id);
+        $orgs = Auth::user()->getUserOrganizations(\auth()->user()->id);
 
         $orgs_id = [];
         foreach ($orgs as $org) {

@@ -9,6 +9,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -35,7 +36,7 @@ class LoginController extends Controller
 
     protected function redirectTo()
     {
-        if (User::isParented(auth()->user())) {
+        if (Auth::user()->isParented(auth()->user())) {
             $parented = Parented::with('user')->where('user_id', auth()->user()->id)->get();
             $parented_id = '';
             foreach ($parented as $item) {
@@ -44,7 +45,7 @@ class LoginController extends Controller
             return url('/parented',$parented_id);
         }
 
-        if (User::isCoach(auth()->user())) {
+        if (Auth::user()->isCoach(auth()->user())) {
             $coach = Coach::with('user')->where('user_id', auth()->user()->id)->get();
             $coach_id = '';
             foreach ($coach as $item) {

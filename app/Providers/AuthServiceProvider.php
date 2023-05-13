@@ -24,8 +24,6 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {//TODO: сделать как полагается вернуть все как было src/Illuminate/Auth/Notifications/ResetPassword.php
         $this->registerPolicies();
-
-
-
+        
     }
 }

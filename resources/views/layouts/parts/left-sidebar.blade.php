@@ -9,12 +9,12 @@
                 {{\Illuminate\Support\Facades\Auth::user()->secondname}}
             </a>
         </span>
-        @if(\App\Models\User::getRoleCode() === 'organization_chairman' || \App\Models\User::getRoleCode() === 'organization_admin')
-            <a href="/organization/{{\App\Models\Organization::getOrganizationId()}}" class="d-block">{{\App\Models\User::getRole()}}
-                (кабинет)</a>
+        @if(\Illuminate\Support\Facades\Auth::user()->isOrganizationChairman(auth()->user()) || \Illuminate\Support\Facades\Auth::user()->isOrganizationAdmin(auth()->user()))
+{{--            <a href="/organization/{{\App\Models\Organization::getOrganizationId()}}" class="d-block">{{\App\Models\User::getRole()}}--}}
+{{--                (кабинет)</a>--}}
 
         @else
-        <a href="{{asset(\App\Models\User::getRoleCode())}}" class="d-block">{{\App\Models\User::getRole()}}
+        <a href="{{asset(\Illuminate\Support\Facades\Auth::user()->getRoleCode())}}" class="d-block">{{\Illuminate\Support\Facades\Auth::user()->getRole()}}
             (кабинет)</a>
         @endif
         @if(\Illuminate\Support\Facades\Auth::user())
@@ -25,7 +25,7 @@
 
 @include('left-menu.competitions')
 
-@switch(\App\Models\User::getRoleCode())
+@switch(\Illuminate\Support\Facades\Auth::user()->getRoleCode())
 
     @case(\App\Models\Role::ROLE_SYSTEM_ADMIN)
     @include('left-menu.roles')

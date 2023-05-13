@@ -104,13 +104,17 @@ class User extends Authenticatable
         }
     }
 
-    public static function getRoleCode()
+    public function getRoleCode() :string
     {
         $user = User::with('role')->find(auth()->user()->id);
 
+        $roleCode = '';
+
         foreach ($user->role as $item) {
-            return $item->code;
+            $roleCode = $item->code;
         }
+
+        return $roleCode;
     }
 
 
@@ -152,7 +156,7 @@ class User extends Authenticatable
         }
     }
 
-    public static function getUserOrganizations($user_id)
+    public function getUserOrganizations($user_id)
     {
         $org_user = DB::table('organization_user')
             ->where('user_id', $user_id)->get();
@@ -198,7 +202,7 @@ class User extends Authenticatable
         return \App\Models\User::hasRole(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN, $user->id);
     }
 
-    public function isOrganizationAdmin(object $user)
+    public function isOrganizationAdmin(object $user) :bool
     {
         if (!$user) {
             return false;

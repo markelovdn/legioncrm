@@ -34,10 +34,10 @@ class EventUserController extends Controller
         $users = $eventUsers->getUsers($user->id, $event->id, $athleteFilter);
         $coaches = Coach::with('user')->get();
         $coach = Coach::with('user')->where('user_id', $user->id)->first();
-        $users_main_list = Event::getCountMainList($event->id);
-        $users_waiting_list = Event::getCountWaitingList($event->id);
+        $users_main_list = $event->getCountMainList($event->id);
+        $users_waiting_list = $event->getCountWaitingList($event->id);
         $paymenttitle_id = DB::table('payments_titles')->where('title', $event->title.'-'.$event->date_start)->first()->id;
-        $event_cost = Event::getCost($event->id);
+        $event_cost = $event->getCost($event->id);
         $payments = Payment::where('paymenttitle_id', $paymenttitle_id)->get();
         $coachAthleteCount = $eventUsers->getCoachAthleteCount($event->id);
         arsort($coachAthleteCount);
@@ -71,9 +71,9 @@ class EventUserController extends Controller
     {
         $event = Event::find($event_id);
         $eventUsers = $eventUsers->getUsers(auth()->user()->id, $event->id, $athleteFilter);
-        $bookingWithoutPay = Event::isBookingWithoutPay($event->id);
-        $free_place = $event->users_limit - Event::getCountMainList($event->id);
-        $event_cost = Event::getCost($event->id);
+        $bookingWithoutPay = $event->isBookingWithoutPay($event->id);
+        $free_place = $event->users_limit - $event->getCountMainList($event->id);
+        $event_cost = $event->getCost($event->id);
         $payment = DB::table('payments_titles')->where('title', $event->title.'-'.$event->date_start)->first();
 
         if ($eventUsers && $eventUsers->count() >= 1) {
@@ -111,13 +111,13 @@ class EventUserController extends Controller
             throw new \Exception('Не найдено  мероприятия');
         }
 
-        if (Event::hasUsers($request->event_id, $user->id)) {
+        if ($event->hasUsers($request->event_id, $user->id)) {
             session()->flash('error', 'Данный пользователь уже добавлен на мероприятие');
             return back();
         }
 
-        if ($event->users_limit - Event::getCountMainList($request->event_id) <= 0) {
-            $waiting_number = Event::getCountWaitingList($request->event_id) + 1;
+        if ($event->users_limit - $event->getCountMainList($request->event_id) <= 0) {
+            $waiting_number = $event->getCountWaitingList($request->event_id) + 1;
 
             $user->events()->attach($request->event_id,
                 [
@@ -250,6 +250,7 @@ class EventUserController extends Controller
     {
         $user = \auth()->user();
         $event = Event::where('id', $request->input('event_id'))->first();
+
         $users = $eventUsers->getUsers($user->id, $event->id, $athleteFilter);
 
         $event->users()->detach($request->input('user_id'));

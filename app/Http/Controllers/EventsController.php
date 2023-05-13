@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -19,9 +20,9 @@ class EventsController extends Controller
      */
     public function index()
     {
-        $events = Event::getEvents();
+        $events = new Event();
 
-        return view('events.events', compact(['events', $events]));
+        return view('events.events', ['events' => $events->getEvents()]);
     }
 
     /**
@@ -31,9 +32,9 @@ class EventsController extends Controller
      */
     public function create()
     {
-        $organizations = User::getUserOrganizations(auth()->user()->id);
+        $organizations = Auth::user()->getUserOrganizations(auth()->user()->id);
 
-        return view('events.addevents', compact(['organizations', $organizations]));
+        return view('events.addevents', ['organizations' => $organizations]);
     }
 
     /**
@@ -97,10 +98,10 @@ class EventsController extends Controller
      */
     public function edit($id)
     {
-        $organizations = User::getUserOrganizations(auth()->user()->id);
+        $organizations = Auth::user()->getUserOrganizations(auth()->user()->id);
         $event = Event::where('id', $id)->first();
 
-        return view('events.editevents', compact(['organizations', $organizations, 'event', $event]));
+        return view('events.editevents', ['organizations' => $organizations, 'event' => $event]);
     }
 
     /**

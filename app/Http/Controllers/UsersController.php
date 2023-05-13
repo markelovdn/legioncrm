@@ -61,6 +61,7 @@ class UsersController extends Controller
     public function store(StoreUserRequest $request, GetRegistrationCode $reg_code, RegistrationUserAs $userAs)
     {
         $request->validated();
+        $user = new User();
 
         if ($request->role_code == Role::ROLE_PARENTED && Carbon::parse($request->date_of_birth)->diffInYears() < 18) {
             $request->session()->flash('error', 'Возраст родителя не должен быть младше 18 лет');
@@ -72,7 +73,7 @@ class UsersController extends Controller
             return back()->withInput();
         }
 
-        if (!User::checkUserUnique($request->firstname, $request->secondname, $request->patronymic, $request->date_of_birth)) {
+        if (!$user->checkUserUnique($request->firstname, $request->secondname, $request->patronymic, $request->date_of_birth)) {
             return back()->withInput();
         }
 
@@ -92,7 +93,9 @@ class UsersController extends Controller
 
         $user->role()->attach($role);
 
-        AttachOrganization::attachOrganization($request->role_code,  $user->id, $request->reg_code);
+        $AttachOrganization = new AttachOrganization();
+
+        $AttachOrganization->attachOrganization($request->role_code,  $user->id, $request->reg_code);
 
         Auth::login($user);
 

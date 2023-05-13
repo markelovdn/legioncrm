@@ -53,9 +53,9 @@ class CoachController extends Controller
         $coach = Coach::where('user_id', auth()->user()->id)->with('user', 'athletes')->find($id);
 
         if ($url == 'athletes') {
-            return view('coaches.athletes', compact('coach', $coach));
+            return view('coaches.athletes', ['coach' => $coach]);
         }
-            return view('coaches.cabinet', compact('coach', $coach));
+            return view('coaches.cabinet', ['coach' => $coach]);
 
     }
 

@@ -36,7 +36,7 @@
 					<b>Место проведения: </b>{{$competition->address}}<br>
 					<b>Дата начала: </b>{{ \Carbon\Carbon::parse($competition->date_start)->format('d.m.Y')}}<br>
 					<b>Дата окончания: </b>{{ \Carbon\Carbon::parse($competition->date_end)->format('d.m.Y')}}<br>
-                    <b>Зарегестированно всего: </b>{{ \App\Models\Competition::competitorsCount($competition->id)}}
+{{--                    <b>Зарегестированно всего: </b>{{ \App\Models\Competition::competitorsCount($competition->id)}}--}}
                     @if($competition->open_registration != \App\Models\Competition::REGISTRATION_CLOSE)
                         <a href="{{route('competitions.competitors.create',[$competition->id])}}"><span class="badge badge-success">Добавить участников</span></a>
                     @else
@@ -63,17 +63,17 @@
                     </div>
 				</div>
 
-                @if(\App\Models\User::getRoleCode() == \App\Models\Role::ROLE_REFEREE)
-                <div class="card-footer">
-                    <div class="row row-cols-2">
-                            <div class="col text-left">
-                                <a href="{{route('grade.index')}}" class="btn btn-primary nav-link">
-                                    <i class="fas fa-tv"></i>
-                                </a>
-                            </div>
-                    </div>
-                </div>
-                @endif
+{{--                @if(\App\Models\User::getRoleCode() == \App\Models\Role::ROLE_REFEREE)--}}
+{{--                <div class="card-footer">--}}
+{{--                    <div class="row row-cols-2">--}}
+{{--                            <div class="col text-left">--}}
+{{--                                <a href="{{route('grade.index')}}" class="btn btn-primary nav-link">--}}
+{{--                                    <i class="fas fa-tv"></i>--}}
+{{--                                </a>--}}
+{{--                            </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                @endif--}}
 			</div>
 	@endforeach
 	<!-- /.card-body -->

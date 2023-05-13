@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="card-body" style="display: none;">
-                @if(\App\Models\User::getRoleCode() == \App\Models\Role::ROLE_ORGANIZATION_ADMIN || \App\Models\User::getRoleCode() == \App\Models\Role::ROLE_SYSTEM_ADMIN)
+                @if(\Illuminate\Support\Facades\Auth::user()->getRoleCode() == \App\Models\Role::ROLE_ORGANIZATION_ADMIN || \Illuminate\Support\Facades\Auth::user()->getRoleCode() == \App\Models\Role::ROLE_SYSTEM_ADMIN)
                 <p><strong>по 6500: </strong>{{$payments->where('sum', 6500)->sum('sum')}}/{{$payments->where('sum', 6500)->sum('sum')/6500}}</p>
                 <p><strong>по 6475: </strong>{{$payments->where('sum', 6475)->sum('sum')}}/{{$payments->where('sum', 6475)->sum('sum')/6475}}</p>
                 <p><strong>по 12000: </strong>{{$payments->where('sum', 12000)->sum('sum')}}/{{$payments->where('sum', 12000)->sum('sum')/12000}}</p>
@@ -35,11 +35,11 @@
                             <div class="d-flex">
                                 <select class="custom-select mb-3 text-light border-0 bg-white" name="coach_id">
                                         <option value="">Все</option>
-                                    @if(isset($coaches) && \App\Models\User::getRoleCode() != \App\Models\Role::ROLE_COACH)
+                                    @if(isset($coaches) && \Illuminate\Support\Facades\Auth::user()->getRoleCode() != \App\Models\Role::ROLE_COACH)
                                     @foreach($coaches as $coach)
                                             <option value="{{$coach->id}}">{{$coach->user->secondname}} {{mb_substr($coach->user->firstname, 0, 1)}}.{{mb_substr($coach->user->patronymic, 0, 1)}}.</option>
                                     @endforeach
-                                    @elseif(\App\Models\User::getRoleCode() == \App\Models\Role::ROLE_COACH)
+                                    @elseif(\Illuminate\Support\Facades\Auth::user()->getRoleCode() == \App\Models\Role::ROLE_COACH)
                                         <option value="{{$coach->id}}">
                                             {{$coach->user->secondname}} {{mb_substr($coach->user->firstname, 0, 1)}}.{{mb_substr($coach->user->patronymic, 0, 1)}}.
                                         </option>
@@ -78,7 +78,8 @@
         @endif
 
         @foreach ($users as $user)
-                <?php $payment = \App\Models\Payment::getUserEventPayment($user->id, $event->id)?>
+                <?php $payment = new \App\Models\Payment();
+                $payment = $payment->getUserEventPayment($user->id, $event->id)?>
             <div class="card card-primary collapsed-card">
                 <div class="card-header">
                     <h3 class="card-title">{{$user->secondname}} {{$user->firstname}} {{$user->patronymic}}</h3><br>

@@ -44,10 +44,11 @@ class Competitor extends Model
 
     public static function getWeightCategory($weight, $gender, $date_of_birth)
     {
+        $competitor = new Competitor();
         $weightCategories = WeightCategory::
             whereRaw($weight. ' between `weight_start` and `weight_finish` and `gender` = '
                 .$gender.' and `agecategory_id` = '
-                .Competitor::getAgeCategory($date_of_birth))
+                .$competitor->getAgeCategory($date_of_birth))
                 ->first();
 
         if ($weightCategories) {

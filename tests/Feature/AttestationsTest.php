@@ -36,7 +36,7 @@ class AttestationsTest extends TestCase
         Auth::login($user);
 
         $response = $this->get('/attestations/create');
-        $response->assertSee(User::getUserOrganizations($user->id)->first()->title, $escaped = true);
+        $response->assertSee($user->getUserOrganizations($user->id)->first()->title, $escaped = true);
         $response->assertStatus(200);
     }
 
@@ -61,7 +61,7 @@ class AttestationsTest extends TestCase
         ]);
 
         $response = $this->followingRedirects()->get('/attestations');
-        $response->assertSee(User::getUserOrganizations($user->id)->first()->title, $escaped = true);
+        $response->assertSee(Auth::user()->getUserOrganizations($user->id)->first()->title, $escaped = true);
         $response->assertStatus(200);
     }
 

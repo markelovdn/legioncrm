@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAttestationRequest;
 use App\Models\Attestation;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AttestationsController extends Controller
@@ -27,13 +28,13 @@ class AttestationsController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
-        $organizations = User::getUserOrganizations(auth()->user()->id);
+        $organizations = Auth::user()->getUserOrganizations(auth()->user()->id);
 
-        return view('attestations.addattestation', compact(['organizations', $organizations]));
+        return view('attestations.addattestation', ['organizations' => $organizations]);
     }
 
     /**
@@ -81,10 +82,10 @@ class AttestationsController extends Controller
      */
     public function edit($id)
     {
-        $organizations = User::getUserOrganizations(auth()->user()->id);
+        $organizations = Auth::user()->getUserOrganizations(auth()->user()->id);
         $attestation = Attestation::where('id', $id)->first();
 
-        return view('attestations.editattestation', compact(['organizations', $organizations, 'attestation', $attestation]));
+        return view('attestations.editattestation', ['organizations' => $organizations, 'attestation' => $attestation]);
     }
 
     /**
