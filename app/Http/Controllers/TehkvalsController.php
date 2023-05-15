@@ -51,7 +51,8 @@ class TehkvalsController extends Controller
         }
 
         if ($request->hasFile('sertificate_link')) {
-            $path_scanlink = UploadFile::uploadFile($athlete->user->id,
+            $UploadFile = new UploadFile();
+                $path_scanlink = $UploadFile->uploadFile($athlete->user->id,
                 $athlete->user->secondname, $athlete->user->firstname, 'belt_sertificate_'.$tehkval->belt_color, $request->file('sertificate_link'));
         } else {
             $path_scanlink = '';

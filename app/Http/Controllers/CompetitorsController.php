@@ -198,7 +198,8 @@ class CompetitorsController extends Controller
         $user->role()->attach($role);
 
         if ($request->hasFile('photo')) {
-            $path_scanlink = UploadFile::uploadFile($user->id, $user->secondname,$user->firstname, 'photo', $request->file('photo'));
+            $UploadFile = new UploadFile();
+            $path_scanlink = $UploadFile->uploadFile($user->id, $user->secondname,$user->firstname, 'photo', $request->file('photo'));
         }
 
         $user_coach = User::where('id', \auth()->user()->id)->with('coach', 'organizations')->first();

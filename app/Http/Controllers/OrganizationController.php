@@ -99,7 +99,8 @@ class OrganizationController extends Controller
         $user = User::where('id', auth()->user()->id)->first();
 
         if ($request->hasFile('logo')) {
-            $path_scanlink = UploadFile::uploadFile($user->id, $user->secondname, $user->firstname, 'logo', $request->file('logo'));
+            $UploadFile = new UploadFile();
+            $path_scanlink = $UploadFile->uploadFile($user->id, $user->secondname, $user->firstname, 'logo', $request->file('logo'));
         }
 
         $org = Organization::find($id);

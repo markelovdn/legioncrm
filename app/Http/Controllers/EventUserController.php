@@ -133,7 +133,8 @@ class EventUserController extends Controller
         }
 
         if ($request->paymenttitle_id && $request->hasFile('scan_payment_document')) {
-            $path_scanlink = UploadFile::uploadFile($request->user_id, $user->secondname, $user->firstname,
+            $UploadFile = new UploadFile();
+            $path_scanlink = $UploadFile->uploadFile($request->user_id, $user->secondname, $user->firstname,
                 'scan_payment_document_'.$event->title, $request->file('scan_payment_document'));
 
             $payment = new Payment();
@@ -207,7 +208,8 @@ class EventUserController extends Controller
         $event = Event::with('users')->where('id', $request->event_id)->first();
 
         if ($request->paymenttitle_id && $request->hasFile('scan_payment_document') && Event::getCost($event->id) > $request->sum_payment) {
-            $path_scanlink = UploadFile::uploadFile($request->user_id, $user->secondname, $user->firstname,
+            $UploadFile = new UploadFile();
+            $path_scanlink = $UploadFile->uploadFile($request->user_id, $user->secondname, $user->firstname,
                 'scan_prepayment_document_'.$event->title, $request->file('scan_payment_document'));
 
             $payment = new Payment();

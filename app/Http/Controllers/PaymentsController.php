@@ -45,11 +45,13 @@ class PaymentsController extends Controller
         $user = User::where('id', $request->user_id)->first();
 
         if ($request->hasFile('scan_payment_document') && $request->paymenttitle_id == Payment::ID_YEAR_PAYMENT) {
-            $path_scanlink = UploadFile::uploadFile($request->user_id, $user->secondname,$user->firstname, 'scan_year_payment_document', $request->file('scan_payment_document'));
+            $UploadFile = new UploadFile();
+            $path_scanlink = $UploadFile->uploadFile($request->user_id, $user->secondname,$user->firstname, 'scan_year_payment_document', $request->file('scan_payment_document'));
         }
 
         if ($request->hasFile('scan_payment_document') && $request->event_id) {
-            $path_scanlink = UploadFile::uploadFile($request->user_id, $user->secondname, $user->firstname, 'scan_event'.$request->event_id.'_payment_document', $request->file('scan_payment_document'));
+            $UploadFile = new UploadFile();
+            $path_scanlink = $UploadFile->uploadFile($request->user_id, $user->secondname, $user->firstname, 'scan_event'.$request->event_id.'_payment_document', $request->file('scan_payment_document'));
                 if (!$path_scanlink) {
                     session()->flash('error', 'Формат файла не подходит');
                     return back();

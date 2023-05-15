@@ -123,7 +123,8 @@ class AthletesController extends Controller
         $user->role()->attach($role);
 
             if ($request->hasFile('photo')) {
-                $path_scanlink = UploadFile::uploadFile($user->id, $user->secondname,$user->firstname, 'photo', $request->file('photo'));
+                $UploadFile = new UploadFile();
+                $path_scanlink = $UploadFile->uploadFile($user->id, $user->secondname,$user->firstname, 'photo', $request->file('photo'));
             }
 
             $athlete = new Athlete();
@@ -187,7 +188,9 @@ class AthletesController extends Controller
         $athlete = Athlete::where('id', $id)->first();
 
         if ($request->hasFile('photo')) {
-            $path_scanlink = UploadFile::uploadFile($user->id, $user->secondname,$user->firstname, 'photo', $request->file('photo'));
+            $UploadFile = new UploadFile();
+
+            $path_scanlink = $UploadFile->uploadFile($user->id, $user->secondname,$user->firstname, 'photo', $request->file('photo'));
             $athlete->photo =  $path_scanlink;
         }
 
