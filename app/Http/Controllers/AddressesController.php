@@ -45,7 +45,7 @@ class AddressesController extends Controller
 
         $user = User::where('id', $request->user_id)->first();
 
-        if ($request->hasFile('registration_scan')) {\
+        if ($request->hasFile('registration_scan')) {
         $UploadFile = new UploadFile();
             $path_scanlink = $UploadFile->uploadFile($user->id, $user->secondname,$user->firstname, 'registration_scan', $request->file('registration_scan'));
         }
