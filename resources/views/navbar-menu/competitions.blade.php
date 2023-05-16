@@ -15,7 +15,9 @@
         <a class="nav-link" href="{{route('competitions.competitors.create', [$competition->id])}}" role="button">
             Добавить спортсмена</a>
     </li>
-    @if(Str::contains(url()->current(), 'competitors/create') && $competition->open_registration != \App\Models\Competition::REGISTRATION_CLOSE)
+    @if(Str::contains(url()->current(), 'competitors/create')
+        && $competition->open_registration != \App\Models\Competition::REGISTRATION_CLOSE
+        && !$user->isParented($user))
     <li>
         <a class="nav-link" href="#" data-target="#modal-competitor-user-add"
            data-toggle="modal">Новый</a>
