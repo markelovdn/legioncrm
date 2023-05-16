@@ -48,7 +48,7 @@ class RefereesController extends Controller
     {
         $referee = Referee::where('user_id', auth()->user()->id)->find($id);
 
-        return view('referee.cabinet', compact('referee', $referee));
+        return view('referee.cabinet', ['referee' => $referee]);
 
     }
 
