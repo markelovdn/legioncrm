@@ -68,7 +68,7 @@ class Competition extends Model
             return false;
         }
 
-        $chair_man = User::hasRole(Role::ROLE_ORGANIZATION_CHAIRMAN, \auth()->user()->getAuthIdentifier());
+        $chair_man = Auth::user()->hasRole(Role::ROLE_ORGANIZATION_CHAIRMAN, \auth()->user()->getAuthIdentifier());
         $admin_org = User::hasRole(Role::ROLE_ORGANIZATION_ADMIN, \auth()->user()->getAuthIdentifier());
 
         if(!$chair_man and !$admin_org) {

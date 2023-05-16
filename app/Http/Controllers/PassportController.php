@@ -11,6 +11,7 @@ use App\Models\Passport;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PassportController extends Controller
 {
@@ -81,7 +82,7 @@ class PassportController extends Controller
             return back()->withInput();
         } else {
 
-            switch (User::getRoleCode()) {
+            switch (Auth::user()->getRoleCode()) {
                 case (Role::ROLE_PARENTED):
                     $parented = Parented::find(Parented::getParentedId());
                     $parented->passport_id = $passport->id;

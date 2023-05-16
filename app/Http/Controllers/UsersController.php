@@ -146,7 +146,7 @@ class UsersController extends Controller
             return back()->withInput();
         }
 
-        if (!User::checkUserUnique($request->firstname, $request->secondname, $request->patronymic, $request->date_of_birth)) {
+        if (!Auth::user()->checkUserUnique($request->firstname, $request->secondname, $request->patronymic, $request->date_of_birth)) {
             return back()->withInput();
         }
 
