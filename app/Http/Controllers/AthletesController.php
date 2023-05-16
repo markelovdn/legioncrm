@@ -139,7 +139,9 @@ class AthletesController extends Controller
             $athlete->tehkval()->attach($tehKval->id, ['organization_id'=>$coaches->user->organizations->first()->id]);
             $athlete->sportkval()->attach($sportKval->id);
 
-            AttachOrganization::attachOrganization(Role::ROLE_ATHLETE,  $user->id, $request->reg_code);
+            $AttachOrganization = new AttachOrganization();
+
+            $AttachOrganization->attachOrganization(Role::ROLE_ATHLETE,  $user->id, $request->reg_code);
         }
         else{
             $request->session()->flash('error_coach_code', 'Не верный код тренера');
