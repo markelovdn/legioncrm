@@ -87,7 +87,7 @@ class PaymentsController extends Controller
     {
         $payments = Payment::with('users')->where('paymenttitle_id', $id)->get();
 
-        return view('finance.year-payments', compact(['payments', $payments]));
+        return view('finance.year-payments', ['payments' => $payments]);
     }
 
     /**

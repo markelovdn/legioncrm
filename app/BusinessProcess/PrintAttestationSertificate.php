@@ -15,7 +15,7 @@ class PrintAttestationSertificate
     public function printSertificate(Request $request)
     {
         $athlete = Athlete::with('user')->find($request->id);
-        $pdf = Pdf::loadView('attestations.print.sertificate', compact('athlete', $athlete))->setPaper('A4', 'landscape');
+        $pdf = Pdf::loadView('attestations.print.sertificate', ['athlete' => $athlete])->setPaper('A4', 'landscape');
         return $pdf->stream('invoice.pdf');
 
     }

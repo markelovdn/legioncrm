@@ -30,10 +30,10 @@ class PrintCompetitorsCertificate
 //        }
 
         $competitor = Competitor::with('athlete', 'weightcategory', 'agecategory')->find($request->competitor_id);
-        $pdf = Pdf::loadView('competitors.print.competitor-certificate', ['competition_title' => $competition_title],
-            compact(['competitor', $competitor,
-                     'competition', $competition
-            ]))->setPaper('A4', 'portrait');
+        $pdf = Pdf::loadView('competitors.print.competitor-certificate', ['competition_title' => $competition_title,
+                                                                          'competitor' => $competitor,
+                                                                          'competition' => $competition])
+            ->setPaper('A4', 'portrait');
         return $pdf->stream('competitor-certifecate.pdf');
     }
 }
