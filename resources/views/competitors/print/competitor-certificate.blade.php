@@ -10,7 +10,7 @@
 </head>
 <style>
     body {
-        font-family: "dejavu sans", serif;
+        font-family: "dejavu serif";
         font-size: 12px;
         color: #000;
     }
@@ -20,11 +20,19 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <div class="p-3" style="font-size: xx-large; margin-top: 300; text-align: center;"><strong></strong></div>
+            <div class="p-3" style="font-size: xx-large; margin-top: 300; text-align: center;"><strong>НАГРАЖДАЕТСЯ</strong></div>
             <div class="p-3" style="font-size: x-large; margin-top: 20; text-align: center"><strong>{{$competitor->athlete->user->secondname.' '.$competitor->athlete->user->firstname}}</strong></div>
         </div>
         <div class="col-6">
-            <div class="p-3" style="font-size: x-large; text-align: center"><strong>@if($competitor->athlete->gender == \App\Models\Athlete::GENDER_MALE) занявший @else занявшая @endif {{$competitor->place}} место</strong></div>
+            <div class="p-3" style="font-size: x-large; text-align: center">
+                <strong>
+                    @if($competitor->place <= 3)
+                        @if($competitor->athlete->gender == \App\Models\Athlete::GENDER_MALE) занявший
+                            @else занявшая @endif {{$competitor->place}} место
+                    @else за активное участие @endif
+
+                </strong>
+            </div>
         </div>
         <div class="col-6">
             <div class="p-3" style="font-size: x-large; text-align: center">в {{Str::of($competition_title)->title()}} {{Str::of($competition->title)->after(' ')}}</div>
@@ -52,15 +60,15 @@
             </div>
         </div>
         <div class="col-6">
-            <div class="p-3" style="font-size: x-large; text-align: center">в весовой категории {{$competitor->weightcategory->title}}</div>
+{{--            <div class="p-3" style="font-size: x-large; text-align: center">в весовой категории {{$competitor->weightcategory->title}}</div>--}}
         </div>
         <div class="col-3">
-            <div class="p-6" style="font-size: medium; margin-top: 100; margin-left: 70">Председатель комитета</div>
-            <div class="p-6" style="font-size: medium; margin-top: 0; margin-left: 70">по физической культуре и спорту</div>
-            <div class="p-6" style="font-size: medium; margin-top: 0; margin-left: 70">администрации Волгограда</div>
+            <div class="p-6" style="font-size: medium; margin-top: 100; margin-left: 70">Председатель правления</div>
+            <div class="p-6" style="font-size: medium; margin-top: 0; margin-left: 70">СК "Легион"</div>
+{{--            <div class="p-6" style="font-size: medium; margin-top: 0; margin-left: 70">администрации Волгограда</div>--}}
         </div>
         <div class="col-2">
-            <div class="p-3" style="font-size: medium; margin-top: -19; margin-left: 370">С.П. Куренков</div>
+            <div class="p-3" style="font-size: medium; margin-top: -19; margin-left: 370">Д. Н. Маркелов</div>
         </div>
         <div class="col-2">
             <div style="font-size: medium; margin-top: 30; padding-bottom: -100px; text-align: center">Волгоград, {{ \Carbon\Carbon::parse($competition->date_start)->format('d.m.Y')}}</div>
