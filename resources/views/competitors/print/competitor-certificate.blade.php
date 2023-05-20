@@ -36,6 +36,7 @@
         </div>
         <div class="col-6">
             <div class="p-3" style="font-size: x-large; text-align: center">в {{Str::of($competition_title)->title()}} {{Str::of($competition->title)->after(' ')}}</div>
+            <div class="p-3" style="font-size: x-large; text-align: center">по физической подготовке</div>
         </div>
         <div class="col-6">
             <div class="p-3" style="font-size: x-large; text-align: center">среди
