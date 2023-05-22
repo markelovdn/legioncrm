@@ -98,7 +98,7 @@
                             <div class="form-group row">
                                 <label for="date_of_birth" class="col-sm-4 col-form-label">Дата рождения<span class="text-danger">*</span></label>
                                 <div class="col-sm-8">
-                                    <input type="date" class="form-control" id="date_of_birth" v-model="date_of_birth" value="">
+                                    <input type="date" class="form-control" id="date_of_birth" v-model="date_of_birth">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -146,7 +146,7 @@
 </template>
 
 <script>
-import { eventEmitter } from './../../app'
+import eventEmitter from 'tiny-emitter/instance'
 import ModalResult from './ModalResult'
 import ModalEditCompetitor from "./ModalEditCompetitor";
 
@@ -303,7 +303,7 @@ export default {
         },
 
         getCompetitorsCount(){
-            eventEmitter.$emit('getCompetitorsCount', this.competitors)
+            eventEmitter.emit('getCompetitorsCount', this.competitors)
         },
 
         editDataCompetitor(data) {
@@ -345,14 +345,14 @@ export default {
     },
     mounted() {
         this.getCompetitorsCount()
-        eventEmitter.$on('getCoachId', coach_id => {
+        eventEmitter.on('getCoachId', coach_id => {
             this.coach_id = coach_id
             this.getCompetitors();
         })
-        eventEmitter.$on('getSearchString', search => {
+        eventEmitter.on('getSearchString', search => {
             this.search = search
         })
-        eventEmitter.$on('getAgeCategoryId', age_category_id => {
+        eventEmitter.on('getAgeCategoryId', age_category_id => {
             this.agecategory_id = age_category_id
             if (this.agecategory_id === '') {
                     this.weightcategory_id = null
@@ -361,11 +361,11 @@ export default {
             this.getCompetitors();
 
         })
-        eventEmitter.$on('getWeightCategoryId', weightcategory_id => {
+        eventEmitter.on('getWeightCategoryId', weightcategory_id => {
             this.weightcategory_id = weightcategory_id
             this.getCompetitors();
         })
-        eventEmitter.$on('getTehKvalGroupId', tehkvalgroup_id => {
+        eventEmitter.on('getTehKvalGroupId', tehkvalgroup_id => {
             this.tehkvalgroup_id = tehkvalgroup_id
             this.getCompetitors();
         })

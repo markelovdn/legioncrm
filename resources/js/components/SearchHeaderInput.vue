@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { eventEmitter } from '../app'
+import eventEmitter from 'tiny-emitter/instance'
 export default {
     name: "search-header-input",
     data() {

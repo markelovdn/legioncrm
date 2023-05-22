@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { eventEmitter } from './../../../app'
+import eventEmitter from 'tiny-emitter/instance'
 
 export default {
     name: "teh-kval-group-select",
@@ -63,12 +63,12 @@ export default {
         }
         },
     mounted() {
-        eventEmitter.$on('getAgeCategoryId', age_category_id => {
+        eventEmitter.on('getAgeCategoryId', age_category_id => {
             this.agecategory_id = age_category_id
             this.getTehKvalGroups()
         })
 
-        eventEmitter.$on('getCompetitorsCount', competitors => {
+        eventEmitter.on('getCompetitorsCount', competitors => {
             this.competitors = competitors
         })
     },

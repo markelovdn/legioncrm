@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { eventEmitter } from './../../../app'
+import eventEmitter from 'tiny-emitter/instance'
 export default {
     name: "coach-select",
 
@@ -72,7 +72,7 @@ export default {
     },
     mounted() {
         this.getCoaches()
-        eventEmitter.$on('getCompetitorsCount', competitors => {
+        eventEmitter.on('getCompetitorsCount', competitors => {
             this.competitors = competitors
         })
     },
