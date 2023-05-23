@@ -7,12 +7,12 @@
             Нет спортсменов по данным параметрам...
         </div>
 
-        <p v-if="errors.length">
+        <span v-if="errors.length">
             <b>Пожалуйста исправьте указанные ошибки:</b>
         <ul>
             <li v-for="error in errors">{{ error }}</li>
         </ul>
-        </p>
+        </span>
 
         <div v-if="!loading" v-for = "competitor in filteredList" :key="competitor.id" class="card card-primary collapsed-card">
             <div class="card-header">
@@ -24,7 +24,7 @@
 <!--                    <div>-->
 <!--                        (<span v-for="coach in competitor.athlete.coaches" v-if="coach.pivot.coach_type === 4">-->
 <!--                    &lt;!&ndash; TODO: как избавиться от магической 4&ndash;&gt;-->
-<!--                    {{coach.user.secondname}} {{coach.user.firstname | formatName}} {{coach.user.patronymic | formatName}}-->
+<!--                    {{coach.user.secondname}} {{coach.user.firstname}} {{coach.user.patronymic}}-->
 <!--                </span>)-->
 
 <!--                    </div>-->
@@ -38,7 +38,7 @@
             <div class="card-body" style="display: none;">
                 <span v-if="competitor.athlete.gender === male"><i class="fas fa-male"></i></span>
                 <span v-else><i class="fas fa-female"></i></span>
-                <br><b>Дата рождения: </b> {{ competitor.athlete.user.date_of_birth | formatDate}}<br>
+                <br><b>Дата рождения: </b> {{ competitor.athlete.user.date_of_birth}}<br>
                 <b>Вес: </b>{{ competitor.weight }}<br>
                 <b>Весовая категория: </b>{{ competitor.weightcategory.title }}<br>
                 <b>Техническая квалификация: </b>
@@ -46,9 +46,11 @@
                 <b>Спортивная квалификация: </b>
                 <span v-if="competitor.athlete.sportkval.length > 0">{{ competitor.athlete.sportkval.reduce((acc, curr) => acc.id > curr.id ? acc : curr).short_title }}</span><br>
                 <b>Тренер: </b>
-                <span v-for="coach in competitor.athlete.coaches" v-if="coach.pivot.coach_type === 4">
+                <span v-for="coach in competitor.athlete.coaches">
                     <!-- TODO: как избавиться от магической 4-->
-                    {{coach.user.secondname}} {{coach.user.firstname}} {{coach.user.patronymic}}
+                    <span v-if="coach.pivot.coach_type === 4">
+                        {{coach.user.secondname}} {{coach.user.firstname}} {{coach.user.patronymic}}
+                    </span>
                 </span><br>
                 <b>Возрастная группа: </b> {{ competitor.agecategory.title }}<br>
                 <b>Техническая группа: </b> {{ competitor.tehkvalgroup.title }}<br>
@@ -85,8 +87,8 @@
             :competition_id="competition_id"
             @result = "setResult"></modal-result>
 
-<!--            modal-edit-competitor-->
-            <div class="modal fade" :id="`modal-competitor-edit${competitor_id}`" style="display: none;" aria-hidden="true">
+        <!--modal-edit-competitor-->
+        <div class="modal fade" :id="`modal-competitor-edit${competitor_id}`" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog modal-md">
                     <div class="modal-content">
                         <div class="modal-header" v-if="competitor.length > 0">
@@ -110,7 +112,7 @@
                             <div class="form-group row">
                                 <label for="tehkval_id" class="col-sm-2 col-form-label">Пояс<span class="text-danger">*</span></label>
                                 <div class="col-sm-10">
-                                    <select type="text" class="form-control" v-model="tehkval_id" id="tehkval_id">
+                                    <select class="form-control" v-model="tehkval_id" id="tehkval_id">
                                         <option v-for="tehkval in tehkvals"
                                                 :value="tehkval.id"
                                                 :key="tehkval.id"
@@ -122,7 +124,7 @@
                             <div class="form-group row">
                                 <label for="sportkval_id" class="col-sm-2 col-form-label">Разряд<span class="text-danger">*</span></label>
                                 <div class="col-sm-10">
-                                    <select type="text" class="form-control" v-model="sportkval_id" id="sportkval_id">
+                                    <select class="form-control" v-model="sportkval_id" id="sportkval_id">
                                         <option v-for="sportkval in sportkvals"
                                                 :value="sportkval.id"
                                                 :key="sportkval.id"
@@ -175,16 +177,16 @@ export default {
             sportkval_id: null
         }
     },
-    props: [
-        'competition_id',
-        'competition_open_registration',
-        'is_owner',
-        'user'
-    ],
-    filters: {
-        formatDate: date => new Date(date).toLocaleDateString(),
-        formatName: name => name.slice(0,1) + '.',
+    props: {
+        competition_id: Number,
+        competition_open_registration: Number,
+        is_owner: Number,
+        user: Object
     },
+    // filters: {
+    //     formatDate: date => new Date(date).toLocaleDateString(),
+    //     formatName: name => name.slice(0,1) + '.',
+    // },
     components: {
         ModalResult,
         ModalEditCompetitor

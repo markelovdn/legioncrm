@@ -48,7 +48,7 @@ export default {
         },
 
         getAgeCategoryId(){
-            eventEmitter.$emit('getAgeCategoryId', this.age_category_id)
+            eventEmitter.emit('getAgeCategoryId', this.age_category_id)
             },
 
         getCountAthletes(agecategory_id) {

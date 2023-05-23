@@ -47,7 +47,7 @@ export default {
                 })
         },
         getWeightCategoryId(){
-            eventEmitter.$emit('getWeightCategoryId', this.weightcategory_id)
+            eventEmitter.emit('getWeightCategoryId', this.weightcategory_id)
             },
         getCountAthletes(weightcategory_id) {
             const weightcategories = []

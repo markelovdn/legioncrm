@@ -109,21 +109,21 @@ class CompetitorsController extends Controller
 
         $competitor = Competitor::find($id);
 
-        $agecategory_id = Competitor::getAgeCategory($request['params']['date_of_birth']);
+        $agecategory_id = $competitor->getAgeCategory($request['params']['date_of_birth']);
         if(!$agecategory_id) {
             return json_encode('Нет подходящего возраста для данных соревнований');
         }
-        $weightcategory_id = Competitor::getWeightCategory($request['params']['weight'], $request['params']['gender'], $request['params']['date_of_birth']);
+        $weightcategory_id = $competitor->getWeightCategory($request['params']['weight'], $request['params']['gender'], $request['params']['date_of_birth']);
         if(!$weightcategory_id) {
             return json_encode('Нет подходящей весовой категории для данных соревнований');
         }
-        $tehkvalgroup_id = Competitor::getTehKvalGroup($request['params']['tehkval_id'], $request['params']['date_of_birth'], $request['params']['competition_id']);
+        $tehkvalgroup_id = $competitor->getTehKvalGroup($request['params']['tehkval_id'], $request['params']['date_of_birth'], $request['params']['competition_id']);
         if(!$tehkvalgroup_id) {
             return json_encode('Нет подходящей группы по технической квалификации для данных соревнований');
         }
 
         if ($request['params']['weight'] != $competitor->weight) {
-            if (Competitor::checkUniqueCompetitorWeightCategory($competitor->athlete->id,
+            if ($competitor->checkUniqueCompetitorWeightCategory($competitor->athlete->id,
                 $agecategory_id, $weightcategory_id, $tehkvalgroup_id, $competition->id)) {
 
                 $competitor->weight = $request['params']['weight'];

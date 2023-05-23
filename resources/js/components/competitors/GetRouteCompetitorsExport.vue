@@ -16,8 +16,9 @@
                         <a tabindex="-1" :href="getUrl()+'/agecategory_id='+route.pivot.agecategory_id+
                                                          '/tehkvalgroup_id=0'"
                            class="dropdown-item">Все</a>
-                        <li v-for="tehkvalgroup in route.tehkvalgroup" v-if="tehkvalgroup.competition_id === route.pivot.competition_id">
-                            <a tabindex="-1" :href="getUrl()+'/agecategory_id='+route.pivot.agecategory_id+
+                        <li v-for="tehkvalgroup in route.tehkvalgroup">
+                            <a  v-if="tehkvalgroup.competition_id === route.pivot.competition_id"
+                                tabindex="-1" :href="getUrl()+'/agecategory_id='+route.pivot.agecategory_id+
                                                              '/tehkvalgroup_id='+tehkvalgroup.id"
                                class="dropdown-item">{{ tehkvalgroup.title }}</a>
                         </li>
@@ -37,10 +38,10 @@ export default {
             routes: []
         }
     },
-    props: [
-        'competition_id',
-        'url'
-    ],
+    props: {
+        competition_id: Number,
+        url: String
+    },
 
     methods: {
         getRoutes() {

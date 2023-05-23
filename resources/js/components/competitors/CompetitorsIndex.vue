@@ -45,12 +45,12 @@ export default {
 
         }
     },
-    props: [
-      'competition',
-      'coach_constant',
-      'is_owner',
-      'user'
-    ],
+    props: {
+      competition: Object,
+      coach_constant: Array,
+      is_owner: Number,
+      user: Object
+    },
     components: {
         TehKvalGroupSelect,
         CompetitorsList,

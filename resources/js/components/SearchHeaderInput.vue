@@ -33,7 +33,7 @@ export default {
     },
     methods: {
         getSearchString(){
-            eventEmitter.$emit('getSearchString', this.search)
+            eventEmitter.emit('getSearchString', this.search)
         }
     },
 }

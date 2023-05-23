@@ -56,7 +56,7 @@ export default {
                  })
         },
         getCoachId(){
-            eventEmitter.$emit('getCoachId', this.coach_id)
+            eventEmitter.emit('getCoachId', this.coach_id)
         },
         getCountAthletes(coach_id) {
             const coaches = []

@@ -48,7 +48,7 @@ export default {
                 })
         },
         getTehKvalGroupId(){
-            eventEmitter.$emit('getTehKvalGroupId', this.tehkvalgroup_id)
+            eventEmitter.emit('getTehKvalGroupId', this.tehkvalgroup_id)
             },
 
         getCountAthletes(tehkvalgroup_id) {
