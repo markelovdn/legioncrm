@@ -44,8 +44,9 @@ class TehkvalsController extends Controller
     {
         $athlete = Athlete::with('user')->find($request->athlete_id);
         $tehkval = Tehkval::find($request->tehkval_id);
+        $organization = new Organization();
 
-        if (Tehkval::hasAthlete($request->tehkval_id, $athlete->id)) {
+        if ($tehkval->hasAthlete($request->tehkval_id, $athlete->id)) {
             session()->flash('error', 'Данная техническая квалификация уже присвоена спортсмену');
             return back();
         }
@@ -58,12 +59,12 @@ class TehkvalsController extends Controller
             $path_scanlink = '';
         }
 
-        if (count(Athlete::getTehkval($athlete->id)) < 2 && Athlete::getTehkval($athlete->id)->min()->tehkval_id == Tehkval::NOT) {
+        if (count($athlete->getTehkval($athlete->id)) < 2 && Athlete::getTehkval($athlete->id)->min()->tehkval_id == Tehkval::NOT) {
             DB::table('athlete_tehkval')
                 ->where('athlete_id', $athlete->id)
                 ->update([
                     'tehkval_id' => $tehkval->id,
-                    'organization_id' => Organization::getOrganizationId(),
+                    'organization_id' => $organization->getOrganizationId(),
                     'created_at' => Carbon::now(),
                     'sertificatenum' => $request->input('sertificatenum'),
                     'sertificate_link' => $path_scanlink
@@ -76,7 +77,7 @@ class TehkvalsController extends Controller
         }
 
         $athlete->tehkval()->attach($tehkval->id,
-            ['organization_id' => Organization::getOrganizationId(),
+            ['organization_id' => $organization->getOrganizationId(),
              'created_at' => Carbon::now(),
              'sertificatenum' => $request->input('sertificatenum'),
              'sertificate_link' => $path_scanlink

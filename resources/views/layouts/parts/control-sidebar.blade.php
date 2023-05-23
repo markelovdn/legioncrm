@@ -4,7 +4,7 @@
             <h6>Статус</h6>
             <div class="d-flex">
                 <select class="custom-select mb-3 text-light border-0 bg-white" name="status">
-                    <option value="">Все</option>
+                    <option>Все</option>
                     <option value="1">Ативные</option>
                     <option value="2">Не ативные</option>
                 </select>

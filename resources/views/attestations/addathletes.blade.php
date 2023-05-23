@@ -21,7 +21,7 @@
             <div class="row mt-1 mb-1">
 
                     <div class="col-5">{{$attestationAthlete->user->secondname}} {{$attestationAthlete->user->firstname}} {{$attestationAthlete->user->patronymic}}</div>
-                    <div class="col-3">{{$attestationAthlete->tehkval->last()->title}} <i class="fas fa-arrow-right"></i> {{\App\BusinessProcess\GetAttestationAthletes::getNextTehkval($attestationAthlete->id)}}</div>
+                    <div class="col-3">{{$attestationAthlete->tehkval->last()->title}} <i class="fas fa-arrow-right"></i> {{$GetattestationAthletes->getNextTehkval($attestationAthlete->id)}}</div>
                     <div class="col-4"><button id="submit" type="submit" onclick="blocked()" class="btn btn-info">Добавить</button>
                         <div class="spinner-border" id="loader" style="display: none" role="status">
                             <span class="sr-only">Loading...</span>

@@ -99,7 +99,7 @@
                 <label for="coach_id" class="col-md-4 col-form-label text-md-end">Тренер<span class="text-danger">*</span></label>
                 <div class="col-md-6">
                     <select type="text" class="form-control" name="coach_id" id="coach_id">
-                        <option value=""></option>
+                        <option></option>
                         @foreach($coaches as $coach)
                             <option value="{{$coach->id}}" @if(old('coach_id') == $coach->id) selected @endif>{{$coach->user->secondname}} {{$coach->user->firstname}} {{$coach->user->patronymic}}</option>
                         @endforeach

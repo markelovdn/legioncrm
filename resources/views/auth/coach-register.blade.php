@@ -100,7 +100,7 @@
                 <label for="org_id" class="col-md-4 col-form-label text-md-end">Организация<span class="text-danger">*</span></label>
                 <div class="col-md-6">
                     <select type="text" class="form-control @error('org_id') is-invalid @enderror" name="org_id" id="org_id">
-                        <option value=""></option>
+                        <option></option>
                         @foreach($orgs as $org)
                             <option value="{{$org->id}}" @if(old('org_id') == $org->id) selected @endif>{{$org->shorttitle}}</option>
                         @endforeach

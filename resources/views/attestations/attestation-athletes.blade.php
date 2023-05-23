@@ -30,7 +30,7 @@
                     <span><img class="direct-chat-img" src="@if(!$athlete->photo){{asset('/storage/images/no_photo.jpg')}}@else{{$athlete->photo}}@endif" alt="message user image"></span>
                     <h3 class="card-title">{{$athlete->user->secondname}} {{$athlete->user->firstname}} {{$athlete->user->patronymic}}</h3><br>
                     <h3 class="card-title">{{$athlete->tehkval->last()->title}} <i class="fas fa-arrow-right">
-                        </i> {{\App\BusinessProcess\GetAttestationAthletes::getNextTehkval($athlete->id)}}
+                        </i> {{ $attestationAthletes->getNextTehkval($athlete->id)}}
                     </h3>
                         @if(Auth::user()->getRoleCode() == \App\Models\Role::ROLE_ORGANIZATION_ADMIN)
                     <span class="badge badge-danger" data-toggle="modal" style="cursor: pointer" data-target="#modal-attestation-athlete{{$athlete->user->id}}">
@@ -80,14 +80,14 @@
                         </div>
                         @endif
                         <div class="col text-right">
-                            @if(\App\Models\Athlete::isCoachAthlete($athlete->id))
-                            <form method="POST" action="">
-                                @method('DELETE')
-                                @csrf
-                                <input type="number" style="display: none" class="form-control" id="competition_id" name="competition_id" value="{{$athlete->id}}">
-                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
-                            </form>
-                            @endif
+{{--                            @if($athlete->isCoachAthlete($athlete->id))--}}
+{{--                            <form method="POST" action="">--}}
+{{--                                @method('DELETE')--}}
+{{--                                @csrf--}}
+{{--                                <input type="number" style="display: none" class="form-control" id="competition_id" name="competition_id" value="{{$athlete->id}}">--}}
+{{--                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>--}}
+{{--                            </form>--}}
+{{--                            @endif--}}
                         </div>
                     </div>
                 </div>

@@ -19,7 +19,7 @@ if (Str::contains(url()->current(), 'athlete')){
     @else
     <div class="navbar-search-block">
         <form class="form-inline" method="GET" action="{{$action}}">
-            <input class="form-control" style="display: none"  name="competition_id" type="text" value="">
+            <input class="form-control" style="display: none"  name="competition_id" type="text">
             <div class="input-group input-group-sm">
                 <input class="form-control form-control-navbar" name="search_field" type="search" placeholder="Найти по фамилии" aria-label="Search">
                 <div class="input-group-append">

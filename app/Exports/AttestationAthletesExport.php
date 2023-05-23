@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\BusinessProcess\GetAttestationAthletes;
 use App\Models\Athlete;
 use App\Models\Attestation;
 use App\Models\Competition;
@@ -18,11 +19,12 @@ class AttestationAthletesExport implements FromView
      */
     public function view(): View
     {
-
+        $GetAttestationAthletes = new GetAttestationAthletes();
         $attestation = Attestation::with('athletes')->where('id', 1)->first();
 
         return view('exports.attestation-athletes', [
-            'attestation' => $attestation
+            'attestation' => $attestation,
+            'GetAttestationAthletes' => $GetAttestationAthletes
         ]);
     }
 }
