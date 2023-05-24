@@ -47,7 +47,6 @@
 
                                 </select>
                             </div>
-                            {{--TODO: падает тест competition_index--}}
                             <div class="d-flex">
                                 <button type="submit" class="btn btn-info">Выбрать</button>
                             </div>

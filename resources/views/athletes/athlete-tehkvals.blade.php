@@ -115,7 +115,7 @@
                                     <div class="custom-file">
                                         <input type="file"
                                                class="custom-file-input @error('sertificate_link') is-invalid @enderror"
-                                               name="sertificate_link" id="sertificate_link" value="file">
+                                               name="sertificate_link" id="sertificate_link">
                                         <label class="custom-file-label" for="sertificate_link"></label>
                                     </div>
                                 </div>

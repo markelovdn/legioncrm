@@ -55,7 +55,7 @@
                 <div class="col-md-6">
                     <div class="input-group">
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input @error('address') is-invalid @enderror" name="registration_scan" id="registration_scan" value="file">
+                            <input type="file" class="custom-file-input @error('address') is-invalid @enderror" name="registration_scan" id="registration_scan">
                             <label class="custom-file-label" for="registration_scan"></label>
                         </div>
                     </div>

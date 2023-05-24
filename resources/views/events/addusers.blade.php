@@ -82,7 +82,7 @@
                                                 <div class="custom-file">
                                                     <input type="file"
                                                            class="custom-file-input @error('scan_payment_document') is-invalid @enderror"
-                                                           name="scan_payment_document" id="scan_payment_document" value="file">
+                                                           name="scan_payment_document" id="scan_payment_document">
                                                     <label class="custom-file-label" for="scan_payment_document"></label>
                                                 </div>
                                             </div>

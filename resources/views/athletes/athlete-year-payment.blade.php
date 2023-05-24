@@ -16,7 +16,6 @@
                 @endif
         @else
             @foreach($GetPaymentInfo->getPaymentInfo($athlete->user->id) as $payment)
-{{--                TODO:Делать запросы из вьюх это плохо--}}
                 @if(!$payment->isCurrentYearPayment($athlete->user->id))
                     @if(\Illuminate\Support\Facades\Auth::user()->getRoleCode() != \App\Models\Role::ROLE_COACH)
                     @include('finance.forms.form-year-payment')
