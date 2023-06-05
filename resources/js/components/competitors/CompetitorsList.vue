@@ -57,7 +57,7 @@
                 <b>Количество побед: </b><span>{{ competitor.count_winner }}</span> <br>
                 <b>Занятое место: </b><span>{{ competitor.place }}</span><br>
                     <span class="badge badge-success"
-                          @click="getCompetitorId(competitor.id)"
+                          @click="getCompetitorId(competitor.id); showResultModal"
                           data-toggle="modal"
                           style="cursor: pointer"
                           :data-target="'#modal-competitior-result'+competitor.id"
@@ -82,10 +82,30 @@
             </div>
         </div>
 
-        <modal-result
-            :competitor_id="competitor_id"
-            :competition_id="competition_id"
-            @result = "setResult"></modal-result>
+        <!--modal-result-competitor-->
+        <div class="modal fade" :id="'modal-competitior-result'+this.competitor_id" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <input type="number" class="form-control"
+                               v-model="count_winner"
+                               placeholder="Количество побед">
+                        <input type="number" class="form-control"
+                               v-model="place"
+                               placeholder="Занятое место">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="print_certificate" v-model="print_certificate">
+                            <label class="form-check-label" for="print_certificate">Печать грамоты</label>
+                        </div>
+
+                        <div class="modal-footer justify-content-between">
+                            <button type="reset" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                            <button data-dismiss="modal" @click="setResult" class="btn btn-primary">Отправить</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!--modal-edit-competitor-->
         <div class="modal fade" :id="`modal-competitor-edit${competitor_id}`" style="display: none;" aria-hidden="true">
@@ -174,7 +194,13 @@ export default {
             date_of_birth: null,
             weight: null,
             tehkval_id: null,
-            sportkval_id: null
+            sportkval_id: null,
+            show_result_modal: false,
+            count_winner: null,
+            place: null,
+            print_certificate: true,
+
+
         }
     },
     props: {
@@ -312,19 +338,29 @@ export default {
 
         },
 
-        setResult (data) {
-            if (data.print_certificate) {
-                window.open(
-                    `/../printCompetitorsСertificate?competitor_id=${data.competitor_id}&competition_id=${data.competition_id}`,
-                    '_download')
-            }
+        setResult () {
+            axios.post(`/api/competitors-update-result/${this.competitor_id}`, {
+                params: {
+                    competition_id: this.competition_id,
+                    count_winner: this.count_winner,
+                    place: this.place
+                }
+            }).then((response) => {
+                if (this.print_certificate) {
+                    window.open(
+                        `/../printCompetitorsСertificate?competitor_id=${this.competitor_id}&competition_id=${this.competition_id}`,
+                        '_download')
+                }
 
-            this.competitors = this.competitors.map(competitor => {
-                competitor.count_winner = data.count_winner
-                competitor.place = data.place
+                this.competitors = this.competitors.map(competitor => {
+                    competitor.count_winner = this.count_winner
+                    competitor.place = this.place
 
-                return competitor
-            })
+                    return competitor
+                })
+                })
+
+
         },
 
         deleteCompetitor (id) {
@@ -342,7 +378,8 @@ export default {
                     competitor_id: id
                 }
             })
-        }
+        },
+
 
     },
     mounted() {
