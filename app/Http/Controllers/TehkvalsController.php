@@ -59,7 +59,7 @@ class TehkvalsController extends Controller
             $path_scanlink = '';
         }
 
-        if (count($athlete->getTehkval($athlete->id)) < 2 && Athlete::getTehkval($athlete->id)->min()->tehkval_id == Tehkval::NOT) {
+        if (count($athlete->getTehkval($athlete->id)) < 2 && $athlete->getTehkval($athlete->id)->min()->tehkval_id == Tehkval::NOT) {
             DB::table('athlete_tehkval')
                 ->where('athlete_id', $athlete->id)
                 ->update([
