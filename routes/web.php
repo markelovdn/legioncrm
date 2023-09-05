@@ -4,6 +4,7 @@ use App\Http\Controllers\CompetitorsController;
 use App\Models\Athlete;
 use App\Models\Coach;
 use App\Models\Competitor;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;

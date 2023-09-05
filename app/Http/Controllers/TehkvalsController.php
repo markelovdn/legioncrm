@@ -46,42 +46,29 @@ class TehkvalsController extends Controller
         $tehkval = Tehkval::find($request->tehkval_id);
         $organization = new Organization();
 
-        if ($tehkval->hasAthlete($request->tehkval_id, $athlete->id)) {
-            session()->flash('error', 'Данная техническая квалификация уже присвоена спортсмену');
-            return back();
-        }
+            if ($request->hasFile('sertificate_link')) {
+                $UploadFile = new UploadFile();
+                    $path_scanlink = $UploadFile->uploadFile($athlete->user->id,
+                    $athlete->user->secondname, $athlete->user->firstname, 'belt_sertificate_'.$tehkval->belt_color, $request->file('sertificate_link'));
+            } else {
+                $path_scanlink = '';
+            }
 
-        if ($request->hasFile('sertificate_link')) {
-            $UploadFile = new UploadFile();
-                $path_scanlink = $UploadFile->uploadFile($athlete->user->id,
-                $athlete->user->secondname, $athlete->user->firstname, 'belt_sertificate_'.$tehkval->belt_color, $request->file('sertificate_link'));
-        } else {
-            $path_scanlink = '';
-        }
-
-        if (count($athlete->getTehkval($athlete->id)) < 2 && $athlete->getTehkval($athlete->id)->min()->tehkval_id == Tehkval::NOT) {
             DB::table('athlete_tehkval')
-                ->where('athlete_id', $athlete->id)
-                ->update([
+                ->insert([
+                    'athlete_id' => $athlete->id,
                     'tehkval_id' => $tehkval->id,
                     'organization_id' => $organization->getOrganizationId(),
                     'created_at' => Carbon::now(),
-                    'sertificatenum' => $request->input('sertificatenum'),
-                    'sertificate_link' => $path_scanlink
+                    'sertificatenum' => $request->input('sertificatenum')?? '',
+                    'sertificate_link' => $path_scanlink?? ''
                 ]);
+
             session()->flash('status',
                 'Спортсмену '.$athlete->user->secondname.' '.$athlete->user->firstname.' '.
                 'добавлена техническая квалификация '.$tehkval->title);
 
-            return redirect();
-        }
-
-        $athlete->tehkval()->attach($tehkval->id,
-            ['organization_id' => $organization->getOrganizationId(),
-             'created_at' => Carbon::now(),
-             'sertificatenum' => $request->input('sertificatenum'),
-             'sertificate_link' => $path_scanlink
-            ]);
+            return back();
 
 //        //TODO:Убрать эту хрень
         if ($request->competition_id) {
@@ -148,7 +135,7 @@ class TehkvalsController extends Controller
         $athlete = Athlete::where('id', $request->input('athlete_id'))->first();
         $tehkval = Tehkval::where('id', $id)->first();
 
-        if (count(Athlete::getTehkval($athlete->id)) < 2) {
+        if (count($athlete->getTehkval($athlete->id)) < 2) {
             session()->flash('error', 'Невозможно удалить единственную запись по технической квалификации');
             return back();
         }
