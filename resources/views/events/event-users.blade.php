@@ -222,6 +222,8 @@
                                                    value="{{ old('sum_payment') }}">
                                             <span class="description font-italic">Минимальная предоплата {{$event_cost * ($event->minimum_prepayment_percent / 100)}} р.</span><br>
                                             <span class="description font-italic">Полная стоимость {{$event_cost}} р.</span>
+                                            <br>
+                                            <a href="{{$event->info_link}}" class="btn btn-danger">Скачать реквизиты для оплаты</a>
                                         </div>
                                     </div>
                                     <div class="row mb-3">
