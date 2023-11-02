@@ -152,6 +152,10 @@ class PaymentsController extends Controller
         $payment->approve = Payment::DECLINED;
         $payment->save();
 
+        if ($payment->paymenttitle_id === 1) {
+            $payment->delete($id);
+        }
+
         return back();
     }
 }

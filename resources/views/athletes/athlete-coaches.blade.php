@@ -32,15 +32,18 @@
 
                 </dl>
             </div>
-{{--        @switch(\App\Models\User::getRoleCode())--}}
-{{--            @case(\App\Models\Role::ROLE_SYSTEM_ADMIN)--}}
-{{--            @case(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN)--}}
-{{--            @case(\App\Models\Role::ROLE_ORGANIZATION_ADMIN)--}}
-{{--                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default{{$athlete->id}}">--}}
-{{--                    <i class="far fa-edit"></i>--}}
-{{--                </button>--}}
+            @php
+                $user = new \App\Models\User();
+            @endphp
+       @switch($user->getRoleCode())
+           @case(\App\Models\Role::ROLE_SYSTEM_ADMIN)
+           @case(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN)
+           @case(\App\Models\Role::ROLE_ORGANIZATION_ADMIN)
+               <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default{{$athlete->id}}">
+                   <i class="far fa-edit"></i>
+               </button>
 
-{{--        @endswitch--}}
+        @endswitch
 
         {{--modal edit coaches-data--}}
         <div class="modal fade" id="modal-default{{$athlete->id}}" style="display: none;" aria-hidden="true">

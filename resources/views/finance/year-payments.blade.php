@@ -26,7 +26,7 @@
                         @csrf
                         <div class="row align-content-center">
                             <div class="col align-content-center">
-                                <p>{{$payment->users->secondname}} {{$payment->users->firstname}} {{$payment->users->patronymic}}</p>
+                                <p>{{$payment->users->id}} {{$payment->users->secondname}} {{$payment->users->firstname}} {{$payment->users->patronymic}}</p>
                             </div>
                                 <input type="text" style="display:none" name="user_id" value="{{$payment->users->id}}">
                                 <div class="col align-content-center">
@@ -36,6 +36,10 @@
                                         <span class="badge bg-success" data-toggle="modal" data-target="#not_approved{{$payment->users->id}}">Оплачен</span>
                                     @endif
                                 </div>
+                                <form method="POST" action="{{route('payment.destroy', [$payment->id])}}">
+                                    @method('DELETE')
+                                    <button class="badge bg-danger" type="submit">Удалить</button>
+                                </form>
 
                             {{--modal approve--}}
                             <div class="modal fade" id="approved{{$payment->users->id}}" style="display: none;" aria-hidden="true">

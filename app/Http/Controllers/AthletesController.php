@@ -205,7 +205,7 @@ class AthletesController extends Controller
         }
 
         if ($request->has('real_coach')) {
-            Athlete::updateAthleteCoach($athlete->id,
+            $athlete->updateAthleteCoach($athlete->id,
                 $request->input('real_coach'),
                 $request->input('first_coach'),
                 $request->input('second_coach'),
