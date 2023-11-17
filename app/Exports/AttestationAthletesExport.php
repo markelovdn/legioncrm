@@ -20,7 +20,7 @@ class AttestationAthletesExport implements FromView
     public function view(): View
     {
         $GetAttestationAthletes = new GetAttestationAthletes();
-        $attestation = Attestation::with('athletes')->where('id', 1)->first();
+        $attestation = Attestation::with('athletes')->where('id', request()->get('id'))->first();
 
         return view('exports.attestation-athletes', [
             'attestation' => $attestation,

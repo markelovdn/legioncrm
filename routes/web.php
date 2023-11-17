@@ -45,7 +45,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('grade', \App\Http\Controllers\GradesCntroller::class);
     Route::post('setNamePoomsaeTablo', [\App\Http\Controllers\GradesCntroller::class, 'setName'])->name('setNamePoomsaeTablo');
     Route::get('/poomsae-competitors', [\App\Http\Controllers\CompetitorsController::class, 'addCompetitorsToPoomsaeTablo'])->name('poomsae-competitors');
-
 });
 
 Route::middleware(['auth', 'system_admin'])->group(function () {
@@ -75,4 +74,3 @@ Route::get('get-tehkval-groups', '\App\DomainService\GetTehKvalGroupsCompetition
 Route::get('get-sportkvals', '\App\DomainService\GetSportkvals')->middleware('auth:sanctum');
 
 Route::any('print-test', [\App\BusinessProcess\PrintAthleteDocument::class, 'test']);
-

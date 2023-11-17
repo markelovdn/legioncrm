@@ -17,7 +17,7 @@
     </li>
     @if(\App\Models\Attestation::getOwner($attestation->id))
         <li class="nav-item">
-            <a class="nav-link" href="{{route('attestationAthletesExport')}}" role="button">
+            <a class="nav-link" href="{{route('attestationAthletesExport', ['id'=>$attestation->id])}}" role="button">
                 Скачать список</a>
         </li>
     @endif
