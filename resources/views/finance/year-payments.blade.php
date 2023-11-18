@@ -59,10 +59,6 @@
                         </div>
                         <hr>
                     </form>
-                    <form method="POST" action="{{route('payment.destroy', [$payment->id])}}">
-                        @method('DELETE')
-                        <button class="badge bg-danger" type="submit">Удалить</button>
-                    </form>
                     {{--modal not_approve--}}
                     <div class="modal fade" id="not_approved{{$payment->users->id}}" style="display: none;" aria-hidden="true">
                         <div class="modal-dialog">
