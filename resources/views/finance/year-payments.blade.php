@@ -36,10 +36,7 @@
                                         <span class="badge bg-success" data-toggle="modal" data-target="#not_approved{{$payment->users->id}}">Оплачен</span>
                                     @endif
                                 </div>
-                                <form method="POST" action="{{route('payment.destroy', [$payment->id])}}">
-                                    @method('DELETE')
-                                    <button class="badge bg-danger" type="submit">Удалить</button>
-                                </form>
+
 
                             {{--modal approve--}}
                             <div class="modal fade" id="approved{{$payment->users->id}}" style="display: none;" aria-hidden="true">
@@ -61,6 +58,10 @@
                             {{-- / modal approve--}}
                         </div>
                         <hr>
+                    </form>
+                    <form method="POST" action="{{route('payment.destroy', [$payment->id])}}">
+                        @method('DELETE')
+                        <button class="badge bg-danger" type="submit">Удалить</button>
                     </form>
                     {{--modal not_approve--}}
                     <div class="modal fade" id="not_approved{{$payment->users->id}}" style="display: none;" aria-hidden="true">
@@ -84,6 +85,7 @@
 
                     </div>
                     {{-- / modal not_approve--}}
+
                 @endforeach
             </div>
         </div>
