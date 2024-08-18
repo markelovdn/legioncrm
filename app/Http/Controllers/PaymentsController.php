@@ -46,16 +46,16 @@ class PaymentsController extends Controller
 
         if ($request->hasFile('scan_payment_document') && $request->paymenttitle_id == Payment::ID_YEAR_PAYMENT) {
             $UploadFile = new UploadFile();
-            $path_scanlink = $UploadFile->uploadFile($request->user_id, $user->secondname,$user->firstname, 'scan_year_payment_document', $request->file('scan_payment_document'));
+            $path_scanlink = $UploadFile->uploadFile($request->user_id, $user->secondname, $user->firstname, 'scan_year_payment_document', $request->file('scan_payment_document'));
         }
 
         if ($request->hasFile('scan_payment_document') && $request->event_id) {
             $UploadFile = new UploadFile();
-            $path_scanlink = $UploadFile->uploadFile($request->user_id, $user->secondname, $user->firstname, 'scan_event'.$request->event_id.'_payment_document', $request->file('scan_payment_document'));
-                if (!$path_scanlink) {
-                    session()->flash('error', 'Формат файла не подходит');
-                    return back();
-                }
+            $path_scanlink = $UploadFile->uploadFile($request->user_id, $user->secondname, $user->firstname, 'scan_event' . $request->event_id . '_payment_document', $request->file('scan_payment_document'));
+            if (!$path_scanlink) {
+                session()->flash('error', 'Формат файла не подходит');
+                return back();
+            }
         }
 
         $payment = new Payment();
@@ -69,7 +69,7 @@ class PaymentsController extends Controller
 
         if ($request->event_id && $request->user_id) {
             DB::table('event_user')->where('event_id', $request->event_id)
-                ->where('user_id', $request->user_id)->update(['payment_id'=>$payment->id]);
+                ->where('user_id', $request->user_id)->update(['payment_id' => $payment->id]);
         }
 
         $request->session()->flash('status', 'Данные отправлены');
@@ -85,7 +85,7 @@ class PaymentsController extends Controller
      */
     public function show($id)
     {
-        $payments = Payment::with('users')->where('paymenttitle_id', $id)->get();
+        $payments = Payment::with('users')->where('paymenttitle_id', $id)->orderBy('created_at', 'desc')->paginate(20);
 
         return view('finance.year-payments', ['payments' => $payments]);
     }
@@ -136,7 +136,6 @@ class PaymentsController extends Controller
         $payment->save();
 
         return back();
-
     }
 
     /**
