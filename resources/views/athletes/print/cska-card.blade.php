@@ -462,19 +462,19 @@
             <tbody>
             <tr>
                 <td>Зачислен в группу:</td>
-                <td id="td_s"></td>
+                <td id="td_s" style="width:100px"></td>
                 <td>Тренер:</td>
-                <td id="td_s">
-                    @foreach($athlete->coaches as $coach)
+                <td id="td_s" style="font-weight: bolder">
+                    {{-- @foreach($athlete->coaches as $coach)
                         @if($coach->pivot->coach_type === \App\Models\Coach::REAL_COACH)
                     <u>{{$coach->user->secondname.' '.mb_substr($coach->user->firstname, 0,1).'.'.mb_substr($coach->user->patronymic, 0,1).'.'}}</u>
                         @endif
-                    @endforeach
+                    @endforeach --}}______________________________
                 </td>
             </tr>
             <tr>
                 <td width="135px">№ приказа:</td>
-                <td id="td_s">_</td>
+                <td id="td_s" style="width:100px"></td>
             </tr>
             <tr>
                 <td colspan="4" id="td_hr"></td>
@@ -603,7 +603,6 @@
                 <td id="l_td"></td>
                 <td id="l_td"></td>
             </tr>
-            <tr></tr>
             </tbody>
         </table>
     </div>

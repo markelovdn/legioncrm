@@ -20,7 +20,7 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <div class="p-3" style="font-size: xx-large; margin-top: 300; text-align: center;"><strong>НАГРАЖДАЕТСЯ</strong></div>
+            <div class="p-3" style="font-size: xx-large; margin-top: 250; text-align: center;"><strong>НАГРАЖДАЕТСЯ</strong></div>
             <div class="p-3" style="font-size: x-large; margin-top: 20; text-align: center"><strong>{{$competitor->athlete->user->secondname.' '.$competitor->athlete->user->firstname}}</strong></div>
         </div>
         <div class="col-6">
@@ -60,7 +60,7 @@
             </div>
         </div>
         <div class="col-6">
-{{--            <div class="p-3" style="font-size: x-large; text-align: center">в весовой категории {{$competitor->weightcategory->title}}</div>--}}
+           <div class="p-3" style="font-size: x-large; text-align: center">в весовой категории {{$competitor->weightcategory->title}}</div>
         </div>
         <div class="col-3">
             <div class="p-6" style="font-size: medium; margin-top: 100; margin-left: 70">Председатель правления</div>

@@ -48,7 +48,7 @@
                                 <input type="text" style="display: none" name="event_id" value="{{$event->id}}">
                             </div>
                                 <div class="row mb-0">
-                                    <button id="submit" type="submit" class="btn btn-default">
+                                    <button id="submit" type="submit" class="btn btn-warning">
                                         Оплатить позже
                                     </button>
                                 </div>
@@ -70,8 +70,8 @@
                                             <input id="sum_payment" type="number"
                                                    class="form-control @error('sum_payment') is-invalid @enderror" name="sum_payment"
                                                    value="{{ old('sum_payment') }}">
-                                            <span class="description font-italic">Минимальная предоплата {{$event_cost * ($event->minimum_prepayment_percent / 100)}} р.</span><br>
-                                            <span class="description font-italic">Полная стоимость {{$event_cost}} р.</span>
+                                            <span class="description font-italic">Минимальная предоплата {{intval($event_cost * ($event->minimum_prepayment_percent / 100))}} р.</span><br>
+                                            <span class="description font-italic">Полная стоимость {{ intval($event_cost) }} р.</span>
                                             <br>
                                             <a href="{{$event->info_link}}" class="btn btn-danger">Скачать реквизиты для оплаты</a>
                                         </div>

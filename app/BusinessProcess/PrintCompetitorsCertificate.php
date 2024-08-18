@@ -19,7 +19,8 @@ class PrintCompetitorsCertificate
     {
         $competition = Competition::find($request->competition_id);
 
-        $competition_title = NounDeclension::getCase(Str::of($competition->title)->before(' '), 'предложный');
+        //$competition_title = NounDeclension::getCase(Str::of($competition->title)->before(' '), 'предложный');
+        $competition_title = Str::of($competition->title)->before(' ');
 
 //        $competitors = $competition->competitors()->get();
 
