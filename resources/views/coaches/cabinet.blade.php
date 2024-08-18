@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="card card-info">
-    <div class="card-header">Личный кабинет тренера123</div>
+    <div class="card-header">Личный кабинет тренера</div>
     <div class="card-body">
         {{-- <form method="POST" action="{{route('coach', ['id' => $coach->id])}}">--}}
         <form method="POST" action="/coach/{{$coach->id}}">

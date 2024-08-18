@@ -49,7 +49,7 @@ class BirthCertificateController extends Controller
 
         if ($request->hasFile('birthcertificate_scan')) {
             $UploadFile = new UploadFile();
-            $path_scanlink = $UploadFile->uploadFile($user->id, $user->secondname,$user->firstname, 'birthcertificate', $request->file('birthcertificate_scan'));
+            $path_scanlink = $UploadFile->uploadFile($user->id, $user->secondname, $user->firstname, 'birthcertificate', $request->file('birthcertificate_scan'));
         }
 
         $birthcertificate = new BirthCertificate();
@@ -127,22 +127,23 @@ class BirthCertificateController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $organization_id = Organization::getOrganizationId();
+        $org = new Organization;
+        $organization_id = $org->getOrganizationId();
         $organization = Organization::where('id', $organization_id)->first();
 
-        switch(Auth::user()->getRoleCode()) :
-            case(\App\Models\Role::ROLE_SYSTEM_ADMIN) :
-            case(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN) :
-            case(\App\Models\Role::ROLE_ORGANIZATION_ADMIN) :
+        switch (Auth::user()->getRoleCode()):
+            case (\App\Models\Role::ROLE_SYSTEM_ADMIN):
+            case (\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN):
+            case (\App\Models\Role::ROLE_ORGANIZATION_ADMIN):
 
-        if ($organization->code == $request->input('code')) {
-            $athlete = Athlete::where('birthcertificate_id', $id)->first();
-            $athlete->birthcertificate_id = null;
-            $athlete->save();
+                if ($organization->code == $request->input('code')) {
+                    $athlete = Athlete::where('birthcertificate_id', $id)->first();
+                    $athlete->birthcertificate_id = null;
+                    $athlete->save();
 
-            BirthCertificate::destroy($id);
-            return back();
-        }
+                    BirthCertificate::destroy($id);
+                    return back();
+                }
                 break;
             default:
                 session()->flash('error', 'Неизвестная роль');

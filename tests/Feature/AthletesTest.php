@@ -16,11 +16,11 @@ use Tests\TestCase;
 // class AthletesTest extends TestCase
 // {
 //     use DatabaseTransactions;
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
+/**
+ * A basic feature test example.
+ *
+ * @return void
+ */
 
     // public function test_index()
     // {
