@@ -85,6 +85,7 @@ class PaymentsController extends Controller
      */
     public function show($id)
     {
+        //тест
         $payments = Payment::with('users')->where('paymenttitle_id', $id)->orderBy('created_at', 'desc')->paginate(20);
 
         return view('finance.year-payments', ['payments' => $payments]);
