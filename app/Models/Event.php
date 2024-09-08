@@ -3,10 +3,8 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Doctrine\DBAL\Events;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
