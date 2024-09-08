@@ -31,14 +31,14 @@ class Event extends Model
 
     public static function getOwner($event_id)
     {
-        if (!Auth::user()){
+        if (!Auth::user()) {
             return false;
         }
 
         $chair_man = Auth::user()->hasRole(Role::ROLE_ORGANIZATION_CHAIRMAN, \auth()->user()->getAuthIdentifier());
         $admin_org = Auth::user()->hasRole(Role::ROLE_ORGANIZATION_ADMIN, \auth()->user()->getAuthIdentifier());
 
-        if(!$chair_man and !$admin_org) {
+        if (!$chair_man and !$admin_org) {
             return false;
         }
 
@@ -59,53 +59,56 @@ class Event extends Model
         return false;
     }
 
-    public function hasUsers ($event_id, $user_id)
+    public function hasUsers($event_id, $user_id)
     {
         $event_users = DB::table('event_user')
-            ->orWhere(function($query) use ($event_id, $user_id) {$query->where('event_id', $event_id)
-            ->where('user_id', $user_id);})
+            ->orWhere(function ($query) use ($event_id, $user_id) {
+                $query->where('event_id', $event_id)
+                    ->where('user_id', $user_id);
+            })
             ->first();
 
-            if ($event_users)
-            {
-                return true;
-            }
+        if ($event_users) {
+            return true;
+        }
 
         return false;
     }
 
-    public function getEvents ()
+    public function getEvents()
     {
         $userOrganizationsId = User::with('organizations')->find(auth()->id())->organizations->min('id');
-//        $userOrganizationsId = User::with('organizations')->find(auth()->id())->organizations->pluck('id')->toArray();
+        //        $userOrganizationsId = User::with('organizations')->find(auth()->id())->organizations->pluck('id')->toArray();
 
         $events_organization = Event::with('users')
             ->where('organization_id', $userOrganizationsId)
-            ->orWhere('access', Event::ACCESS_ALL)->orderBy('date_start', 'ASC')->get();
+            ->orWhere('access', Event::ACCESS_ALL)->orderBy('date_start', 'DESC')->get();
 
         //        $events_organization = Event::with('users')
-//            ->whereIn('organization_id', $userOrganizationsId)
-//            ->orWhereDoesntHave('organizations', function (Builder $query) {
-//                $query->where('content', 'like', 'code%');
-//            })->orderBy('date_start', 'ASC')->get();
+        //            ->whereIn('organization_id', $userOrganizationsId)
+        //            ->orWhereDoesntHave('organizations', function (Builder $query) {
+        //                $query->where('content', 'like', 'code%');
+        //            })->orderBy('date_start', 'ASC')->get();
 
-//        if ($events_organization->count() >= 0) {
-//            return Event::get();
-//        }
-            return $events_organization;
+        //        if ($events_organization->count() >= 0) {
+        //            return Event::get();
+        //        }
+        return $events_organization;
     }
 
-    public function getCountMainList ($event_id) {
+    public function getCountMainList($event_id)
+    {
         return DB::table('event_user')->where('event_id', $event_id)
             ->where('list', Event::MAIN_LIST)->count();
     }
 
-    public function getCountWaitingList ($event_id) {
+    public function getCountWaitingList($event_id)
+    {
         return DB::table('event_user')->where('event_id', $event_id)
             ->where('list', Event::WAITING_LIST)->count();
     }
 
-    public function getCost(int $event_id) :int
+    public function getCost(int $event_id): int
     {
         $event = Event::where('id', $event_id)->first();
 
@@ -115,20 +118,20 @@ class Event extends Model
         return $event->regular_cost;
     }
 
-//    public function getMinCost(int $event_id) :int
-//    {
-//        $event = Event::where('id', $event_id)->first();
-//        return Event::getFullCost($event_id) * ($event->minimum_prepayment_percent / 100);
-////        $event = Event::where('id', $event_id)->first();
-////
-////        if ($event->early_cost_before && $event->early_cost_before < Carbon::now()) {
-////            return $event->early_cost * ($event->minimum_prepayment_percent / 100);
-////        }
-////            return $event->regular_cost * ($event->minimum_prepayment_percent / 100);
-//    }
+    //    public function getMinCost(int $event_id) :int
+    //    {
+    //        $event = Event::where('id', $event_id)->first();
+    //        return Event::getFullCost($event_id) * ($event->minimum_prepayment_percent / 100);
+    ////        $event = Event::where('id', $event_id)->first();
+    ////
+    ////        if ($event->early_cost_before && $event->early_cost_before < Carbon::now()) {
+    ////            return $event->early_cost * ($event->minimum_prepayment_percent / 100);
+    ////        }
+    ////            return $event->regular_cost * ($event->minimum_prepayment_percent / 100);
+    //    }
 
 
-    public function isBookingWithoutPay(int $event_id) : bool
+    public function isBookingWithoutPay(int $event_id): bool
     {
         $event = Event::where('id', $event_id)->first();
 
