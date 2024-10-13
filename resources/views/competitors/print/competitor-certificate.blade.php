@@ -22,7 +22,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div class="p-3" style="font-size: xx-large; margin-top: 250; text-align: center;"><strong>НАГРАЖДАЕТСЯ</strong></div>
+                <div class="p-3" style="font-size: xx-large; margin-top: 350; text-align: center;"><strong>НАГРАЖДАЕТСЯ</strong></div>
                 <div class="p-3" style="font-size: x-large; margin-top: 20; text-align: center"><strong>{{$competitor->athlete->user->secondname.' '.$competitor->athlete->user->firstname}}</strong></div>
             </div>
             <div class="col-6">
