@@ -65,7 +65,7 @@
                 <div class="p-3" style="font-size: x-large; text-align: center">в весовой категории {{$competitor->weightcategory->title}}</div>
             </div>
             <div class="col-3">
-                <div class="p-6" style="font-size: medium; margin-top: 100; margin-left: 70">Председатель правления</div>
+                <div class="p-6" style="font-size: medium; margin-top: 70; margin-left: 70">Председатель правления</div>
                 <div class="p-6" style="font-size: medium; margin-top: 0; margin-left: 70">СК "Легион"</div>
                 {{-- <div class="p-6" style="font-size: medium; margin-top: 0; margin-left: 70">администрации Волгограда</div>--}}
             </div>
