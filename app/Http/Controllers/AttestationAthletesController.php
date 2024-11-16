@@ -34,16 +34,20 @@ class AttestationAthletesController extends Controller
 
         $attestation = Attestation::where('id', $attestation_id)->first();
         $athletes = $attestationAthletes->getAthletes(auth()->user()->id);
-//        $countTehkvals = $attestationAthletes->getCountTehkvals($attestation->id);
+        //        $countTehkvals = $attestationAthletes->getCountTehkvals($attestation->id);
 
-        if ($athletes == null && $user->isCoach($user) ||
-            $athletes != null && $user->isCoach($user) && $athletes->count() < 1) {
+        if (
+            $athletes == null && $user->isCoach($user) ||
+            $athletes != null && $user->isCoach($user) && $athletes->count() < 1
+        ) {
             session()->flash('status', 'Вы не добавляли спортсменов на данное мероприятие');
-            return view('attestations.attestation-athletes',
-                ['attestation '=>$attestation , 'athletes'=>$athletes, 'tehkvals'=>$tehkvals]);
+            return view(
+                'attestations.attestation-athletes',
+                ['attestation ' => $attestation, 'athletes' => $athletes, 'tehkvals' => $tehkvals]
+            );
         }
 
-        if($athletes!= null && $athletes->count() >= 1 && $user->isCoach($user)) {
+        if ($athletes != null && $athletes->count() >= 1 && $user->isCoach($user)) {
             foreach ($athletes as $athlete_parent) {
                 $ids[] = $athlete_parent->id;
             }
@@ -51,21 +55,25 @@ class AttestationAthletesController extends Controller
                 ->whereIn('athlete_id', $ids)
                 ->get();
 
-            if($athletes->count() < 1) {
+            if ($athletes->count() < 1) {
                 session()->flash('status', 'Вы не добавляли спортсменов на данное мероприятие');
-                return view('attestations.attestation-athletes', ['attestation'=>$attestation, 'athletes'=>$athletes, 'attestationAthletes' => $attestationAthletes]);
+                return view('attestations.attestation-athletes', ['attestation' => $attestation, 'athletes' => $athletes, 'attestationAthletes' => $attestationAthletes]);
             }
-            return view('attestations.attestation-athletes', ['attestation'=>$attestation, 'athletes'=>$athletes, 'tehkvals'=>$tehkvals, 'attestationAthletes' => $attestationAthletes]);
+            return view('attestations.attestation-athletes', ['attestation' => $attestation, 'athletes' => $athletes, 'tehkvals' => $tehkvals, 'attestationAthletes' => $attestationAthletes]);
         }
 
-        if ($athletes == null && $user->isCoach($user) ||
-            $athletes != null && $user->isCoach($user) && $athletes->count() < 1) {
+        if (
+            $athletes == null && $user->isCoach($user) ||
+            $athletes != null && $user->isCoach($user) && $athletes->count() < 1
+        ) {
             session()->flash('status', 'Вы не добавляли спортсменов на данное мероприятие');
-            return view('attestations.attestation-athletes',
-                ['attestation '=>$attestation , 'athletes'=>$athletes, 'tehkvals'=>$tehkvals, 'attestationAthletes' => $attestationAthletes]);
+            return view(
+                'attestations.attestation-athletes',
+                ['attestation ' => $attestation, 'athletes' => $athletes, 'tehkvals' => $tehkvals, 'attestationAthletes' => $attestationAthletes]
+            );
         }
 
-        if($athletes!= null && $athletes->count() >= 1 && $user->isParented($user)) {
+        if ($athletes != null && $athletes->count() >= 1 && $user->isParented($user)) {
             foreach ($athletes as $athlete_parent) {
                 $ids[] = $athlete_parent->id;
             }
@@ -73,18 +81,18 @@ class AttestationAthletesController extends Controller
                 ->whereIn('athlete_id', $ids)
                 ->get();
 
-            if($athletes->count() < 1) {
+            if ($athletes->count() < 1) {
                 session()->flash('status', 'Вы не добавляли спортсменов на данное мероприятие');
-                return view('attestations.attestation-athletes', ['attestation'=>$attestation, 'athletes'=>$athletes, 'attestationAthletes' => $attestationAthletes]);
+                return view('attestations.attestation-athletes', ['attestation' => $attestation, 'athletes' => $athletes, 'attestationAthletes' => $attestationAthletes]);
             }
-            return view('attestations.attestation-athletes', ['attestation'=>$attestation, 'athletes'=>$athletes, 'tehkvals'=>$tehkvals, 'attestationAthletes' => $attestationAthletes]);
+            return view('attestations.attestation-athletes', ['attestation' => $attestation, 'athletes' => $athletes, 'tehkvals' => $tehkvals, 'attestationAthletes' => $attestationAthletes]);
         }
 
         $athletes = $attestation->athletes()
             ->orderBy('id', 'DESC')
             ->get();
 
-        return view('attestations.attestation-athletes', ['attestation'=>$attestation, 'athletes'=>$athletes, 'tehkvals'=>$tehkvals, 'attestationAthletes' => $attestationAthletes]);
+        return view('attestations.attestation-athletes', ['attestation' => $attestation, 'athletes' => $athletes, 'tehkvals' => $tehkvals, 'attestationAthletes' => $attestationAthletes]);
     }
 
     /**
@@ -102,16 +110,18 @@ class AttestationAthletesController extends Controller
         $attestationAthletes = $GetattestationAthletes->getAthletes(auth()->user()->id);
 
         if ($attestationAthletes && $attestationAthletes->count() >= 1) {
-            return view('attestations.addathletes',
+            return view(
+                'attestations.addathletes',
                 [
-                    'tehkvals'=>$tehkvals,
-                    'sportkvals'=>$sportkvals,
-                    'organization'=>$organization,
-                    'coaches'=>$coaches,
-                    'attestation'=>$attestation,
-                    'attestationAthletes'=>$attestationAthletes,
+                    'tehkvals' => $tehkvals,
+                    'sportkvals' => $sportkvals,
+                    'organization' => $organization,
+                    'coaches' => $coaches,
+                    'attestation' => $attestation,
+                    'attestationAthletes' => $attestationAthletes,
                     'GetattestationAthletes' => $GetattestationAthletes
-                ]);
+                ]
+            );
         }
 
         return back();
@@ -131,8 +141,7 @@ class AttestationAthletesController extends Controller
         $attestation = Attestation::find($request->attestation_id);
         $payment = new Payment();
 
-        if ($attestation == null)
-        {
+        if ($attestation == null) {
             throw new \Exception('Не найдено аттестации');
         }
 
@@ -146,7 +155,7 @@ class AttestationAthletesController extends Controller
             return back();
         }
 
-        $athlete->attestations()->attach($request->attestation_id, ['approve'=> Attestation::APPROVE]);
+        $athlete->attestations()->attach($request->attestation_id, ['approve' => Attestation::APPROVE]);
 
         session()->flash('status', 'Спортсмен успешно добавлен на аттестацию');
 
@@ -193,9 +202,13 @@ class AttestationAthletesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Attestation $attestation, Athlete $athlete)
     {
-        return redirect('/');
+        $attestation->athletes()->detach($athlete->id);
+
+        session()->flash('status', 'Спортсмен успешно удален с аттестации');
+
+        return redirect()->route('attestation.athletes.index', $attestation);
     }
 
     public function attestationAthleteExport()

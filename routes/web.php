@@ -1,11 +1,6 @@
 <?php
 
 use App\Http\Controllers\CompetitorsController;
-use App\Models\Athlete;
-use App\Models\Coach;
-use App\Models\Competitor;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +18,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('addresses', \App\Http\Controllers\AddressesController::class);
     Route::resource('tehkval', \App\Http\Controllers\TehkvalsController::class);
     Route::resource('attestation.athletes', \App\Http\Controllers\AttestationAthletesController::class)->shallow();
+    Route::delete('attestation/{attestation}/athletes/{athlete}', [\App\Http\Controllers\AttestationAthletesController::class, 'destroy'])->name('attestation.athletes.destroy');
     Route::resource('attestations', \App\Http\Controllers\AttestationsController::class);
     Route::any('printSertificate', [\App\BusinessProcess\PrintAttestationSertificate::class, 'printSertificate'])->name('printSertificate')->middleware('auth');
     Route::any('printCompetitorsСertificate', [\App\BusinessProcess\PrintCompetitorsCertificate::class, 'printCompetitorsCertificate'])->name('printCompetitorsСertificate')->middleware('auth');
