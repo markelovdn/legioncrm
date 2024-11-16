@@ -37,7 +37,7 @@
                 @foreach($athlete->tehkval as $tehkval)
                 <div class="row">
                     <div class="col-auto mr-auto">
-                        {{$tehkval->title}}-{{$tehkval->id}}
+                        {{$tehkval->title}}
                         @if($tehkval->pivot->sertificate_link)
                         <span data-toggle="modal" data-target="#sertificate_scan{{$tehkval->id}}">
                             <a href="" class="alert-link" style="text-underline-mode: true">Сертификат</a>
@@ -71,7 +71,7 @@
                                     <form method="POST" action="{{route('tehkval.destroy', [$tehkval->id])}}">
                                         @method('DELETE')
                                         @csrf
-                                        <button type="submit" class="btn btn-danger">Подтвердить - {{$tehkval->id}}<i class="fas fa-check"></i></button>
+                                        <button type="submit" class="btn btn-danger">Подтвердить<i class="fas fa-check"></i></button>
                                         <input type="text" style="display:none" name="athlete_id" value="{{$athlete->id}}">
                                     </form>
                                 </div>
