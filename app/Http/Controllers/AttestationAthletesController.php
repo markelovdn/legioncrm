@@ -89,8 +89,9 @@ class AttestationAthletesController extends Controller
         }
 
         $athletes = $attestation->athletes()
-            ->orderBy('id', 'DESC')
-            ->get();
+            ->get()->sortBy(function ($athlete) {
+                return $athlete->user->secondname;
+            });
 
         return view('attestations.attestation-athletes', ['attestation' => $attestation, 'athletes' => $athletes, 'tehkvals' => $tehkvals, 'attestationAthletes' => $attestationAthletes]);
     }

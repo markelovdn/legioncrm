@@ -32,7 +32,7 @@ class GetAttestationAthletes
                 return Athlete::with('coaches', 'user', 'tehkval', 'sportkval')
                     ->whereIn('id', $athletes)->get()->sortBy(function ($athlete) {
                         return $athlete->user->secondname;
-                    });;
+                    });
             } else
                 return false;
         }
