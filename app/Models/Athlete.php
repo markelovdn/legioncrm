@@ -6,11 +6,12 @@ use App\Filters\QueryFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
 class Athlete extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     public const GENDER_MALE = 1;
     public const GENDER_FEMALE = 2;
@@ -41,9 +42,9 @@ class Athlete extends Model
     }
 
     public function passport()
-{
-    return $this->belongsTo(Passport::class);
-}
+    {
+        return $this->belongsTo(Passport::class);
+    }
 
     public function region()
     {
@@ -51,9 +52,9 @@ class Athlete extends Model
     }
 
     public function snils()
-{
-    return $this->belongsTo(Snils::class);
-}
+    {
+        return $this->belongsTo(Snils::class);
+    }
 
     public function studyplace()
     {
@@ -104,7 +105,7 @@ class Athlete extends Model
     //hasOne
     public function insurance()
     {
-    return $this->hasOne(Insurance::class);
+        return $this->hasOne(Insurance::class);
     }
 
     //hasMany
@@ -119,11 +120,12 @@ class Athlete extends Model
     }
 
 
-    public function scopeFilter(Builder $builder, QueryFilter $filter){
+    public function scopeFilter(Builder $builder, QueryFilter $filter)
+    {
         return $filter->apply($builder);
     }
 
-    public function updateAthleteCoach ($athlete_id, $real_coach, $first_coach, $second_coach = null, $third_coach = null)
+    public function updateAthleteCoach($athlete_id, $real_coach, $first_coach, $second_coach = null, $third_coach = null)
     {
         $athlete = Athlete::with(['coaches'])->find($athlete_id);
         if (empty($second_coach)) {
@@ -134,21 +136,19 @@ class Athlete extends Model
             $third_coach = $first_coach;
         }
 
-            $athlete->coaches()->sync([
-                $second_coach => ['coach_type' => Coach::SECOND_COACH],
-                $third_coach => ['coach_type' => Coach::THIRD_COACH],
-                $first_coach => ['coach_type' => Coach::FIRST_COACH],
-                $real_coach => ['coach_type' => Coach::REAL_COACH],
-            ]);
-
-
+        $athlete->coaches()->sync([
+            $second_coach => ['coach_type' => Coach::SECOND_COACH],
+            $third_coach => ['coach_type' => Coach::THIRD_COACH],
+            $first_coach => ['coach_type' => Coach::FIRST_COACH],
+            $real_coach => ['coach_type' => Coach::REAL_COACH],
+        ]);
     }
 
     public function getAddress($athlete_user_id)
     {
         return Address::with('country', 'region', 'district')
-                        ->whereRelation('users', 'user_id', $athlete_user_id)
-                        ->get();
+            ->whereRelation('users', 'user_id', $athlete_user_id)
+            ->get();
     }
 
     public function getCoachesAthlete($athlete_id)
@@ -156,12 +156,13 @@ class Athlete extends Model
         return Athlete::with('coaches')->find($athlete_id);
     }
 
-    public static function isCoachAthlete($athlete_id) {
+    public static function isCoachAthlete($athlete_id)
+    {
 
         $coach = Coach::where('user_id', \auth()->user()->id)->first();
         $athletes = DB::table('athlete_coach')->where('athlete_id', $athlete_id)->get();
 
-        if($coach != null) {
+        if ($coach != null) {
             foreach ($athletes as $athlete) {
                 if ($athlete->coach_id == $coach->id) {
                     return true;
@@ -172,12 +173,13 @@ class Athlete extends Model
             return false;
     }
 
-    public static function isParentedAthlete($athlete_id) {
+    public static function isParentedAthlete($athlete_id)
+    {
 
         $parented = Parented::where('user_id', \auth()->user()->id)->first();
         $athletes = DB::table('athlete_parented')->where('athlete_id', $athlete_id)->get();
 
-        if($parented != null) {
+        if ($parented != null) {
             foreach ($athletes as $athlete) {
                 if ($athlete->parented_id == $parented->id) {
                     return true;
@@ -188,7 +190,8 @@ class Athlete extends Model
             return false;
     }
 
-    public static function isOrganizationAthlete($athlete_id) {
+    public static function isOrganizationAthlete($athlete_id)
+    {
 
         $athlete = Athlete::where('id', $athlete_id)->first();
         $organization = Organization::where('id', Organization::getOrganizationId())->first();
@@ -196,16 +199,14 @@ class Athlete extends Model
             ->where('organization_id', $organization->id)
             ->where('user_id', $athlete->user_id)->first();
 
-        if($athlete_organizathion) {
-           return true;
+        if ($athlete_organizathion) {
+            return true;
         } else
-           return false;
+            return false;
     }
 
     public function getTehkval($athlete_id)
     {
         return DB::table('athlete_tehkval')->where('athlete_id', $athlete_id)->get();
     }
-
-
 }
