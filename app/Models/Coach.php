@@ -33,32 +33,37 @@ class Coach extends Model
         return $this->belongsToMany(Athlete::class, 'athlete_coach')->with('user')->withPivot('coach_type');
     }
 
-    public static function getId() {
+    public static function getId()
+    {
         $coach = Coach::where('user_id', auth()->user()->id)->with('user')->first();
 
         return $coach->id;
     }
 
-    public static function getCoachId() {
+    public static function getCoachId()
+    {
         $coach = Coach::where('user_id', auth()->user()->id)->with('user')->first();
 
         if ($coach) {
             return $coach->id;
         }
-
     }
 
     public function getAthletes($coach_id, $userFilter, $athleteFilter)
     {
-        return Athlete::whereHas('user', function (Builder $query) use ($userFilter) {
-            $query->filter($userFilter);
-        })->with('user', 'birthcertificate', 'passport', 'studyplace', 'tehkval')
+        return Athlete::with('user', 'birthcertificate', 'passport', 'studyplace', 'tehkval')
+            ->whereHas('user', function (Builder $query) use ($userFilter) {
+                $query->filter($userFilter);
+            })
             ->whereHas('coaches', function (Builder $query) use ($coach_id) {
                 $query->where('coach_id', '=', $coach_id)
-                ->where('coach_type', '=', Coach::REAL_COACH);
-            })->filter($athleteFilter)
+                    ->where('coach_type', '=', Coach::REAL_COACH);
+            })
+            ->filter($athleteFilter)
+            ->orderBy(function ($query) {
+                $query->select('secondname')->from('users')->whereColumn('users.id', 'athletes.user_id');
+            }, 'asc')
             ->paginate(10);
-
     }
 
 
@@ -72,6 +77,4 @@ class Coach extends Model
         return Coach::get();
         //TODO: изменить запрос всех тренеров из организации с сортировкой по фио
     }
-
-
 }
