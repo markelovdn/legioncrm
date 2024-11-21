@@ -7,6 +7,7 @@ use App\Notifications\ResetPasswordNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +17,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -105,7 +106,7 @@ class User extends Authenticatable
         }
     }
 
-    public function getRoleCode() :string
+    public function getRoleCode(): string
     {
         $user = User::with('role')->find(auth()->user()->id);
 
@@ -119,11 +120,11 @@ class User extends Authenticatable
     }
 
 
-    public static function hasRole(string $role_code, int $user_id = null) :bool
+    public static function hasRole(string $role_code, int $user_id = null): bool
     {
         $role = Role::where('code', $role_code)->first();
 
-        if (!$user_id){
+        if (!$user_id) {
             return false;
         }
 
@@ -141,7 +142,7 @@ class User extends Authenticatable
         }
     }
 
-    public static function hasOrganization($org_id, $user_id) :bool
+    public static function hasOrganization($org_id, $user_id): bool
     {
         $organization = Organization::find($org_id);
 
@@ -166,15 +167,15 @@ class User extends Authenticatable
             $orgs[] = $item->organization_id;
         }
 
-        $organizations = Organization::whereIn('id',$orgs)->get();
+        $organizations = Organization::whereIn('id', $orgs)->get();
 
-            if ($org_user) {
-                return $organizations;
-            } else
-                return false;
+        if ($org_user) {
+            return $organizations;
+        } else
+            return false;
     }
 
-    public function checkUserUnique($firstname, $secondname, $patronymic, $dateOfBirth) :bool
+    public function checkUserUnique($firstname, $secondname, $patronymic, $dateOfBirth): bool
     {
         $user = User::where('firstname', $firstname)
             ->where('secondname', $secondname)
@@ -194,7 +195,7 @@ class User extends Authenticatable
         return Auth::user()->hasRole(\App\Models\Role::ROLE_SYSTEM_ADMIN, $user->id);
     }
 
-    public function isOrganizationChairman(object $user) :bool
+    public function isOrganizationChairman(object $user): bool
     {
         if (!$user) {
             return false;
@@ -203,7 +204,7 @@ class User extends Authenticatable
         return Auth::user()->hasRole(\App\Models\Role::ROLE_ORGANIZATION_CHAIRMAN, $user->id);
     }
 
-    public function isOrganizationAdmin(object $user) :bool
+    public function isOrganizationAdmin(object $user): bool
     {
         if (!$user) {
             return false;
@@ -247,7 +248,8 @@ class User extends Authenticatable
         return Auth::user()->hasRole(\App\Models\Role::ROLE_REFEREE, $user->id);
     }
 
-    public function scopeFilter(Builder $builder, QueryFilter $filter){
+    public function scopeFilter(Builder $builder, QueryFilter $filter)
+    {
         return $filter->apply($builder);
     }
 
@@ -255,5 +257,4 @@ class User extends Authenticatable
     {
         $this->notify(new ResetPasswordNotification($token));
     }
-
 }
