@@ -76,7 +76,7 @@
                             <button @click="setNamePoomsaeTablo(competitor.id)" class="btn btn-danger" v-if="user.referee != null"><i class="fas fa-tv"></i></button>
                     </div>
                     <div class="col text-right">
-                            <button @click="deleteCompetitor(competitor.id)" class="btn btn-danger" v-if="coach_id & competition_open_registration === 1 || is_owner"><i class="fas fa-trash"></i></button>
+                        <button @click="deleteCompetitor(competitor.id)" class="btn btn-danger" v-if="competitor.athlete.coaches.some(coach => coach.id === user.coach.id) && competition_open_registration === 1 || is_owner"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
             </div>
@@ -238,7 +238,7 @@ export default {
               return this.competitors.filter(elem => {
                   return elem.athlete.user.secondname.toLowerCase().includes(this.search.toLowerCase())
               })
-      }
+      },
     },
     methods: {
 
