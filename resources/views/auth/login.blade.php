@@ -8,6 +8,7 @@
             <div class="card">
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
+                        @method('POST')
                         @csrf
 
                         <div class="row mb-3">

@@ -9,6 +9,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -34,6 +35,21 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    public function showLoginForm()
+    {
+        return view('auth.login'); // Измененный шаблон
+    }
+
+    protected function login(Request $request)
+    {
+        Auth::attempt([
+            'phone' => $request->input('phone'),
+            'password' => $request->input('password'),
+        ], $request->filled('remember'));
+        return $this->redirectTo();
+
+    }
+
     protected function redirectTo()
     {
         if (Auth::user()->isParented(auth()->user())) {
@@ -42,7 +58,7 @@ class LoginController extends Controller
             foreach ($parented as $item) {
                 $parented_id = $item->id;
             }
-            return url('/parented',$parented_id);
+            return redirect(url('/parented',$parented_id));
         }
 
         if (Auth::user()->isCoach(auth()->user())) {
@@ -51,7 +67,7 @@ class LoginController extends Controller
             foreach ($coach as $item) {
                 $coach_id = $item->id;
             }
-            return url('/coach',$coach_id);
+            return redirect(url('/coach',$coach_id));
         }
 
         return url('/');

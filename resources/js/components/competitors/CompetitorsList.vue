@@ -13,7 +13,7 @@
             <li v-for="error in errors">{{ error }}</li>
         </ul>
         </span>
-
+        Всего зарегистрировано спортсменов: {{ competitors.length }}
         <div v-if="!loading" v-for = "competitor in filteredList" :key="competitor.id" class="card card-primary collapsed-card">
             <div class="card-header">
                 <span>
@@ -273,15 +273,13 @@ export default {
                     if (response.data.length === 0) {
                         return this.loading = false
                     }
-
                     this.competitors = response.data
                     this.loading = false
-                    this.getCompetitorsCount()
-
                 })
                 .catch(function (error) {
                     console.log(error);
                 })
+                
         },
 
         getCompetitor (id) {
