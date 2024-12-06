@@ -29,12 +29,13 @@ class GetCompetitors
 
         if ($coach) {
             if(Str::contains(url()->current(), 'create')) {
-                $competitors = Athlete::with('coaches', 'user', 'tehkval', 'sportkval')
-                    ->whereHas('coaches', function (Builder $query) use ($coach) {
-                        $query->where('coach_id', '=', $coach->id)
-                            ->where('coach_type', '=', Coach::REAL_COACH);
-                    })->join('users', 'athletes.user_id', '=', 'users.id')
-                    ->orderBy('users.secondname')->get();
+                $competitors = $coach->athletes()
+                    ->wherePivot('coach_type', '=', Coach::REAL_COACH)
+                    ->with('user', 'tehkval', 'sportkval')
+                    ->orderBy(function ($query) { 
+                        $query->select('secondname')->from('users')->whereColumn('users.id', 'athletes.user_id')->limit(1);
+                    })
+                    ->get();
 
                 return $competitors;
             }
